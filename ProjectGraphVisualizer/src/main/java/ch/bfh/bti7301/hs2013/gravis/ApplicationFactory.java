@@ -12,7 +12,6 @@ import ch.bfh.bti7301.hs2013.gravis.gui.IView;
 /**
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
 final class ApplicationFactory {
