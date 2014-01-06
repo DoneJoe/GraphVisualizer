@@ -4,7 +4,6 @@ import java.awt.Color;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
 public interface IGraphItem extends IRestrictedGraphItem, Cloneable {

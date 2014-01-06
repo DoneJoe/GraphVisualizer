@@ -5,7 +5,7 @@ package ch.bfh.bti7301.hs2013.gravis.core;
  * This class extends <code>Exception</code> that indicates conditions that a
  * reasonable application might want to catch.
  * 
- * @author Roland Bruggmann (brugr9@bfh.ch)
+ *  @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
 public class CoreException extends Exception {
@@ -31,7 +31,7 @@ public class CoreException extends Exception {
 	 *            retrieval by the {@link #getMessage()} method.
 	 */
 	public CoreException(String message) {
-		super("GRAVIS: " + message);
+		super(message);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class CoreException extends Exception {
 	 *            unknown.)
 	 */
 	public CoreException(String message, Throwable cause) {
-		super("GRAVIS: " + message, cause);
+		super(message, cause);
 	}
 
 	/**

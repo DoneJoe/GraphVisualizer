@@ -38,15 +38,15 @@ public interface IGravisGraph extends Graph<IVertex, IEdge> {
 
 	/**
 	 * 
-	 * @return graphId
+	 * @return graphName
 	 */
-	public abstract String getId();
+	public abstract String getName();
 
 	/**
 	 * 
-	 * @param graphId
+	 * @param graphName
 	 */
-	public abstract void setId(String graphId);
+	public abstract void setName(String graphName);
 
 	/**
 	 * 

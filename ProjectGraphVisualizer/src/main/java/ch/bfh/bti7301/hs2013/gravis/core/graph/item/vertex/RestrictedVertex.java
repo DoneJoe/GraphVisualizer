@@ -13,7 +13,7 @@ final class RestrictedVertex extends AbstractRestrictedGraphItem
 
 	private IVertex vertex;
 
-	protected RestrictedVertex(IVertex vertex) {
+	RestrictedVertex(IVertex vertex) {
 		super(vertex);
 		
 		this.vertex = vertex;

@@ -44,10 +44,8 @@ public class AlgorithmKruskalMinSpanningForest extends AbstractAlgorithm {
 	private int counter = 0;
 
 	public AlgorithmKruskalMinSpanningForest() {
-		super();
-		this.setName(ALGO_NAME);
-		this.setDescription(ALGO_DESCRIPTION);
-		this.setGraphTypes(new EdgeType[] { EdgeType.UNDIRECTED });
+		super(ALGO_NAME, ALGO_DESCRIPTION);
+		this.addEdgeType(EdgeType.UNDIRECTED);
 	}
 
 	/*

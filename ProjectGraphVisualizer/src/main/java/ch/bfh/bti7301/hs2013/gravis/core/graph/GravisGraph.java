@@ -18,10 +18,10 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	private static final long serialVersionUID = 7604897874620015084L;
 
 	private static int counter = 0;
-	
+
 	private String graphDescription;
 
-	private String graphId;
+	private String graphName;
 
 	private EdgeType edgeType;
 
@@ -32,7 +32,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 		super(delegate);
 
 		counter++;
-		this.graphId = "Graph " + counter;
+		this.graphName = "Graph " + counter;
 		this.graphDescription = "Graph " + counter;
 		this.edgeType = EdgeType.DIRECTED;
 	}
@@ -88,24 +88,26 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getGraphId()
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getName()
 	 */
 	@Override
-	public String getId() {
-		return this.graphId;
+	public String getName() {
+		return this.graphName;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setGraphId(int)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setName(int)
 	 */
 	@Override
-	public void setId(String graphId) {
-		this.graphId = graphId.trim();
+	public void setName(String graphId) {
+		this.graphName = graphId.trim();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getEdgeType()
 	 */
 	@Override
@@ -113,8 +115,12 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 		return this.edgeType;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setEdgeType(edu.uci.ics.jung.graph.util.EdgeType)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setEdgeType(edu.
+	 * uci.ics.jung.graph.util.EdgeType)
 	 */
 	@Override
 	public void setEdgeType(EdgeType edgeType) {
@@ -155,12 +161,16 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsItemId(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsItemId(java
+	 * .lang.String)
 	 */
 	@Override
 	public boolean containsItemId(String itemId) {
 		return this.containsVertexId(itemId) || this.containsEdgeId(itemId);
 	}
-	
+
 }

@@ -24,14 +24,12 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.EdgeFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.VertexFactory;
-import ch.bfh.bti7301.hs2013.gravis.gui.Model;
-import ch.bfh.bti7301.hs2013.gravis.gui.IControl.EventSource;
+import ch.bfh.bti7301.hs2013.gravis.gui.OldIGravisMainListener;
+import ch.bfh.bti7301.hs2013.gravis.gui.OldMainWindowListener;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.dialog.GraphPropertyDialog;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.EdgeMenu;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.CreateVertexMenu;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.VertexMenu;
-import ch.bfh.bti7301.hs2013.gravis.old.OldIGravisMainListener;
-import ch.bfh.bti7301.hs2013.gravis.old.OldMainWindowListener;
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
@@ -51,7 +49,6 @@ import edu.uci.ics.jung.visualization.layout.ObservableCachingLayout;
  * A visualization panel.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
 public class VisualizationPanel extends JPanel implements Observer {
@@ -203,7 +200,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 			// panel
 			this.titledBorder = BorderFactory
 					.createTitledBorder("Visualization Panel"
-							+ (graph == null ? "" : ": " + graph.getId()));
+							+ (graph == null ? "" : ": " + graph.getName()));
 			this.setBorder(this.titledBorder);
 		}
 	}
@@ -215,21 +212,21 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof Model) {
-
-			Model m = (Model) o;
-			ResourceBundle b = m.getResourceBundle();
-			try {
-				if (arg == EventSource.I18N)
-					b.getString("visualization.label");
-
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, e.toString(),
-						b.getString("app.label"), 1, null);
-				e.printStackTrace();
-			}
-
-		}
+//		if (o instanceof Model) {
+//
+//			Model m = (Model) o;
+//			ResourceBundle b = m.getResourceBundle();
+//			try {
+//				if (arg == EventSource.I18N)
+//					b.getString("visualization.label");
+//
+//			} catch (Exception e) {
+//				JOptionPane.showMessageDialog(null, e.toString(),
+//						b.getString("app.label"), 1, null);
+//				e.printStackTrace();
+//			}
+//
+//		}
 
 		this.viewer.update(o, arg);
 		this.setBorder();

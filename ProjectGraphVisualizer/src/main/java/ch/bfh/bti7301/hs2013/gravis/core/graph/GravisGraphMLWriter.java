@@ -16,9 +16,9 @@ import edu.uci.ics.jung.io.GraphMLWriter;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class GravisGraphMLWriter extends GraphMLWriter<IVertex, IEdge> {
+class GravisGraphMLWriter extends GraphMLWriter<IVertex, IEdge> {
 
-	public GravisGraphMLWriter() {
+	protected GravisGraphMLWriter() {
 		super();
 	}
 
@@ -58,7 +58,7 @@ public class GravisGraphMLWriter extends GraphMLWriter<IVertex, IEdge> {
 			this.writeKeySpecification(key, "edge", this.edge_data.get(key), bw);
 
 		// set edge default direction
-		bw.write("<graph id=\"" + gravisGraph.getId() + "\" edgedefault=\"");
+		bw.write("<graph id=\"" + gravisGraph.getName() + "\" edgedefault=\"");
 		// this.directed = !(gravisGraph instanceof UndirectedGraph);
 
 		this.directed = gravisGraph.getEdgeType() == EdgeType.DIRECTED;

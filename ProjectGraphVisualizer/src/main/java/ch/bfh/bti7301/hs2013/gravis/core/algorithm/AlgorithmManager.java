@@ -1,131 +1,74 @@
 package ch.bfh.bti7301.hs2013.gravis.core.algorithm;
 
-import java.io.File;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections15.map.HashedMap;
-import org.apache.commons.io.FileUtils;
 
-import ch.bfh.bti7301.hs2013.gravis.core.AbstractParameterManager;
-import ch.bfh.bti7301.hs2013.gravis.core.algorithm.IAlgorithm.GraphType;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
-class AlgorithmManager extends AbstractParameterManager implements
-		IAlgorithmManager {
+class AlgorithmManager implements IAlgorithmManager {
 
-	/**
-	 * An algorithm map mapping integer (the index of an algorithm in
-	 * super.parameters) to edge type (the capability of the algorithm).
-	 */
-	private HashedMap<Integer, EdgeType> algorithmMap;
+	private Map<String, IAlgorithm> algorithmMap;
+	
+	private List<String> directedAlgoNames, undirectedAlgoNames;
 
-	/**
-	 * Main constructor
-	 * 
-	 * @param templatesDir
-	 *            the templates directory
-	 * @param workbenchDir
-	 *            the workbench directory
-	 * @param filter
-	 *            the filename extension filter
-	 */
-	public AlgorithmManager(File templatesDir, File workbenchDir,
-			FileNameExtensionFilter filter) {
-		super(templatesDir, workbenchDir, filter);
-//		try {
-//			// TODO validation?
-//			for (File file : templatesDir.listFiles()) {
-//				super.add(file);
-//			}
-//			for (File file : workbenchDir.listFiles()) {
-//				super.add(file);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-	}
-
-	@Override
-	public boolean addAlgorithm(File file) throws Exception {
-		try {
-			try {
-				this.load(file);
-				return super.add(file);
-			} catch (Exception e) {
-				throw e;
+	protected AlgorithmManager() {
+		this.algorithmMap = new HashedMap<>();
+		this.directedAlgoNames = new ArrayList<>();
+		this.undirectedAlgoNames = new ArrayList<>();
+		
+		IAlgorithm algorithm = new AlgorithmDFSRecursive();
+		this.algorithmMap.put(algorithm.getName(), algorithm);
+		algorithm = new AlgorithmDLSRecursive();
+		this.algorithmMap.put(algorithm.getName(), algorithm);
+		algorithm = new AlgorithmBreadthFirstSearch();
+		this.algorithmMap.put(algorithm.getName(), algorithm);
+		algorithm = new AlgorithmDijkstra();
+		this.algorithmMap.put(algorithm.getName(), algorithm);
+		algorithm = new AlgorithmKruskalMinSpanningForest();
+		this.algorithmMap.put(algorithm.getName(), algorithm);
+		
+		for (String algoName : this.algorithmMap.keySet()) {
+			if (this.algorithmMap.get(algoName).hasEdgeType(EdgeType.DIRECTED)) {
+				this.directedAlgoNames.add(algoName);
+			} else {
+				this.undirectedAlgoNames.add(algoName);
 			}
-		} catch (Exception e) {
-			throw e;
 		}
+		
 	}
 
-	/**
-	 * Loads an algorithm.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param file
-	 *            the algorithm to load
-	 * @throws Exception
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.algorithm.IAlgorithmManager#
+	 * getAlgorithmNames(edu.uci.ics.jung.graph.util.EdgeType)
 	 */
-	private void load(File file) throws Exception {
-		try {
-			AlgorithmFactory.createAlgorithm(file);
-		} catch (Exception e) {
-			throw e;
+	@Override
+	public String[] getAlgorithmNames(EdgeType edgetype) {
+		if (edgetype == EdgeType.DIRECTED) {
+			return this.directedAlgoNames.toArray(new String[this.directedAlgoNames.size()]);
+		} else {
+			return this.undirectedAlgoNames.toArray(new String[this.undirectedAlgoNames.size()]);
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.algorithm.IAlgorithmManager#getAlgorithm
+	 * (java.lang.String)
+	 */
 	@Override
-	public IAlgorithm getAlgorithm(int index) throws Exception {
-		try {
-//			File file = super.getFile(index);
-//			return AlgorithmFactory.createAlgorithm(file);
-			// TODO bitte dummy value auskommentieren und nicht löschen
-//			 return new AlgorithmDLSRecursive();
-//			 return new AlgorithmDFSRecursive();
-//			 return new AlgorithmBreadthFirstSearch();
-//			 return new AlgorithmKruskalMinSpanningForest();
-			 return new AlgorithmDijkstra();
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	@Override
-	public IAlgorithm getDefaultAlgorithm() throws Exception {
-		try {
-			return new AlgorithmDefault();
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	@Override
-	public void updateAlgorithmList(GraphType[] types) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean deleteAlgorithm(File file) throws Exception {
-		try {
-			FileUtils.deleteQuietly(file);
-			return super.remove(file);
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	@Override
-	public String[] getNames(EdgeType edgetype) throws Exception {
-		// TODO select algorithms by edgetype
-		String[] names = super.getNames();
-		return names;
+	public IAlgorithm getAlgorithm(String algorithmName) {
+		return this.algorithmMap.get(algorithmName);
 	}
 
 }

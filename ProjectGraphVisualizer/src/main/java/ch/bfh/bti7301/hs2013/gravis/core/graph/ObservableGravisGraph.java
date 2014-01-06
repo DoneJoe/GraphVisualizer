@@ -75,8 +75,8 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getGraphId()
 	 */
 	@Override
-	public String getId() {
-		return this.gravisGraph.getId();
+	public String getName() {
+		return this.gravisGraph.getName();
 	}
 
 	/*
@@ -85,8 +85,8 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setGraphId(int)
 	 */
 	@Override
-	public void setId(String graphId) {
-		this.gravisGraph.setId(graphId);
+	public void setName(String graphId) {
+		this.gravisGraph.setName(graphId);
 	}
 
 	/*
@@ -117,7 +117,7 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 			item.setNewState(state);
 		}
 
-		this.fireGraphEvent(GraphFactory.createGraphEvent(this, graphItems));
+		this.fireGraphEvent(new GravisGraphEvent(this, graphItems));
 	}
 
 	/*
@@ -129,7 +129,7 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 	 */
 	@Override
 	public void updateState(IGraphItem... graphItems) {
-		this.fireGraphEvent(GraphFactory.createGraphEvent(this, graphItems));
+		this.fireGraphEvent(new GravisGraphEvent(this, graphItems));
 	}
 
 	/*

@@ -7,10 +7,7 @@ import java.awt.Color;
  * <p>
  * Some colours in a tool class though serving with <i>static elements only</i>.
  * <p>
- * The class is built like {@link Color}.
- * 
- * @license GNU_GPL_v3
- * @author Roland Bruggmann (brugr9@bfh.ch)
+ * @author Patrick Kofmel (kofmp1@bfh.ch)
  * @see Color
  * 
  */

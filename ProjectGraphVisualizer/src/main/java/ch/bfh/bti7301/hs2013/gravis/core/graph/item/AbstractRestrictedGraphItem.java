@@ -6,7 +6,6 @@ import java.awt.Color;
  * An restricted item.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
 public abstract class AbstractRestrictedGraphItem implements

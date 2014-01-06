@@ -24,7 +24,7 @@ public class GraphTransformer implements Transformer<GraphMetadata, IGravisGraph
 		EdgeType edgeType = graphMeta.getEdgeDefault() == EdgeDefault.DIRECTED ? 
 				EdgeType.DIRECTED : EdgeType.UNDIRECTED;
 		
-		newGraph.setId(graphMeta.getId());
+		newGraph.setName(graphMeta.getId());
 		newGraph.setEdgeType(edgeType);
 		
 		if (graphMeta.getProperty(GravisConstants.G_DESCRIPTION) != null) {

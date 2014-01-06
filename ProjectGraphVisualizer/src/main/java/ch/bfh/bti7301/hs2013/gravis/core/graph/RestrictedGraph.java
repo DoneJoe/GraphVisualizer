@@ -170,7 +170,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public String toString() {
-		return this.observableGraph.getId();
+		return this.observableGraph.getName();
 	}
 
 	/*

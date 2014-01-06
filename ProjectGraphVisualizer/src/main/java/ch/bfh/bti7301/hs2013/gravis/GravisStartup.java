@@ -1,16 +1,14 @@
-/**
- * 
- */
 package ch.bfh.bti7301.hs2013.gravis;
 
 import java.awt.EventQueue;
 
 import javax.swing.JOptionPane;
 
-import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory.ViewType;
+import ch.bfh.bti7301.hs2013.gravis.core.CoreFactory;
+import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
 
 /**
- * GravisStartup
+ * This is the main class of the GraphVisualizer application.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -27,16 +25,11 @@ public class GravisStartup {
 			@Override
 			public void run() {
 				try {
-					ApplicationFactory.createApplication(1000, 500,
-							ViewType.FULL);
+					GuiFactory.createGUI(CoreFactory.createCore());
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(
-							null,
-							"Sorry, somthing went totally wrong:\n"
-									+ e.toString() + e.getMessage()
-									+ e.getCause(), this.getClass().getName(),
-							1, null);
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "App startup error:\n"
+							+ e.getMessage() + "\n" + e.getCause(),
+							"Graph Visualizer", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

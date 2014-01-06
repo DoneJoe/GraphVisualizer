@@ -28,11 +28,9 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 	private int counter = 0;
 
 	protected AlgorithmDLSRecursive() {
-		super();
-		this.setName(ALGO_NAME);
-		this.setDescription(ALGO_DESCRIPTION);
-		this.setGraphTypes(new EdgeType[] { EdgeType.DIRECTED,
-				EdgeType.UNDIRECTED });
+		super(ALGO_NAME, ALGO_DESCRIPTION);
+		this.addEdgeType(EdgeType.DIRECTED);
+		this.addEdgeType(EdgeType.UNDIRECTED);
 	}
 
 	/*

@@ -47,11 +47,9 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 	private final CurrentResultComparator vertexResultComparator;
 
 	protected AlgorithmDijkstra() {
-		super();
-		this.setName(ALGO_NAME);
-		this.setDescription(ALGO_DESCRIPTION);
-		this.setGraphTypes(new EdgeType[] { EdgeType.DIRECTED,
-				EdgeType.UNDIRECTED });
+		super(ALGO_NAME, ALGO_DESCRIPTION);
+		this.addEdgeType(EdgeType.DIRECTED);
+		this.addEdgeType(EdgeType.UNDIRECTED);
 		this.vertexResultComparator = new CurrentResultComparator();
 	}
 

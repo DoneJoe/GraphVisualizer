@@ -13,7 +13,6 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * Depth-first search (DFS) algorithm, implemented recursively
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
 class AlgorithmDFSRecursive extends AbstractAlgorithm {
@@ -32,11 +31,9 @@ class AlgorithmDFSRecursive extends AbstractAlgorithm {
 	 * Constructor
 	 */
 	protected AlgorithmDFSRecursive() {
-		super();
-		this.setName(ALGO_NAME);
-		this.setDescription(ALGO_DESCRIPTION);
-		this.setGraphTypes(new EdgeType[] { EdgeType.DIRECTED,
-				EdgeType.UNDIRECTED });
+		super(ALGO_NAME, ALGO_DESCRIPTION);
+		this.addEdgeType(EdgeType.DIRECTED);
+		this.addEdgeType(EdgeType.UNDIRECTED);
 	}
 
 	/*

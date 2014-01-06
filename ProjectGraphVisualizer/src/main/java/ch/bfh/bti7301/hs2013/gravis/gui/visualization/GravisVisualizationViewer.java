@@ -18,8 +18,8 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexColorTransformer
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexLabelTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexStrokeTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexToolTipTransformer;
-import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
 import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.decorators.ConstantDirectionalEdgeValueTransformer;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
@@ -97,7 +97,7 @@ public class GravisVisualizationViewer extends
 				IGravisGraph graph = (IGravisGraph) arg;
 
 				// TODO add dynamic layout
-				Layout<IVertex, IEdge> layout = GuiFactory.createLayout(graph,
+				Layout<IVertex, IEdge> layout = new StaticLayout<>(graph,
 						new PointTransformer());
 				// layout.setSize(new Dimension(250, 350));
 				this.setGraphLayout(layout);

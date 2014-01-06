@@ -5,7 +5,6 @@ import java.util.List;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge;
 import static ch.bfh.bti7301.hs2013.gravis.core.util.transformer.ValueTransformer.toArray;
 
 /**
@@ -18,7 +17,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 
 	private final IRestrictedGraph graph;
 
-	public GraphUpdateHandler(IRestrictedGraph graph) {
+	protected GraphUpdateHandler(IRestrictedGraph graph) {
 		this.itemUpdateList = new ArrayList<IRestrictedGraphItem>();
 		this.graph = graph;
 	}

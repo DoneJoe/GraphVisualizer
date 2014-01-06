@@ -7,20 +7,9 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * An algorithm able to operate on a <code>Graph</code>.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
 public interface IAlgorithm {
-
-	/**
-	 * Graph types.
-	 * 
-	 * @author Roland Bruggmann (brugr9@bfh.ch)
-	 * 
-	 */
-	public static enum GraphType {
-		UNDIRECTED, DIRECTED,
-	}
 
 	/**
 	 * Returns the algorithm name.
@@ -38,14 +27,17 @@ public interface IAlgorithm {
 	public abstract String getDescription();
 
 	/**
-	 * @param graph
-	 * @throws Exception
+	 * 
+	 * @param edgeType
+	 * @return boolean
 	 */
-	public abstract void execute(IRestrictedGraph graph) throws AlgorithmException;
+	public abstract boolean hasEdgeType(EdgeType edgeType);
 
 	/**
-	 * @return annotations
+	 * @param graph
+	 * @throws AlgorithmException
 	 */
-	public abstract EdgeType[] getGraphTypes();
+	public abstract void execute(IRestrictedGraph graph)
+			throws AlgorithmException;
 
 }

@@ -11,7 +11,6 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
  * A vertex.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
 class GravisVertex extends AbstractGraphItem implements IVertex {

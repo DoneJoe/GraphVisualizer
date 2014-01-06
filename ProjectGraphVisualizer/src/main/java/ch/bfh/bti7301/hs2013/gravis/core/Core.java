@@ -1,14 +1,23 @@
 package ch.bfh.bti7301.hs2013.gravis.core;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.apache.maven.shared.utils.io.FileUtils;
-
+import ch.bfh.bti7301.hs2013.gravis.core.algorithm.IAlgorithm;
 import ch.bfh.bti7301.hs2013.gravis.core.algorithm.IAlgorithmManager;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphManager;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IObservableGravisGraph;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.bti7301.hs2013.gravis.core.step.IStep;
+import ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator;
+import ch.bfh.bti7301.hs2013.gravis.core.util.StepIterator;
+import ch.bfh.bti7301.hs2013.gravis.core.util.GravisListIterator;
+import edu.uci.ics.jung.graph.event.GraphEventListener;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
@@ -16,266 +25,35 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * pattern).
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
 class Core implements ICore {
 
 	private IGraphManager graphManager;
 	private IAlgorithmManager algorithmManager;
-	private ITraversal traversal;
 
 	/**
 	 * @param graphManager
 	 * @param algorithmManager
-	 * @param traversal
-	 * @param iteratorManager
 	 */
 	protected Core(IGraphManager graphManager,
-			IAlgorithmManager algorithmManager, ITraversal traversal) {
+			IAlgorithmManager algorithmManager) {
 		this.graphManager = graphManager;
 		this.algorithmManager = algorithmManager;
-		this.traversal = traversal;
-	}
-
-	@Override
-	public IGravisGraph selectGraph(int index) throws Exception {
-		try {
-			// as shown in sd-select-graph
-			IGravisGraph graph = this.graphManager.getGraph(index);
-			this.traversal.setParameter(graph);
-			return graph;
-		} catch (Exception e) {
-			throw e;
-		}
+		// TODO Exception Handling
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#importGraph(java.lang.String
-	 * )
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#importGraph(java.io.File)
 	 */
 	@Override
-	public String[] importGraph(File source) throws Exception {
-
-		// as shown in sd-import-graph
-
-		// copy
-		File destinationDirectory = this.graphManager.getWorkbenchDir();
+	public IGravisGraph importGraph(File source) throws CoreException {
 		try {
-			FileUtils.copyFileToDirectory(source, destinationDirectory);
+			return this.graphManager.importGraph(source);
 		} catch (Exception e) {
-			throw e;
-		}
-		String pathname = destinationDirectory.getPath() + File.separator
-				+ source.getName();
-		File copy = null;
-		try {
-			copy = new File(pathname);
-		} catch (Exception e) {
-			throw e;
-		}
-
-		// names
-		String[] names = null;
-		try {
-			boolean ok = this.graphManager.add(copy);
-			if (ok)
-				names = this.getGraphs();
-			return names;
-		} catch (Exception e) {
-			FileUtils.fileDelete(pathname);
-			throw e;
-		}
-
-	}
-
-	@Override
-	public void clearGraph(int index) throws Exception {
-		try {
-			this.graphManager.clearGraph(index);
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#getGraphNames()
-	 */
-	@Override
-	public String[] getGraphs() throws Exception {
-		try {
-			return this.graphManager.getNames();
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#setAlgorithm(int)
-	 */
-	@Override
-	public void selectAlgorithm(int index) throws Exception {
-		try {
-			this.traversal.setParameter(this.algorithmManager
-					.getAlgorithm(index));
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#importAlgorithm(java.lang
-	 * .String)
-	 */
-	@Override
-	public String[] importAlgorithm(File source) throws Exception {
-
-		// as shown in sd-import-algorithm
-
-		// copy
-		File destinationDirectory = this.algorithmManager.getWorkbenchDir();
-		try {
-			FileUtils.copyFileToDirectory(source, destinationDirectory);
-		} catch (Exception e) {
-			throw e;
-		}
-		String pathname = destinationDirectory.getPath() + File.separator
-				+ source.getName();
-		File copy = null;
-		try {
-			copy = new File(pathname);
-		} catch (Exception e) {
-			throw e;
-		}
-
-		// names
-		String[] names = null;
-		try {
-			boolean ok = this.algorithmManager.add(copy);
-			if (ok)
-				names = this.getAlgorithms();
-			return names;
-		} catch (Exception e) {
-			FileUtils.fileDelete(pathname);
-			throw e;
-		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#getAlgorithmNames()
-	 */
-	@Override
-	public String[] getAlgorithms() throws Exception {
-		try {
-			EdgeType type = this.traversal.getGraph().getEdgeType();
-			return this.algorithmManager.getNames(type);
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	@Override
-	public IGravisListIterator<String> executeTraverser(TraversalChangeListener listener)
-			throws Exception {
-		try {
-			return new StepIterator(this.traversal.execute(listener));
-		} catch (Exception e) {
-			throw e;
-		}
-
-	}
-
-	
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#deleteGraph()
-	 */
-	@Override
-	public String[] deleteGraph(File file) throws Exception {
-
-		try {
-			// as shown in sd-delete-graph
-			// TODO this is a main success scenario
-			boolean ok1 = this.graphManager.remove(file);
-			boolean ok2 = file.delete();
-			String[] names = this.getGraphs();
-			return names;
-		} catch (Exception ex) {
-			throw ex;
-		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#deleteAlgorithm()
-	 */
-	@Override
-	public String[] deleteAlgorithm(File file) throws Exception {
-
-		try {
-			// as shown in sd-delete-algorithm
-			// TODO this is a main success scenario
-			boolean ok1 = this.algorithmManager.remove(file);
-			boolean ok2 = file.delete();
-			String[] names = this.getAlgorithms();
-			return names;
-		} catch (Exception ex) {
-			throw ex;
-		}
-
-	}
-
-	@Override
-	public File getGraphTemplatesDir() {
-		return this.graphManager.getTemplatesDir();
-	}
-
-	@Override
-	public File getGraphWorkbenchDir() {
-		return this.graphManager.getWorkbenchDir();
-	}
-
-	@Override
-	public FileNameExtensionFilter getGraphFilter() {
-		return this.graphManager.getFilter();
-	}
-
-	@Override
-	public File getAlgorithmTemplatesDir() {
-		return this.algorithmManager.getTemplatesDir();
-	}
-
-	@Override
-	public File getAlgorithmWorkbenchDir() {
-		return this.algorithmManager.getWorkbenchDir();
-	}
-
-	@Override
-	public FileNameExtensionFilter getAlgorithmFilter() {
-		return this.algorithmManager.getFilter();
-	}
-
-	@Override
-	public void saveGraph(IGravisGraph graph) throws Exception {
-		try {
-			this.graphManager.saveGraph(graph);
-		} catch (Exception e) {
-			throw e;
+			throw new CoreException(e);
 		}
 	}
 
@@ -283,28 +61,61 @@ class Core implements ICore {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.ICore#exportGraph(ch.bfh.bti7301.hs2013
+	 * ch.bfh.bti7301.hs2013.gravis.core.ICore#saveGraph(ch.bfh.bti7301.hs2013
 	 * .gravis.core.graph.IGravisGraph, java.io.File)
 	 */
 	@Override
-	public void exportGraph(IGravisGraph graph, File file) throws Exception {
+	public void saveGraph(IGravisGraph graph, File file) throws CoreException {
 		try {
-			this.graphManager.exportGraph(graph, file);
+			this.graphManager.saveGraph(graph, file);
 		} catch (Exception e) {
-			throw e;
+			throw new CoreException(e);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#selectGraph(ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.ICore#getAlgorithmNames(edu.uci.ics
+	 * .jung.graph.util.EdgeType)
 	 */
 	@Override
-	public void selectGraph(IGravisGraph graph) {
+	public String[] getAlgorithmNames(EdgeType edgeType) throws CoreException {
+		return this.algorithmManager.getAlgorithmNames(edgeType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.ICore#calculateSteps(ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.IGravisGraph, java.lang.String)
+	 */
+	@Override
+	public IGravisListIterator<String> calculateSteps(IGravisGraph graph,
+			String algorithmName) throws CoreException {
 		try {
-			this.traversal.setParameter(graph);
+			List<IStep> commandList = new ArrayList<>();
+			GraphEventListener<IVertex, IEdge> graphEventListener = GraphFactory
+					.createGravisGraphEventListener(commandList);
+			IObservableGravisGraph observableGraph = GraphFactory
+					.createObservableGraph(graph);
+			observableGraph.addGraphEventListener(graphEventListener);
+			IRestrictedGraph restrictedGraph = GraphFactory
+					.createRestrictedGraph(observableGraph);
+			IAlgorithm algorithm = this.algorithmManager
+					.getAlgorithm(algorithmName);
+
+			algorithm.execute(restrictedGraph);
+			// undo for all commands in the list in reverse order
+			for (int i = commandList.size() - 1; i >= 0; i--) {
+				commandList.get(i).unExecute();
+			}
+
+			return new StepIterator(new GravisListIterator<IStep>(commandList));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CoreException(e);
 		}
 	}
 

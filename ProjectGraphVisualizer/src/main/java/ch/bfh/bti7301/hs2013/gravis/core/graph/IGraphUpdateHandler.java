@@ -2,7 +2,6 @@ package ch.bfh.bti7301.hs2013.gravis.core.graph;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)

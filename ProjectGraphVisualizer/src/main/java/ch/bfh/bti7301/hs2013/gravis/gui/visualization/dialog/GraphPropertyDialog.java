@@ -46,7 +46,7 @@ public class GraphPropertyDialog extends JDialog {
 		super(owner, true);
 		
 		// TODO remove string literals
-		this.setTitle(graph.getId() + " bearbeiten...");
+		this.setTitle(graph.getName() + " bearbeiten...");
 		
 		this.setResizable(false);
 		this.setBounds(100, 100, 500, 220);
@@ -119,7 +119,7 @@ public class GraphPropertyDialog extends JDialog {
 	 * @param graph
 	 */
 	protected void updateTextFieldValues(IGravisGraph graph) {
-		graph.setId(this.txtGraphName.getText().trim());
+		graph.setName(this.txtGraphName.getText().trim());
 		graph.setDescription(this.textAreaGraphDescription.getText().trim());
 		this.dispose();
 	}
@@ -128,7 +128,7 @@ public class GraphPropertyDialog extends JDialog {
 	 * @param graph
 	 */
 	private void setTextFieldValues(IGravisGraph graph) {
-		this.txtGraphName.setText(graph.getId());
+		this.txtGraphName.setText(graph.getName());
 		this.textAreaGraphDescription.setText(graph.getDescription());
 
 		this.txtGraphName.setInputVerifier(new GraphIdVerifier(
