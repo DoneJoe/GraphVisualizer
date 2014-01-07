@@ -101,8 +101,8 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setName(int)
 	 */
 	@Override
-	public void setName(String graphId) {
-		this.graphName = graphId.trim();
+	public void setName(String graphName) {
+		this.graphName = graphName.trim();
 	}
 
 	/*

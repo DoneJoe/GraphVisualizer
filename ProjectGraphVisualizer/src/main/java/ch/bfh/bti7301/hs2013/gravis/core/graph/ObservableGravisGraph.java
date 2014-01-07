@@ -72,7 +72,7 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getGraphId()
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getName()
 	 */
 	@Override
 	public String getName() {
@@ -82,11 +82,11 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setGraphId(int)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setName(int)
 	 */
 	@Override
-	public void setName(String graphId) {
-		this.gravisGraph.setName(graphId);
+	public void setName(String graphName) {
+		this.gravisGraph.setName(graphName);
 	}
 
 	/*
