@@ -15,6 +15,9 @@ import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
  */
 public class GravisStartup {
 
+	private final static String STARTUP_ERROR = "Application startup error:\n%s";
+	private final static String TITLE = "Graph Visualizer";
+
 	/**
 	 * Program starter
 	 * 
@@ -27,9 +30,10 @@ public class GravisStartup {
 				try {
 					GuiFactory.createGUI(CoreFactory.createCore());
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "App startup error:\n"
-							+ e.getMessage() + "\n" + e.getCause(),
-							"Graph Visualizer", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(
+							null,
+							String.format(STARTUP_ERROR, e.getMessage()), TITLE,
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

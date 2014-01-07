@@ -11,7 +11,7 @@ import java.awt.Color;
  * @see Color
  * 
  */
-public abstract class GravisColor {
+public interface GravisColor {
 
 	 /**
      * A field for the colour antique.
@@ -118,10 +118,5 @@ public abstract class GravisColor {
      */
     public final static Color BLACK = black;
 
-    /**
-     * A main (no-)constructor.
-     */
-    private GravisColor() {
-    }
 
 }

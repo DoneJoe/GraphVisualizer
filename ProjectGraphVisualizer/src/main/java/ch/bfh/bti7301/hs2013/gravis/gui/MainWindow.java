@@ -1,7 +1,6 @@
 package ch.bfh.bti7301.hs2013.gravis.gui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,18 +14,22 @@ public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 8699847848182615730L;
 	
+	private final static String TITLE = "Graph Visualizer";
+	
 	private JPanel contentPane;
 
 	/**
 	 * Create the frame.
 	 */
 	public MainWindow() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 895, 371);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		super(TITLE);
+		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBounds(100, 100, 895, 371);
+		this.contentPane = new JPanel();
+		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.contentPane.setLayout(new BorderLayout(0, 0));
+		this.setContentPane(this.contentPane);
 		
 		this.setVisible(true);
 	}

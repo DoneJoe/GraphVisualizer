@@ -20,7 +20,7 @@ public class GraphTransformer implements Transformer<GraphMetadata, IGravisGraph
 	 */
 	@Override
 	public IGravisGraph transform(GraphMetadata graphMeta) {
-		IGravisGraph newGraph = GraphFactory.createIGravisGraph();
+		IGravisGraph newGraph = GraphFactory.createGravisGraph();
 		EdgeType edgeType = graphMeta.getEdgeDefault() == EdgeDefault.DIRECTED ? 
 				EdgeType.DIRECTED : EdgeType.UNDIRECTED;
 		

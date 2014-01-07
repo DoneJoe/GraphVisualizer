@@ -34,14 +34,14 @@ public final class GraphFactory {
 	 * @param graph
 	 * @return a new instance of type IGravisGraph
 	 */
-	public static IGravisGraph createIGravisGraph(Graph<IVertex, IEdge> graph) {
+	public static IGravisGraph createGravisGraph(Graph<IVertex, IEdge> graph) {
 		return new GravisGraph(graph);
 	}
 
 	/**
 	 * @return a new instance of type IGravisGraph
 	 */
-	public static IGravisGraph createIGravisGraph() {
+	public static IGravisGraph createGravisGraph() {
 		return new GravisGraph(createGraph());
 	}
 

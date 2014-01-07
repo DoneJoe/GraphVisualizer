@@ -26,6 +26,8 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	private EdgeType edgeType;
 
 	/**
+	 * Creates an instance of a directed GravisGraph.
+	 * 
 	 * @param delegate
 	 */
 	protected GravisGraph(Graph<IVertex, IEdge> delegate) {

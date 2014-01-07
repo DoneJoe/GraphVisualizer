@@ -66,7 +66,7 @@ public class OldMainWindowListener extends Observable implements
 			GravisVisualizationViewer vViewer) {
 		this.gravisCore = gravisCore;
 		this.vViewer = vViewer;
-		this.graph = GraphFactory.createIGravisGraph();
+		this.graph = GraphFactory.createGravisGraph();
 	}
 
 	/*
@@ -96,7 +96,7 @@ public class OldMainWindowListener extends Observable implements
 		if (e.getActionCommand().equals(NEW_DIR_GRAPH.toString())) {
 			System.out.println(NEW_DIR_GRAPH);
 
-			this.graph = GraphFactory.createIGravisGraph();
+			this.graph = GraphFactory.createGravisGraph();
 			this.graph.setEdgeType(EdgeType.DIRECTED);
 
 			this.setChanged();
@@ -105,7 +105,7 @@ public class OldMainWindowListener extends Observable implements
 		if (e.getActionCommand().equals(NEW_UNDIR_GRAPH.toString())) {
 			System.out.println(NEW_UNDIR_GRAPH);
 
-			this.graph = GraphFactory.createIGravisGraph();
+			this.graph = GraphFactory.createGravisGraph();
 			this.graph.setEdgeType(EdgeType.UNDIRECTED);
 
 			this.setChanged();
