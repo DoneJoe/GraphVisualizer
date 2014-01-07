@@ -1,4 +1,4 @@
-package ch.bfh.bti7301.hs2013.gravis.gui;
+package ch.bfh.bti7301.hs2013.gravis.gui.component;
 
 import javax.swing.JToolBar;
 
