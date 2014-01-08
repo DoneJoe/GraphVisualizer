@@ -18,7 +18,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * 
  */
 class EdgePropertyMenuItem extends JMenuItem implements
-		GraphItemMenuListener {
+		IGraphItemMenuListener {
 
 	private static final long serialVersionUID = -1894264493446725645L;
 

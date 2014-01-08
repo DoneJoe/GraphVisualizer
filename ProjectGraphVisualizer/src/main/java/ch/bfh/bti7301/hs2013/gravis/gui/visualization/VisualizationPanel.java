@@ -24,11 +24,12 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.EdgeFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.VertexFactory;
-import ch.bfh.bti7301.hs2013.gravis.gui.OldIGravisMainListener;
-import ch.bfh.bti7301.hs2013.gravis.gui.OldMainWindowListener;
+import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
+import ch.bfh.bti7301.hs2013.gravis.gui.controller.IVisualizationController;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.dialog.GraphPropertyDialog;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.EdgeMenu;
-import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.CreateVertexMenu;
+import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.VertexCreateMenu;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.VertexMenu;
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
@@ -89,8 +90,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 			+ "<li>Mouse1+CTRL(or Command)+drag shears the graph"
 			+ "<li>Mouse1 double-click on a vertex or edge allows you to edit the label"
 			+ "</ul>" + "</html>";
-	
-	
+
 	/**
 	 * A field for a titled border.
 	 */
@@ -102,34 +102,36 @@ public class VisualizationPanel extends JPanel implements Observer {
 	private GravisVisualizationViewer viewer;
 
 	private VertexMenu vertexMenu;
-	
-	private CreateVertexMenu vertexCreateMenu;
+
+	private VertexCreateMenu vertexCreateMenu;
 
 	private EdgeMenu edgeMenu;
 
 	private JButton editGraphBtn;
 
-	/**
-	 * @param visualizationViewer
-	 */
-	public VisualizationPanel(GravisVisualizationViewer visualizationViewer) {
-		this(visualizationViewer, null);
-	}
-	
-	/**
-	 * 
-	 * @param layout
-	 */
-	public VisualizationPanel(GravisVisualizationViewer viewer, 
-			OldMainWindowListener mainWindowListener) {
+	// /**
+	// * @param visualizationViewer
+	// */
+	// public VisualizationPanel(GravisVisualizationViewer visualizationViewer)
+	// {
+	// this(visualizationViewer, null);
+	// }
+
+	public VisualizationPanel(IVisualizationController visualizationController,
+			IGuiModel model) {
 		super();
 
+		// TODO diese Klasse muss editing events auslösen können
+		// TODO modeComboBox zurückgeben
+		// TODO VisualizationModel verwenden
+
 		// viewer
-		this.viewer = viewer;
+		this.viewer = new GravisVisualizationViewer(
+				GuiFactory.createLayout(model.getGraph()));
 		this.setBorder();
 
 		this.vertexMenu = new VertexMenu(this.viewer);
-		this.vertexCreateMenu = new CreateVertexMenu(this.viewer);
+		this.vertexCreateMenu = new VertexCreateMenu(this.viewer);
 		this.edgeMenu = new EdgeMenu(this.viewer);
 
 		JPanel controls = new JPanel();
@@ -140,7 +142,8 @@ public class VisualizationPanel extends JPanel implements Observer {
 
 		EditingModalGraphMouse<IVertex, IEdge> graphMouse = new GravisModalGraphMouse(
 				this.viewer.getRenderContext(), new VertexFactory(),
-				new EdgeFactory(), this.edgeMenu, this.vertexMenu, this.vertexCreateMenu);
+				new EdgeFactory(), this.edgeMenu, this.vertexMenu,
+				this.vertexCreateMenu);
 		JComboBox<?> modeBox = graphMouse.getModeComboBox();
 
 		graphMouse.setMode(Mode.PICKING);
@@ -158,26 +161,26 @@ public class VisualizationPanel extends JPanel implements Observer {
 		GraphZoomScrollPane pane = new GraphZoomScrollPane(viewer);
 		this.add(pane, BorderLayout.CENTER);
 
-//		modeBox.setEnabled(false);
-//		pane.setEnabled(false);
-//		this.viewer.setEnabled(false);
-		
-		dirGraphBtn.setActionCommand(OldIGravisMainListener.EventSource.
-				NEW_DIR_GRAPH.toString());
-		dirGraphBtn.addActionListener(mainWindowListener);
-		
-		undirGraphBtn.setActionCommand(OldIGravisMainListener.EventSource.
-				NEW_UNDIR_GRAPH.toString());
-		undirGraphBtn.addActionListener(mainWindowListener);
-		
-		shortcutBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(VisualizationPanel.this, 
-						VisualizationPanel.this.shortCuts);
-			}
-		});
-		
+		// modeBox.setEnabled(false);
+		// pane.setEnabled(false);
+		// this.viewer.setEnabled(false);
+
+		// dirGraphBtn.setActionCommand(OldIGravisMainListener.EventSource.
+		// NEW_DIR_GRAPH.toString());
+		// dirGraphBtn.addActionListener(mainWindowListener);
+		//
+		// undirGraphBtn.setActionCommand(OldIGravisMainListener.EventSource.
+		// NEW_UNDIR_GRAPH.toString());
+		// undirGraphBtn.addActionListener(mainWindowListener);
+		//
+		// shortcutBtn.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// JOptionPane.showMessageDialog(VisualizationPanel.this,
+		// VisualizationPanel.this.shortCuts);
+		// }
+		// });
+
 		// JPopupMenu edgeMenu = new MyMouseMenus.EdgeMenu(frame);
 		// JPopupMenu vertexMenu = new MyMouseMenus.VertexMenu();
 		// myPlugin.setEdgePopup(edgeMenu);
@@ -212,21 +215,21 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-//		if (o instanceof Model) {
-//
-//			Model m = (Model) o;
-//			ResourceBundle b = m.getResourceBundle();
-//			try {
-//				if (arg == EventSource.I18N)
-//					b.getString("visualization.label");
-//
-//			} catch (Exception e) {
-//				JOptionPane.showMessageDialog(null, e.toString(),
-//						b.getString("app.label"), 1, null);
-//				e.printStackTrace();
-//			}
-//
-//		}
+		// if (o instanceof Model) {
+		//
+		// Model m = (Model) o;
+		// ResourceBundle b = m.getResourceBundle();
+		// try {
+		// if (arg == EventSource.I18N)
+		// b.getString("visualization.label");
+		//
+		// } catch (Exception e) {
+		// JOptionPane.showMessageDialog(null, e.toString(),
+		// b.getString("app.label"), 1, null);
+		// e.printStackTrace();
+		// }
+		//
+		// }
 
 		this.viewer.update(o, arg);
 		this.setBorder();

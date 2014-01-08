@@ -19,8 +19,8 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class CreateVertexMenu extends JPopupMenu implements
-		GraphItemMenuListener {
+public class VertexCreateMenu extends JPopupMenu implements
+		IGraphItemMenuListener {
 
 	private static final long serialVersionUID = 6897658442329318591L;
 
@@ -33,7 +33,7 @@ public class CreateVertexMenu extends JPopupMenu implements
 	/**
 	 * @param viewer
 	 */
-	public CreateVertexMenu(GravisVisualizationViewer viewer) {
+	public VertexCreateMenu(GravisVisualizationViewer viewer) {
 		super("Neuer Knoten");
 
 		this.vertexFactory = new VertexFactory();
@@ -44,7 +44,7 @@ public class CreateVertexMenu extends JPopupMenu implements
 		newVertexMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CreateVertexMenu.this.createVertex();
+				VertexCreateMenu.this.createVertex();
 			}
 		});
 	}

@@ -16,7 +16,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * 
  */
 class StartVertexCheckBox extends JCheckBoxMenuItem implements
-			GraphItemMenuListener {
+			IGraphItemMenuListener {
 
 		private static final long serialVersionUID = 6641658478963193492L;
 

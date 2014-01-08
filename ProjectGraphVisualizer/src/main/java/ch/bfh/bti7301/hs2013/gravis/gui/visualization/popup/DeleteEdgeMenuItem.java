@@ -16,7 +16,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * 
  */
 class DeleteEdgeMenuItem extends JMenuItem implements
-		GraphItemMenuListener {
+		IGraphItemMenuListener {
 
 	private static final long serialVersionUID = -8344732316212412105L;
 

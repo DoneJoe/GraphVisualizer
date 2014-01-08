@@ -10,7 +10,7 @@ import org.apache.commons.collections15.Factory;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.CreateVertexMenu;
+import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.VertexCreateMenu;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.annotations.AnnotatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.AnimatedPickingGraphMousePlugin;
@@ -40,7 +40,7 @@ class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge> {
 	public GravisModalGraphMouse(RenderContext<IVertex, IEdge> rc,
 			Factory<IVertex> vertexFactory, Factory<IEdge> edgeFactory,
 			JPopupMenu edgePopup, JPopupMenu vertexPopup,
-			CreateVertexMenu vertexCreatePopup) {
+			VertexCreateMenu vertexCreatePopup) {
 
 		super(rc, vertexFactory, edgeFactory);
 

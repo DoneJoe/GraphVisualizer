@@ -11,7 +11,7 @@ import org.apache.commons.collections15.Factory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.GraphItemMenuListener;
+import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.IGraphItemMenuListener;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingPopupGraphMousePlugin;
@@ -78,8 +78,8 @@ public class GravisPopupGraphMousePlugin extends
 
 				if (edge == null && vertex == null
 						&& this.vertexCreatePopup != null) {
-					if (this.vertexCreatePopup instanceof GraphItemMenuListener) {
-						((GraphItemMenuListener) this.vertexCreatePopup)
+					if (this.vertexCreatePopup instanceof IGraphItemMenuListener) {
+						((IGraphItemMenuListener) this.vertexCreatePopup)
 								.setGraphItemLocation(point);
 					}
 					this.vertexCreatePopup.show(vViewer, e.getX(), e.getY());
@@ -96,9 +96,9 @@ public class GravisPopupGraphMousePlugin extends
 	 */
 	private void updateItemMenu(IGraphItem item, Point2D point, JPopupMenu popUp) {
 		for (Component comp : popUp.getComponents()) {
-			if (comp instanceof GraphItemMenuListener) {
-				((GraphItemMenuListener) comp).setGraphItemAndView(item);
-				((GraphItemMenuListener) comp).setGraphItemLocation(point);
+			if (comp instanceof IGraphItemMenuListener) {
+				((IGraphItemMenuListener) comp).setGraphItemAndView(item);
+				((IGraphItemMenuListener) comp).setGraphItemLocation(point);
 			}
 		}
 	}

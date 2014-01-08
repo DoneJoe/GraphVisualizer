@@ -18,6 +18,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexColorTransformer
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexLabelTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexStrokeTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexToolTipTransformer;
+import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -40,8 +41,6 @@ public class GravisVisualizationViewer extends
 	 */
 	public GravisVisualizationViewer(Layout<IVertex, IEdge> layout) {
 		super(layout);
-
-		// TODO bitte an dieser Klasse nichts ändern (pk)
 
 		// TODO preferredSize bitte nur auskommentieren und nicht löschen
 		this.setPreferredSize(new Dimension(1350, 430));
@@ -86,8 +85,6 @@ public class GravisVisualizationViewer extends
 	@Override
 	public void update(Observable o, Object arg) {
 
-		// TODO bitte an dieser Klasse nichts ändern (pk)
-
 		// if (o instanceof GuiModel && arg instanceof IGravisGraph) {
 		// GuiModel m = (GuiModel) o;
 		if (arg instanceof IGravisGraph) {
@@ -97,8 +94,8 @@ public class GravisVisualizationViewer extends
 				IGravisGraph graph = (IGravisGraph) arg;
 
 				// TODO add dynamic layout
-				Layout<IVertex, IEdge> layout = new StaticLayout<>(graph,
-						new PointTransformer());
+				Layout<IVertex, IEdge> layout = GuiFactory.createLayout(graph);
+						
 				// layout.setSize(new Dimension(250, 350));
 				this.setGraphLayout(layout);
 			} catch (Exception e) {
