@@ -1,6 +1,5 @@
 package ch.bfh.bti7301.hs2013.gravis.gui;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JFormattedTextField;
 
@@ -18,8 +17,8 @@ public class ProtocolPanel extends JScrollPane {
 	public ProtocolPanel() {
 		
 		JFormattedTextField frmtdtxtfldTest = new JFormattedTextField();
-		frmtdtxtfldTest.setText("Test");
-		setViewportView(frmtdtxtfldTest);
+		frmtdtxtfldTest.setText("Test\nZeile\nZeile\nZeile\nZeile\nZeile\nZeile");
+		this.setViewportView(frmtdtxtfldTest);
 
 	}
 
