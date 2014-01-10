@@ -12,15 +12,12 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.EdgeArrowStrokeTransfo
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.EdgeColorTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.EdgeLabelTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.EdgeStrokeTransformer;
-import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.PointTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.ShapeTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexColorTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexLabelTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexStrokeTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexToolTipTransformer;
-import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
 import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.decorators.ConstantDirectionalEdgeValueTransformer;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
@@ -42,7 +39,7 @@ public class GravisVisualizationViewer extends
 	public GravisVisualizationViewer(Layout<IVertex, IEdge> layout) {
 		super(layout);
 
-		// TODO preferredSize bitte nur auskommentieren und nicht löschen
+		// TODO dynamic size
 		this.setPreferredSize(new Dimension(1350, 430));
 		this.setBackground(Color.white);
 
@@ -84,27 +81,12 @@ public class GravisVisualizationViewer extends
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-
-		// if (o instanceof GuiModel && arg instanceof IGravisGraph) {
-		// GuiModel m = (GuiModel) o;
 		if (arg instanceof IGravisGraph) {
-			// GuiModel m = (GuiModel) o;
-
-			try {
-				IGravisGraph graph = (IGravisGraph) arg;
-
-				// TODO add dynamic layout
-				Layout<IVertex, IEdge> layout = GuiFactory.createLayout(graph);
-						
-				// layout.setSize(new Dimension(250, 350));
-				this.setGraphLayout(layout);
-			} catch (Exception e) {
-				// TODO Exception handling
-				e.printStackTrace();
-			}
+			this.getGraphLayout().setGraph((IGravisGraph) arg);
+			this.repaint();
+		} else if (arg == null) {
+			this.repaint();
 		}
-
-		this.repaint();
 	}
 
 }

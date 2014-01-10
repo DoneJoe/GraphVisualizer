@@ -9,6 +9,8 @@ import java.awt.Color;
  */
 public interface GravisConstants {
 
+	public static final String TEMPLATES_DIR = "graph_templates";
+	
 	public static final String GREEN = "green";
 	public static final String YELLOW = "yellow";
 	public static final String BLUE = "blue";

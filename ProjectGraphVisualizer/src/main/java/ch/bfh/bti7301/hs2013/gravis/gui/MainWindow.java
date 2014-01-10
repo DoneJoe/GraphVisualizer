@@ -1,8 +1,6 @@
 package ch.bfh.bti7301.hs2013.gravis.gui;
 
 import java.awt.BorderLayout;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IVisualizationController;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ExitDialogAdapter;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.VisualizationPanel;
 import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController.EventSource;
@@ -18,14 +18,17 @@ import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class MainWindow extends JFrame implements Observer {
+public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 8699847848182615730L;
 
@@ -41,7 +44,17 @@ public class MainWindow extends JFrame implements Observer {
 	private final static String HELP_ITEM = "Hilfe...";
 	private final static String SHORTCUTS = "Shortcuts...";
 	private final static String INFO = "Info...";
-	
+
+	private final static String HELP_TITLE = "Hilfe zum Graph Visualizer";
+	private final static String INFO_TITLE = "Info zum Graph Visualizer";
+	private final static String INFO_COMMENT = "<html>"
+			+ "<h3><center>Graph Visualizer</center></h3>"
+			+ "<center>Ein Tool zur Visualisierung von Graphen und Algorithmen.</center>"
+			+ "<br /><center>Berner Fachhochschule - Technik und Informatik</center>"
+			+ "<center>Modul BTI7301: Projekt 1</center>"
+			+ "<br /><center>Entwickelt von Patrick Kofmel</center>"
+			+ "</html>";
+	private final static String SHORTCUT_TITLE = "Shortcuts zum Graph Visualizer";
 	private final static String SHORTCUT_COMMENT = "<html>"
 			+ "<h3>All Modes:</h3>"
 			+ "<ul>"
@@ -96,27 +109,30 @@ public class MainWindow extends JFrame implements Observer {
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.contentPane.setLayout(new BorderLayout(0, 0));
 		this.setContentPane(this.contentPane);
-		
+
 		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model);
-		VisualizationPanel visualizationPanel = new VisualizationPanel(visualizationController, 
-				model);
+		VisualizationPanel visualizationPanel = new VisualizationPanel(
+				visualizationController, model);
 		JPanel footerPanel = new JPanel();
 		StepPanel stepPanel = new StepPanel(stepController, model);
 		ProtocolPanel protocolPanel = new ProtocolPanel();
-		
+
 		this.contentPane.add(toolBar, BorderLayout.NORTH);
 		this.contentPane.add(visualizationPanel, BorderLayout.CENTER);
 		this.contentPane.add(footerPanel, BorderLayout.SOUTH);
 		footerPanel.setLayout(new GridLayout(2, 0, 0, 0));
 		footerPanel.add(stepPanel);
 		footerPanel.add(protocolPanel);
+		menuToolbarController.setFileChooserAdapter(new FileChooserAdapter(this));
+		menuToolbarController.setExitDialogAdapter(new ExitDialogAdapter(this));
 		menuToolbarController.addObserver(visualizationPanel);
-		
+
 		this.createMenus(menuToolbarController, model);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
+		this.addWindowListener(menuToolbarController);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setVisible(true);
 	}
 
 	/**
@@ -124,7 +140,9 @@ public class MainWindow extends JFrame implements Observer {
 	 * @param menuToolbarController
 	 * @param model
 	 */
-	private void createMenus(IMenuToolbarController menuToolbarController, IGuiModel model) {
+	private void createMenus(IMenuToolbarController menuToolbarController,
+			IGuiModel model) {
+		// TODO Mnemonic, F1
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(FILE);
 		JMenuItem menuItemNewDirGraph = new JMenuItem(NEW_DIR_GRAPH);
@@ -137,21 +155,24 @@ public class MainWindow extends JFrame implements Observer {
 		JMenuItem menuItemHelp = new JMenuItem(HELP_ITEM);
 		JMenuItem menuItemShortcuts = new JMenuItem(SHORTCUTS);
 		JMenuItem menuItemInfo = new JMenuItem(INFO);
-		
-		model.setNewDirGraphModel(menuItemNewDirGraph.getModel());
-		// TODO add models
-		
-		menuItemNewDirGraph.setActionCommand(EventSource.NEW_DIR_GRAPH.toString());
+
+		menuItemNewDirGraph.setActionCommand(EventSource.NEW_DIR_GRAPH
+				.toString());
 		menuItemNewDirGraph.addActionListener(menuToolbarController);
-		menuItemNewUndirGraph.setActionCommand(EventSource.NEW_UNDIR_GRAPH.toString());
+		menuItemNewUndirGraph.setActionCommand(EventSource.NEW_UNDIR_GRAPH
+				.toString());
 		menuItemNewUndirGraph.addActionListener(menuToolbarController);
 		menuItemOpenGraph.setActionCommand(EventSource.OPEN_GRAPH.toString());
 		menuItemOpenGraph.addActionListener(menuToolbarController);
 		menuItemSaveGraph.setActionCommand(EventSource.SAVE_GRAPH.toString());
 		menuItemSaveGraph.addActionListener(menuToolbarController);
-		menuItemGraphProperties.setActionCommand(EventSource.GRAPH_PROPERTIES.toString());
+		menuItemGraphProperties.setActionCommand(EventSource.GRAPH_PROPERTIES
+				.toString());
 		menuItemGraphProperties.addActionListener(menuToolbarController);
-		
+		menuItemExit.setActionCommand(EventSource.EXIT.toString());
+		menuItemExit.addActionListener(menuToolbarController);
+		this.setHelpListeners(menuItemHelp, menuItemShortcuts, menuItemInfo);
+
 		this.setJMenuBar(menuBar);
 		menuBar.add(menuFile);
 		menuBar.add(menuHelp);
@@ -167,17 +188,41 @@ public class MainWindow extends JFrame implements Observer {
 		menuHelp.add(menuItemInfo);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	/**
+	 * @param menuItemHelp
+	 * @param menuItemShortcuts
+	 * @param menuItemInfo
 	 */
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
-		// GraphPropertyDialog graphPropertyDialog = new
-		// GraphPropertyDialog(model.getGraph(), this);
+	private void setHelpListeners(JMenuItem menuItemHelp,
+			JMenuItem menuItemShortcuts, JMenuItem menuItemInfo) {
+		
+		menuItemHelp.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Help dialog
+				JOptionPane.showMessageDialog(MainWindow.this, "Help Text", HELP_TITLE,
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		
+		menuItemShortcuts.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Shortcut dialog text auf deutsch
+				JOptionPane.showMessageDialog(MainWindow.this, SHORTCUT_COMMENT, SHORTCUT_TITLE,
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		
+		menuItemInfo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Info dialog text und Formatierung
+				JOptionPane.showMessageDialog(MainWindow.this, INFO_COMMENT, INFO_TITLE, 
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 	}
+
 
 }

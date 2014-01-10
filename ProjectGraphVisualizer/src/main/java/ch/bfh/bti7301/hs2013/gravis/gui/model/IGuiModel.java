@@ -1,8 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.model;
 
-import javax.swing.ButtonModel;
-
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
+import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -16,13 +15,14 @@ public interface IGuiModel {
 	public abstract IGravisGraph getGraph();
 	
 	/**
-	 * @param graph
+	 * @param edgeType
 	 */
-	public abstract void setGraph(IGravisGraph graph);
+	public abstract void setNewGraphState(EdgeType edgeType);
 
 	/**
-	 * @param model
+	 * @param graph
 	 */
-	public abstract void setNewDirGraphModel(ButtonModel newDirGraphModel);
+	public abstract void setOpenGraphState(IGravisGraph graph);
+
 
 }

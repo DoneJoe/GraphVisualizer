@@ -26,8 +26,8 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.VertexFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IVisualizationController;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialog;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
-import ch.bfh.bti7301.hs2013.gravis.gui.visualization.dialog.GraphPropertyDialog;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.EdgeMenu;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.VertexCreateMenu;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.VertexMenu;
@@ -56,8 +56,6 @@ public class VisualizationPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 177109739873034494L;
 
-	
-
 	/**
 	 * A field for a titled border.
 	 */
@@ -82,12 +80,13 @@ public class VisualizationPanel extends JPanel implements Observer {
 
 		// TODO diese Klasse muss editing events auslösen können
 		// TODO modeComboBox zurückgeben
-		// TODO Layout in GUIModel speichern (VisualizationModel verwenden?)
+		// TODO Popup-Aktivierung abhängig von Modus
 
 		// viewer
 		this.viewer = new GravisVisualizationViewer(
 				GuiFactory.createLayout(model.getGraph()));
-		this.setBorder();
+		this.setBorder(BorderFactory.createTitledBorder(model.getGraph()
+				.getName()));
 
 		this.vertexMenu = new VertexMenu(this.viewer);
 		this.vertexCreateMenu = new VertexCreateMenu(this.viewer);
@@ -109,10 +108,10 @@ public class VisualizationPanel extends JPanel implements Observer {
 		this.viewer.setGraphMouse(graphMouse);
 		this.viewer.addKeyListener(graphMouse.getModeKeyListener());
 
-//		controls.add(this.editGraphBtn);
-//		controls.add(dirGraphBtn);
-//		controls.add(undirGraphBtn);
-//		controls.add(shortcutBtn);
+		// controls.add(this.editGraphBtn);
+		// controls.add(dirGraphBtn);
+		// controls.add(undirGraphBtn);
+		// controls.add(shortcutBtn);
 		controls.add(modeBox);
 
 		this.add(controls, BorderLayout.NORTH);
@@ -154,19 +153,6 @@ public class VisualizationPanel extends JPanel implements Observer {
 		// modeBox.setEnabled(false);
 	}
 
-	private void setBorder() {
-		if (this.viewer.getGraphLayout().getGraph() instanceof IGravisGraph) {
-			IGravisGraph graph = (IGravisGraph) this.viewer.getGraphLayout()
-					.getGraph();
-
-			// panel
-			this.titledBorder = BorderFactory
-					.createTitledBorder("Visualization Panel"
-							+ (graph == null ? "" : ": " + graph.getName()));
-			this.setBorder(this.titledBorder);
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -174,45 +160,11 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		// if (o instanceof Model) {
-		//
-		// Model m = (Model) o;
-		// ResourceBundle b = m.getResourceBundle();
-		// try {
-		// if (arg == EventSource.I18N)
-		// b.getString("visualization.label");
-		//
-		// } catch (Exception e) {
-		// JOptionPane.showMessageDialog(null, e.toString(),
-		// b.getString("app.label"), 1, null);
-		// e.printStackTrace();
-		// }
-		//
-		// }
-
+		if (arg instanceof IGravisGraph) {
+			this.setBorder(BorderFactory
+					.createTitledBorder(((IGravisGraph) arg).getName()));
+		}
 		this.viewer.update(o, arg);
-		this.setBorder();
-	}
-
-	/**
-	 * @param mainWindow
-	 */
-	public void setRootFrame(final JFrame rootFrame) {
-		this.vertexMenu.setRootFrame(rootFrame);
-		this.edgeMenu.setRootFrame(rootFrame);
-
-		this.editGraphBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (VisualizationPanel.this.viewer.getGraphLayout().getGraph() instanceof IGravisGraph) {
-					IGravisGraph graph = (IGravisGraph) VisualizationPanel.this.viewer
-							.getGraphLayout().getGraph();
-
-					new GraphPropertyDialog(graph, rootFrame).setVisible(true);
-					VisualizationPanel.this.setBorder();
-				}
-			}
-		});
 	}
 
 }

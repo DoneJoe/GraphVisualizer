@@ -1,9 +1,8 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.model;
 
-import javax.swing.ButtonModel;
-
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
+import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -12,13 +11,14 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 class GuiModel implements IGuiModel {
 
 	private IGravisGraph graph;
-	
-	private ButtonModel newDirGraphModel = null;
+
+	private boolean graphChanged;
 
 	protected GuiModel() {
-		// TODO implement
-
+		// creates an empty graph
 		this.graph = GraphFactory.createGravisGraph();
+
+		this.graphChanged = false;
 	}
 
 	/*
@@ -35,24 +35,31 @@ class GuiModel implements IGuiModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setGraph(ch.bfh.bti7301
-	 * .hs2013.gravis.core.graph.IGravisGraph)
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setNewGraphState(edu
+	 * .uci.ics.jung.graph.util.EdgeType)
 	 */
 	@Override
-	public void setGraph(IGravisGraph graph) {
-		this.graph = graph;
+	public void setNewGraphState(EdgeType edgeType) {
+		this.graph = GraphFactory.createGravisGraph(edgeType);
+		this.graphChanged = false;
+		
+		// TODO disable step panel
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setNewDirGraphModel(
-	 * javax.swing.ButtonModel)
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setOpenGraphState(ch
+	 * .bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph)
 	 */
 	@Override
-	public void setNewDirGraphModel(ButtonModel newDirGraphModel) {
-		this.newDirGraphModel = newDirGraphModel;
+	public void setOpenGraphState(IGravisGraph graph) {
+		this.graph = graph;
+		this.graphChanged = false;
+		
+		// TODO reset algo-dropdown
+		// TODO disable step panel
 	}
 
 }

@@ -1,4 +1,4 @@
-package ch.bfh.bti7301.hs2013.gravis.gui.visualization.dialog;
+package ch.bfh.bti7301.hs2013.gravis.gui.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

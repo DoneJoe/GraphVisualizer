@@ -9,6 +9,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.step.IStep;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseGraph;
 import edu.uci.ics.jung.graph.event.GraphEventListener;
+import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -45,6 +46,14 @@ public final class GraphFactory {
 		return new GravisGraph(createGraph());
 	}
 
+	/**
+	 * @param edgeType
+	 * @return IGravisGraph
+	 */
+	public static IGravisGraph createGravisGraph(EdgeType edgeType) {
+		return new GravisGraph(createGraph(), edgeType);
+	}
+	
 	/**
 	 * 
 	 * @param graph

@@ -89,11 +89,9 @@ class GraphManager implements IGraphManager {
 	 */
 	@Override
 	public void saveGraph(IGravisGraph graph, File file) throws GraphException {
-		GravisGraphMLWriter graphWriter = new GravisGraphMLWriter();
-		PrintWriter writer = null;
-
 		try {
-			writer = new PrintWriter(file);
+			GravisGraphMLWriter graphWriter = new GravisGraphMLWriter();
+			PrintWriter writer = new PrintWriter(file);
 
 			graphWriter.setVertexIDs(new VertexIDTransformer());
 			graphWriter.setEdgeIDs(new EdgeIDTransformer());

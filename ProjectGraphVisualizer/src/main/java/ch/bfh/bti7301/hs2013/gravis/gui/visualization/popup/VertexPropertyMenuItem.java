@@ -10,7 +10,7 @@ import javax.swing.JMenuItem;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.bti7301.hs2013.gravis.gui.visualization.dialog.VertexPropertyDialog;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.VertexPropertyDialog;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**

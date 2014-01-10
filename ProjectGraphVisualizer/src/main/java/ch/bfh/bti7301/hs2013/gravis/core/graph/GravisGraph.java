@@ -17,6 +17,9 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 
 	private static final long serialVersionUID = 7604897874620015084L;
 
+	private static final String DEFAULT_NAME = "Graph %d";
+	private static final String DEFAULT_DESCRIPTION = "%s graph %d";
+	
 	private static int counter = 0;
 
 	private String graphDescription;
@@ -31,12 +34,22 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * @param delegate
 	 */
 	protected GravisGraph(Graph<IVertex, IEdge> delegate) {
-		super(delegate);
+		this(delegate, EdgeType.DIRECTED);
+	}
 
+	/**
+	 * Creates an instance of GravisGraph.
+	 * 
+	 * @param delegate
+	 * @param edgeType
+	 */
+	public GravisGraph(Graph<IVertex, IEdge> delegate, EdgeType edgeType) {
+		super(delegate);
+		
 		counter++;
-		this.graphName = "Graph " + counter;
-		this.graphDescription = "Graph " + counter;
-		this.edgeType = EdgeType.DIRECTED;
+		this.graphName = String.format(DEFAULT_NAME, counter);
+		this.graphDescription = String.format(DEFAULT_DESCRIPTION, edgeType.toString(), counter);
+		this.edgeType = edgeType;
 	}
 
 	/*
