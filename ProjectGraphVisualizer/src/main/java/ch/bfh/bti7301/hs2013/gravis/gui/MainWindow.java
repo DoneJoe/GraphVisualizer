@@ -9,8 +9,10 @@ import javax.swing.border.EmptyBorder;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IVisualizationController;
-import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ExitDialogAdapter;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.VisualizationPanel;
 import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController.EventSource;
@@ -64,9 +66,7 @@ public class MainWindow extends JFrame {
 			+ "<li>Mousewheel scales with a crossover value of 1.0.<p>"
 			+ "     - scales the graph layout when the combined scale is greater than 1<p>"
 			+ "     - scales the graph view when the combined scale is less than 1"
-			+
-
-			"</ul>"
+			+ "</ul>"
 			+ "<h3>Editing Mode:</h3>"
 			+ "<ul>"
 			+ "<li>Left-click an empty area to create a new Vertex"
@@ -88,7 +88,7 @@ public class MainWindow extends JFrame {
 			+ "<li>Mouse1+Shift+drag rotates the graph"
 			+ "<li>Mouse1+CTRL(or Command)+drag shears the graph"
 			+ "<li>Mouse1 double-click on a vertex or edge allows you to edit the label"
-			+ "</ul>" + "</html>";
+			+ "</ul></html>";
 
 	private JPanel contentPane;
 
@@ -123,8 +123,14 @@ public class MainWindow extends JFrame {
 		footerPanel.setLayout(new GridLayout(2, 0, 0, 0));
 		footerPanel.add(stepPanel);
 		footerPanel.add(protocolPanel);
-		menuToolbarController.setFileChooserAdapter(new FileChooserAdapter(this));
-		menuToolbarController.setExitDialogAdapter(new ExitDialogAdapter(this));
+		menuToolbarController
+				.setFileChooserAdapter(new FileChooserAdapter(this));
+		menuToolbarController.setMessageDialogAdapter(new MessageDialogAdapter(
+				this));
+		menuToolbarController.setConfirmDialogAdapter(new ConfirmDialogAdapter(
+				this));
+		menuToolbarController.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
+				this));
 		menuToolbarController.addObserver(visualizationPanel);
 
 		this.createMenus(menuToolbarController, model);
@@ -166,7 +172,7 @@ public class MainWindow extends JFrame {
 		menuItemOpenGraph.addActionListener(menuToolbarController);
 		menuItemSaveGraph.setActionCommand(EventSource.SAVE_GRAPH.toString());
 		menuItemSaveGraph.addActionListener(menuToolbarController);
-		menuItemGraphProperties.setActionCommand(EventSource.GRAPH_PROPERTIES
+		menuItemGraphProperties.setActionCommand(EventSource.GRAPH_PROPERTY
 				.toString());
 		menuItemGraphProperties.addActionListener(menuToolbarController);
 		menuItemExit.setActionCommand(EventSource.EXIT.toString());
@@ -195,34 +201,34 @@ public class MainWindow extends JFrame {
 	 */
 	private void setHelpListeners(JMenuItem menuItemHelp,
 			JMenuItem menuItemShortcuts, JMenuItem menuItemInfo) {
-		
+
 		menuItemHelp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Help dialog
-				JOptionPane.showMessageDialog(MainWindow.this, "Help Text", HELP_TITLE,
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(MainWindow.this, "Help Text",
+						HELP_TITLE, JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		
+
 		menuItemShortcuts.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Shortcut dialog text auf deutsch
-				JOptionPane.showMessageDialog(MainWindow.this, SHORTCUT_COMMENT, SHORTCUT_TITLE,
+				JOptionPane.showMessageDialog(MainWindow.this,
+						SHORTCUT_COMMENT, SHORTCUT_TITLE,
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		
+
 		menuItemInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Info dialog text und Formatierung
-				JOptionPane.showMessageDialog(MainWindow.this, INFO_COMMENT, INFO_TITLE, 
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(MainWindow.this, INFO_COMMENT,
+						INFO_TITLE, JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 	}
-
 
 }

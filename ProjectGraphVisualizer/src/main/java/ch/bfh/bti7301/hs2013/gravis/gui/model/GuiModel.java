@@ -17,7 +17,6 @@ class GuiModel implements IGuiModel {
 	protected GuiModel() {
 		// creates an empty graph
 		this.graph = GraphFactory.createGravisGraph();
-
 		this.graphChanged = false;
 	}
 
@@ -42,7 +41,7 @@ class GuiModel implements IGuiModel {
 	public void setNewGraphState(EdgeType edgeType) {
 		this.graph = GraphFactory.createGravisGraph(edgeType);
 		this.graphChanged = false;
-		
+
 		// TODO disable step panel
 	}
 
@@ -57,9 +56,19 @@ class GuiModel implements IGuiModel {
 	public void setOpenGraphState(IGravisGraph graph) {
 		this.graph = graph;
 		this.graphChanged = false;
-		
+
 		// TODO reset algo-dropdown
 		// TODO disable step panel
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#hasGraphChanged()
+	 */
+	@Override
+	public boolean hasGraphChanged() {
+		return this.graphChanged;
 	}
 
 }

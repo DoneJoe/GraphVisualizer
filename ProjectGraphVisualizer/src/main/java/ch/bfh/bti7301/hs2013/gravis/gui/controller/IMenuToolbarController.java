@@ -3,8 +3,10 @@ package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 
-import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ExitDialogAdapter;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -20,8 +22,8 @@ public interface IMenuToolbarController extends ActionListener, WindowListener,
 	 * @author Patrick Kofmel (kofmp1@bfh.ch)
 	 * 
 	 */
-	public enum EventSource {
-		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, GRAPH_PROPERTIES, EXIT
+	public static enum EventSource {
+		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, GRAPH_PROPERTY, EXIT
 	}
 
 	/**
@@ -31,9 +33,21 @@ public interface IMenuToolbarController extends ActionListener, WindowListener,
 			FileChooserAdapter fileChooserAdapter);
 
 	/**
-	 * @param exitDialogAdapter
+	 * @param confirmDialogAdapter
 	 */
-	public abstract void setExitDialogAdapter(
-			ExitDialogAdapter exitDialogAdapter);
+	public abstract void setConfirmDialogAdapter(
+			ConfirmDialogAdapter confirmDialogAdapter);
+
+	/**
+	 * @param messageDialogAdapter
+	 */
+	public abstract void setMessageDialogAdapter(
+			MessageDialogAdapter messageDialogAdapter);
+
+	/**
+	 * @param graphPropertyDialogFactory
+	 */
+	public abstract void setGraphPropertyDialogFactory(
+			GraphPropertyDialogFactory graphPropertyDialogFactory);
 
 }

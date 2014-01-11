@@ -118,7 +118,7 @@ public class GraphPropertyDialog extends JDialog {
 	/**
 	 * @param graph
 	 */
-	protected void updateTextFieldValues(IGravisGraph graph) {
+	private void updateTextFieldValues(IGravisGraph graph) {
 		graph.setName(this.txtGraphName.getText().trim());
 		graph.setDescription(this.textAreaGraphDescription.getText().trim());
 		this.dispose();

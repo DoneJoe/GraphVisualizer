@@ -85,6 +85,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 		// viewer
 		this.viewer = new GravisVisualizationViewer(
 				GuiFactory.createLayout(model.getGraph()));
+		
 		this.setBorder(BorderFactory.createTitledBorder(model.getGraph()
 				.getName()));
 

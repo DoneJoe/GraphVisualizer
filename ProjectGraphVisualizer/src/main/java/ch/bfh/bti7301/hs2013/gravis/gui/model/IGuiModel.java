@@ -24,5 +24,10 @@ public interface IGuiModel {
 	 */
 	public abstract void setOpenGraphState(IGravisGraph graph);
 
+	/**
+	 * @return boolean
+	 */
+	public abstract boolean hasGraphChanged();
+
 
 }

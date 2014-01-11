@@ -12,21 +12,20 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class FileChooserAdapter {
+public class FileChooserAdapter extends AbstractDialogAdapter {
 
 	private final static String FILTER_DESCRIPTION = "*.graphml";
 	private final static String FILTER = "graphml";
 	
 	private final JFileChooser fileChooser;
 
-	private final Component parent;
-
 	/**
 	 * 
 	 * @param parent
 	 */
 	public FileChooserAdapter(Component parent) {
-		this.parent = parent;
+		super(parent);
+		
 		this.fileChooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				FILTER_DESCRIPTION, FILTER);

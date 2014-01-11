@@ -15,6 +15,8 @@ class VisualizationController implements IVisualizationController {
 	 */
 	protected VisualizationController(ICore core, IGuiModel model) {
 		// TODO Auto-generated constructor stub
+		
+		// TODO bei graph-name änderung -> update von border-label
 	}
 
 }

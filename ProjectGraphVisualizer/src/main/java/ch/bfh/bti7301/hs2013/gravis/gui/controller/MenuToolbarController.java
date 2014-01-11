@@ -2,16 +2,19 @@ package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.Observable;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
-import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ExitDialogAdapter;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;
+import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController.EventSource.*;
@@ -23,13 +26,24 @@ import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController
 class MenuToolbarController extends Observable implements
 		IMenuToolbarController {
 
+	private final static String FILE_ERR_TITLE = "Öffnen";
+	private final static String FILE_ERR_MSG = "Datei nicht gefunden: %s";
+	private final static String EXIT_TITLE = "Beenden";
+	private final static String EXIT_MSG = "Programm wirklich beenden?";
+	private final static String APP_ERR_TITLE = "Fehler";
+	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten: %s";
+
 	private final ICore core;
 
 	private final IGuiModel model;
 
 	private FileChooserAdapter fileChooserAdapter = null;
-	
-	private ExitDialogAdapter exitDialogAdapter = null;
+
+	private ConfirmDialogAdapter confirmDialogAdapter = null;
+
+	private MessageDialogAdapter messageDialogAdapter = null;
+
+	private GraphPropertyDialogFactory graphPropertyDialogFactory = null;
 
 	/**
 	 * @param core
@@ -56,12 +70,39 @@ class MenuToolbarController extends Observable implements
 	 * (non-Javadoc)
 	 * 
 	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
-	 * setExitDialogAdapter
-	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.ExitDialogAdapter)
+	 * setConfirmDialogAdapter
+	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter)
 	 */
 	@Override
-	public void setExitDialogAdapter(ExitDialogAdapter exitDialogAdapter) {
-		this.exitDialogAdapter = exitDialogAdapter;
+	public void setConfirmDialogAdapter(
+			ConfirmDialogAdapter confirmDialogAdapter) {
+		this.confirmDialogAdapter = confirmDialogAdapter;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
+	 * setMessageDialogAdapter
+	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter)
+	 */
+	@Override
+	public void setMessageDialogAdapter(
+			MessageDialogAdapter messageDialogAdapter) {
+		this.messageDialogAdapter = messageDialogAdapter;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
+	 * setGraphPropertyDialogFactory
+	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory)
+	 */
+	@Override
+	public void setGraphPropertyDialogFactory(
+			GraphPropertyDialogFactory graphPropertyDialogFactory) {
+		this.graphPropertyDialogFactory = graphPropertyDialogFactory;
 	}
 
 	/*
@@ -81,80 +122,124 @@ class MenuToolbarController extends Observable implements
 				this.handleOpenGraphEvent();
 			} else if (e.getActionCommand().equals(SAVE_GRAPH.toString())) {
 				this.handleSaveGraphEvent();
-			} else if (e.getActionCommand().equals(GRAPH_PROPERTIES.toString())) {
-				this.handleGraphPropertiesEvent();
+			} else if (e.getActionCommand().equals(GRAPH_PROPERTY.toString())) {
+				this.handleGraphPropertyEvent();
 			} else if (e.getActionCommand().equals(EXIT.toString())) {
 				this.handleExitEvent();
 			}
 		} catch (Exception ex) {
-			// TODO exception handling
-			ex.printStackTrace();
+			this.messageDialogAdapter.showMessageDialog(
+					String.format(APP_ERR_MSG, ex.getMessage()), APP_ERR_TITLE,
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
 
-	private void handleExitEvent() {
-		// TODO exit dialog adapter
-		// TODO bei laden und speichern sperren
-		// TODO prüfen, ob graph geändert wurde -> speichern
-		int value = JOptionPane.showConfirmDialog(null,
-				"Programm wirklich beenden?", "Beenden",
-				JOptionPane.YES_NO_OPTION);
-		if (value == JOptionPane.YES_OPTION) {
-			System.exit(0);
-		}
+	/**
+	 * 
+	 * @throws CoreException
+	 */
+	private void handleExitEvent() throws CoreException {
+		int saveResult = Integer.MAX_VALUE;
+		
+		if (this.model.hasGraphChanged()) {
+			saveResult = this.handleSaveGraphEvent();
+			
+			if (saveResult != JFileChooser.APPROVE_OPTION) {
+				return; 
+			}
+		} else if (this.confirmDialogAdapter != null) {
+			int value = this.confirmDialogAdapter.showConfirmDialog(EXIT_MSG,
+					EXIT_TITLE, JOptionPane.YES_NO_OPTION);
 
-		// int value = JOptionPane.showConfirmDialog(null, model
-		// .getResourceBundle().getString("quit.message"), model
-		// .getResourceBundle().getString("app.label"),
-		// JOptionPane.YES_NO_OPTION);
-		// if (value == JOptionPane.YES_OPTION) {
-		// System.exit(0);
-
-		// TODO exit dialog
-		// GraphPropertyDialog graphPropertyDialog = new
-		// GraphPropertyDialog(model.getGraph(), this);
-	}
-
-	private void handleGraphPropertiesEvent() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void handleSaveGraphEvent() throws CoreException {
-		if (this.fileChooserAdapter != null
-				&& this.fileChooserAdapter.showSaveDialog() == JFileChooser.APPROVE_OPTION) {
-			this.core.saveGraph(this.model.getGraph(),
-					this.fileChooserAdapter.getSelectedFile());
+			if (value == JOptionPane.YES_OPTION) {
+				System.exit(0);
+			}
 		}
 	}
 
+	private void handleGraphPropertyEvent() {
+		JDialog dialog = this.graphPropertyDialogFactory
+				.createGraphPropertyDialog(this.model.getGraph());
+		dialog.setVisible(true);
+	}
+
+	/**
+	 * 
+	 * @throws CoreException
+	 * @return int
+	 * 
+	 */
+	private int handleSaveGraphEvent() throws CoreException {
+		int saveResult = Integer.MAX_VALUE;
+		
+		if (this.fileChooserAdapter != null) {
+			saveResult = this.fileChooserAdapter.showSaveDialog();
+		
+			if (saveResult == JFileChooser.APPROVE_OPTION) {
+				this.core.saveGraph(this.model.getGraph(),
+						this.fileChooserAdapter.getSelectedFile());
+				
+				// TODO worker thread verwenden
+			}
+		}
+		
+		return saveResult;
+	}
+
+	/**
+	 * 
+	 * @throws CoreException
+	 */
 	private void handleOpenGraphEvent() throws CoreException {
-		// TODO exception handling, wenn file nicht vorhanden
 		if (this.fileChooserAdapter != null
-				&& this.fileChooserAdapter.showOpenDialog() == JFileChooser.APPROVE_OPTION) {
-			IGravisGraph graph = this.core.importGraph(this.fileChooserAdapter
-					.getSelectedFile());
-			this.model.setOpenGraphState(graph);
+				&& this.messageDialogAdapter != null) {
+			while (this.fileChooserAdapter.showOpenDialog() == JFileChooser.APPROVE_OPTION) {
+				File file = this.fileChooserAdapter.getSelectedFile();
 
-			this.setChanged();
-			this.notifyObservers(this.model.getGraph());
+				if (file.exists()) {
+					this.model.setOpenGraphState(this.core.importGraph(file));
 
-			// TODO disable Button "neu Berechnen"
-			// TODO disable step panel
+					this.setChanged();
+					this.notifyObservers(this.model.getGraph());
+
+					// TODO worker thread verwenden
+					
+					// TODO disable Button "neu Berechnen"
+					// TODO disable step panel
+					break;
+				} else {
+					this.messageDialogAdapter.showMessageDialog(
+							String.format(FILE_ERR_MSG, file.getName()),
+							FILE_ERR_TITLE, JOptionPane.WARNING_MESSAGE);
+				}
+			}
 		}
 	}
 
 	/**
 	 * 
 	 * @param edgeType
+	 * @throws CoreException 
 	 */
-	private void handleNewGraphEvent(EdgeType edgeType) {
+	private void handleNewGraphEvent(EdgeType edgeType) throws CoreException {
+		int saveResult = Integer.MAX_VALUE;
+		
+		if (this.model.hasGraphChanged()) {
+			saveResult = this.handleSaveGraphEvent();
+			
+			if (saveResult != JFileChooser.APPROVE_OPTION) {
+				return; 
+			}
+		} 
+		
 		this.model.setNewGraphState(edgeType);
 
 		this.setChanged();
 		this.notifyObservers(this.model.getGraph());
 
+		// TODO save graph testen
+		
 		// TODO disable algo-dropdown
 		// TODO disable button "Neu berechnen"
 		// TODO disable step panel
@@ -168,7 +253,13 @@ class MenuToolbarController extends Observable implements
 	 */
 	@Override
 	public void windowClosing(WindowEvent e) {
-		this.handleExitEvent();
+		try {
+			this.handleExitEvent();
+		} catch (CoreException ex) {
+			this.messageDialogAdapter.showMessageDialog(
+					String.format(APP_ERR_MSG, ex.getMessage()), APP_ERR_TITLE,
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	/*
