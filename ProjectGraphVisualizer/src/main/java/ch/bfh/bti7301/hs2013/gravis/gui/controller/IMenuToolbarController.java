@@ -1,6 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowListener;
 
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
@@ -12,7 +13,7 @@ import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public interface IMenuToolbarController extends ActionListener, WindowListener,
+public interface IMenuToolbarController extends ActionListener, WindowListener, ItemListener,
 		GravisObservable {
 
 	/**
@@ -23,7 +24,8 @@ public interface IMenuToolbarController extends ActionListener, WindowListener,
 	 * 
 	 */
 	public static enum EventSource {
-		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, GRAPH_PROPERTY, EXIT
+		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, GRAPH_PROPERTY, EXIT,
+		NEW_CALC, MODE, ALGORITHM
 	}
 
 	/**

@@ -3,8 +3,7 @@ package ch.bfh.bti7301.hs2013.gravis.core.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.collections15.map.HashedMap;
+import java.util.TreeMap;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 
@@ -19,7 +18,7 @@ class AlgorithmManager implements IAlgorithmManager {
 	private List<String> directedAlgoNames, undirectedAlgoNames;
 
 	protected AlgorithmManager() {
-		this.algorithmMap = new HashedMap<>();
+		this.algorithmMap = new TreeMap<>();
 		this.directedAlgoNames = new ArrayList<>();
 		this.undirectedAlgoNames = new ArrayList<>();
 		
@@ -37,7 +36,8 @@ class AlgorithmManager implements IAlgorithmManager {
 		for (String algoName : this.algorithmMap.keySet()) {
 			if (this.algorithmMap.get(algoName).hasEdgeType(EdgeType.DIRECTED)) {
 				this.directedAlgoNames.add(algoName);
-			} else {
+			} 
+			if (this.algorithmMap.get(algoName).hasEdgeType(EdgeType.UNDIRECTED)) {
 				this.undirectedAlgoNames.add(algoName);
 			}
 		}

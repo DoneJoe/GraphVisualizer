@@ -39,7 +39,7 @@ public class MainWindow extends JFrame {
 	private final static String NEW_DIR_GRAPH = "Neuer gerichteter Graph";
 	private final static String NEW_UNDIR_GRAPH = "Neuer ungerichteter Graph";
 	private final static String OPEN = "Öffnen...";
-	private final static String SAVE = "Speichern...";
+	private final static String SAVE = "Speichern unter...";
 	private final static String PROPERTIES = "Eigenschaften...";
 	private final static String EXIT = "Beenden";
 	private final static String HELP_MENU = "Hilfe";
@@ -110,14 +110,15 @@ public class MainWindow extends JFrame {
 		this.contentPane.setLayout(new BorderLayout(0, 0));
 		this.setContentPane(this.contentPane);
 
-		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model);
 		VisualizationPanel visualizationPanel = new VisualizationPanel(
 				visualizationController, model);
+		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model, 
+				visualizationPanel.getModeComboBox());
 		JPanel footerPanel = new JPanel();
 		StepPanel stepPanel = new StepPanel(stepController, model);
 		ProtocolPanel protocolPanel = new ProtocolPanel();
 
-		this.contentPane.add(toolBar, BorderLayout.NORTH);
+		this.contentPane.add(toolBar, BorderLayout.PAGE_START);
 		this.contentPane.add(visualizationPanel, BorderLayout.CENTER);
 		this.contentPane.add(footerPanel, BorderLayout.SOUTH);
 		footerPanel.setLayout(new GridLayout(2, 0, 0, 0));
@@ -131,7 +132,12 @@ public class MainWindow extends JFrame {
 				this));
 		menuToolbarController.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
 				this));
+		menuToolbarController.addObserver(toolBar);
+		menuToolbarController.addObserver(stepPanel);
 		menuToolbarController.addObserver(visualizationPanel);
+		menuToolbarController.addObserver(protocolPanel);
+		stepController.addObserver(stepPanel);
+		stepController.addObserver(visualizationPanel);
 
 		this.createMenus(menuToolbarController, model);
 		this.addWindowListener(menuToolbarController);
@@ -149,6 +155,7 @@ public class MainWindow extends JFrame {
 	private void createMenus(IMenuToolbarController menuToolbarController,
 			IGuiModel model) {
 		// TODO Mnemonic, F1
+		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(FILE);
 		JMenuItem menuItemNewDirGraph = new JMenuItem(NEW_DIR_GRAPH);

@@ -1,10 +1,12 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Observable;
 
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -126,6 +128,8 @@ class MenuToolbarController extends Observable implements
 				this.handleGraphPropertyEvent();
 			} else if (e.getActionCommand().equals(EXIT.toString())) {
 				this.handleExitEvent();
+			} else if (e.getActionCommand().equals(NEW_CALC.toString())) {
+				this.handleNewCalcEvent();
 			}
 		} catch (Exception ex) {
 			this.messageDialogAdapter.showMessageDialog(
@@ -137,17 +141,20 @@ class MenuToolbarController extends Observable implements
 
 	/**
 	 * 
+	 */
+	private void handleNewCalcEvent() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * 
 	 * @throws CoreException
 	 */
 	private void handleExitEvent() throws CoreException {
-		int saveResult = Integer.MAX_VALUE;
-		
-		if (this.model.hasGraphChanged()) {
-			saveResult = this.handleSaveGraphEvent();
-			
-			if (saveResult != JFileChooser.APPROVE_OPTION) {
-				return; 
-			}
+		if (this.model.hasGraphChanged()
+				&& this.handleSaveGraphEvent() != JFileChooser.APPROVE_OPTION) {
+			return;
 		} else if (this.confirmDialogAdapter != null) {
 			int value = this.confirmDialogAdapter.showConfirmDialog(EXIT_MSG,
 					EXIT_TITLE, JOptionPane.YES_NO_OPTION);
@@ -172,18 +179,16 @@ class MenuToolbarController extends Observable implements
 	 */
 	private int handleSaveGraphEvent() throws CoreException {
 		int saveResult = Integer.MAX_VALUE;
-		
+
 		if (this.fileChooserAdapter != null) {
 			saveResult = this.fileChooserAdapter.showSaveDialog();
-		
+
 			if (saveResult == JFileChooser.APPROVE_OPTION) {
 				this.core.saveGraph(this.model.getGraph(),
 						this.fileChooserAdapter.getSelectedFile());
-				
-				// TODO worker thread verwenden
 			}
 		}
-		
+
 		return saveResult;
 	}
 
@@ -194,6 +199,11 @@ class MenuToolbarController extends Observable implements
 	private void handleOpenGraphEvent() throws CoreException {
 		if (this.fileChooserAdapter != null
 				&& this.messageDialogAdapter != null) {
+			if (this.model.hasGraphChanged()
+					&& this.handleSaveGraphEvent() != JFileChooser.APPROVE_OPTION) {
+				return;
+			}
+
 			while (this.fileChooserAdapter.showOpenDialog() == JFileChooser.APPROVE_OPTION) {
 				File file = this.fileChooserAdapter.getSelectedFile();
 
@@ -202,10 +212,10 @@ class MenuToolbarController extends Observable implements
 
 					this.setChanged();
 					this.notifyObservers(this.model.getGraph());
-
-					// TODO worker thread verwenden
+					this.setChanged();
+					this.notifyObservers(this.model.getToolBarModel(
+							this.core.getAlgorithmNames(this.model.getGraph().getEdgeType())));
 					
-					// TODO disable Button "neu Berechnen"
 					// TODO disable step panel
 					break;
 				} else {
@@ -220,29 +230,81 @@ class MenuToolbarController extends Observable implements
 	/**
 	 * 
 	 * @param edgeType
-	 * @throws CoreException 
+	 * @throws CoreException
 	 */
 	private void handleNewGraphEvent(EdgeType edgeType) throws CoreException {
-		int saveResult = Integer.MAX_VALUE;
-		
-		if (this.model.hasGraphChanged()) {
-			saveResult = this.handleSaveGraphEvent();
-			
-			if (saveResult != JFileChooser.APPROVE_OPTION) {
-				return; 
-			}
-		} 
-		
+		if (this.model.hasGraphChanged()
+				&& this.handleSaveGraphEvent() != JFileChooser.APPROVE_OPTION) {
+			return;
+		}
+
 		this.model.setNewGraphState(edgeType);
 
 		this.setChanged();
 		this.notifyObservers(this.model.getGraph());
+		this.setChanged();
+		this.notifyObservers(this.model.getToolBarModel(
+				this.core.getAlgorithmNames(this.model.getGraph().getEdgeType())));
 
 		// TODO save graph testen
-		
-		// TODO disable algo-dropdown
-		// TODO disable button "Neu berechnen"
 		// TODO disable step panel
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		try {
+			if (e.getStateChange() == ItemEvent.SELECTED
+					&& e.getSource() instanceof JComboBox<?>
+					&& e.getItem() instanceof String) {
+				JComboBox<?> combo = (JComboBox<?>) e.getSource();
+
+				if (combo.getActionCommand().equals(MODE.toString())) {
+					this.handleModeEvent((String) e.getItem());
+				} else if (combo.getActionCommand()
+						.equals(ALGORITHM.toString())) {
+					this.handleAlgorithmEvent((String) e.getItem());
+				}
+			}
+		} catch (Exception ex) {
+			this.messageDialogAdapter.showMessageDialog(
+					String.format(APP_ERR_MSG, ex.getMessage()), APP_ERR_TITLE,
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	/**
+	 * @param item 
+	 * @throws CoreException 
+	 * 
+	 */
+	private void handleAlgorithmEvent(String item) throws CoreException {
+		if (!item.equals(IGuiModel.DEFAULT_ALGO_ENTRY)) {
+			if (this.model.getStepIterator() != null) {
+				this.model.getStepIterator().first();
+				this.setChanged();
+				this.notifyObservers(this.model.getGraph());
+			}
+			
+			this.model.setStepIterator(this.core.calculateSteps(this.model.getGraph(), item));
+			
+			// TODO enable step panel
+			// TODO update protocol panel
+		}
+	}
+
+	/**
+	 * @param item 
+	 * 
+	 */
+	private void handleModeEvent(String item) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/*

@@ -29,6 +29,8 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  */
 class Core implements ICore {
 
+	private final static String UNKNOWN_ALGO = "This is not a valid algorithm name: %s";
+	
 	private IGraphManager graphManager;
 	private IAlgorithmManager algorithmManager;
 
@@ -107,13 +109,17 @@ class Core implements ICore {
 			IAlgorithm algorithm = this.algorithmManager
 					.getAlgorithm(algorithmName);
 
-			algorithm.execute(restrictedGraph);
-			// undo for all commands in the list in reverse order
-			for (int i = commandList.size() - 1; i >= 0; i--) {
-				commandList.get(i).unExecute();
+			if (algorithm != null) {
+				algorithm.execute(restrictedGraph);
+				// undo for all commands in the list in reverse order
+				for (int i = commandList.size() - 1; i >= 0; i--) {
+					commandList.get(i).unExecute();
+				}
+				return new StepIterator(new GravisListIterator<IStep>(
+						commandList));
+			} else {
+				throw new CoreException(String.format(UNKNOWN_ALGO, algorithmName));
 			}
-
-			return new StepIterator(new GravisListIterator<IStep>(commandList));
 		} catch (Exception e) {
 			throw new CoreException(e);
 		}

@@ -1,7 +1,6 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.visualization;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -38,9 +37,6 @@ public class GravisVisualizationViewer extends
 	 */
 	public GravisVisualizationViewer(Layout<IVertex, IEdge> layout) {
 		super(layout);
-
-		// TODO dynamic size
-		this.setPreferredSize(new Dimension(1350, 430));
 		this.setBackground(Color.white);
 
 		// vertex visualization
