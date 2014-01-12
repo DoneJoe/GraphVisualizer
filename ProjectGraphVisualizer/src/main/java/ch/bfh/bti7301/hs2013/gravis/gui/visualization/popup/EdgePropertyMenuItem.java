@@ -17,45 +17,41 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class EdgePropertyMenuItem extends JMenuItem implements
-		IGraphItemMenuListener {
+class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 
 	private static final long serialVersionUID = -1894264493446725645L;
 
-	private final VisualizationViewer<IVertex, IEdge> vViewer;
-
+	private final static String TITLE = "Kante bearbeiten...";
+	
 	private IEdge edge = null;
 
 	private Point2D point = null;
 
 	/**
 	 * @param vViewer
+	 * @param owner
 	 * 
 	 */
-	protected EdgePropertyMenuItem(VisualizationViewer<IVertex, IEdge> vViewer) {
-		super("Kante bearbeiten...");
+	protected EdgePropertyMenuItem(final VisualizationViewer<IVertex, IEdge> vViewer,
+			final JFrame owner) {
+		super(TITLE);
 
-		this.vViewer = vViewer;
-	}
-
-	/**
-	 * @param rootFrame
-	 */
-	protected void setRootFrame(final JFrame rootFrame) {
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EdgePropertyMenuItem.this.showDialog(rootFrame);
+				EdgePropertyMenuItem.this.showDialog(vViewer, owner);
 			}
 		});
 	}
 
 	/**
-	 * @param rootFrame
+	 * 
+	 * @param vViewer
+	 * @param owner
 	 */
-	protected void showDialog(JFrame owner) {
+	protected void showDialog(VisualizationViewer<IVertex, IEdge> vViewer, JFrame owner) {
 		if (this.point != null && this.edge != null) {
 			EdgePropertyDialog dialog = new EdgePropertyDialog(this.edge,
-					owner, this.vViewer);
+					owner, vViewer);
 			dialog.setLocation((int) this.point.getX() + owner.getX(),
 					(int) this.point.getY() + owner.getY());
 			dialog.setVisible(true);

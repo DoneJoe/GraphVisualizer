@@ -24,13 +24,13 @@ public class GraphItemIdVerifier extends AbstractGravisVerifier {
 	 * 
 	 * @param lastGood
 	 * @param graphItem
-	 * @param vViewer
+	 * @param graph
 	 */
 	public GraphItemIdVerifier(String lastGood, IGraphItem graphItem,
-			VisualizationViewer<IVertex, IEdge> vViewer) {
+			Graph<IVertex, IEdge> graph) {
 		super(lastGood);
 		this.graphItem = graphItem;
-		this.graph = vViewer.getGraphLayout().getGraph();
+		this.graph = graph;
 	}
 
 	/*

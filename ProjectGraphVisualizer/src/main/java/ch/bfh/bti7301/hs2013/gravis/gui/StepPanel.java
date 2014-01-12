@@ -33,6 +33,7 @@ public class StepPanel extends JPanel implements Observer {
 	 */
 	public StepPanel(IStepController stepController, IGuiModel model) {
 		// TODO set mnemonics
+		// TODO korrekte icons für start und ende
 		
 		this.setLayout(new GridLayout(2, 0, 0, 0));
 		

@@ -52,5 +52,11 @@ public interface ICore {
 	public abstract IGravisListIterator<String> calculateSteps(
 			IGravisGraph graph, String algorithmName) throws CoreException;
 
+	/**
+	 * @param algoName
+	 * @return String
+	 */
+	public abstract String getAlgorithmDescription(String algoName);
+
 
 }

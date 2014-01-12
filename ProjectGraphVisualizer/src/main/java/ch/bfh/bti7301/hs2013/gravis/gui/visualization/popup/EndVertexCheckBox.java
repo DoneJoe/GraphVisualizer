@@ -20,7 +20,7 @@ class EndVertexCheckBox extends JCheckBoxMenuItem implements
 
 	private static final long serialVersionUID = 6641658478963193492L;
 
-	private final VisualizationViewer<IVertex, IEdge> vViewer;
+	private final static String TITLE = "Endknoten";
 
 	private IVertex vertex = null;
 
@@ -28,22 +28,24 @@ class EndVertexCheckBox extends JCheckBoxMenuItem implements
 	 * 
 	 * @param vViewer
 	 */
-	protected EndVertexCheckBox(VisualizationViewer<IVertex, IEdge> vViewer) {
-		super("Endknoten");
-
-		this.vViewer = vViewer;
+	protected EndVertexCheckBox(final VisualizationViewer<IVertex, IEdge> vViewer) {
+		super(TITLE);
 
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EndVertexCheckBox.this.setValue();
+				EndVertexCheckBox.this.setValue(vViewer);
 			}
 		});
 	}
 
-	private void setValue() {
+	/**
+	 * 
+	 * @param vViewer
+	 */
+	private void setValue(VisualizationViewer<IVertex, IEdge> vViewer) {
 		if (this.vertex != null) {
 			this.vertex.setEnd(this.isSelected());
-			this.vViewer.repaint();
+			vViewer.repaint();
 		}
 	}
 

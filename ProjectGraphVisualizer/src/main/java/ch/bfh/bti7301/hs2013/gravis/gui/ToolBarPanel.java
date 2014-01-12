@@ -15,6 +15,7 @@ import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController
 
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -34,6 +35,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	private static final String NEW_UNDIR_LABEL = "U";
 	private static final String NEW_UNDIR_ICON = "New24.gif";
 	private static final String NEW_UNDIR_TOOLTIP = "Neuer ungerichteter Graph";
+	private static final String EDIT_MODE_LABEL = "Bearbeitungsmodus:";
 	private static final String MODE_TOOLTIP = "Bearbeitungs-Modus wählen";
 	private static final String ALGO_TOOLTIP = "Algorithmus wählen";
 	private static final String CALC_LABEL = "Neu berechnen";
@@ -52,6 +54,8 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	 */
 	public ToolBarPanel(IMenuToolbarController menuToolbarController, IGuiModel model,
 			JComboBox<?> comboMode) {
+		// TODO mode-combo mit label ("Bearbeitungsmodus") und Rahmen
+		
 		this.setFloatable(false);
 		
 		FlowLayout layout = new FlowLayout();
@@ -77,6 +81,9 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		btnNewUndirGraph.setIcon(new ImageIcon(IMAGES_DIR + NEW_UNDIR_ICON));
 		btnNewUndirGraph.setToolTipText(NEW_UNDIR_TOOLTIP);
 		this.add(btnNewUndirGraph);
+		
+		JLabel lblEditMode = new JLabel(EDIT_MODE_LABEL);
+		this.add(lblEditMode);
 		
 		JComboBox<?> comboBoxMode = comboMode;
 		comboBoxMode.setToolTipText(MODE_TOOLTIP);

@@ -96,12 +96,10 @@ public class MainWindow extends JFrame {
 	 * Create the frame.
 	 * 
 	 * @param stepController
-	 * @param visualizationController
 	 * @param menuToolbarController
 	 * @param model
 	 */
 	public MainWindow(IMenuToolbarController menuToolbarController,
-			IVisualizationController visualizationController,
 			IStepController stepController, IGuiModel model) {
 		super(TITLE);
 
@@ -110,9 +108,9 @@ public class MainWindow extends JFrame {
 		this.contentPane.setLayout(new BorderLayout(0, 0));
 		this.setContentPane(this.contentPane);
 
-		VisualizationPanel visualizationPanel = new VisualizationPanel(
-				visualizationController, model);
-		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model, 
+		VisualizationPanel visualizationPanel = new VisualizationPanel(model,
+				this);
+		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model,
 				visualizationPanel.getModeComboBox());
 		JPanel footerPanel = new JPanel();
 		StepPanel stepPanel = new StepPanel(stepController, model);
@@ -130,12 +128,14 @@ public class MainWindow extends JFrame {
 				this));
 		menuToolbarController.setConfirmDialogAdapter(new ConfirmDialogAdapter(
 				this));
-		menuToolbarController.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
-				this));
+		menuToolbarController
+				.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
+						this));
 		menuToolbarController.addObserver(toolBar);
 		menuToolbarController.addObserver(stepPanel);
 		menuToolbarController.addObserver(visualizationPanel);
 		menuToolbarController.addObserver(protocolPanel);
+		// TODO set Observers
 		stepController.addObserver(stepPanel);
 		stepController.addObserver(visualizationPanel);
 
@@ -155,7 +155,7 @@ public class MainWindow extends JFrame {
 	private void createMenus(IMenuToolbarController menuToolbarController,
 			IGuiModel model) {
 		// TODO Mnemonic, F1
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(FILE);
 		JMenuItem menuItemNewDirGraph = new JMenuItem(NEW_DIR_GRAPH);

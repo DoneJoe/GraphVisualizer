@@ -19,32 +19,35 @@ class DeleteVertexMenuItem extends JMenuItem implements
 		IGraphItemMenuListener {
 
 	private static final long serialVersionUID = -4699986300655692795L;
+	
+	private final static String TITLE = "Knoten löschen";
+	private final static String DELETE_VERTEX_LABEL = "Knoten %s löschen";
 
 	private IVertex vertex;
-
-	private final VisualizationViewer<IVertex, IEdge> vViewer;
 
 	/**
 	 * 
 	 * @param vViewer
 	 */
-	protected DeleteVertexMenuItem(VisualizationViewer<IVertex, IEdge> vViewer) {
-		super("Knoten löschen");
-
-		this.vViewer = vViewer;
+	protected DeleteVertexMenuItem(final VisualizationViewer<IVertex, IEdge> vViewer) {
+		super(TITLE);
 
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DeleteVertexMenuItem.this.deleteVertex();
+				DeleteVertexMenuItem.this.deleteVertex(vViewer);
 			}
 		});
 	}
 
-	private void deleteVertex() {
+	/**
+	 * 
+	 * @param vViewer
+	 */
+	private void deleteVertex(VisualizationViewer<IVertex, IEdge> vViewer) {
 		if (this.vertex != null) {
-			this.vViewer.getPickedVertexState().pick(this.vertex, false);
-			this.vViewer.getGraphLayout().getGraph().removeVertex(this.vertex);
-			this.vViewer.repaint();
+			vViewer.getPickedVertexState().pick(this.vertex, false);
+			vViewer.getGraphLayout().getGraph().removeVertex(this.vertex);
+			vViewer.repaint();
 		}
 	}
 
@@ -60,7 +63,7 @@ class DeleteVertexMenuItem extends JMenuItem implements
 	public void setGraphItemAndView(IGraphItem item) {
 		if (item instanceof IVertex) {
 			this.vertex = (IVertex) item;
-			this.setText("Knoten " + this.vertex.getId() + " löschen");
+			this.setText(String.format(DELETE_VERTEX_LABEL, this.vertex.getId()));
 		}
 	}
 

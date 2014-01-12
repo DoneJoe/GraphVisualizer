@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
@@ -14,7 +15,6 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.VertexFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
-import ch.bfh.bti7301.hs2013.gravis.gui.controller.IVisualizationController;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.EdgeMenu;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.VertexCreateMenu;
@@ -46,19 +46,22 @@ public class VisualizationPanel extends JPanel implements Observer {
 
 	private JComboBox<?> comboBoxMode;
 
-	public VisualizationPanel(IVisualizationController visualizationController,
-			IGuiModel model) {
+	/**
+	 * 
+	 * @param model
+	 * @param owner
+	 */
+	public VisualizationPanel(IGuiModel model, JFrame owner) {
 		super();
 
 		// TODO diese Klasse muss editing events auslösen können
-		// TODO Popup-Aktivierung abhängig von Modus
 		// TODO Scroll-Pane anpassen 
 
 		this.viewer = new GravisVisualizationViewer(
 				GuiFactory.createLayout(model.getGraph()));
-		this.vertexMenu = new VertexMenu(this.viewer);
-		this.vertexCreateMenu = new VertexCreateMenu(this.viewer);
-		this.edgeMenu = new EdgeMenu(this.viewer);
+		this.vertexMenu = new VertexMenu(this.viewer, owner, model);
+		this.vertexCreateMenu = new VertexCreateMenu(this.viewer, model);
+		this.edgeMenu = new EdgeMenu(this.viewer, owner, model);
 		GraphZoomScrollPane pane = new GraphZoomScrollPane(this.viewer);
 		EditingModalGraphMouse<IVertex, IEdge> graphMouse = new GravisModalGraphMouse(
 				this.viewer.getRenderContext(), new VertexFactory(),
@@ -73,6 +76,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 		this.viewer.setGraphMouse(graphMouse);
 		this.viewer.addKeyListener(graphMouse.getModeKeyListener());
 		graphMouse.setMode(Mode.PICKING);
+		model.setEditMode(Mode.PICKING);
 	}
 
 	/*
@@ -85,7 +89,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 		if (arg instanceof IGravisGraph) {
 			this.setBorder(BorderFactory
 					.createTitledBorder(((IGravisGraph) arg).getName()));
-		}
+		} 
 		this.viewer.update(o, arg);
 	}
 

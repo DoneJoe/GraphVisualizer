@@ -20,7 +20,7 @@ class StartVertexCheckBox extends JCheckBoxMenuItem implements
 
 		private static final long serialVersionUID = 6641658478963193492L;
 
-		private final VisualizationViewer<IVertex, IEdge> vViewer;
+		private final static String TITLE = "Startknoten";
 		
 		private IVertex vertex = null;
 		
@@ -28,22 +28,24 @@ class StartVertexCheckBox extends JCheckBoxMenuItem implements
 		 * 
 		 * @param vViewer
 		 */
-		protected StartVertexCheckBox(VisualizationViewer<IVertex, IEdge> vViewer) {
-			super("Startknoten");
+		protected StartVertexCheckBox(final VisualizationViewer<IVertex, IEdge> vViewer) {
+			super(TITLE);
 
-			this.vViewer = vViewer;
-			
 			this.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					StartVertexCheckBox.this.setValue();
+					StartVertexCheckBox.this.setValue(vViewer);
 				}
 			});
 		}
 
-		private void setValue() {
+		/**
+		 * 
+		 * @param vViewer
+		 */
+		private void setValue(VisualizationViewer<IVertex, IEdge> vViewer) {
 			if (this.vertex != null) {
 				this.vertex.setStart(this.isSelected());
-				this.vViewer.repaint();
+				vViewer.repaint();
 			}
 		}
 		

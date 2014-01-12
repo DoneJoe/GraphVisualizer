@@ -31,7 +31,11 @@ public class EdgePropertyDialog extends JDialog {
 
 	private static final long serialVersionUID = -6646549637907283799L;
 
-	private final JPanel contentPanel = new JPanel();
+	private final static String TITLE = "Kante %s bearbeiten...";
+	private final static String EDGE_NAME_LABEL = "Kanten-Name:              ";
+	private final static String EDGE_WEIGHT_LABEL = "Gewicht:";
+	private final static String OK = "OK";
+	private final static String CANCEL = "Cancel";
 
 	private JTextField txtEdgeName;
 
@@ -48,39 +52,40 @@ public class EdgePropertyDialog extends JDialog {
 			VisualizationViewer<IVertex, IEdge> vViewer) {
 		super(owner, true);
 
-		// TODO remove string literals
-		this.setTitle("Kante " + edge.getId() + " bearbeiten...");
+		this.setTitle(String.format(TITLE, edge.getId()));
 
+		JPanel contentPanel = new JPanel();
+		this.setResizable(false);
 		this.getContentPane().setLayout(new BorderLayout());
-		this.contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.getContentPane().add(this.contentPanel, BorderLayout.CENTER);
-		this.contentPanel.setLayout(new GridLayout(2, 2, 0, 0));
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new GridLayout(2, 2, 0, 0));
 
-		JLabel lblEdgeName = new JLabel("Kanten-Name:              ");
-		this.contentPanel.add(lblEdgeName);
+		JLabel lblEdgeName = new JLabel(EDGE_NAME_LABEL);
+		contentPanel.add(lblEdgeName);
 
 		this.txtEdgeName = new JTextField();
-		this.contentPanel.add(this.txtEdgeName);
+		contentPanel.add(this.txtEdgeName);
 		this.txtEdgeName.setColumns(10);
 
-		JLabel lblEdgeWeight = new JLabel("Gewicht:");
-		this.contentPanel.add(lblEdgeWeight);
+		JLabel lblEdgeWeight = new JLabel(EDGE_WEIGHT_LABEL);
+		contentPanel.add(lblEdgeWeight);
 
 		this.txtEdgeWeight = new JTextField();
-		this.contentPanel.add(this.txtEdgeWeight);
+		contentPanel.add(this.txtEdgeWeight);
 		this.txtEdgeWeight.setColumns(10);
 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		this.getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-		JButton okButton = new JButton("OK");
-		okButton.setActionCommand("OK");
+		JButton okButton = new JButton(OK);
+		okButton.setActionCommand(OK);
 		buttonPane.add(okButton);
 		this.getRootPane().setDefaultButton(okButton);
 
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.setActionCommand("Cancel");
+		JButton cancelButton = new JButton(CANCEL);
+		cancelButton.setActionCommand(CANCEL);
 		buttonPane.add(cancelButton);
 
 		this.setTextFieldValues(edge, vViewer);
@@ -137,7 +142,8 @@ public class EdgePropertyDialog extends JDialog {
 		this.txtEdgeWeight.setText(String.valueOf(edge.getWeight()));
 
 		this.txtEdgeName.setInputVerifier(new GraphItemIdVerifier(
-				this.txtEdgeName.getText().trim(), edge, vViewer));
+				this.txtEdgeName.getText().trim(), edge, vViewer
+						.getGraphLayout().getGraph()));
 		this.txtEdgeWeight.setInputVerifier(new EdgeWeightVerifier(
 				this.txtEdgeWeight.getText().trim()));
 	}

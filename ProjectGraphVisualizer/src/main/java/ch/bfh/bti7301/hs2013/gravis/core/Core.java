@@ -125,4 +125,13 @@ class Core implements ICore {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#getAlgorithmDescription(java.lang.String)
+	 */
+	@Override
+	public String getAlgorithmDescription(String algoName) {
+		IAlgorithm algo = this.algorithmManager.getAlgorithm(algoName);
+		return algo == null ? null : algo.getDescription();
+	}
+
 }

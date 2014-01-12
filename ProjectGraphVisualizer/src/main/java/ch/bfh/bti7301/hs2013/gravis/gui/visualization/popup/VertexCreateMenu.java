@@ -11,9 +11,9 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.VertexFactory;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.GravisVisualizationViewer;
 import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -24,42 +24,49 @@ public class VertexCreateMenu extends JPopupMenu implements
 
 	private static final long serialVersionUID = 6897658442329318591L;
 
+	private final static String TITLE = "Neuer Knoten";
+	private final static String NEW_VERTEX_LABEL = "Neuer Knoten";
+	
 	private final VertexFactory vertexFactory;
-
-	private final VisualizationViewer<IVertex, IEdge> vViewer;
 
 	private Point2D point = null;
 
 	/**
 	 * @param viewer
+	 * @param model 
 	 */
-	public VertexCreateMenu(GravisVisualizationViewer viewer) {
-		super("Neuer Knoten");
+	public VertexCreateMenu(final GravisVisualizationViewer viewer, IGuiModel model) {
+		super(TITLE);
 
 		this.vertexFactory = new VertexFactory();
-		this.vViewer = viewer;
 
-		JMenuItem newVertexMenuItem = new JMenuItem("Neuer Knoten");
+		JMenuItem newVertexMenuItem = new JMenuItem(NEW_VERTEX_LABEL);
 		this.add(newVertexMenuItem);
+		model.setVertexCreateButtonModel(newVertexMenuItem.getModel());
+		
 		newVertexMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VertexCreateMenu.this.createVertex();
+				VertexCreateMenu.this.createVertex(viewer);
 			}
 		});
 	}
 
-	private void createVertex() {
+	/**
+	 * 
+	 * @param viewer
+	 */
+	private void createVertex(GravisVisualizationViewer viewer) {
 		if (this.point != null) {
 			IVertex newVertex = this.vertexFactory.create();
-			Layout<IVertex, IEdge> layout = this.vViewer.getGraphLayout();
-			Point2D newPoint = this.vViewer.getRenderContext()
+			Layout<IVertex, IEdge> layout = viewer.getGraphLayout();
+			Point2D newPoint = viewer.getRenderContext()
 			. getMultiLayerTransformer().inverseTransform(this.point);
 			
 			newVertex.setLocation(newPoint);
 			layout.getGraph().addVertex(newVertex);
 			layout.setLocation(newVertex, newPoint);
-			this.vViewer.repaint();
+			viewer.repaint();
 		}
 	}
 

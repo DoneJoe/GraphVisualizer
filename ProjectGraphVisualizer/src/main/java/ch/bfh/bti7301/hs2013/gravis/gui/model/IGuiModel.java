@@ -1,8 +1,12 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.model;
 
+import javax.swing.ButtonModel;
+
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator;
+import ch.bfh.bti7301.hs2013.gravis.gui.controller.IVisualizationController;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -49,6 +53,43 @@ public interface IGuiModel {
 	 * @return IGravisListIterator<String>
 	 */
 	public abstract IGravisListIterator<String> getStepIterator();
+
+	/**
+	 * @param algoName
+	 */
+	public abstract void setCurrentAlgorithmName(String algoName);
+
+	/**
+	 * 
+	 * @return String
+	 */
+	public abstract String getCurrentAlgorithmName();
+
+	/**
+	 * @param visualizationController
+	 */
+	public abstract void setVisualizationController(
+			IVisualizationController visualizationController);
+
+	/**
+	 * @param model
+	 */
+	public abstract void setDeleteEdgeButtonModel(ButtonModel model);
+
+	/**
+	 * @param mode
+	 */
+	public abstract void setEditMode(Mode mode);
+
+	/**
+	 * @param model
+	 */
+	public abstract void setVertexCreateButtonModel(ButtonModel model);
+
+	/**
+	 * @param model
+	 */
+	public abstract void setDeleteVertexButtonModel(ButtonModel model);
 
 
 }

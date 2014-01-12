@@ -19,30 +19,33 @@ class DeleteEdgeMenuItem extends JMenuItem implements
 		IGraphItemMenuListener {
 
 	private static final long serialVersionUID = -8344732316212412105L;
+	
+	private final static String TITLE = "Kante löschen";
+	private final static String DELETE_EDGE_LABEL = "Kante %s löschen";
 
-	private IEdge edge;
-
-	private final VisualizationViewer<IVertex, IEdge> vViewer;
+	private IEdge edge = null;
 
 	/**
 	 * @param vViewer
 	 */
-	protected DeleteEdgeMenuItem(VisualizationViewer<IVertex, IEdge> vViewer) {
-		super("Kante löschen");
-
-		this.vViewer = vViewer;
+	protected DeleteEdgeMenuItem(final VisualizationViewer<IVertex, IEdge> vViewer) {
+		super(TITLE);
 
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DeleteEdgeMenuItem.this.deleteEdge();
+				DeleteEdgeMenuItem.this.deleteEdge(vViewer);
 			}
 		});
 	}
 
-	private void deleteEdge() {
-		this.vViewer.getPickedEdgeState().pick(this.edge, false);
-		this.vViewer.getGraphLayout().getGraph().removeEdge(this.edge);
-		this.vViewer.repaint();
+	/**
+	 * 
+	 * @param vViewer
+	 */
+	private void deleteEdge(VisualizationViewer<IVertex, IEdge> vViewer) {
+		vViewer.getPickedEdgeState().pick(this.edge, false);
+		vViewer.getGraphLayout().getGraph().removeEdge(this.edge);
+		vViewer.repaint();
 	}
 
 	/*
@@ -57,7 +60,7 @@ class DeleteEdgeMenuItem extends JMenuItem implements
 	public void setGraphItemAndView(IGraphItem item) {
 		if (item instanceof IEdge) {
 			this.edge = (IEdge) item;
-			this.setText("Kante " + this.edge.getId() + " löschen");
+			this.setText(String.format(DELETE_EDGE_LABEL, this.edge.getId()));
 		}
 	}
 

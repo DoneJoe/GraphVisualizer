@@ -18,7 +18,9 @@ import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IToolBarModel;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController.EventSource.*;
 
 /**
@@ -28,12 +30,16 @@ import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController
 class MenuToolbarController extends Observable implements
 		IMenuToolbarController {
 
+	private final static String LN = System.lineSeparator();
 	private final static String FILE_ERR_TITLE = "Öffnen";
 	private final static String FILE_ERR_MSG = "Datei nicht gefunden: %s";
 	private final static String EXIT_TITLE = "Beenden";
 	private final static String EXIT_MSG = "Programm wirklich beenden?";
 	private final static String APP_ERR_TITLE = "Fehler";
 	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten: %s";
+	private final static String OPEN_GRAPH_MSG = "Folgender Graph wurde geöffnet:%sName: %s%sBeschreibung: %s%s%s";
+	private final static String SELECT_ALGO_MSG = "Folgender Algorithmus wurde ausgewählt:%sName: %s%sBeschreibung: %s%s"
+			+ "Der Algorithmus wurde ausgeführt und die einzelnen Schritte vorgemerkt.%s%s";
 
 	private final ICore core;
 
@@ -129,21 +135,13 @@ class MenuToolbarController extends Observable implements
 			} else if (e.getActionCommand().equals(EXIT.toString())) {
 				this.handleExitEvent();
 			} else if (e.getActionCommand().equals(NEW_CALC.toString())) {
-				this.handleNewCalcEvent();
+				this.handleAlgorithmEvent(this.model.getCurrentAlgorithmName());
 			}
 		} catch (Exception ex) {
 			this.messageDialogAdapter.showMessageDialog(
 					String.format(APP_ERR_MSG, ex.getMessage()), APP_ERR_TITLE,
 					JOptionPane.ERROR_MESSAGE);
 		}
-
-	}
-
-	/**
-	 * 
-	 */
-	private void handleNewCalcEvent() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -209,13 +207,22 @@ class MenuToolbarController extends Observable implements
 
 				if (file.exists()) {
 					this.model.setOpenGraphState(this.core.importGraph(file));
+					IToolBarModel toolBarModel = this.model
+							.getToolBarModel(this.core
+									.getAlgorithmNames(this.model.getGraph()
+											.getEdgeType()));
+					toolBarModel.getComboBoxModel().setSelectedItem(
+							IGuiModel.DEFAULT_ALGO_ENTRY);
 
+					this.setChanged();
+					this.notifyObservers(toolBarModel);
 					this.setChanged();
 					this.notifyObservers(this.model.getGraph());
 					this.setChanged();
-					this.notifyObservers(this.model.getToolBarModel(
-							this.core.getAlgorithmNames(this.model.getGraph().getEdgeType())));
-					
+					this.notifyObservers(String.format(OPEN_GRAPH_MSG, LN,
+							this.model.getGraph().getName(), LN, this.model
+									.getGraph().getDescription(), LN, LN));
+
 					// TODO disable step panel
 					break;
 				} else {
@@ -239,12 +246,15 @@ class MenuToolbarController extends Observable implements
 		}
 
 		this.model.setNewGraphState(edgeType);
+		IToolBarModel toolBarModel = this.model.getToolBarModel(this.core
+				.getAlgorithmNames(this.model.getGraph().getEdgeType()));
+		toolBarModel.getComboBoxModel().setSelectedItem(
+				IGuiModel.DEFAULT_ALGO_ENTRY);
 
 		this.setChanged();
-		this.notifyObservers(this.model.getGraph());
+		this.notifyObservers(toolBarModel);
 		this.setChanged();
-		this.notifyObservers(this.model.getToolBarModel(
-				this.core.getAlgorithmNames(this.model.getGraph().getEdgeType())));
+		this.notifyObservers(this.model.getGraph());
 
 		// TODO save graph testen
 		// TODO disable step panel
@@ -260,15 +270,16 @@ class MenuToolbarController extends Observable implements
 	public void itemStateChanged(ItemEvent e) {
 		try {
 			if (e.getStateChange() == ItemEvent.SELECTED
-					&& e.getSource() instanceof JComboBox<?>
-					&& e.getItem() instanceof String) {
+					&& e.getSource() instanceof JComboBox<?>) {
 				JComboBox<?> combo = (JComboBox<?>) e.getSource();
 
-				if (combo.getActionCommand().equals(MODE.toString())) {
-					this.handleModeEvent((String) e.getItem());
+				if (combo.getActionCommand().equals(MODE.toString())
+						&& e.getItem() instanceof Mode) {
+					this.handleModeEvent(((Mode) e.getItem()));
 				} else if (combo.getActionCommand()
-						.equals(ALGORITHM.toString())) {
-					this.handleAlgorithmEvent((String) e.getItem());
+						.equals(ALGORITHM.toString())
+						&& e.getItem() instanceof String) {
+					this.handleAlgorithmEvent(((String) e.getItem()).trim());
 				}
 			}
 		} catch (Exception ex) {
@@ -279,8 +290,8 @@ class MenuToolbarController extends Observable implements
 	}
 
 	/**
-	 * @param item 
-	 * @throws CoreException 
+	 * @param item
+	 * @throws CoreException
 	 * 
 	 */
 	private void handleAlgorithmEvent(String item) throws CoreException {
@@ -288,23 +299,34 @@ class MenuToolbarController extends Observable implements
 			if (this.model.getStepIterator() != null) {
 				this.model.getStepIterator().first();
 				this.setChanged();
-				this.notifyObservers(this.model.getGraph());
+				this.notifyObservers();
 			}
-			
-			this.model.setStepIterator(this.core.calculateSteps(this.model.getGraph(), item));
-			
+
+			this.model.setStepIterator(this.core.calculateSteps(
+					this.model.getGraph(), item));
+			this.model.setCurrentAlgorithmName(item);
+
+			this.setChanged();
+			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, item, LN,
+					this.core.getAlgorithmDescription(item), LN, LN, LN));
+
 			// TODO enable step panel
-			// TODO update protocol panel
 		}
 	}
 
 	/**
-	 * @param item 
+	 * @param mode
 	 * 
 	 */
-	private void handleModeEvent(String item) {
-		// TODO Auto-generated method stub
+	private void handleModeEvent(Mode mode) {
+		this.model.setEditMode(mode);
+		if (this.model.getStepIterator() != null) {
+			this.model.getStepIterator().first();
+			this.setChanged();
+			this.notifyObservers();
+		}
 		
+		// TODO update step panel
 	}
 
 	/*

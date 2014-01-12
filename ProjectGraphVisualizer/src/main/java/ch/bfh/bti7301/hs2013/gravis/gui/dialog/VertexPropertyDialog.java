@@ -33,8 +33,13 @@ public class VertexPropertyDialog extends JDialog {
 
 	private static final long serialVersionUID = -6919635847499019908L;
 
-	private final JPanel contentPanel = new JPanel();
-
+	private static final String TITLE = "Knoten %s bearbeiten...";
+	private static final String VERTEX_NAME_LABEL = "Knoten-Name:              ";
+	private static final String WIDTH_LABEL = "Breite:";
+	private static final String HEIGHT_LABEL = "Höhe:";
+	private final static String OK = "OK";
+	private final static String CANCEL = "Cancel";
+	
 	private JTextField txtVertexName;
 
 	private JTextField txtWidth;
@@ -51,38 +56,38 @@ public class VertexPropertyDialog extends JDialog {
 	public VertexPropertyDialog(final IVertex vertex, final JFrame owner,
 			final VisualizationViewer<IVertex, IEdge> vViewer) {
 		super(owner, true);
+
+		this.setTitle(String.format(TITLE, vertex.getId()));
+
+		JPanel contentPanel = new JPanel();
 		this.setResizable(false);
-
-		// TODO remove string literals
-		this.setTitle("Knoten " + vertex.getId() + " bearbeiten...");
-
 		this.getContentPane().setLayout(new BorderLayout());
-		this.contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.getContentPane().add(this.contentPanel, BorderLayout.CENTER);
-		this.contentPanel.setLayout(new GridLayout(3, 2, 0, 0));
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new GridLayout(3, 2, 0, 0));
 
-		JLabel lblVertexName = new JLabel("Knoten-Name:              ");
-		this.contentPanel.add(lblVertexName);
+		JLabel lblVertexName = new JLabel(VERTEX_NAME_LABEL);
+		contentPanel.add(lblVertexName);
 		this.txtVertexName = new JTextField();
-		this.contentPanel.add(txtVertexName);
-		JLabel lblWidth = new JLabel("Breite:");
-		this.contentPanel.add(lblWidth);
+		contentPanel.add(this.txtVertexName);
+		JLabel lblWidth = new JLabel(WIDTH_LABEL);
+		contentPanel.add(lblWidth);
 		this.txtWidth = new JTextField();
-		this.contentPanel.add(txtWidth);
-		JLabel lblHeight = new JLabel("Höhe:");
-		this.contentPanel.add(lblHeight);
+		contentPanel.add(this.txtWidth);
+		JLabel lblHeight = new JLabel(HEIGHT_LABEL);
+		contentPanel.add(lblHeight);
 		this.txtHeight = new JTextField();
-		this.contentPanel.add(txtHeight);
+		contentPanel.add(this.txtHeight);
 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		this.getContentPane().add(buttonPane, BorderLayout.SOUTH);
-		JButton okButton = new JButton("OK");
-		okButton.setActionCommand("OK");
+		JButton okButton = new JButton(OK);
+		okButton.setActionCommand(OK);
 		buttonPane.add(okButton);
 		getRootPane().setDefaultButton(okButton);
-		JButton cancelButton = new JButton("Cancel");
-		cancelButton.setActionCommand("Cancel");
+		JButton cancelButton = new JButton(CANCEL);
+		cancelButton.setActionCommand(CANCEL);
 		buttonPane.add(cancelButton);
 
 		this.setTextFieldValues(vertex, vViewer);
@@ -123,8 +128,8 @@ public class VertexPropertyDialog extends JDialog {
 			final VisualizationViewer<IVertex, IEdge> vViewer) {
 		
 		vertex.setId(this.txtVertexName.getText().trim());
-		vertex.setWidth(ValueTransformer.transformDouble(this.txtWidth.getText()));
-		vertex.setHeight(ValueTransformer.transformDouble(this.txtHeight.getText()));
+		vertex.setWidth(ValueTransformer.transformDouble(this.txtWidth.getText().trim()));
+		vertex.setHeight(ValueTransformer.transformDouble(this.txtHeight.getText().trim()));
 		vViewer.repaint();
 		this.dispose();
 	}
@@ -143,7 +148,8 @@ public class VertexPropertyDialog extends JDialog {
 				.intValue()));
 
 		this.txtVertexName.setInputVerifier(new GraphItemIdVerifier(
-				this.txtVertexName.getText().trim(), vertex, vViewer));
+				this.txtVertexName.getText().trim(), vertex, vViewer
+						.getGraphLayout().getGraph()));
 		this.txtWidth.setInputVerifier(new VertexSizeVerifier(this.txtWidth
 				.getText().trim()));
 		this.txtHeight.setInputVerifier(new VertexSizeVerifier(this.txtHeight

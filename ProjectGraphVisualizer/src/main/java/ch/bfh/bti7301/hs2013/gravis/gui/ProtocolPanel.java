@@ -8,9 +8,6 @@ import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
 
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
-import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
-
 import javax.swing.JTextArea;
 
 /**
@@ -47,12 +44,8 @@ public class ProtocolPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof IMenuToolbarController && arg instanceof IGravisGraph) {
-			IGravisGraph graph = (IGravisGraph) arg;
-
-			this.textArea.append(graph.getName() + System.lineSeparator()
-					+ graph.getDescription() + System.lineSeparator()
-					+ System.lineSeparator());
+		if (arg instanceof String) {
+			this.textArea.append((String) arg);
 		}
 	}
 

@@ -43,8 +43,8 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <desc></desc>
 <default>black</default>
 </key>
-<graph id="Dijkstra Sample Graph 1" edgedefault="undirected">
-<data key="description">Graph 3</data>
+<graph id="Dijkstra Sample Graph 2" edgedefault="undirected">
+<data key="description">Graph Beschreibung 2</data>
 <node id="6">
 <data key="vertexLocation.y">341</data>
 <data key="vertexWidth">60.0</data>

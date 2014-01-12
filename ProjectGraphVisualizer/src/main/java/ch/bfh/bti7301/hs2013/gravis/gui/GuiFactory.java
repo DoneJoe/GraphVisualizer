@@ -40,10 +40,10 @@ public final class GuiFactory {
 				.createVisualizationController(core, model);
 		IStepController stepController = ControllerFactory
 				.createStepController(core, model);
-
+		model.setVisualizationController(visualizationController);
+		
 		// view
-		return new MainWindow(menuToolbarController, visualizationController,
-				stepController, model);
+		return new MainWindow(menuToolbarController, stepController, model);
 	}
 
 	/**

@@ -22,7 +22,7 @@ class VertexPropertyMenuItem extends JMenuItem implements
 
 	private static final long serialVersionUID = 3448304253580836407L;
 
-	private final VisualizationViewer<IVertex, IEdge> vViewer;
+	private final static String TITLE = "Knoten bearbeiten...";
 
 	private IVertex vertex = null;
 
@@ -30,21 +30,28 @@ class VertexPropertyMenuItem extends JMenuItem implements
 
 	/**
 	 * @param vViewer
+	 * @param owner
 	 */
-	protected VertexPropertyMenuItem(VisualizationViewer<IVertex, IEdge> vViewer) {
-		super("Knoten bearbeiten...");
+	protected VertexPropertyMenuItem(
+			final VisualizationViewer<IVertex, IEdge> vViewer, final JFrame owner) {
+		super(TITLE);
 
-		this.vViewer = vViewer;
+		this.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VertexPropertyMenuItem.this.showDialog(vViewer, owner);
+			}
+		});
 	}
 
 	/**
 	 * 
+	 * @param vViewer 
 	 * @param owner
 	 */
-	private void showDialog(JFrame owner) {
+	private void showDialog(VisualizationViewer<IVertex, IEdge> vViewer, JFrame owner) {
 		if (this.point != null && this.vertex != null) {
 			VertexPropertyDialog dialog = new VertexPropertyDialog(this.vertex,
-					owner, this.vViewer);
+					owner, vViewer);
 			dialog.setLocation((int) this.point.getX() + owner.getX(),
 					(int) this.point.getY() + owner.getY());
 			dialog.setVisible(true);
@@ -78,17 +85,6 @@ class VertexPropertyMenuItem extends JMenuItem implements
 		if (point != null) {
 			this.point = point;
 		}
-	}
-
-	/**
-	 * @param rootFrame
-	 */
-	protected void setRootFrame(final JFrame rootFrame) {
-		this.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VertexPropertyMenuItem.this.showDialog(rootFrame);
-			}
-		});
 	}
 
 }
