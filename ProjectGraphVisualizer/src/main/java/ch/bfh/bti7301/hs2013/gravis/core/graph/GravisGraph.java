@@ -45,7 +45,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * @param delegate
 	 * @param edgeType
 	 */
-	public GravisGraph(Graph<IVertex, IEdge> delegate, EdgeType edgeType) {
+	protected GravisGraph(Graph<IVertex, IEdge> delegate, EdgeType edgeType) {
 		super(delegate);
 		
 		String edgeTypeStr = edgeType == EdgeType.DIRECTED ? DIR_STR : UNDIR_STR;

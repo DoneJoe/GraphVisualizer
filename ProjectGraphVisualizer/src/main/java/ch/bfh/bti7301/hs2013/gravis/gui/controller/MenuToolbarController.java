@@ -135,12 +135,18 @@ class MenuToolbarController extends Observable implements
 			} else if (e.getActionCommand().equals(EXIT.toString())) {
 				this.handleExitEvent();
 			} else if (e.getActionCommand().equals(NEW_CALC.toString())) {
-				this.handleAlgorithmEvent(this.model.getCurrentAlgorithmName());
+				Object item = this.model.getAlgorithmComboModel()
+						.getSelectedItem();
+				if (item instanceof String) {
+					this.handleAlgorithmEvent((String) item);
+				}
 			}
 		} catch (Exception ex) {
-			this.messageDialogAdapter.showMessageDialog(
-					String.format(APP_ERR_MSG, ex.getMessage()), APP_ERR_TITLE,
-					JOptionPane.ERROR_MESSAGE);
+			if (this.messageDialogAdapter != null) {
+				this.messageDialogAdapter.showMessageDialog(
+						String.format(APP_ERR_MSG, ex.getMessage()),
+						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 	}
@@ -207,15 +213,12 @@ class MenuToolbarController extends Observable implements
 
 				if (file.exists()) {
 					this.model.setOpenGraphState(this.core.importGraph(file));
-					IToolBarModel toolBarModel = this.model
-							.getToolBarModel(this.core
-									.getAlgorithmNames(this.model.getGraph()
-											.getEdgeType()));
-					toolBarModel.getComboBoxModel().setSelectedItem(
-							IGuiModel.DEFAULT_ALGO_ENTRY);
+					this.model.setAlgorithmComboModel(this.core
+							.getAlgorithmNames(this.model.getGraph()
+									.getEdgeType()));
 
 					this.setChanged();
-					this.notifyObservers(toolBarModel);
+					this.notifyObservers(this.model.createToolBarModel());
 					this.setChanged();
 					this.notifyObservers(this.model.getGraph());
 					this.setChanged();
@@ -223,7 +226,8 @@ class MenuToolbarController extends Observable implements
 							this.model.getGraph().getName(), LN, this.model
 									.getGraph().getDescription(), LN, LN));
 
-					// TODO disable step panel
+					// TODO reset progress bar label
+					
 					break;
 				} else {
 					this.messageDialogAdapter.showMessageDialog(
@@ -246,18 +250,17 @@ class MenuToolbarController extends Observable implements
 		}
 
 		this.model.setNewGraphState(edgeType);
-		IToolBarModel toolBarModel = this.model.getToolBarModel(this.core
-				.getAlgorithmNames(this.model.getGraph().getEdgeType()));
-		toolBarModel.getComboBoxModel().setSelectedItem(
-				IGuiModel.DEFAULT_ALGO_ENTRY);
+		this.model.setAlgorithmComboModel(this.core
+				.getAlgorithmNames(this.model.getGraph()
+						.getEdgeType()));
 
 		this.setChanged();
-		this.notifyObservers(toolBarModel);
+		this.notifyObservers(this.model.createToolBarModel());
 		this.setChanged();
 		this.notifyObservers(this.model.getGraph());
 
 		// TODO save graph testen
-		// TODO disable step panel
+		// TODO reset progress bar label
 	}
 
 	/*
@@ -283,9 +286,11 @@ class MenuToolbarController extends Observable implements
 				}
 			}
 		} catch (Exception ex) {
-			this.messageDialogAdapter.showMessageDialog(
-					String.format(APP_ERR_MSG, ex.getMessage()), APP_ERR_TITLE,
-					JOptionPane.ERROR_MESSAGE);
+			if (this.messageDialogAdapter != null) {
+				this.messageDialogAdapter.showMessageDialog(
+						String.format(APP_ERR_MSG, ex.getMessage()),
+						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
@@ -296,21 +301,14 @@ class MenuToolbarController extends Observable implements
 	 */
 	private void handleAlgorithmEvent(String item) throws CoreException {
 		if (!item.equals(IGuiModel.DEFAULT_ALGO_ENTRY)) {
-			if (this.model.getStepIterator() != null) {
-				this.model.getStepIterator().first();
-				this.setChanged();
-				this.notifyObservers();
-			}
-
-			this.model.setStepIterator(this.core.calculateSteps(
+			this.model.setStepEnabledState(this.core.calculateSteps(
 					this.model.getGraph(), item));
-			this.model.setCurrentAlgorithmName(item);
 
 			this.setChanged();
 			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, item, LN,
 					this.core.getAlgorithmDescription(item), LN, LN, LN));
 
-			// TODO enable step panel
+			// TODO reset progress bar label
 		}
 	}
 
@@ -319,14 +317,19 @@ class MenuToolbarController extends Observable implements
 	 * 
 	 */
 	private void handleModeEvent(Mode mode) {
-		this.model.setEditMode(mode);
-		if (this.model.getStepIterator() != null) {
+		this.model.setPopupEditMode(mode);
+		if (this.model.getStepIterator() != null && mode == Mode.EDITING && 
+				this.model.getBeginningButtonModel() != null && 
+				this.model.getProgressBarModel() != null) {
 			this.model.getStepIterator().first();
+			this.model.getBeginningButtonModel().setEnabled(false);
+			this.model.getProgressBarModel().setValue(0);
+			
 			this.setChanged();
 			this.notifyObservers();
+			
+			// TODO reset progress bar label
 		}
-		
-		// TODO update step panel
 	}
 
 	/*
@@ -340,9 +343,11 @@ class MenuToolbarController extends Observable implements
 		try {
 			this.handleExitEvent();
 		} catch (CoreException ex) {
-			this.messageDialogAdapter.showMessageDialog(
-					String.format(APP_ERR_MSG, ex.getMessage()), APP_ERR_TITLE,
-					JOptionPane.ERROR_MESSAGE);
+			if (this.messageDialogAdapter != null) {
+				this.messageDialogAdapter.showMessageDialog(
+						String.format(APP_ERR_MSG, ex.getMessage()),
+						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 

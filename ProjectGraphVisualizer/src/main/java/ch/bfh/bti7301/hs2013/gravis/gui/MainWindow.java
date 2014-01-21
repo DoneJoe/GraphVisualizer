@@ -8,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
-import ch.bfh.bti7301.hs2013.gravis.gui.controller.IVisualizationController;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;

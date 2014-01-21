@@ -23,5 +23,5 @@ public interface IToolBarModel {
 	/**
 	 * @return ComboBoxModel<String>
 	 */
-	public ComboBoxModel<String> getComboBoxModel();
+	public ComboBoxModel<String> getAlgorithmComboBoxModel();
 }

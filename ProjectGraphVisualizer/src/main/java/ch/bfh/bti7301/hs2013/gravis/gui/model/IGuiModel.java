@@ -1,10 +1,12 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.model;
 
+import javax.swing.BoundedRangeModel;
 import javax.swing.ButtonModel;
+import javax.swing.ComboBoxModel;
 
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator;
-import ch.bfh.bti7301.hs2013.gravis.gui.controller.IVisualizationController;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 
@@ -17,9 +19,10 @@ public interface IGuiModel {
 	public static final String DEFAULT_ALGO_ENTRY = "Algorithmus wählen:";
 	
 	/**
-	 * @return IGravisGraph
+	 * @param visualizationController
 	 */
-	public abstract IGravisGraph getGraph();
+	public abstract void setEditingGraphEventListener(
+			IEditingGraphEventListener visualizationController);
 	
 	/**
 	 * @param edgeType
@@ -32,54 +35,51 @@ public interface IGuiModel {
 	public abstract void setOpenGraphState(IGravisGraph graph);
 
 	/**
-	 * @return boolean
+	 * 
+	 * @param stepIterator
 	 */
-	public abstract boolean hasGraphChanged();
-
+	public abstract void setStepEnabledState(IGravisListIterator<String> stepIterator);
+	
+	public abstract void resetStepEnabledState();
+	
 	/**
-	 * @param algoNames 
-	 * @return ToolBarModel
+	 * @return IGravisGraph
 	 */
-	public abstract IToolBarModel getToolBarModel(String[] algoNames);
-
-	/**
-	 * @param calculateSteps
-	 */
-	public abstract void setStepIterator(
-			IGravisListIterator<String> stepIterator);
+	public abstract IGravisGraph getGraph();
 
 	/**
 	 * 
 	 * @return IGravisListIterator<String>
 	 */
 	public abstract IGravisListIterator<String> getStepIterator();
-
+	
 	/**
-	 * @param algoName
+	 * @return boolean
 	 */
-	public abstract void setCurrentAlgorithmName(String algoName);
+	public abstract boolean hasGraphChanged();
+	
+	/**
+	 * 
+	 * @param graphChanged
+	 */
+	public abstract void setGraphChanged(boolean graphChanged);
 
 	/**
 	 * 
-	 * @return String
+	 * @return IToolBarModel
 	 */
-	public abstract String getCurrentAlgorithmName();
+	public abstract IToolBarModel createToolBarModel();
 
 	/**
-	 * @param visualizationController
+	 * 
+	 * @param mode
 	 */
-	public abstract void setVisualizationController(
-			IVisualizationController visualizationController);
-
+	public void setPopupEditMode(Mode mode);
+	
 	/**
 	 * @param model
 	 */
 	public abstract void setDeleteEdgeButtonModel(ButtonModel model);
-
-	/**
-	 * @param mode
-	 */
-	public abstract void setEditMode(Mode mode);
 
 	/**
 	 * @param model
@@ -91,5 +91,82 @@ public interface IGuiModel {
 	 */
 	public abstract void setDeleteVertexButtonModel(ButtonModel model);
 
+	/**
+	 * @return ComboBoxModel<String>
+	 */
+	public abstract ComboBoxModel<String> getAlgorithmComboModel();
+	
+	/**
+	 * 
+	 * @param algoNames
+	 */
+	public abstract void setAlgorithmComboModel(String[] algoNames);
 
+	/**
+	 * 
+	 * @param comboModel
+	 */
+	public abstract void setEditModeComboModel(ComboBoxModel<?> comboModel);
+	
+	/**
+	 * 
+	 * @return ComboBoxModel<?>
+	 */
+	public abstract ComboBoxModel<?> getEditModeComboModel();
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setBeginningButtonModel(ButtonModel model);
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setEndButtonModel(ButtonModel model);
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setBackButtonModel(ButtonModel model);
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setForwardButtonModel(ButtonModel model);
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setProgressBarModel(BoundedRangeModel model);
+	
+	/**
+	 * 
+	 * @return ButtonModel
+	 */
+	public abstract ButtonModel getBeginningButtonModel();
+	
+	/**
+	 * 
+	 * @return ButtonModel
+	 */
+	public abstract ButtonModel getEndButtonModel();
+	
+	/**
+	 * 
+	 * @return ButtonModel
+	 */
+	public abstract ButtonModel getBackButtonModel();
+	
+	/**
+	 * 
+	 * @return ButtonModel
+	 */
+	public abstract ButtonModel getForwardButtonModel();
+	
+	/**
+	 * 
+	 * @return BoundedRangeModel
+	 */
+	public abstract BoundedRangeModel getProgressBarModel();
+	
 }

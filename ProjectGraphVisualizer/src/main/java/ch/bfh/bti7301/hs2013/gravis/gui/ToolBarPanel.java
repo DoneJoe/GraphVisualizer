@@ -92,7 +92,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		this.comboBoxAlgorithm = new JComboBox<>();
 		this.comboBoxAlgorithm.setToolTipText(ALGO_TOOLTIP);
 		this.comboBoxAlgorithm.setEnabled(false);
-		this.comboBoxAlgorithm.addItem(IGuiModel.DEFAULT_ALGO_ENTRY);
+		this.comboBoxAlgorithm.setModel(model.getAlgorithmComboModel());
 		this.add(this.comboBoxAlgorithm);
 		
 		this.btnNewCalculation = new JButton(CALC_LABEL);
@@ -125,11 +125,10 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		if (arg instanceof IToolBarModel) {
 			IToolBarModel model = (IToolBarModel) arg;
 			
-			this.comboBoxAlgorithm.setModel(model.getComboBoxModel());
+			this.comboBoxAlgorithm.setModel(model.getAlgorithmComboBoxModel());
 			this.comboBoxAlgorithm.setEnabled(model.isAlgoComboEnabled());
 			this.btnNewCalculation.setVisible(model.isNewCalcButtonVisible());
 		}
-		
 	}
 
 }

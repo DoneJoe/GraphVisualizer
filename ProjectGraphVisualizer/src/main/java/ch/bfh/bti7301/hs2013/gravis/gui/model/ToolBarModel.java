@@ -44,10 +44,10 @@ class ToolBarModel implements IToolBarModel {
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IToolBarModel#getComboBoxModel()
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IToolBarModel#getAlgorithmComboBoxModel()
 	 */
 	@Override
-	public ComboBoxModel<String> getComboBoxModel() {
+	public ComboBoxModel<String> getAlgorithmComboBoxModel() {
 		return this.comboBoxModel;
 	}
 

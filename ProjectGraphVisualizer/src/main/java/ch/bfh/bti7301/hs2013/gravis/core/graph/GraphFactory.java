@@ -55,6 +55,39 @@ public final class GraphFactory {
 	}
 	
 	/**
+	 * @return directed IEditingGraph
+	 */
+	public static IEditingGraph createEditingGraph() {
+		return new EditingGraph(createGraph());
+	}
+	
+	/**
+	 * 
+	 * @param edgeType
+	 * @param editingGraphEventListener 
+	 * @return IEditingGraph
+	 */
+	public static IEditingGraph createEditingGraph(EdgeType edgeType, 
+			IEditingGraphEventListener editingGraphEventListener) {
+		EditingGraph editingGraph = new EditingGraph(createGraph(), edgeType);
+		editingGraph.setEditingGraphEventListener(editingGraphEventListener);
+		return editingGraph;
+	}
+	
+	/**
+	 * 
+	 * @param graph
+	 * @param listener
+	 * @return IEditingGraph
+	 */
+	public static IEditingGraph createEditingGraph(Graph<IVertex, IEdge> graph, 
+			IEditingGraphEventListener listener) {
+		EditingGraph editingGraph = new EditingGraph(graph);
+		editingGraph.setEditingGraphEventListener(listener);
+		return editingGraph;
+	}
+	
+	/**
 	 * 
 	 * @param graph
 	 * @return a new instance of type IObservableGravisGraph

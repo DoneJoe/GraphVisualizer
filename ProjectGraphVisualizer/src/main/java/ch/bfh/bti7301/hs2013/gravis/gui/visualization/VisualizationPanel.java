@@ -54,6 +54,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 	public VisualizationPanel(IGuiModel model, JFrame owner) {
 		super();
 
+		// TODO attribute lokal machen
 		// TODO diese Klasse muss editing events auslösen können
 		// TODO Scroll-Pane anpassen 
 
@@ -76,7 +77,8 @@ public class VisualizationPanel extends JPanel implements Observer {
 		this.viewer.setGraphMouse(graphMouse);
 		this.viewer.addKeyListener(graphMouse.getModeKeyListener());
 		graphMouse.setMode(Mode.PICKING);
-		model.setEditMode(Mode.PICKING);
+		model.setPopupEditMode(Mode.PICKING);
+		model.setEditModeComboModel(this.comboBoxMode.getModel());
 	}
 
 	/*

@@ -1,6 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
 
 /**
@@ -25,9 +26,9 @@ public final class ControllerFactory {
 	/**
 	 * @param core
 	 * @param model
-	 * @return IVisualizationController
+	 * @return IEditingGraphEventListener
 	 */
-	public static IVisualizationController createVisualizationController(
+	public static IEditingGraphEventListener createVisualizationController(
 			ICore core, IGuiModel model) {
 		return new VisualizationController(core, model);
 	}

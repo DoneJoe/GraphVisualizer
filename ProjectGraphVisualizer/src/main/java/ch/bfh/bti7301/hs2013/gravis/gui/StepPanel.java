@@ -47,24 +47,30 @@ public class StepPanel extends JPanel implements Observer {
 		
 		JProgressBar progressBar = new JProgressBar();
 		panel.add(progressBar);
+		// TODO progressBar model
+		progressBar.getModel();
 		
 		JPanel panel_1 = new JPanel();
 		add(panel_1);
 		
 		JButton btnBeginning = new JButton();
 		btnBeginning.setIcon(new ImageIcon("D:\\Daten\\Documents\\Programmierung\\Java\\Eclipse_BFH_Project_1\\GraphVisualizer\\ProjectGraphVisualizer\\src\\main\\resources\\META-INF\\images\\Rewind24.gif"));
+		btnBeginning.setEnabled(false);
 		panel_1.add(btnBeginning);
 		
 		JButton btnBack = new JButton();
 		btnBack.setIcon(new ImageIcon("D:\\Daten\\Documents\\Programmierung\\Java\\Eclipse_BFH_Project_1\\GraphVisualizer\\ProjectGraphVisualizer\\src\\main\\resources\\META-INF\\images\\StepBack24.gif"));
+		btnBack.setEnabled(false);
 		panel_1.add(btnBack);
 		
 		JButton btnForward = new JButton();
 		btnForward.setIcon(new ImageIcon("D:\\Daten\\Documents\\Programmierung\\Java\\Eclipse_BFH_Project_1\\GraphVisualizer\\ProjectGraphVisualizer\\src\\main\\resources\\META-INF\\images\\StepForward24.gif"));
+		btnForward.setEnabled(false);
 		panel_1.add(btnForward);
 		
 		JButton btnEnd = new JButton();
 		btnEnd.setIcon(new ImageIcon("D:\\Daten\\Documents\\Programmierung\\Java\\Eclipse_BFH_Project_1\\GraphVisualizer\\ProjectGraphVisualizer\\src\\main\\resources\\META-INF\\images\\FastForward24.gif"));
+		btnEnd.setEnabled(false);
 		panel_1.add(btnEnd);
 
 		// add listeners
@@ -76,6 +82,12 @@ public class StepPanel extends JPanel implements Observer {
 		btnForward.addActionListener(stepController);
 		btnEnd.setActionCommand(EventSource.END.toString());
 		btnEnd.addActionListener(stepController);
+		
+		model.setProgressBarModel(progressBar.getModel());
+		model.setBeginningButtonModel(btnBeginning.getModel());
+		model.setForwardButtonModel(btnForward.getModel());
+		model.setBackButtonModel(btnBack.getModel());
+		model.setEndButtonModel(btnEnd.getModel());
 	}
 
 	/* (non-Javadoc)
