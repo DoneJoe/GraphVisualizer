@@ -10,7 +10,9 @@ public interface IEditingGraphItem {
 
 	/**
 	 * 
-	 * @param listener
+	 * @param listeners
 	 */
-	public abstract void addEditingGraphEventListener(IEditingGraphEventListener listener);
+	public abstract void addEditingGraphEventListener(IEditingGraphEventListener ... listeners);
+	
+	public abstract void removeEditingGraphEventListeners();
 }

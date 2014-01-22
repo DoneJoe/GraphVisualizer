@@ -1,4 +1,4 @@
-package ch.bfh.bti7301.hs2013.gravis.gui.controller;
+package ch.bfh.bti7301.hs2013.gravis.core;
 
 import java.util.Observer;
 
@@ -6,7 +6,7 @@ import java.util.Observer;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public interface GravisObservable {
+public interface IGravisObservable {
 	
 	/**
 	 * 

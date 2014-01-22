@@ -55,6 +55,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	public ToolBarPanel(IMenuToolbarController menuToolbarController, IGuiModel model,
 			JComboBox<?> comboMode) {
 		// TODO mode-combo mit label ("Bearbeitungsmodus") und Rahmen
+		// TODO set mnemonics
 		
 		this.setFloatable(false);
 		

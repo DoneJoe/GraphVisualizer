@@ -20,10 +20,16 @@ public abstract class AbstractEditingGraphItem {
 
 	/**
 	 * 
-	 * @param listener
+	 * @param listeners
 	 */
-	public void addEditingGraphEventListener(IEditingGraphEventListener listener) {
-		this.listeners.add(listener);
+	public void addEditingGraphEventListener(IEditingGraphEventListener ... listeners) {
+		for (IEditingGraphEventListener listener : listeners) {
+			this.listeners.add(listener);
+		}
+	}
+	
+	public void removeEditingGraphEventListeners() {
+		this.listeners.clear();
 	}
 	
 	/**

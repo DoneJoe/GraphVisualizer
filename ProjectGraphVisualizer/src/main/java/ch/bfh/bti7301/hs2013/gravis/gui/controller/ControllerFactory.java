@@ -24,13 +24,13 @@ public final class ControllerFactory {
 	}
 
 	/**
-	 * @param core
+	 * 
 	 * @param model
 	 * @return IEditingGraphEventListener
 	 */
 	public static IEditingGraphEventListener createVisualizationController(
-			ICore core, IGuiModel model) {
-		return new VisualizationController(core, model);
+			IGuiModel model) {
+		return new VisualizationController(model);
 	}
 
 	/**

@@ -8,11 +8,11 @@ import javax.swing.ComboBoxModel;
  */
 class ToolBarModel implements IToolBarModel {
 
-	private boolean algoComboEnabled;
+	private final boolean algoComboEnabled;
 	
-	private boolean newCalcButtonVisible;
+	private final boolean newCalcButtonVisible;
 	
-	private ComboBoxModel<String> comboBoxModel;
+	private final ComboBoxModel<String> comboBoxModel;
 	
 	/**
 	 * 

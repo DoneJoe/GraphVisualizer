@@ -5,6 +5,8 @@ import javax.swing.ButtonModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 
+import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
+import ch.bfh.bti7301.hs2013.gravis.core.ICore;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
@@ -21,10 +23,10 @@ class GuiModel implements IGuiModel {
 
 	private IEditingGraph graph;
 
-	private boolean graphChanged;
+	private boolean graphChanged, graphUnsaved;
 
 	private DefaultComboBoxModel<String> algoComboModel;
-	
+
 	private ComboBoxModel<?> editModeComboModel = null;
 
 	private IGravisListIterator<String> stepIterator = null;
@@ -36,12 +38,17 @@ class GuiModel implements IGuiModel {
 
 	private BoundedRangeModel progressBarModel = null;
 
-	protected GuiModel() {
+	/**
+	 * 
+	 * @param core
+	 * @throws CoreException
+	 */
+	protected GuiModel(ICore core) throws CoreException {
 		// creates an empty graph
 		this.graph = GraphFactory.createEditingGraph();
-		this.graphChanged = false;
-		this.algoComboModel = new DefaultComboBoxModel<>();
-		this.algoComboModel.addElement(DEFAULT_ALGO_ENTRY);
+		this.graphUnsaved = this.graphChanged = false;
+		this.setAlgorithmComboModel(core.getAlgorithmNames(this.graph
+				.getEdgeType()));
 	}
 
 	/*
@@ -63,10 +70,10 @@ class GuiModel implements IGuiModel {
 	 */
 	@Override
 	public void setNewGraphState(EdgeType edgeType) {
-			this.graph = GraphFactory.createEditingGraph(edgeType,
-					this.graph.getEditingGraphEventListeners());
-			this.graphChanged = false;
-			this.resetStepEnabledState();
+		this.graph = GraphFactory.createEditingGraph(edgeType,
+				this.graph.getEditingGraphEventListeners());
+		this.graphUnsaved = this.graphChanged = false;
+		this.resetStepEnabledState();
 	}
 
 	/*
@@ -78,9 +85,9 @@ class GuiModel implements IGuiModel {
 	 */
 	@Override
 	public void setOpenGraphState(IGravisGraph graph) {
-		this.graph = GraphFactory.createEditingGraph(graph, 
+		this.graph = GraphFactory.createEditingGraph(graph,
 				this.graph.getEditingGraphEventListeners());
-		this.graphChanged = false;
+		this.graphUnsaved = this.graphChanged = false;
 		this.resetStepEnabledState();
 	}
 
@@ -94,14 +101,38 @@ class GuiModel implements IGuiModel {
 		return this.graphChanged;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setGraphChanged(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setGraphChanged(boolean)
 	 */
 	@Override
 	public void setGraphChanged(boolean graphChanged) {
 		this.graphChanged = graphChanged;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#isGraphUnsaved()
+	 */
+	@Override
+	public boolean isGraphUnsaved() {
+		return this.graphUnsaved;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setGraphUnsaved(boolean)
+	 */
+	@Override
+	public void setGraphUnsaved(boolean graphUnsaved) {
+		this.graphUnsaved = graphUnsaved;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -190,9 +221,10 @@ class GuiModel implements IGuiModel {
 	 */
 	@Override
 	public void setStepEnabledState(IGravisListIterator<String> stepIterator) {
-		this.stepIterator = stepIterator;
-		this.stepIterator.first();
-		
+		if (stepIterator != null) {
+			this.stepIterator = stepIterator;
+			this.stepIterator.first();
+		}
 		if (this.beginningButtonModel != null) {
 			this.beginningButtonModel.setEnabled(false);
 		}
@@ -219,8 +251,10 @@ class GuiModel implements IGuiModel {
 	 */
 	@Override
 	public void resetStepEnabledState() {
-		this.stepIterator = null;
-		
+		if (this.stepIterator != null) {
+			this.stepIterator.first();
+			this.stepIterator = null;
+		}
 		if (this.beginningButtonModel != null) {
 			this.beginningButtonModel.setEnabled(false);
 		}
@@ -247,8 +281,22 @@ class GuiModel implements IGuiModel {
 	 */
 	@Override
 	public IToolBarModel createToolBarModel() {
-		return new ToolBarModel(this.algoComboModel, !this.graph.isEmpty(),
-				this.graphChanged);
+		return new ToolBarModel(
+				this.algoComboModel,
+				!this.graph.isEmpty(),
+				this.graphChanged
+						&& this.algoComboModel.getSelectedItem() != DEFAULT_ALGO_ENTRY);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#createStepModel()
+	 */
+	@Override
+	public IStepModel createStepModel() {
+		return new StepModel(this.progressBarModel.getValue(),
+				this.progressBarModel.getMaximum());
 	}
 
 	/*
@@ -273,11 +321,11 @@ class GuiModel implements IGuiModel {
 	public void setAlgorithmComboModel(String[] algoNames) {
 		this.algoComboModel = new DefaultComboBoxModel<>();
 		this.algoComboModel.addElement(DEFAULT_ALGO_ENTRY);
-		
+
 		for (String algoName : algoNames) {
 			this.algoComboModel.addElement(algoName);
 		}
-		
+
 		this.algoComboModel.setSelectedItem(DEFAULT_ALGO_ENTRY);
 	}
 
@@ -418,6 +466,5 @@ class GuiModel implements IGuiModel {
 	public BoundedRangeModel getProgressBarModel() {
 		return this.progressBarModel;
 	}
-
 
 }

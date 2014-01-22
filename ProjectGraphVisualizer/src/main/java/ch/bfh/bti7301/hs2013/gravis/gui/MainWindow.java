@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
@@ -96,9 +97,11 @@ public class MainWindow extends JFrame {
 	 * 
 	 * @param stepController
 	 * @param menuToolbarController
+	 * @param visualizationController
 	 * @param model
 	 */
 	public MainWindow(IMenuToolbarController menuToolbarController,
+			IEditingGraphEventListener visualizationController,
 			IStepController stepController, IGuiModel model) {
 		super(TITLE);
 
@@ -107,6 +110,7 @@ public class MainWindow extends JFrame {
 		this.contentPane.setLayout(new BorderLayout(0, 0));
 		this.setContentPane(this.contentPane);
 
+		// create panels
 		VisualizationPanel visualizationPanel = new VisualizationPanel(model,
 				this);
 		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model,
@@ -115,12 +119,15 @@ public class MainWindow extends JFrame {
 		StepPanel stepPanel = new StepPanel(stepController, model);
 		ProtocolPanel protocolPanel = new ProtocolPanel();
 
+		// add panels
 		this.contentPane.add(toolBar, BorderLayout.PAGE_START);
 		this.contentPane.add(visualizationPanel, BorderLayout.CENTER);
 		this.contentPane.add(footerPanel, BorderLayout.SOUTH);
 		footerPanel.setLayout(new GridLayout(2, 0, 0, 0));
 		footerPanel.add(stepPanel);
 		footerPanel.add(protocolPanel);
+		
+		// set dialog adapters
 		menuToolbarController
 				.setFileChooserAdapter(new FileChooserAdapter(this));
 		menuToolbarController.setMessageDialogAdapter(new MessageDialogAdapter(
@@ -130,13 +137,18 @@ public class MainWindow extends JFrame {
 		menuToolbarController
 				.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
 						this));
+		
+		// add Observers
 		menuToolbarController.addObserver(toolBar);
 		menuToolbarController.addObserver(stepPanel);
 		menuToolbarController.addObserver(visualizationPanel);
 		menuToolbarController.addObserver(protocolPanel);
-		// TODO set Observers
-		stepController.addObserver(stepPanel);
+		visualizationController.addObserver(toolBar);
+		visualizationController.addObserver(visualizationPanel);
+		visualizationController.addObserver(stepPanel);
 		stepController.addObserver(visualizationPanel);
+		stepController.addObserver(stepPanel);
+		stepController.addObserver(protocolPanel);
 
 		this.createMenus(menuToolbarController, model);
 		this.addWindowListener(menuToolbarController);

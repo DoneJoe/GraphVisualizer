@@ -95,6 +95,13 @@ class EditingGraph extends GravisGraph implements IEditingGraph {
 	 */
 	@Override
 	public void clear() {
+		for (IVertex vertex : this.getVertices()) {
+			vertex.removeEditingGraphEventListeners();
+		}
+		for (IEdge edge : this.getEdges()) {
+			edge.removeEditingGraphEventListeners();
+		}
+		
 		super.clear();
 		this.fireEditingGraphEvent(new GravisGraphEvent(this));
 	}
@@ -159,6 +166,7 @@ class EditingGraph extends GravisGraph implements IEditingGraph {
 	@Override
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices) {
 		boolean ok = super.addEdge(edge, vertices);
+		edge.addEditingGraphEventListener(this.getEditingGraphEventListeners());
 		this.fireEditingGraphEvent(new GravisGraphEvent(this, Type.EDGE_ADDED, edge));
 		return ok;
 	}
@@ -173,6 +181,7 @@ class EditingGraph extends GravisGraph implements IEditingGraph {
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices,
 			EdgeType edge_type) {
 		boolean ok = super.addEdge(edge, vertices, edge_type);
+		edge.addEditingGraphEventListener(this.getEditingGraphEventListeners());
 		this.fireEditingGraphEvent(new GravisGraphEvent(this, Type.EDGE_ADDED, edge));
 		return ok;
 	}
@@ -186,6 +195,7 @@ class EditingGraph extends GravisGraph implements IEditingGraph {
 	@Override
 	public boolean addEdge(IEdge e, IVertex v1, IVertex v2, EdgeType edgeType) {
 		boolean ok = super.addEdge(e, v1, v2, edgeType);
+		e.addEditingGraphEventListener(this.getEditingGraphEventListeners());
 		this.fireEditingGraphEvent(new GravisGraphEvent(this, Type.EDGE_ADDED, e));
 		return ok;
 	}
@@ -199,6 +209,7 @@ class EditingGraph extends GravisGraph implements IEditingGraph {
 	@Override
 	public boolean addEdge(IEdge e, IVertex v1, IVertex v2) {
 		boolean ok = super.addEdge(e, v1, v2);
+		e.addEditingGraphEventListener(this.getEditingGraphEventListeners());
 		this.fireEditingGraphEvent(new GravisGraphEvent(this, Type.EDGE_ADDED, e));
 		return ok;
 	}
@@ -211,6 +222,7 @@ class EditingGraph extends GravisGraph implements IEditingGraph {
 	@Override
 	public boolean addVertex(IVertex vertex) {
 		boolean ok = super.addVertex(vertex);
+		vertex.addEditingGraphEventListener(this.getEditingGraphEventListeners());
 		this.fireEditingGraphEvent(new GravisGraphEvent(this, Type.VERTEX_ADDED, vertex));
 		return ok;
 	}
@@ -224,6 +236,7 @@ class EditingGraph extends GravisGraph implements IEditingGraph {
 	public boolean removeEdge(IEdge edge) {
 		boolean ok = super.removeEdge(edge);
 		this.fireEditingGraphEvent(new GravisGraphEvent(this, Type.EDGE_REMOVED, edge));
+		edge.removeEditingGraphEventListeners();
 		return ok;
 	}
 
@@ -236,6 +249,7 @@ class EditingGraph extends GravisGraph implements IEditingGraph {
 	public boolean removeVertex(IVertex vertex) {
 		boolean ok = super.removeVertex(vertex);
 		this.fireEditingGraphEvent(new GravisGraphEvent(this, Type.VERTEX_REMOVED, vertex));
+		vertex.removeEditingGraphEventListeners();
 		return ok;
 	}
 

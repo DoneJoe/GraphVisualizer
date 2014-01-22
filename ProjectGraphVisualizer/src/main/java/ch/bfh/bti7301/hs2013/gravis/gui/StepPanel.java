@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController.EventSource;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IStepModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.BoxLayout;
@@ -83,6 +84,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnEnd.setActionCommand(EventSource.END.toString());
 		btnEnd.addActionListener(stepController);
 		
+		// set models
 		model.setProgressBarModel(progressBar.getModel());
 		model.setBeginningButtonModel(btnBeginning.getModel());
 		model.setForwardButtonModel(btnForward.getModel());
@@ -95,6 +97,9 @@ public class StepPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
+		if (arg instanceof IStepModel) {
+			
+		}
 		// TODO Auto-generated method stub
 		
 	}

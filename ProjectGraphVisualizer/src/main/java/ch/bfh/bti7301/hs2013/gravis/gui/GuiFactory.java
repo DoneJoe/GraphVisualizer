@@ -2,6 +2,7 @@ package ch.bfh.bti7301.hs2013.gravis.gui;
 
 import javax.swing.JFrame;
 
+import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
@@ -28,22 +29,24 @@ public final class GuiFactory {
 	/**
 	 * @param core
 	 * @return JFrame
+	 * @throws CoreException 
 	 */
-	public static JFrame createGUI(ICore core) {
+	public static JFrame createGUI(ICore core) throws CoreException {
 		// model
-		IGuiModel model = GuiModelFactory.createGuiModel();
+		IGuiModel model = GuiModelFactory.createGuiModel(core);
 
 		// controllers
 		IMenuToolbarController menuToolbarController = ControllerFactory
 				.createMenuToolbarController(core, model);
 		IEditingGraphEventListener visualizationController = ControllerFactory
-				.createVisualizationController(core, model);
+				.createVisualizationController(model);
 		IStepController stepController = ControllerFactory
 				.createStepController(core, model);
 		model.addEditingGraphEventListener(visualizationController);
 		
 		// view
-		return new MainWindow(menuToolbarController, stepController, model);
+		return new MainWindow(menuToolbarController, visualizationController,
+				stepController, model);
 	}
 
 	/**

@@ -63,6 +63,17 @@ public interface IGuiModel {
 	 * @param graphChanged
 	 */
 	public abstract void setGraphChanged(boolean graphChanged);
+	
+	/**
+	 * @return boolean
+	 */
+	public abstract boolean isGraphUnsaved();
+	
+	/**
+	 * 
+	 * @param graphUnsaved
+	 */
+	public abstract void setGraphUnsaved(boolean graphUnsaved);
 
 	/**
 	 * 
@@ -70,6 +81,11 @@ public interface IGuiModel {
 	 */
 	public abstract IToolBarModel createToolBarModel();
 
+	/**
+	 * @return IStepModel
+	 */
+	public abstract IStepModel createStepModel();
+	
 	/**
 	 * 
 	 * @param mode
@@ -168,5 +184,6 @@ public interface IGuiModel {
 	 * @return BoundedRangeModel
 	 */
 	public abstract BoundedRangeModel getProgressBarModel();
+
 	
 }

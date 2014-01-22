@@ -18,7 +18,6 @@ import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IToolBarModel;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController.EventSource.*;
@@ -137,6 +136,7 @@ class MenuToolbarController extends Observable implements
 			} else if (e.getActionCommand().equals(NEW_CALC.toString())) {
 				Object item = this.model.getAlgorithmComboModel()
 						.getSelectedItem();
+				
 				if (item instanceof String) {
 					this.handleAlgorithmEvent((String) item);
 				}
@@ -156,7 +156,7 @@ class MenuToolbarController extends Observable implements
 	 * @throws CoreException
 	 */
 	private void handleExitEvent() throws CoreException {
-		if (this.model.hasGraphChanged()
+		if (this.model.isGraphUnsaved()
 				&& this.handleSaveGraphEvent() != JFileChooser.APPROVE_OPTION) {
 			return;
 		} else if (this.confirmDialogAdapter != null) {
@@ -188,8 +188,13 @@ class MenuToolbarController extends Observable implements
 			saveResult = this.fileChooserAdapter.showSaveDialog();
 
 			if (saveResult == JFileChooser.APPROVE_OPTION) {
+				if (this.model.getStepIterator() != null) {
+					this.model.setStepEnabledState(this.model.getStepIterator());
+				}
+				
 				this.core.saveGraph(this.model.getGraph(),
 						this.fileChooserAdapter.getSelectedFile());
+				this.model.setGraphUnsaved(false);
 			}
 		}
 
@@ -203,9 +208,10 @@ class MenuToolbarController extends Observable implements
 	private void handleOpenGraphEvent() throws CoreException {
 		if (this.fileChooserAdapter != null
 				&& this.messageDialogAdapter != null) {
-			if (this.model.hasGraphChanged()
+			if (this.model.isGraphUnsaved()
 					&& this.handleSaveGraphEvent() != JFileChooser.APPROVE_OPTION) {
 				return;
+				// TODO Button "Nicht speichern" anzeigen
 			}
 
 			while (this.fileChooserAdapter.showOpenDialog() == JFileChooser.APPROVE_OPTION) {
@@ -222,12 +228,12 @@ class MenuToolbarController extends Observable implements
 					this.setChanged();
 					this.notifyObservers(this.model.getGraph());
 					this.setChanged();
+					this.notifyObservers(this.model.createStepModel());
+					this.setChanged();
 					this.notifyObservers(String.format(OPEN_GRAPH_MSG, LN,
 							this.model.getGraph().getName(), LN, this.model
 									.getGraph().getDescription(), LN, LN));
 
-					// TODO reset progress bar label
-					
 					break;
 				} else {
 					this.messageDialogAdapter.showMessageDialog(
@@ -244,9 +250,10 @@ class MenuToolbarController extends Observable implements
 	 * @throws CoreException
 	 */
 	private void handleNewGraphEvent(EdgeType edgeType) throws CoreException {
-		if (this.model.hasGraphChanged()
+		if (this.model.isGraphUnsaved()
 				&& this.handleSaveGraphEvent() != JFileChooser.APPROVE_OPTION) {
 			return;
+			// TODO Button "Nicht speichern" anzeigen
 		}
 
 		this.model.setNewGraphState(edgeType);
@@ -258,9 +265,10 @@ class MenuToolbarController extends Observable implements
 		this.notifyObservers(this.model.createToolBarModel());
 		this.setChanged();
 		this.notifyObservers(this.model.getGraph());
+		this.setChanged();
+		this.notifyObservers(this.model.createStepModel());
 
 		// TODO save graph testen
-		// TODO reset progress bar label
 	}
 
 	/*
@@ -301,14 +309,23 @@ class MenuToolbarController extends Observable implements
 	 */
 	private void handleAlgorithmEvent(String item) throws CoreException {
 		if (!item.equals(IGuiModel.DEFAULT_ALGO_ENTRY)) {
+			if (this.model.getStepIterator() != null) {
+				this.model.getStepIterator().first();
+			}
+			
 			this.model.setStepEnabledState(this.core.calculateSteps(
 					this.model.getGraph(), item));
+			this.model.setGraphChanged(false);
 
+			this.setChanged();
+			this.notifyObservers(this.model.createToolBarModel());
+			this.setChanged();
+			this.notifyObservers();
+			this.setChanged();
+			this.notifyObservers(this.model.createStepModel());
 			this.setChanged();
 			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, item, LN,
 					this.core.getAlgorithmDescription(item), LN, LN, LN));
-
-			// TODO reset progress bar label
 		}
 	}
 
@@ -318,17 +335,12 @@ class MenuToolbarController extends Observable implements
 	 */
 	private void handleModeEvent(Mode mode) {
 		this.model.setPopupEditMode(mode);
-		if (this.model.getStepIterator() != null && mode == Mode.EDITING && 
-				this.model.getBeginningButtonModel() != null && 
-				this.model.getProgressBarModel() != null) {
-			this.model.getStepIterator().first();
-			this.model.getBeginningButtonModel().setEnabled(false);
-			this.model.getProgressBarModel().setValue(0);
-			
+		if (this.model.getStepIterator() != null && mode == Mode.EDITING) {
+			this.model.setStepEnabledState(this.model.getStepIterator());
 			this.setChanged();
 			this.notifyObservers();
-			
-			// TODO reset progress bar label
+			this.setChanged();
+			this.notifyObservers(this.model.createStepModel());
 		}
 	}
 

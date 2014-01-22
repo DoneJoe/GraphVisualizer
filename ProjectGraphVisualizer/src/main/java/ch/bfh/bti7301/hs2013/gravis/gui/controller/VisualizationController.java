@@ -1,6 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 
-import ch.bfh.bti7301.hs2013.gravis.core.ICore;
+import java.util.Observable;
+
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
@@ -9,14 +10,17 @@ import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class VisualizationController implements IEditingGraphEventListener {
+class VisualizationController extends Observable implements
+		IEditingGraphEventListener {
+
+	private final IGuiModel model;
 
 	/**
-	 * @param core
+	 * 
 	 * @param model
 	 */
-	protected VisualizationController(ICore core, IGuiModel model) {
-		// TODO Auto-generated constructor stub
+	protected VisualizationController(IGuiModel model) {
+		this.model = model;
 	}
 
 	/*
@@ -28,7 +32,13 @@ class VisualizationController implements IEditingGraphEventListener {
 	 */
 	@Override
 	public void handleEditingGraphEvent(GravisGraphEvent evt) {
-		// TODO Auto-generated method stub
+		this.model.resetStepEnabledState();
+		this.model.setGraphChanged(true);
+		this.model.setGraphUnsaved(true);
+		this.setChanged();
+		this.notifyObservers(this.model.createToolBarModel());
+		this.setChanged();
+		this.notifyObservers(this.model.createStepModel());
 
 	}
 
@@ -41,8 +51,9 @@ class VisualizationController implements IEditingGraphEventListener {
 	 */
 	@Override
 	public void handleNameChangedEvent(GravisGraphEvent evt) {
-		// TODO Auto-generated method stub
-		// TODO bei graph-name änderung -> update von border-label
+		this.model.setGraphUnsaved(true);
+		this.setChanged();
+		this.notifyObservers(this.model.getGraph());
 	}
 
 }

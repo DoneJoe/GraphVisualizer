@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowListener;
 
+import ch.bfh.bti7301.hs2013.gravis.core.IGravisObservable;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;
@@ -14,7 +15,7 @@ import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
  * 
  */
 public interface IMenuToolbarController extends ActionListener, WindowListener, ItemListener,
-		GravisObservable {
+		IGravisObservable {
 
 	/**
 	 * This enum constants are usefull to distinguish between different kinds of

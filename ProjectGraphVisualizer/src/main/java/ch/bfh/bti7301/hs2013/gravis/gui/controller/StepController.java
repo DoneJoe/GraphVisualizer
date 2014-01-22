@@ -15,9 +15,9 @@ import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
  */
 class StepController extends Observable implements IStepController {
 
-	private ICore core;
+	private final ICore core;
 	
-	private IGuiModel model;
+	private final IGuiModel model;
 	
 	/**
 	 * @param core
