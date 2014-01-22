@@ -10,11 +10,11 @@ public interface IEditingGraph extends IGravisGraph {
 	 * 
 	 * @param listener
 	 */
-	public abstract void setEditingGraphEventListener(IEditingGraphEventListener listener);
+	public abstract void addEditingGraphEventListener(IEditingGraphEventListener listener);
 	
 	/**
 	 * 
-	 * @return IEditingGraphEventListener
+	 * @return IEditingGraphEventListener[]
 	 */
-	public abstract IEditingGraphEventListener getEditingGraphEventListener();
+	public abstract IEditingGraphEventListener[] getEditingGraphEventListeners();
 }

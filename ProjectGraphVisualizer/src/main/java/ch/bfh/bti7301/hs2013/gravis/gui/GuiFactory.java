@@ -40,7 +40,7 @@ public final class GuiFactory {
 				.createVisualizationController(core, model);
 		IStepController stepController = ControllerFactory
 				.createStepController(core, model);
-		model.setEditingGraphEventListener(visualizationController);
+		model.addEditingGraphEventListener(visualizationController);
 		
 		// view
 		return new MainWindow(menuToolbarController, stepController, model);

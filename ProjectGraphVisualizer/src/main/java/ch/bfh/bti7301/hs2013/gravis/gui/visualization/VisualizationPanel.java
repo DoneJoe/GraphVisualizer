@@ -38,12 +38,6 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 */
 	private GravisVisualizationViewer viewer;
 
-	private VertexMenu vertexMenu;
-
-	private VertexCreateMenu vertexCreateMenu;
-
-	private EdgeMenu edgeMenu;
-
 	private JComboBox<?> comboBoxMode;
 
 	/**
@@ -54,20 +48,18 @@ public class VisualizationPanel extends JPanel implements Observer {
 	public VisualizationPanel(IGuiModel model, JFrame owner) {
 		super();
 
-		// TODO attribute lokal machen
-		// TODO diese Klasse muss editing events auslösen können
-		// TODO Scroll-Pane anpassen 
+		// TODO Scroll-Pane anpassen
 
 		this.viewer = new GravisVisualizationViewer(
 				GuiFactory.createLayout(model.getGraph()));
-		this.vertexMenu = new VertexMenu(this.viewer, owner, model);
-		this.vertexCreateMenu = new VertexCreateMenu(this.viewer, model);
-		this.edgeMenu = new EdgeMenu(this.viewer, owner, model);
+		VertexMenu vertexMenu = new VertexMenu(this.viewer, owner, model);
+		VertexCreateMenu vertexCreateMenu = new VertexCreateMenu(this.viewer,
+				model);
+		EdgeMenu edgeMenu = new EdgeMenu(this.viewer, owner, model);
 		GraphZoomScrollPane pane = new GraphZoomScrollPane(this.viewer);
 		EditingModalGraphMouse<IVertex, IEdge> graphMouse = new GravisModalGraphMouse(
 				this.viewer.getRenderContext(), new VertexFactory(),
-				new EdgeFactory(), this.edgeMenu, this.vertexMenu,
-				this.vertexCreateMenu);
+				new EdgeFactory(), edgeMenu, vertexMenu, vertexCreateMenu);
 		this.comboBoxMode = graphMouse.getModeComboBox();
 
 		this.setBorder(BorderFactory.createTitledBorder(model.getGraph()
@@ -91,7 +83,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 		if (arg instanceof IGravisGraph) {
 			this.setBorder(BorderFactory
 					.createTitledBorder(((IGravisGraph) arg).getName()));
-		} 
+		}
 		this.viewer.update(o, arg);
 	}
 

@@ -6,7 +6,7 @@ import java.awt.Color;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public interface IGraphItem extends IRestrictedGraphItem, Cloneable {
+public interface IGraphItem extends IEditingGraphItem, IRestrictedGraphItem, Cloneable {
 
 	/**
 	 * 

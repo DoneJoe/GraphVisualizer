@@ -6,5 +6,15 @@ package ch.bfh.bti7301.hs2013.gravis.core.graph;
  */
 public interface IEditingGraphEventListener {
 
-	// TODO method declaration
+	/**
+	 * 
+	 * @param evt
+	 */
+	public abstract void handleEditingGraphEvent(GravisGraphEvent evt);
+	
+	/**
+	 * 
+	 * @param evt
+	 */
+	public abstract void handleNameChangedEvent(GravisGraphEvent evt);
 }

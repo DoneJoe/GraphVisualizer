@@ -10,17 +10,35 @@ import edu.uci.ics.jung.graph.event.GraphEvent;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class GravisGraphEvent extends GraphEvent<IVertex, IEdge> {
+public class GravisGraphEvent extends GraphEvent<IVertex, IEdge> {
 
-	private IGraphItem[] items;
+	private final IGraphItem[] items;
 	
 	/**
 	 * 
 	 * @param graph
 	 * @param items
 	 */
-	protected GravisGraphEvent(Graph<IVertex, IEdge> graph, IGraphItem[] items) {
-		super(graph, null);
+	public GravisGraphEvent(Graph<IVertex, IEdge> graph, IGraphItem ... items) {
+		this(graph, null, items);
+	}
+	
+	/**
+	 * 
+	 * @param items
+	 */
+	public GravisGraphEvent(IGraphItem ... items) {
+		this(null, null, items);
+	}
+
+	/**
+	 * @param graph
+	 * @param type
+	 * @param items
+	 */
+	public GravisGraphEvent(Graph<IVertex, IEdge> graph, GraphEvent.Type type,
+			IGraphItem ... items) {
+		super(graph, type);
 		
 		this.items = items;
 	}

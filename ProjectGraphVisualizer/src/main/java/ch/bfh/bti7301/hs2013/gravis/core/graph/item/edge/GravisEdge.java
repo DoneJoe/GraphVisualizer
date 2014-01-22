@@ -1,5 +1,6 @@
 package ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge;
 
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
 
@@ -48,7 +49,12 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 	 */
 	@Override
 	public void setWeight(double weight) {
+		boolean equal = Double.compare(this.weight, weight) == 0;
 		this.weight = weight;
+		
+		if (!equal) {
+			this.fireEditingGraphEvent(new GravisGraphEvent(this));
+		}
 	}
 
 	/*

@@ -21,7 +21,7 @@ public interface IGuiModel {
 	/**
 	 * @param visualizationController
 	 */
-	public abstract void setEditingGraphEventListener(
+	public abstract void addEditingGraphEventListener(
 			IEditingGraphEventListener visualizationController);
 	
 	/**

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
 
@@ -62,7 +63,13 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	public void setStart(boolean start) {
 		super.setCurrentColor(start ? GravisConstants.V_START_COLOR : (this
 				.isEnd() ? GravisConstants.V_END_COLOR : this.tempColor));
+		
+		boolean equal = this.start == start;
 		this.start = start;
+		
+		if (!equal) {
+			this.fireEditingGraphEvent(new GravisGraphEvent(this));
+		}
 	}
 
 	@Override
@@ -71,7 +78,13 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 				: GravisConstants.V_END_COLOR)
 				: (this.isStart() ? GravisConstants.V_START_COLOR
 						: this.tempColor));
+		
+		boolean equal = this.end == end;
 		this.end = end;
+		
+		if (!equal) {
+			this.fireEditingGraphEvent(new GravisGraphEvent(this));
+		}
 	}
 
 	/*

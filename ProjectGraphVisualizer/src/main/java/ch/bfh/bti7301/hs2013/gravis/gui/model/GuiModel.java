@@ -64,7 +64,7 @@ class GuiModel implements IGuiModel {
 	@Override
 	public void setNewGraphState(EdgeType edgeType) {
 			this.graph = GraphFactory.createEditingGraph(edgeType,
-					this.graph.getEditingGraphEventListener());
+					this.graph.getEditingGraphEventListeners());
 			this.graphChanged = false;
 			this.resetStepEnabledState();
 	}
@@ -79,7 +79,7 @@ class GuiModel implements IGuiModel {
 	@Override
 	public void setOpenGraphState(IGravisGraph graph) {
 		this.graph = GraphFactory.createEditingGraph(graph, 
-				this.graph.getEditingGraphEventListener());
+				this.graph.getEditingGraphEventListeners());
 		this.graphChanged = false;
 		this.resetStepEnabledState();
 	}
@@ -116,13 +116,13 @@ class GuiModel implements IGuiModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setVisualizationController
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#addEditingGraphEventListener
 	 * (ch.bfh.bti7301.hs2013.gravis.gui.controller.IEditingGraphEventListener)
 	 */
 	@Override
-	public void setEditingGraphEventListener(
+	public void addEditingGraphEventListener(
 			IEditingGraphEventListener editingGraphEventListener) {
-		this.graph.setEditingGraphEventListener(editingGraphEventListener);
+		this.graph.addEditingGraphEventListener(editingGraphEventListener);
 	}
 
 	/*

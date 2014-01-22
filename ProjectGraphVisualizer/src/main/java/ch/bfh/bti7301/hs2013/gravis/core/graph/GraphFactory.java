@@ -64,26 +64,32 @@ public final class GraphFactory {
 	/**
 	 * 
 	 * @param edgeType
-	 * @param editingGraphEventListener 
+	 * @param listeners 
 	 * @return IEditingGraph
 	 */
 	public static IEditingGraph createEditingGraph(EdgeType edgeType, 
-			IEditingGraphEventListener editingGraphEventListener) {
+			IEditingGraphEventListener ... listeners) {
 		EditingGraph editingGraph = new EditingGraph(createGraph(), edgeType);
-		editingGraph.setEditingGraphEventListener(editingGraphEventListener);
+		
+		for (IEditingGraphEventListener listener : listeners) {
+			editingGraph.addEditingGraphEventListener(listener);
+		}
 		return editingGraph;
 	}
 	
 	/**
 	 * 
 	 * @param graph
-	 * @param listener
+	 * @param listeners
 	 * @return IEditingGraph
 	 */
 	public static IEditingGraph createEditingGraph(Graph<IVertex, IEdge> graph, 
-			IEditingGraphEventListener listener) {
+			IEditingGraphEventListener ... listeners) {
 		EditingGraph editingGraph = new EditingGraph(graph);
-		editingGraph.setEditingGraphEventListener(listener);
+		
+		for (IEditingGraphEventListener listener : listeners) {
+			editingGraph.addEditingGraphEventListener(listener);
+		}
 		return editingGraph;
 	}
 	

@@ -2,6 +2,7 @@ package ch.bfh.bti7301.hs2013.gravis.core.graph.item;
 
 import java.awt.Color;
 
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent;
 import ch.bfh.bti7301.hs2013.gravis.core.util.GravisColor;
 import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
 
@@ -9,7 +10,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public abstract class AbstractGraphItem implements IGraphItem {
+public abstract class AbstractGraphItem extends AbstractEditingGraphItem implements IGraphItem {
 
 	private static int counter = 0;
 
@@ -31,6 +32,8 @@ public abstract class AbstractGraphItem implements IGraphItem {
 	 * Main constructor.
 	 */
 	protected AbstractGraphItem() {
+		super();
+		
 		this.id = String.valueOf(++counter);
 		this.newComment = "";
 		this.currentResult = this.newResult = Double.NaN;
@@ -67,7 +70,12 @@ public abstract class AbstractGraphItem implements IGraphItem {
 
 	@Override
 	public void setId(String id) {
+		boolean equal = this.id.equals(id.trim());
 		this.id = id.trim();
+		
+		if (!equal) {
+			this.fireEditingGraphEvent(new GravisGraphEvent(this));
+		}
 	}
 
 	@Override
