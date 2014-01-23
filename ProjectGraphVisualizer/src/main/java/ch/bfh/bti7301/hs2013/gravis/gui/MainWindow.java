@@ -22,7 +22,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -115,17 +114,17 @@ public class MainWindow extends JFrame {
 				this);
 		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model,
 				visualizationPanel.getModeComboBox());
-		JPanel footerPanel = new JPanel();
 		StepPanel stepPanel = new StepPanel(stepController, model);
 		ProtocolPanel protocolPanel = new ProtocolPanel();
-
+		JPanel footerPanel = new JPanel();
+		
 		// add panels
 		this.contentPane.add(toolBar, BorderLayout.PAGE_START);
 		this.contentPane.add(visualizationPanel, BorderLayout.CENTER);
 		this.contentPane.add(footerPanel, BorderLayout.SOUTH);
-		footerPanel.setLayout(new GridLayout(2, 0, 0, 0));
-		footerPanel.add(stepPanel);
-		footerPanel.add(protocolPanel);
+		footerPanel.setLayout(new BorderLayout());
+		footerPanel.add(stepPanel, BorderLayout.NORTH);
+		footerPanel.add(protocolPanel, BorderLayout.CENTER);
 		
 		// set dialog adapters
 		menuToolbarController

@@ -36,9 +36,9 @@ class MenuToolbarController extends Observable implements
 	private final static String EXIT_MSG = "Programm wirklich beenden?";
 	private final static String APP_ERR_TITLE = "Fehler";
 	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten: %s";
-	private final static String OPEN_GRAPH_MSG = "Folgender Graph wurde geöffnet:%sName: %s%sBeschreibung: %s%s%s";
-	private final static String SELECT_ALGO_MSG = "Folgender Algorithmus wurde ausgewählt:%sName: %s%sBeschreibung: %s%s"
-			+ "Der Algorithmus wurde ausgeführt und die einzelnen Schritte vorgemerkt.%s%s";
+	private final static String OPEN_GRAPH_MSG = "%sFolgender Graph wurde geöffnet:%sName: %s%sBeschreibung: %s%s";
+	private final static String SELECT_ALGO_MSG = "%sFolgender Algorithmus wurde ausgewählt:%sName: %s%sBeschreibung: %s%s"
+			+ "Der Algorithmus wurde ausgeführt und die einzelnen Schritte vorgemerkt.%s";
 
 	private final ICore core;
 
@@ -230,9 +230,9 @@ class MenuToolbarController extends Observable implements
 					this.setChanged();
 					this.notifyObservers(this.model.createStepModel());
 					this.setChanged();
-					this.notifyObservers(String.format(OPEN_GRAPH_MSG, LN,
+					this.notifyObservers(String.format(OPEN_GRAPH_MSG, LN, LN,
 							this.model.getGraph().getName(), LN, this.model
-									.getGraph().getDescription(), LN, LN));
+									.getGraph().getDescription(), LN));
 
 					break;
 				} else {
@@ -324,8 +324,8 @@ class MenuToolbarController extends Observable implements
 			this.setChanged();
 			this.notifyObservers(this.model.createStepModel());
 			this.setChanged();
-			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, item, LN,
-					this.core.getAlgorithmDescription(item), LN, LN, LN));
+			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, LN, item, LN,
+					this.core.getAlgorithmDescription(item), LN, LN));
 		}
 	}
 

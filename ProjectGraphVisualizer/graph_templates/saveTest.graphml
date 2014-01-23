@@ -43,14 +43,14 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <desc></desc>
 <default>black</default>
 </key>
-<graph id="gerichteter Graph 12" edgedefault="directed">
-<data key="description">gerichteter Graph 12</data>
-<node id="20">
-<data key="vertexLocation.y">175</data>
+<graph id="gerichteter Graph 3" edgedefault="directed">
+<data key="description">gerichteter Graph 3</data>
+<node id="18">
+<data key="vertexLocation.y">159</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">green</data>
-<data key="vertexLocation.x">325</data>
+<data key="vertexLocation.x">693</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
@@ -63,12 +63,12 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="18">
-<data key="vertexLocation.y">159</data>
+<node id="20">
+<data key="vertexLocation.y">175</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">green</data>
-<data key="vertexLocation.x">693</data>
+<data key="vertexLocation.x">325</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
