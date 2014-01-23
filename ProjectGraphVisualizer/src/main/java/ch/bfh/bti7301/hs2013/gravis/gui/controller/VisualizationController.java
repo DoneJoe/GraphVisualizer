@@ -32,9 +32,12 @@ class VisualizationController extends Observable implements
 	 */
 	@Override
 	public void handleEditingGraphEvent(GravisGraphEvent evt) {
+		// update model
 		this.model.resetStepEnabledState();
 		this.model.setGraphChanged(true);
 		this.model.setGraphUnsaved(true);
+		
+		// update views
 		this.setChanged();
 		this.notifyObservers(this.model.createToolBarModel());
 		this.setChanged();
@@ -51,7 +54,10 @@ class VisualizationController extends Observable implements
 	 */
 	@Override
 	public void handleNameChangedEvent(GravisGraphEvent evt) {
+		// update model
 		this.model.setGraphUnsaved(true);
+		
+		// update views
 		this.setChanged();
 		this.notifyObservers(this.model.getGraph());
 	}

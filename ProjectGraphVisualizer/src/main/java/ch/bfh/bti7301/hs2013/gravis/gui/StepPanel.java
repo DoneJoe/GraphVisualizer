@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JProgressBar;
 import javax.swing.JButton;
 
+import static ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants.*;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController.EventSource;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
@@ -27,6 +28,20 @@ public class StepPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1543453026902655850L;
 
+	private static final String PROGRESS_LABEL = "Schritt %d/%d ";
+	private static final String BEGINNING_ICON = "Rewind24.gif";
+	private static final String BACK_ICON = "StepBack24.gif";
+	private static final String FORWARD_ICON = "StepForward24.gif";
+	private static final String END_ICON = "FastForward24.gif";
+	private static final String BEGINNING_TOOLTIP = "Zum Anfang";
+	private static final String BACK_TOOLTIP = "Einen Schritt zurück";
+	private static final String FORWARD_TOOLTIP = "Einen Schritt vorwärts";
+	private static final String END_TOOLTIP = "Zum Ende";
+	
+	private JLabel lblProgress;
+	
+	private JProgressBar progressBar;
+	
 	/**
 	 * Create the panel.
 	 * @param model 
@@ -38,41 +53,44 @@ public class StepPanel extends JPanel implements Observer {
 		
 		this.setLayout(new GridLayout(2, 0, 0, 0));
 		
-		JPanel panel = new JPanel();
-		this.add(panel);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		JPanel panelProgress = new JPanel();
+		this.add(panelProgress);
+		panelProgress.setLayout(new BoxLayout(panelProgress, BoxLayout.X_AXIS));
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		panel.add(lblNewLabel);
+		this.lblProgress = new JLabel(String.format(PROGRESS_LABEL, 0, 0));
+		this.lblProgress.setHorizontalAlignment(SwingConstants.LEFT);
+		panelProgress.add(this.lblProgress);
 		
-		JProgressBar progressBar = new JProgressBar();
-		panel.add(progressBar);
-		// TODO progressBar model
-		progressBar.getModel();
+		this.progressBar = new JProgressBar();
+		this.progressBar.setToolTipText(String.format(PROGRESS_LABEL, 0, 0));
+		panelProgress.add(this.progressBar);
 		
-		JPanel panel_1 = new JPanel();
-		add(panel_1);
+		JPanel panelStep = new JPanel();
+		this.add(panelStep);
 		
 		JButton btnBeginning = new JButton();
-		btnBeginning.setIcon(new ImageIcon("D:\\Daten\\Documents\\Programmierung\\Java\\Eclipse_BFH_Project_1\\GraphVisualizer\\ProjectGraphVisualizer\\src\\main\\resources\\META-INF\\images\\Rewind24.gif"));
+		btnBeginning.setIcon(new ImageIcon(IMAGES_DIR + BEGINNING_ICON));
+		btnBeginning.setToolTipText(BEGINNING_TOOLTIP);
 		btnBeginning.setEnabled(false);
-		panel_1.add(btnBeginning);
+		panelStep.add(btnBeginning);
 		
 		JButton btnBack = new JButton();
-		btnBack.setIcon(new ImageIcon("D:\\Daten\\Documents\\Programmierung\\Java\\Eclipse_BFH_Project_1\\GraphVisualizer\\ProjectGraphVisualizer\\src\\main\\resources\\META-INF\\images\\StepBack24.gif"));
+		btnBack.setIcon(new ImageIcon(IMAGES_DIR + BACK_ICON));
+		btnBack.setToolTipText(BACK_TOOLTIP);
 		btnBack.setEnabled(false);
-		panel_1.add(btnBack);
+		panelStep.add(btnBack);
 		
 		JButton btnForward = new JButton();
-		btnForward.setIcon(new ImageIcon("D:\\Daten\\Documents\\Programmierung\\Java\\Eclipse_BFH_Project_1\\GraphVisualizer\\ProjectGraphVisualizer\\src\\main\\resources\\META-INF\\images\\StepForward24.gif"));
+		btnForward.setIcon(new ImageIcon(IMAGES_DIR + FORWARD_ICON));
+		btnForward.setToolTipText(FORWARD_TOOLTIP);
 		btnForward.setEnabled(false);
-		panel_1.add(btnForward);
+		panelStep.add(btnForward);
 		
 		JButton btnEnd = new JButton();
-		btnEnd.setIcon(new ImageIcon("D:\\Daten\\Documents\\Programmierung\\Java\\Eclipse_BFH_Project_1\\GraphVisualizer\\ProjectGraphVisualizer\\src\\main\\resources\\META-INF\\images\\FastForward24.gif"));
+		btnEnd.setIcon(new ImageIcon(IMAGES_DIR + END_ICON));
+		btnEnd.setToolTipText(END_TOOLTIP);
 		btnEnd.setEnabled(false);
-		panel_1.add(btnEnd);
+		panelStep.add(btnEnd);
 
 		// add listeners
 		btnBeginning.setActionCommand(EventSource.BEGINNING.toString());
@@ -85,7 +103,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnEnd.addActionListener(stepController);
 		
 		// set models
-		model.setProgressBarModel(progressBar.getModel());
+		model.setProgressBarModel(this.progressBar.getModel());
 		model.setBeginningButtonModel(btnBeginning.getModel());
 		model.setForwardButtonModel(btnForward.getModel());
 		model.setBackButtonModel(btnBack.getModel());
@@ -98,10 +116,14 @@ public class StepPanel extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof IStepModel) {
+			IStepModel model = (IStepModel) arg;
+			String labelText = String.format(PROGRESS_LABEL, model.getStepValue(), 
+					model.getStepMaximum());
 			
+			// update progress label with current step values
+			this.lblProgress.setText(labelText);
+			this.progressBar.setToolTipText(labelText);
 		}
-		// TODO Auto-generated method stub
-		
 	}
 
 }

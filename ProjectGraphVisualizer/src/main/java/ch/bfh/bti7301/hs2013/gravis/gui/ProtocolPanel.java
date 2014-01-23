@@ -24,6 +24,7 @@ public class ProtocolPanel extends JPanel implements Observer {
 	 * Create the panel.
 	 */
 	public ProtocolPanel() {
+		// TODO splitPane verwenden
 		// TODO enable scrollbar
 		
 		this.setLayout(new BorderLayout(0, 0));
@@ -44,9 +45,9 @@ public class ProtocolPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof String) {
-			this.textArea.append((String) arg);
-		}
+//		if (arg instanceof String) {
+//			this.textArea.append((String) arg);
+//		}
 	}
 
 }

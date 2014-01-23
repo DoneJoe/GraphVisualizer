@@ -216,6 +216,31 @@ class GuiModel implements IGuiModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#updateStepButtonModels
+	 * (boolean, boolean, boolean, boolean)
+	 */
+	@Override
+	public void updateStepButtonModels(boolean beginning, boolean back,
+			boolean forward, boolean end) {
+		
+		if (this.beginningButtonModel != null) {
+			this.beginningButtonModel.setEnabled(beginning);
+		}
+		if (this.backButtonModel != null) {
+			this.backButtonModel.setEnabled(back);
+		}
+		if (this.forwardButtonModel != null) {
+			this.forwardButtonModel.setEnabled(forward);
+		}
+		if (this.endButtonModel != null) {
+			this.endButtonModel.setEnabled(end);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setStepEnabledState(
 	 * ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator)
 	 */
@@ -224,22 +249,16 @@ class GuiModel implements IGuiModel {
 		if (stepIterator != null) {
 			this.stepIterator = stepIterator;
 			this.stepIterator.first();
-		}
-		if (this.beginningButtonModel != null) {
-			this.beginningButtonModel.setEnabled(false);
-		}
-		if (this.forwardButtonModel != null) {
-			this.forwardButtonModel.setEnabled(true);
-		}
-		if (this.backButtonModel != null) {
-			this.backButtonModel.setEnabled(true);
-		}
-		if (this.endButtonModel != null) {
-			this.endButtonModel.setEnabled(true);
-		}
-		if (this.progressBarModel != null) {
-			this.progressBarModel.setMaximum(this.stepIterator.size());
-			this.progressBarModel.setValue(0);
+
+			this.updateStepButtonModels(this.stepIterator.hasPrevious(),
+					this.stepIterator.hasPrevious(),
+					this.stepIterator.hasNext(), this.stepIterator.hasNext());
+
+			if (this.progressBarModel != null) {
+				this.progressBarModel.setMinimum(0);
+				this.progressBarModel.setMaximum(this.stepIterator.size());
+				this.progressBarModel.setValue(0);
+			}
 		}
 	}
 
@@ -254,22 +273,14 @@ class GuiModel implements IGuiModel {
 		if (this.stepIterator != null) {
 			this.stepIterator.first();
 			this.stepIterator = null;
-		}
-		if (this.beginningButtonModel != null) {
-			this.beginningButtonModel.setEnabled(false);
-		}
-		if (this.forwardButtonModel != null) {
-			this.forwardButtonModel.setEnabled(false);
-		}
-		if (this.backButtonModel != null) {
-			this.backButtonModel.setEnabled(false);
-		}
-		if (this.endButtonModel != null) {
-			this.endButtonModel.setEnabled(false);
-		}
-		if (this.progressBarModel != null) {
-			this.progressBarModel.setMaximum(0);
-			this.progressBarModel.setValue(0);
+
+			this.updateStepButtonModels(false, false, false, false);
+
+			if (this.progressBarModel != null) {
+				this.progressBarModel.setMinimum(0);
+				this.progressBarModel.setMaximum(0);
+				this.progressBarModel.setValue(0);
+			}
 		}
 	}
 

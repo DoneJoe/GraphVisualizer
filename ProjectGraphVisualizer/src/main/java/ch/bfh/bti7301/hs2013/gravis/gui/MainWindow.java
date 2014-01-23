@@ -167,6 +167,7 @@ public class MainWindow extends JFrame {
 			IGuiModel model) {
 		// TODO Mnemonic, F1
 
+		// create menu items
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(FILE);
 		JMenuItem menuItemNewDirGraph = new JMenuItem(NEW_DIR_GRAPH);
@@ -180,6 +181,7 @@ public class MainWindow extends JFrame {
 		JMenuItem menuItemShortcuts = new JMenuItem(SHORTCUTS);
 		JMenuItem menuItemInfo = new JMenuItem(INFO);
 
+		// add listeners
 		menuItemNewDirGraph.setActionCommand(EventSource.NEW_DIR_GRAPH
 				.toString());
 		menuItemNewDirGraph.addActionListener(menuToolbarController);
@@ -197,6 +199,7 @@ public class MainWindow extends JFrame {
 		menuItemExit.addActionListener(menuToolbarController);
 		this.setHelpListeners(menuItemHelp, menuItemShortcuts, menuItemInfo);
 
+		// add menu items
 		this.setJMenuBar(menuBar);
 		menuBar.add(menuFile);
 		menuBar.add(menuHelp);

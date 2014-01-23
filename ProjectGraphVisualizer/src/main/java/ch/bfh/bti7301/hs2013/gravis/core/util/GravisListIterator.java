@@ -13,6 +13,8 @@ import java.util.ListIterator;
  */
 public class GravisListIterator<E> implements IGravisListIterator<E> {
 
+	private static final String EXCEPTION_MSG = "remove: unsupported operation!";
+	
 	private final ListIterator<E> listIterator;
 
 	private int size;
@@ -82,8 +84,7 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 	 */
 	@Override
 	public void remove() {
-		throw new UnsupportedOperationException(
-				"remove: Unsupported operation!");
+		throw new UnsupportedOperationException(EXCEPTION_MSG);
 	}
 
 	/*

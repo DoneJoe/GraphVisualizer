@@ -10,6 +10,8 @@ import ch.bfh.bti7301.hs2013.gravis.core.step.IStep;
  */
 public class StepIterator implements IGravisListIterator<String> {
 
+	private static final String EXCEPTION_MSG = "remove: unsupported operation!";
+
 	/**
 	 * A field for a graph iterator.
 	 */
@@ -73,8 +75,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public void remove() {
-		throw new UnsupportedOperationException(
-				"remove: Unsupported operation!");
+		throw new UnsupportedOperationException(EXCEPTION_MSG);
 	}
 
 	/*

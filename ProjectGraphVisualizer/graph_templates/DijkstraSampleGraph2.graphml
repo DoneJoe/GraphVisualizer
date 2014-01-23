@@ -43,90 +43,79 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <desc></desc>
 <default>black</default>
 </key>
-<graph id="gerichteter Graph jkökl" edgedefault="directed">
-<data key="description">gerichteter Graph 3</data>
-<node id="26">
-<data key="vertexLocation.y">115</data>
+<graph id="gerichteter Graph 5" edgedefault="directed">
+<data key="description">gerichteter Graph 5</data>
+<node id="V3">
+<data key="vertexLocation.y">400</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">847</data>
+<data key="vertexColor">orange</data>
+<data key="vertexLocation.x">200</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="20">
-<data key="vertexLocation.y">257</data>
+<node id="V2">
+<data key="vertexLocation.y">250</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">1005</data>
+<data key="vertexLocation.x">100</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="24">
-<data key="vertexLocation.y">115</data>
+<node id="V5">
+<data key="vertexLocation.y">250</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">364</data>
+<data key="vertexLocation.x">500</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="21">
-<data key="vertexLocation.y">271</data>
+<node id="V4">
+<data key="vertexLocation.y">400</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">400</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="V1">
+<data key="vertexLocation.y">50</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">gray</data>
-<data key="vertexLocation.x">435</data>
+<data key="vertexLocation.x">300</data>
 <data key="startVertex">true</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="10">
-<data key="vertexLocation.y">364</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">806</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="23">
-<data key="vertexLocation.y">133</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">647</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="11">
-<data key="vertexLocation.y">376</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">606</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="25">
-<data key="vertexLocation.y">406</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">437</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<edge id="22" source="21" target="20">
-<data key="weight">1.0</data>
+<edge id="e35" source="V3" target="V5">
+<data key="weight">10.0</data>
 <data key="edgeColor">black</data>
 </edge>
-<edge id="27" source="21" target="23">
-<data key="weight">1.0</data>
+<edge id="e23" source="V2" target="V3">
+<data key="weight">50.0</data>
 <data key="edgeColor">black</data>
 </edge>
-<edge id="28" source="24" target="21">
-<data key="weight">1.0</data>
+<edge id="e43" source="V4" target="V3">
+<data key="weight">20.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e45" source="V4" target="V5">
+<data key="weight">60.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e15" source="V1" target="V5">
+<data key="weight">100.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e14" source="V1" target="V4">
+<data key="weight">30.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e12" source="V1" target="V2">
+<data key="weight">10.0</data>
 <data key="edgeColor">black</data>
 </edge>
 </graph>

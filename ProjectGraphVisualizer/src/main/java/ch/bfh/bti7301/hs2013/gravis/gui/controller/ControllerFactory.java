@@ -34,13 +34,11 @@ public final class ControllerFactory {
 	}
 
 	/**
-	 * @param core
 	 * @param model
 	 * @return IStepController
 	 */
-	public static IStepController createStepController(ICore core,
-			IGuiModel model) {
-		return new StepController(core, model);
+	public static IStepController createStepController(IGuiModel model) {
+		return new StepController(model);
 	}
 
 }

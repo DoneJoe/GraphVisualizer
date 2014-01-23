@@ -43,6 +43,15 @@ public interface IGuiModel {
 	public abstract void resetStepEnabledState();
 	
 	/**
+	 * @param beginning
+	 * @param back
+	 * @param forward
+	 * @param end
+	 */
+	public abstract void updateStepButtonModels(boolean beginning, boolean back,
+			boolean forward, boolean end);
+	
+	/**
 	 * @return IGravisGraph
 	 */
 	public abstract IGravisGraph getGraph();
