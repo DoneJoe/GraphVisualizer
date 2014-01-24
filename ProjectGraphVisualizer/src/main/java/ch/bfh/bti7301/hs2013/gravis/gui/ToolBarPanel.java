@@ -1,9 +1,12 @@
 package ch.bfh.bti7301.hs2013.gravis.gui;
 
 import java.awt.FlowLayout;
+import java.awt.Image;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 
@@ -51,10 +54,10 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	 * @param model 
 	 * @param menuToolbarController 
 	 * @param comboMode 
+	 * @throws IOException 
 	 */
 	public ToolBarPanel(IMenuToolbarController menuToolbarController, IGuiModel model,
-			JComboBox<?> comboMode) {
-		// TODO mode-combo mit label ("Bearbeitungsmodus") und Rahmen
+			JComboBox<?> comboMode) throws IOException {
 		// TODO set mnemonics
 		
 		this.setFloatable(false);
@@ -64,22 +67,22 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		this.setLayout(layout);
 		
 		JButton btnOpenGraph = new JButton();
-		btnOpenGraph.setIcon(new ImageIcon(IMAGES_DIR + OPEN_ICON));
+		btnOpenGraph.setIcon(new ImageIcon(this.loadImage(OPEN_ICON)));
 		btnOpenGraph.setToolTipText(OPEN_TOOLTIP);
 		this.add(btnOpenGraph);
 		
 		JButton btnSaveGraph = new JButton();
-		btnSaveGraph.setIcon(new ImageIcon(IMAGES_DIR + SAVE_ICON));
+		btnSaveGraph.setIcon(new ImageIcon(this.loadImage(SAVE_ICON)));
 		btnSaveGraph.setToolTipText(SAVE_TOOLTIP);
 		this.add(btnSaveGraph);
 		
 		JButton btnNewDirGraph = new JButton(NEW_DIR_LABEL);
-		btnNewDirGraph.setIcon(new ImageIcon(IMAGES_DIR + NEW_DIR_ICON));
+		btnNewDirGraph.setIcon(new ImageIcon(this.loadImage(NEW_DIR_ICON)));
 		btnNewDirGraph.setToolTipText(NEW_DIR_TOOLTIP);
 		this.add(btnNewDirGraph);
 		
 		JButton btnNewUndirGraph = new JButton(NEW_UNDIR_LABEL);
-		btnNewUndirGraph.setIcon(new ImageIcon(IMAGES_DIR + NEW_UNDIR_ICON));
+		btnNewUndirGraph.setIcon(new ImageIcon(this.loadImage(NEW_UNDIR_ICON)));
 		btnNewUndirGraph.setToolTipText(NEW_UNDIR_TOOLTIP);
 		this.add(btnNewUndirGraph);
 		
@@ -116,6 +119,18 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		this.comboBoxAlgorithm.addItemListener(menuToolbarController);
 		this.btnNewCalculation.setActionCommand(EventSource.NEW_CALC.toString());
 		this.btnNewCalculation.addActionListener(menuToolbarController);
+	}
+
+	/**
+	 * Loads an icon ressource with the given name.
+	 * 
+	 * @param iconName
+	 * @return Image
+	 * @throws IOException
+	 */
+	private Image loadImage(String iconName) throws IOException {
+		return ImageIO.read(this.getClass().getResourceAsStream(
+				IMAGES_DIR + iconName));
 	}
 
 	/* (non-Javadoc)

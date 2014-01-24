@@ -1,5 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.gui;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
@@ -30,8 +32,9 @@ public final class GuiFactory {
 	 * @param core
 	 * @return JFrame
 	 * @throws CoreException 
+	 * @throws IOException 
 	 */
-	public static JFrame createGUI(ICore core) throws CoreException {
+	public static JFrame createGUI(ICore core) throws CoreException, IOException {
 		// model
 		IGuiModel model = GuiModelFactory.createGuiModel(core);
 

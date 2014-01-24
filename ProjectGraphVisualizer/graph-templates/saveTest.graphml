@@ -54,6 +54,15 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
+<node id="20hljkh">
+<data key="vertexLocation.y">175</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">gray</data>
+<data key="vertexLocation.x">325</data>
+<data key="startVertex">true</data>
+<data key="vertexHeight">40.0</data>
+</node>
 <node id="19">
 <data key="vertexLocation.y">315</data>
 <data key="vertexWidth">60.0</data>
@@ -63,16 +72,7 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="20">
-<data key="vertexLocation.y">175</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">green</data>
-<data key="vertexLocation.x">325</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<edge id="21" directed="false" source="19" target="20">
+<edge id="21" directed="false" source="19" target="20hljkh">
 <data key="weight">1.0</data>
 <data key="edgeColor">red</data>
 </edge>

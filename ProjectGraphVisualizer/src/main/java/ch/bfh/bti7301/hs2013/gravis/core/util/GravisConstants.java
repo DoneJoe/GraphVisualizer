@@ -9,9 +9,8 @@ import java.awt.Color;
  */
 public interface GravisConstants {
 
-	public static final String TEMPLATES_DIR = "graph_templates";
-	public static final String IMAGES_DIR = "src/main/resources/META-INF/images/";
-	// TODO relativer Pfad in jar-file
+	public static final String TEMPLATES_DIR = "graph-templates";
+	public static final String IMAGES_DIR = "/META-INF/images/";
 	
 	public static final String GREEN = "green";
 	public static final String YELLOW = "yellow";

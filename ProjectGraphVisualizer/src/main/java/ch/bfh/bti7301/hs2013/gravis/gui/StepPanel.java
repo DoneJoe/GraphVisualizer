@@ -1,8 +1,11 @@
 package ch.bfh.bti7301.hs2013.gravis.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -46,10 +49,10 @@ public class StepPanel extends JPanel implements Observer {
 	 * Create the panel.
 	 * @param model 
 	 * @param stepController 
+	 * @throws IOException 
 	 */
-	public StepPanel(IStepController stepController, IGuiModel model) {
+	public StepPanel(IStepController stepController, IGuiModel model) throws IOException {
 		// TODO set mnemonics
-		// TODO korrekte icons für start und ende
 		
 		this.setLayout(new GridLayout(2, 0, 0, 0));
 		
@@ -72,25 +75,25 @@ public class StepPanel extends JPanel implements Observer {
 		this.add(panelStep);
 		
 		JButton btnBeginning = new JButton();
-		btnBeginning.setIcon(new ImageIcon(IMAGES_DIR + BEGINNING_ICON));
+		btnBeginning.setIcon(new ImageIcon(this.loadImage(BEGINNING_ICON)));
 		btnBeginning.setToolTipText(BEGINNING_TOOLTIP);
 		btnBeginning.setEnabled(false);
 		panelStep.add(btnBeginning);
 		
 		JButton btnBack = new JButton();
-		btnBack.setIcon(new ImageIcon(IMAGES_DIR + BACK_ICON));
+		btnBack.setIcon(new ImageIcon(this.loadImage(BACK_ICON)));
 		btnBack.setToolTipText(BACK_TOOLTIP);
 		btnBack.setEnabled(false);
 		panelStep.add(btnBack);
 		
 		JButton btnForward = new JButton();
-		btnForward.setIcon(new ImageIcon(IMAGES_DIR + FORWARD_ICON));
+		btnForward.setIcon(new ImageIcon(this.loadImage(FORWARD_ICON)));
 		btnForward.setToolTipText(FORWARD_TOOLTIP);
 		btnForward.setEnabled(false);
 		panelStep.add(btnForward);
 		
 		JButton btnEnd = new JButton();
-		btnEnd.setIcon(new ImageIcon(IMAGES_DIR + END_ICON));
+		btnEnd.setIcon(new ImageIcon(this.loadImage(END_ICON)));
 		btnEnd.setToolTipText(END_TOOLTIP);
 		btnEnd.setEnabled(false);
 		panelStep.add(btnEnd);
@@ -113,6 +116,18 @@ public class StepPanel extends JPanel implements Observer {
 		model.setEndButtonModel(btnEnd.getModel());
 	}
 
+	/**
+	 * Loads an icon ressource with the given name.
+	 * 
+	 * @param iconName
+	 * @return Image
+	 * @throws IOException
+	 */
+	private Image loadImage(String iconName) throws IOException {
+		return ImageIO.read(this.getClass().getResourceAsStream(
+				IMAGES_DIR + iconName));
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
@@ -123,7 +138,7 @@ public class StepPanel extends JPanel implements Observer {
 			String labelText = String.format(PROGRESS_LABEL, model.getStepValue(), 
 					model.getStepMaximum());
 			
-			// update progress label with current step values
+			// update progress labels with current step values
 			this.lblProgress.setText(labelText);
 			this.progressBar.setToolTipText(labelText);
 		}

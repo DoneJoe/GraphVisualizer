@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -98,10 +99,11 @@ public class MainWindow extends JFrame {
 	 * @param menuToolbarController
 	 * @param visualizationController
 	 * @param model
+	 * @throws IOException 
 	 */
 	public MainWindow(IMenuToolbarController menuToolbarController,
 			IEditingGraphEventListener visualizationController,
-			IStepController stepController, IGuiModel model) {
+			IStepController stepController, IGuiModel model) throws IOException {
 		super(TITLE);
 
 		this.contentPane = new JPanel();
