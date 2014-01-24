@@ -37,7 +37,7 @@ class VisualizationController extends Observable implements
 		this.model.setGraphChanged(true);
 		this.model.setGraphUnsaved(true);
 		
-		// update views
+		// update view
 		this.setChanged();
 		this.notifyObservers(this.model.createToolBarModel());
 		this.setChanged();
@@ -57,7 +57,7 @@ class VisualizationController extends Observable implements
 		// update model
 		this.model.setGraphUnsaved(true);
 		
-		// update views
+		// update view
 		this.setChanged();
 		this.notifyObservers(this.model.getGraph());
 	}

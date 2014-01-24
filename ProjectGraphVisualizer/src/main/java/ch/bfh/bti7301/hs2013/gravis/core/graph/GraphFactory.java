@@ -58,7 +58,7 @@ public final class GraphFactory {
 	 * @return directed IEditingGraph
 	 */
 	public static IEditingGraph createEditingGraph() {
-		return new EditingGraph(createGraph());
+		return new EditingGraph(createGravisGraph());
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public final class GraphFactory {
 	 */
 	public static IEditingGraph createEditingGraph(EdgeType edgeType, 
 			IEditingGraphEventListener ... listeners) {
-		EditingGraph editingGraph = new EditingGraph(createGraph(), edgeType);
+		EditingGraph editingGraph = new EditingGraph(createGravisGraph(edgeType));
 		
 		for (IEditingGraphEventListener listener : listeners) {
 			editingGraph.addEditingGraphEventListener(listener);
@@ -83,7 +83,7 @@ public final class GraphFactory {
 	 * @param listeners
 	 * @return IEditingGraph
 	 */
-	public static IEditingGraph createEditingGraph(Graph<IVertex, IEdge> graph, 
+	public static IEditingGraph createEditingGraph(IGravisGraph graph, 
 			IEditingGraphEventListener ... listeners) {
 		EditingGraph editingGraph = new EditingGraph(graph);
 		

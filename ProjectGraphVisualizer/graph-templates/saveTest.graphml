@@ -43,38 +43,38 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <desc></desc>
 <default>black</default>
 </key>
-<graph id="gerichteter Graph 3" edgedefault="directed">
-<data key="description">gerichteter Graph 3</data>
-<node id="18">
-<data key="vertexLocation.y">159</data>
+<graph id="gerichteter Graph 1" edgedefault="directed">
+<data key="description">gerichteter Graph 1</data>
+<node id="2">
+<data key="vertexLocation.y">314</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">green</data>
-<data key="vertexLocation.x">693</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">751</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="20hljkh">
-<data key="vertexLocation.y">175</data>
+<node id="3">
+<data key="vertexLocation.y">153</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">gray</data>
-<data key="vertexLocation.x">325</data>
-<data key="startVertex">true</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="19">
-<data key="vertexLocation.y">315</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">blue</data>
-<data key="vertexLocation.x">759</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">563</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<edge id="21" directed="false" source="19" target="20hljkh">
+<node id="1">
+<data key="vertexLocation.y">166</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">1173</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<edge id="4" source="3" target="2">
 <data key="weight">1.0</data>
-<data key="edgeColor">red</data>
+<data key="edgeColor">black</data>
 </edge>
 </graph>
 </graphml>

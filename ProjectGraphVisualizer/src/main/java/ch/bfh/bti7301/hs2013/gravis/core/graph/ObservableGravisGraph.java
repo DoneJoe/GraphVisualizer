@@ -16,7 +16,7 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 
 	private static final long serialVersionUID = -4250831846033989666L;
 
-	private IGravisGraph gravisGraph;
+	private final IGravisGraph gravisGraph;
 
 	/**
 	 * @param delegate

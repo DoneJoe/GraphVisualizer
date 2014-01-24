@@ -46,10 +46,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 * @param owner
 	 */
 	public VisualizationPanel(IGuiModel model, JFrame owner) {
-		super();
-
-		// TODO Scroll-Pane anpassen
-
+		// create components
 		this.viewer = new GravisVisualizationViewer(
 				GuiFactory.createLayout(model.getGraph()));
 		VertexMenu vertexMenu = new VertexMenu(this.viewer, owner, model);
