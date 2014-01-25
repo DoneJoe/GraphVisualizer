@@ -53,10 +53,12 @@ public interface ICore {
 			IGravisGraph graph, String algorithmName) throws CoreException;
 
 	/**
+	 * 
 	 * @param algoName
 	 * @return String
+	 * @throws CoreException
 	 */
-	public abstract String getAlgorithmDescription(String algoName);
+	public abstract String getAlgorithmDescription(String algoName) throws CoreException;
 
 
 }

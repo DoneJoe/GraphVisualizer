@@ -18,7 +18,6 @@ public final class StepTransformerFactory {
 	 * @return an instance of Transformer<IGraphItem, IStep>
 	 */
 	public static Transformer<IGraphItem, IStep> createStepTransformer() {
-		// TODO Exception handling: StepException
 		return new StepTransformer();
 	}
 

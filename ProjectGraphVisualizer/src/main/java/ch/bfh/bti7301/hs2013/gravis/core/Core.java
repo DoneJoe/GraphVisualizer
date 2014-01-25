@@ -30,7 +30,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 class Core implements ICore {
 
 	private final static String UNKNOWN_ALGO = "This is not a valid algorithm name: %s";
-	
+
 	private IGraphManager graphManager;
 	private IAlgorithmManager algorithmManager;
 
@@ -42,7 +42,6 @@ class Core implements ICore {
 			IAlgorithmManager algorithmManager) {
 		this.graphManager = graphManager;
 		this.algorithmManager = algorithmManager;
-		// TODO Exception Handling
 	}
 
 	/*
@@ -84,7 +83,11 @@ class Core implements ICore {
 	 */
 	@Override
 	public String[] getAlgorithmNames(EdgeType edgeType) throws CoreException {
-		return this.algorithmManager.getAlgorithmNames(edgeType);
+		try {
+			return this.algorithmManager.getAlgorithmNames(edgeType);
+		} catch (Exception e) {
+			throw new CoreException(e);
+		}
 	}
 
 	/*
@@ -118,20 +121,29 @@ class Core implements ICore {
 				return new StepIterator(new GravisListIterator<IStep>(
 						commandList));
 			} else {
-				throw new CoreException(String.format(UNKNOWN_ALGO, algorithmName));
+				throw new CoreException(String.format(UNKNOWN_ALGO,
+						algorithmName));
 			}
 		} catch (Exception e) {
 			throw new CoreException(e);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#getAlgorithmDescription(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.ICore#getAlgorithmDescription(java.
+	 * lang.String)
 	 */
 	@Override
-	public String getAlgorithmDescription(String algoName) {
-		IAlgorithm algo = this.algorithmManager.getAlgorithm(algoName);
-		return algo == null ? null : algo.getDescription();
+	public String getAlgorithmDescription(String algoName) throws CoreException {
+		try {
+			IAlgorithm algo = this.algorithmManager.getAlgorithm(algoName);
+			return algo == null ? null : algo.getDescription();
+		} catch (Exception e) {
+			throw new CoreException(e);
+		}
 	}
 
 }

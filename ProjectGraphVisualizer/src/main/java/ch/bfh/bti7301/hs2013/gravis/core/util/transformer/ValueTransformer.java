@@ -116,7 +116,7 @@ public final class ValueTransformer {
 
 	/**
 	 * @param value
-	 * @return
+	 * @return double
 	 */
 	public static double round2Decimals(double value) {
 		return Math.rint(value * 100.0) / 100.0;
@@ -128,5 +128,18 @@ public final class ValueTransformer {
 	 */
 	public static IRestrictedGraphItem[] toArray(List<IRestrictedGraphItem> itemList) {
 		return itemList.toArray(new IRestrictedGraphItem[itemList.size()]);
+	}
+
+	/**
+	 * Transforms a double value to a string-representation: 
+	 * If the double value is a whole number, the value is first converted to a int.
+	 * If the double value has fractional parts, the value is rounded with round2Decimals().
+	 * 
+	 * @param value
+	 * @return String
+	 */
+	public static String transformNumberToString(double value) {
+		return Double.compare(round2Decimals(value), (int) Math.round(value)) == 0 ? 
+				String.valueOf((int) Math.round(value)) : String.valueOf(round2Decimals(value));
 	}
 }

@@ -49,6 +49,7 @@ public interface IGravisGraph extends Graph<IVertex, IEdge> {
 	public abstract void setName(String graphName);
 
 	/**
+	 * Returns the edge type of this graph (directed or undirected).
 	 * 
 	 * @return EdgeType
 	 */

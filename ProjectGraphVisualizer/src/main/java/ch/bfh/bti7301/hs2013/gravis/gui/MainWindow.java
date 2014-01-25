@@ -1,10 +1,15 @@
 package ch.bfh.bti7301.hs2013.gravis.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.Image;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
@@ -16,15 +21,21 @@ import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.VisualizationPanel;
 import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController.EventSource;
+import static ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants.*;
 
+import javax.swing.ImageIcon;
+import javax.swing.JEditorPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.net.URI;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -46,52 +57,70 @@ public class MainWindow extends JFrame {
 	private final static String HELP_ITEM = "Hilfe...";
 	private final static String SHORTCUTS = "Shortcuts...";
 	private final static String INFO = "Info...";
+	private final static String APP_ERR_TITLE = "Fehler";
+	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten: %s";
 
+	private static final String OPEN_ICON = "Open16.gif";
+	private static final String SAVE_ICON = "SaveAs16.gif";
+	private static final String NEW_ICON = "New16.gif";
+	private static final String EDIT_ICON = "Edit16.gif";
+	private static final String HELP_ICON = "Help16.gif";
+	private static final String INFO_ICON = "About16.gif";
+
+	private final static String EDITOR_PANE_TYPE = "text/html";
 	private final static String HELP_TITLE = "Hilfe zum Graph Visualizer";
+	private final static String HELP_TEXT = "<html><body>"
+			+ "<p>Die Projektdokumentation mit Hilfe zu dieser Applikation "
+			+ "befindet sich im GitHub-Repository unter:</p>"
+			+ "<a href=\"https://github.com/kofmp1/GraphVisualizer/tree/master/"
+			+ "ProjectGraphVisualizer/doc\">"
+			+ "https://github.com/kofmp1/GraphVisualizer/tree/master/"
+			+ "ProjectGraphVisualizer/doc</a></body></html>";
 	private final static String INFO_TITLE = "Info zum Graph Visualizer";
-	private final static String INFO_COMMENT = "<html>"
-			+ "<h3><center>Graph Visualizer</center></h3>"
-			+ "<center>Ein Tool zur Visualisierung von Graphen und Algorithmen.</center>"
-			+ "<br /><center>Berner Fachhochschule - Technik und Informatik</center>"
-			+ "<center>Modul BTI7301: Projekt 1</center>"
-			+ "<br /><center>Entwickelt von Patrick Kofmel</center>"
-			+ "</html>";
+	private final static String INFO_TEXT = "<html><body>"
+			+ "<h3>Graph Visualizer</h3>"
+			+ "Ein Tool zur Visualisierung von Graphen und Algorithmen."
+			+ "<br /><br />Berner Fachhochschule - Technik und Informatik"
+			+ "<br />Modul BTI7301: Projekt 1"
+			+ "<br />Herbstsemester 2013/2014"
+			+ "<br /><br />Entwickelt von Patrick Kofmel</body></html>";
 	private final static String SHORTCUT_TITLE = "Shortcuts zum Graph Visualizer";
-	private final static String SHORTCUT_COMMENT = "<html>"
+	private final static String SHORTCUT_TEXT = "<html><body>"
 			+ "<h3>All Modes:</h3>"
 			+ "<ul>"
 			+ "<li>Right-click an empty area for <b>Create Vertex</b> popup"
-			+ "<li>Right-click on a Vertex for <b>Set Start Vertex, Set End Vertex, Edit Vertex, Delete Vertex</b> popup"
+			+ "<li>Right-click on a Vertex for <b>Set Start Vertex, Set End Vertex, "
+			+ "Edit Vertex, Delete Vertex</b> popup"
 			+ "<li>Right-click on an Edge for <b>Edit Edge, Delete Edge</b> popup"
 			+ "<li>Mousewheel scales with a crossover value of 1.0.<p>"
 			+ "     - scales the graph layout when the combined scale is greater than 1<p>"
 			+ "     - scales the graph view when the combined scale is less than 1"
 			+ "</ul>"
+			+ "<h3>Picking Mode:</h3>"
+			+ "<ul>"
+			+ "<li>Left-click on a Vertex selects the vertex"
+			+ "<li>Left-click elsewhere unselects all Vertices"
+			+ "<li>Shift+(Left-click) on a Vertex adds/removes Vertex selection"
+			+ "<li>(Left-click)+drag on a Vertex moves all selected Vertices"
+			+ "<li>(Left-click)+drag elsewhere selects Vertices in a region"
+			+ "<li>Shift+(Left-click)+drag adds selection of Vertices in a new region"
+			+ "<li>CTRL+(Left-click) on a Vertex selects the vertex and centers the display on it"
+			+ "</ul>"
 			+ "<h3>Editing Mode:</h3>"
 			+ "<ul>"
 			+ "<li>Left-click an empty area to create a new Vertex"
-			+ "<li>Left-click on a Vertex and drag to another Vertex to create an undirected or directed edge"
-			+ "</ul>"
-			+ "<h3>Picking Mode:</h3>"
-			+ "<ul>"
-			+ "<li>Mouse1 on a Vertex selects the vertex"
-			+ "<li>Mouse1 elsewhere unselects all Vertices"
-			+ "<li>Mouse1+Shift on a Vertex adds/removes Vertex selection"
-			+ "<li>Mouse1+drag on a Vertex moves all selected Vertices"
-			+ "<li>Mouse1+drag elsewhere selects Vertices in a region"
-			+ "<li>Mouse1+Shift+drag adds selection of Vertices in a new region"
-			+ "<li>Mouse1+CTRL on a Vertex selects the vertex and centers the display on it"
+			+ "<li>Left-click on a Vertex and drag to another Vertex to create a directed "
+			+ "or undirected edge"
 			+ "</ul>"
 			+ "<h3>Transforming Mode:</h3>"
 			+ "<ul>"
-			+ "<li>Mouse1+drag pans the graph"
-			+ "<li>Mouse1+Shift+drag rotates the graph"
-			+ "<li>Mouse1+CTRL(or Command)+drag shears the graph"
-			+ "<li>Mouse1 double-click on a vertex or edge allows you to edit the label"
-			+ "</ul></html>";
+			+ "<li>(Left-click)+drag pans the graph"
+			+ "<li>Shift+(Left-click)+drag rotates the graph"
+			+ "<li>CTRL+(Left-click)+drag shears the graph"
+			+ "</ul></body></html>";
 
-	private JPanel contentPane;
-
+	private final JEditorPane helpEditorPane, shortcutEditorPane, infoEditorPane;
+	
 	/**
 	 * Create the frame.
 	 * 
@@ -99,19 +128,22 @@ public class MainWindow extends JFrame {
 	 * @param menuToolbarController
 	 * @param visualizationController
 	 * @param model
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public MainWindow(IMenuToolbarController menuToolbarController,
 			IEditingGraphEventListener visualizationController,
 			IStepController stepController, IGuiModel model) throws IOException {
 		super(TITLE);
 
-		this.contentPane = new JPanel();
-		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.contentPane.setLayout(new BorderLayout(0, 0));
-		this.setContentPane(this.contentPane);
+		JPanel contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		this.setContentPane(contentPane);
 
 		// create panels
+		this.helpEditorPane = this.createEditorPane(HELP_TEXT);
+		this.shortcutEditorPane = this.createEditorPane(SHORTCUT_TEXT);
+		this.infoEditorPane = this.createEditorPane(INFO_TEXT);
 		VisualizationPanel visualizationPanel = new VisualizationPanel(model,
 				this);
 		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model,
@@ -119,15 +151,15 @@ public class MainWindow extends JFrame {
 		StepPanel stepPanel = new StepPanel(stepController, model);
 		ProtocolPanel protocolPanel = new ProtocolPanel();
 		JPanel footerPanel = new JPanel();
-		
+
 		// add panels
-		this.contentPane.add(toolBar, BorderLayout.PAGE_START);
-		this.contentPane.add(visualizationPanel, BorderLayout.CENTER);
-		this.contentPane.add(footerPanel, BorderLayout.SOUTH);
+		contentPane.add(toolBar, BorderLayout.PAGE_START);
+		contentPane.add(visualizationPanel, BorderLayout.CENTER);
+		contentPane.add(footerPanel, BorderLayout.SOUTH);
 		footerPanel.setLayout(new BorderLayout());
 		footerPanel.add(stepPanel, BorderLayout.NORTH);
 		footerPanel.add(protocolPanel, BorderLayout.CENTER);
-		
+
 		// set dialog adapters
 		menuToolbarController
 				.setFileChooserAdapter(new FileChooserAdapter(this));
@@ -138,7 +170,7 @@ public class MainWindow extends JFrame {
 		menuToolbarController
 				.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
 						this));
-		
+
 		// add Observers
 		menuToolbarController.addObserver(toolBar);
 		menuToolbarController.addObserver(stepPanel);
@@ -163,24 +195,51 @@ public class MainWindow extends JFrame {
 	 * 
 	 * @param menuToolbarController
 	 * @param model
+	 * @throws IOException
 	 */
 	private void createMenus(IMenuToolbarController menuToolbarController,
-			IGuiModel model) {
-		// TODO Mnemonic, F1
-
+			IGuiModel model) throws IOException {
 		// create menu items
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(FILE);
-		JMenuItem menuItemNewDirGraph = new JMenuItem(NEW_DIR_GRAPH);
-		JMenuItem menuItemNewUndirGraph = new JMenuItem(NEW_UNDIR_GRAPH);
-		JMenuItem menuItemOpenGraph = new JMenuItem(OPEN);
-		JMenuItem menuItemSaveGraph = new JMenuItem(SAVE);
-		JMenuItem menuItemGraphProperties = new JMenuItem(PROPERTIES);
+		JMenuItem menuItemNewDirGraph = new JMenuItem(NEW_DIR_GRAPH,
+				new ImageIcon(this.loadImage(NEW_ICON)));
+		JMenuItem menuItemNewUndirGraph = new JMenuItem(NEW_UNDIR_GRAPH,
+				new ImageIcon(this.loadImage(NEW_ICON)));
+		JMenuItem menuItemOpenGraph = new JMenuItem(OPEN, new ImageIcon(
+				this.loadImage(OPEN_ICON)));
+		JMenuItem menuItemSaveGraph = new JMenuItem(SAVE, new ImageIcon(
+				this.loadImage(SAVE_ICON)));
+		JMenuItem menuItemGraphProperties = new JMenuItem(PROPERTIES,
+				new ImageIcon(this.loadImage(EDIT_ICON)));
 		JMenuItem menuItemExit = new JMenuItem(EXIT);
 		JMenu menuHelp = new JMenu(HELP_MENU);
-		JMenuItem menuItemHelp = new JMenuItem(HELP_ITEM);
-		JMenuItem menuItemShortcuts = new JMenuItem(SHORTCUTS);
-		JMenuItem menuItemInfo = new JMenuItem(INFO);
+		JMenuItem menuItemHelp = new JMenuItem(HELP_ITEM, new ImageIcon(
+				this.loadImage(HELP_ICON)));
+		JMenuItem menuItemShortcuts = new JMenuItem(SHORTCUTS, new ImageIcon(
+				this.loadImage(HELP_ICON)));
+		JMenuItem menuItemInfo = new JMenuItem(INFO, new ImageIcon(
+				this.loadImage(INFO_ICON)));
+
+		// set menu shortcuts and mnemonics
+		menuFile.setMnemonic(KeyEvent.VK_D);
+		menuHelp.setMnemonic(KeyEvent.VK_H);
+		menuItemNewDirGraph.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		menuItemNewUndirGraph.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_N, ActionEvent.SHIFT_MASK));
+		menuItemOpenGraph.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
+				ActionEvent.CTRL_MASK));
+		menuItemSaveGraph.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				ActionEvent.CTRL_MASK));
+		menuItemGraphProperties.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		menuItemExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
+				ActionEvent.ALT_MASK));
+		menuItemHelp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+		menuItemShortcuts.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2,
+				0));
+		menuItemInfo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 
 		// add listeners
 		menuItemNewDirGraph.setActionCommand(EventSource.NEW_DIR_GRAPH
@@ -217,6 +276,18 @@ public class MainWindow extends JFrame {
 	}
 
 	/**
+	 * Loads an icon ressource with the given name.
+	 * 
+	 * @param iconName
+	 * @return Image
+	 * @throws IOException
+	 */
+	private Image loadImage(String iconName) throws IOException {
+		return ImageIO.read(this.getClass().getResourceAsStream(
+				IMAGES_DIR + iconName));
+	}
+
+	/**
 	 * @param menuItemHelp
 	 * @param menuItemShortcuts
 	 * @param menuItemInfo
@@ -227,8 +298,8 @@ public class MainWindow extends JFrame {
 		menuItemHelp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Help dialog
-				JOptionPane.showMessageDialog(MainWindow.this, "Help Text",
+				JOptionPane.showMessageDialog(MainWindow.this,
+						MainWindow.this.helpEditorPane,
 						HELP_TITLE, JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -236,21 +307,56 @@ public class MainWindow extends JFrame {
 		menuItemShortcuts.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Shortcut dialog text auf deutsch
 				JOptionPane.showMessageDialog(MainWindow.this,
-						SHORTCUT_COMMENT, SHORTCUT_TITLE,
-						JOptionPane.INFORMATION_MESSAGE);
+						MainWindow.this.shortcutEditorPane,
+						SHORTCUT_TITLE, JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 
 		menuItemInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Info dialog text und Formatierung
-				JOptionPane.showMessageDialog(MainWindow.this, INFO_COMMENT,
+				JOptionPane.showMessageDialog(MainWindow.this,
+						MainWindow.this.infoEditorPane,
 						INFO_TITLE, JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
+	}
+
+	/**
+	 * @param helpText
+	 * @return JEditorPane
+	 */
+	private JEditorPane createEditorPane(String helpText) {
+		JEditorPane ep = new JEditorPane(EDITOR_PANE_TYPE, helpText);
+
+		// handle link events
+		ep.addHyperlinkListener(new HyperlinkListener() {
+			@Override
+			public void hyperlinkUpdate(HyperlinkEvent e) {
+				try {
+					if (e.getEventType().equals(
+							HyperlinkEvent.EventType.ACTIVATED)) {
+
+						if (Desktop.isDesktopSupported()) {
+							Desktop desktop = Desktop.getDesktop();
+
+							if (desktop.isSupported(Desktop.Action.BROWSE)) {
+								desktop.browse(new URI(e.getURL().toString()));
+							}
+						}
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(MainWindow.this,
+							String.format(APP_ERR_MSG, ex.getMessage()),
+							APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		ep.setEditable(false);
+		ep.setBackground(this.getBackground());
+		return ep;
 	}
 
 }

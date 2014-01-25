@@ -52,8 +52,6 @@ public class StepPanel extends JPanel implements Observer {
 	 * @throws IOException 
 	 */
 	public StepPanel(IStepController stepController, IGuiModel model) throws IOException {
-		// TODO set mnemonics
-		
 		this.setLayout(new GridLayout(2, 0, 0, 0));
 		
 		JPanel panelProgress = new JPanel();

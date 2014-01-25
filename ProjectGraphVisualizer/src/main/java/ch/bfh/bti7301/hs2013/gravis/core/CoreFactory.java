@@ -28,9 +28,8 @@ public final class CoreFactory {
 	 * core classes.
 	 * 
 	 * @return an instance of type ICore
-	 * @throws CoreException
 	 */
-	public static ICore createCore() throws CoreException {
+	public static ICore createCore() {
 		IGraphManager graphManager = GraphFactory.createGraphManager();
 		IAlgorithmManager algorithmManager = AlgorithmFactory
 				.createAlgorithmManager();

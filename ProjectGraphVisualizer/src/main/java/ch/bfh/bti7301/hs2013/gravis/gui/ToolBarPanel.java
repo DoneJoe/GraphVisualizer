@@ -32,11 +32,10 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	private static final String OPEN_TOOLTIP = "Graph öffnen...";
 	private static final String SAVE_ICON = "SaveAs24.gif";
 	private static final String SAVE_TOOLTIP = "Graph speichern unter...";
+	private static final String NEW_ICON = "New24.gif";
 	private static final String NEW_DIR_LABEL = "G";
-	private static final String NEW_DIR_ICON = "New24.gif";
 	private static final String NEW_DIR_TOOLTIP = "Neuer gerichteter Graph";
 	private static final String NEW_UNDIR_LABEL = "U";
-	private static final String NEW_UNDIR_ICON = "New24.gif";
 	private static final String NEW_UNDIR_TOOLTIP = "Neuer ungerichteter Graph";
 	private static final String EDIT_MODE_LABEL = "Bearbeitungsmodus:";
 	private static final String MODE_TOOLTIP = "Bearbeitungs-Modus wählen";
@@ -58,8 +57,6 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	 */
 	public ToolBarPanel(IMenuToolbarController menuToolbarController, IGuiModel model,
 			JComboBox<?> comboMode) throws IOException {
-		// TODO set mnemonics
-		
 		this.setFloatable(false);
 		
 		FlowLayout layout = new FlowLayout();
@@ -77,12 +74,12 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		this.add(btnSaveGraph);
 		
 		JButton btnNewDirGraph = new JButton(NEW_DIR_LABEL);
-		btnNewDirGraph.setIcon(new ImageIcon(this.loadImage(NEW_DIR_ICON)));
+		btnNewDirGraph.setIcon(new ImageIcon(this.loadImage(NEW_ICON)));
 		btnNewDirGraph.setToolTipText(NEW_DIR_TOOLTIP);
 		this.add(btnNewDirGraph);
 		
 		JButton btnNewUndirGraph = new JButton(NEW_UNDIR_LABEL);
-		btnNewUndirGraph.setIcon(new ImageIcon(this.loadImage(NEW_UNDIR_ICON)));
+		btnNewUndirGraph.setIcon(new ImageIcon(this.loadImage(NEW_ICON)));
 		btnNewUndirGraph.setToolTipText(NEW_UNDIR_TOOLTIP);
 		this.add(btnNewUndirGraph);
 		

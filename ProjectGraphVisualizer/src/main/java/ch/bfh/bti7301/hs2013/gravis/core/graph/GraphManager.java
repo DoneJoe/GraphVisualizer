@@ -32,8 +32,16 @@ import edu.uci.ics.jung.io.graphml.GraphMLReader2;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-// TODO remove string literals
 class GraphManager implements IGraphManager {
+
+	private static final String GRAPH_IO_EXCEPTION_LOAD = "I/O Exception in GraphML-file %s!";
+	private static final String FILE_NOT_FOUND_EXCEPTION_LOAD = "GraphML-file not found: %s!";
+	private static final String EXCEPTION_LOAD = "Exception while loading data from "
+			+ "GraphML-file %s!";
+	private static final String FILE_NOT_FOUND_EXCEPTION_SAVE = 
+			"Exception while creating GraphML-file %s!";
+	private static final String IO_EXCEPTION_SAVE = "I/O Exception while saving GraphML-file %s!";
+	private static final String EXCEPTION_SAVE = "Exception while storing data to GraphML-file %s!";
 
 	private final GraphTransformer graphTransformer;
 	private final VertexTransformer vertexTransformer;
@@ -68,15 +76,14 @@ class GraphManager implements IGraphManager {
 
 			return newGraph;
 		} catch (GraphIOException e) {
-			throw new GraphException("I/O Exception in GraphML-file "
-					+ file.getName() + "!", e);
+			throw new GraphException(String.format(GRAPH_IO_EXCEPTION_LOAD,
+					file.getName()), e);
 		} catch (FileNotFoundException e) {
-			throw new GraphException("GraphML-file not found: "
-					+ file.getName() + "!", e);
+			throw new GraphException(String.format(FILE_NOT_FOUND_EXCEPTION_LOAD,
+					file.getName()), e);
 		} catch (Exception e) {
-			throw new GraphException(
-					"Exception while loading data from GraphML-file "
-							+ file.getName() + "!", e);
+			throw new GraphException(String.format(EXCEPTION_LOAD,
+							file.getName()), e);
 		}
 	}
 
@@ -130,15 +137,13 @@ class GraphManager implements IGraphManager {
 
 			writer.close();
 		} catch (FileNotFoundException e) {
-			throw new GraphException("Exception while creating GraphML-file "
-					+ file.getName() + "!", e);
+			throw new GraphException(String.format(FILE_NOT_FOUND_EXCEPTION_SAVE,
+					file.getName()), e);
 		} catch (IOException e) {
-			throw new GraphException("I/O Exception while saving GraphML-file "
-					+ file.getName() + "!", e);
+			throw new GraphException(String.format(IO_EXCEPTION_SAVE,
+					file.getName()), e);
 		} catch (Exception e) {
-			throw new GraphException(
-					"Exception while storing data to GraphML-file "
-							+ file.getName() + "!", e);
+			throw new GraphException(String.format(EXCEPTION_SAVE, file.getName()), e);
 		}
 	}
 
