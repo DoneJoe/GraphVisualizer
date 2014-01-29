@@ -52,7 +52,6 @@ final class RestrictedGraph implements IRestrictedGraph {
 
 	/**
 	 * @param coll
-	 * @param edgesMap
 	 * @return List<IRestrictedEdge>
 	 */
 	private List<IRestrictedEdge> getRestrictedSortedEdgesList(
@@ -137,8 +136,8 @@ final class RestrictedGraph implements IRestrictedGraph {
 
 	/**
 	 * @param restrictedItems
-	 * @return
-	 */
+	 * @return IGraphItem[]
+	 */ 
 	private IGraphItem[] getOriginalItems(IRestrictedGraphItem[] restrictedItems) {
 		List<IGraphItem> originalItems = new ArrayList<>();
 

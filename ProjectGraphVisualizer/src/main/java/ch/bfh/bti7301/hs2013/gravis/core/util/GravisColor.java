@@ -3,120 +3,37 @@ package ch.bfh.bti7301.hs2013.gravis.core.util;
 import java.awt.Color;
 
 /**
- * The colours of GRAVIS.
- * <p>
- * Some colours in a tool class though serving with <i>static elements only</i>.
- * <p>
+ *
+ * A collection of colors used for graph visualization.
+ *
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * @see Color
  * 
  */
-public interface GravisColor {
+public final class GravisColor {
 
-	 /**
-     * A field for the colour antique.
-     */
-    public final static Color antique = new Color(235, 215, 200);
+    public final static Color ANTIQUE = new Color(235, 215, 200);
+    
+    public final static Color BLUE = new Color(210, 220, 255);
+    
+    public final static Color YELLOW = new Color(240, 240, 0);
+    
+    public final static Color GREEN = new Color(128, 255, 128);
+    
+    public final static Color RED = new Color(255, 128, 128);
+    
+    public final static Color ORANGE = new Color(235, 215, 130);
+    
+    public final static Color GRAY = new Color(210, 210, 210);
+  
+    public final static Color WHITE = Color.WHITE;
+   
+    public final static Color BLACK = Color.BLACK;
+    
     /**
-     * A field for the colour antique.
+     * Hide the constructor.
      */
-    public final static Color ANTIQUE = antique;
-    /**
-     * A field for the colour red in the RGB space.
-     */
-    public final static Color red = new Color(190, 45, 0);
-    /**
-     * A field for the colour red in the RGB space.
-     */
-    public final static Color RED = red;
-    /**
-     * A field for the colour light_green in the RGB space.
-     */
-    public final static Color light_green = new Color(155, 205, 50);
-    /**
-     * A field for the colour light_green in the RGB space.
-     */
-    public final static Color LIGHT_GREEN = light_green;
-    /**
-     * A field for the colour dark green in the RGB space.
-     */
-    public final static Color dark_green = new Color(90, 110, 80);
-    /**
-     * A field for the colour dark green in the RGB space.
-     */
-    public final static Color DARK_GREEN = dark_green;
-    /**
-     * A field for the colour light_orange in the RGB space.
-     */
-    public final static Color light_orange = new Color(235, 215, 130);
-    /**
-     * A field for the colour light_orange in the RGB space.
-     */
-    public final static Color LIGHT_ORANGE = light_orange;
-    /**
-     * A field for the colour light_blue in the RGB space.
-     */
-    public final static Color light_blue = new Color(210, 220, 250);
-    /**
-     * A field for the colour light_blue in the RGB space.
-     */
-    public final static Color LIGHT_BLUE = light_blue;
-    /**
-     * A field for the colour dark_blue in the RGB space.
-     */
-    public final static Color dark_blue = new Color(65, 70, 140);
-    /**
-     * A field for the colour dark_blue in the RGB space.
-     */
-    public final static Color DARK_BLUE = dark_blue;
-    /**
-     * A field for the colour yellow.
-     */
-    public final static Color yellow = new Color(250, 250, 120);
-    /**
-     * A field for the colour yellow.
-     */
-    public final static Color YELLOW = yellow;
-    /**
-     * A field for the colour light_yellow.
-     */
-    public final static Color light_yellow = new Color(250, 250, 160);
-    /**
-     * A field for the colour light_yellow.
-     */
-    public final static Color LIGHT_YELLOW = light_yellow;
-    /**
-     * A field for the colour light_gray.
-     */
-    public final static Color light_gray = new Color(210, 210, 210);
-    /**
-     * A field for the colour light_gray.
-     */
-    public final static Color LIGHT_GRAY = light_gray;
-    /**
-     * A field for the colour dark grey.
-     */
-    public final static Color dark_grey = new Color(140, 135, 130);
-    /**
-     * A field for the colour dark grey.
-     */
-    public final static Color DARK_GRAY = dark_grey;
-    /**
-     * A field for the colour white.
-     */
-    public final static Color white = Color.WHITE;
-    /**
-     * A field for the colour white.
-     */
-    public final static Color WHITE = white;
-    /**
-     * A field for the colour black.
-     */
-    public final static Color black = Color.BLACK;
-    /**
-     * A field for the colour black.
-     */
-    public final static Color BLACK = black;
-
+    private GravisColor() {
+    }
 
 }

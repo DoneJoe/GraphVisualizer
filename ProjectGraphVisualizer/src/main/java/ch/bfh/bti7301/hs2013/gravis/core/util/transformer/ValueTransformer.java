@@ -55,15 +55,15 @@ public final class ValueTransformer {
 	public static Color transformStringToColor(String stringValue) {
 		switch (stringValue) {
 		case GravisConstants.GREEN:
-			return GravisColor.LIGHT_GREEN;
+			return GravisColor.GREEN;
 		case GravisConstants.YELLOW:
-			return GravisColor.LIGHT_YELLOW;
+			return GravisColor.YELLOW;
 		case GravisConstants.BLUE:
-			return GravisColor.LIGHT_BLUE;
+			return GravisColor.BLUE;
 		case GravisConstants.GRAY:
-			return GravisColor.LIGHT_GRAY;
+			return GravisColor.GRAY;
 		case GravisConstants.ORANGE:
-			return GravisColor.LIGHT_ORANGE;
+			return GravisColor.ORANGE;
 		case GravisConstants.BLACK:
 			return GravisColor.BLACK;
 		case GravisConstants.WHITE:
@@ -76,19 +76,19 @@ public final class ValueTransformer {
 	}
 	
 	/**
-	 * @param stringValue
+	 * @param color
 	 * @return Color
 	 */
 	public static String transformColorToString(Color color) {
-		if (color.equals(GravisColor.LIGHT_GREEN)) {
+		if (color.equals(GravisColor.GREEN)) {
 			return GravisConstants.GREEN;
-		} else if (color.equals(GravisColor.LIGHT_YELLOW)) {
+		} else if (color.equals(GravisColor.YELLOW)) {
 			return GravisConstants.YELLOW;
-		} else if (color.equals(GravisColor.LIGHT_BLUE)) {
+		} else if (color.equals(GravisColor.BLUE)) {
 			return GravisConstants.BLUE;
-		} else if (color.equals(GravisColor.LIGHT_GRAY)) {
+		} else if (color.equals(GravisColor.GRAY)) {
 			return GravisConstants.GRAY;
-		} else if (color.equals(GravisColor.LIGHT_ORANGE)) {
+		} else if (color.equals(GravisColor.ORANGE)) {
 			return GravisConstants.ORANGE;
 		} else if (color.equals(GravisColor.BLACK)) {
 			return GravisConstants.BLACK;
@@ -104,7 +104,7 @@ public final class ValueTransformer {
 	/**
 	 * @param xValue
 	 * @param yValue
-	 * @return
+	 * @return Point2D
 	 */
 	public static Point2D transformLocation(String xValue, String yValue) {
 		try {

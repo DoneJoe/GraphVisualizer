@@ -38,11 +38,11 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 		this.newComment = "";
 		this.currentResult = this.newResult = Double.NaN;
 		this.currentState = State.INITIAL;
-		this.currentColor = this.oldColor = GravisConstants.V_COLOR_DEFAULT;
+		this.currentColor = this.oldColor = GravisConstants.V_FILL_COLOR_DEFAULT;
 		this.currentStrokeWidth = this.oldStrokeWidth = GravisConstants.STROKE_WIDTH_DEFAULT;
 		this.stateCommentEnabled = this.done = this.newDashed = this.currentDashed = false;
 
-		this.setNewColor(GravisConstants.V_COLOR_DEFAULT);
+		this.setNewColor(GravisConstants.V_FILL_COLOR_DEFAULT);
 		this.setNewStrokeWidth(GravisConstants.STROKE_WIDTH_DEFAULT);
 		this.setVisible(true);
 		this.setTagged(false);
@@ -204,10 +204,13 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 	 */
 	@Override
 	public void resetVisualizationValues() {
+		// TODO test
 		this.newComment = "";
 		this.currentResult = Double.NaN;
 		this.newState = null;
 		this.stateCommentEnabled = false;
+//		this.newDashed = false;
+//		this.newStrokeWidth = Float.NaN;
 	}
 
 	/*
@@ -229,7 +232,7 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 	 */
 	@Override
 	public void appendToNewComment(String comment) {
-		this.newComment += System.getProperty("line.separator") + comment;
+		this.newComment += System.lineSeparator() + comment;
 	}
 
 	/*
@@ -276,12 +279,12 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 	 */
 	@Override
 	public void setNewStrokeWidth(float width) {
-		if (width != this.getDefaultStrokeWidth()) {
+		if (width != this.getTaggedStrokeWidth()) {
 			this.oldStrokeWidth = width;
 		}
 
 		this.newStrokeWidth = width;
-		this.tagged = width == this.getDefaultStrokeWidth();
+		this.tagged = width == this.getTaggedStrokeWidth();
 	}
 
 	/*
@@ -353,7 +356,7 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 	@Override
 	public void setTagged(boolean tagged) {
 		this.tagged = tagged;
-		this.newStrokeWidth = tagged ? this.getDefaultStrokeWidth()
+		this.newStrokeWidth = tagged ? this.getTaggedStrokeWidth()
 				: this.oldStrokeWidth;
 	}
 
@@ -372,7 +375,7 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 	/**
 	 * @return float
 	 */
-	protected abstract float getDefaultStrokeWidth();
+	protected abstract float getTaggedStrokeWidth();
 
 	/*
 	 * (non-Javadoc)

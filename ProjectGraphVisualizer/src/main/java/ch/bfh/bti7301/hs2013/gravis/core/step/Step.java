@@ -12,7 +12,7 @@ public class Step extends EmptyStep {
 	private final List<IStep> nestedCommands;
 
 	/**
-	 * @param predecessorCommand
+	 * @param command
 	 */
 	public Step(IStep command) {
 		this();

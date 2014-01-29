@@ -75,7 +75,7 @@ abstract class AbstractVisualizationState implements IVisualizationState {
 			Step complexCommand) {
 
 		if (currentItem.isVisible()) {
-			this.setNewColor(currentItem);
+			currentItem.setNewColor(this.getStateColor());
 		}
 		
 		IStep command = new StateCommand(currentItem,
@@ -94,13 +94,6 @@ abstract class AbstractVisualizationState implements IVisualizationState {
 			command.execute();
 			complexCommand.add(command);
 		}
-	}
-
-	/**
-	 * @param currentItem
-	 */
-	protected void setNewColor(IGraphItem currentItem) {
-		currentItem.setNewColor(this.getStateColor());
 	}
 
 	/**

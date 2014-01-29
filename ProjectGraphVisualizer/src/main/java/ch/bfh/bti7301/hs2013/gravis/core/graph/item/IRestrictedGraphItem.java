@@ -51,13 +51,13 @@ public interface IRestrictedGraphItem {
 
 	/**
 	 * 
-	 * @return comment
+	 * @return newComment
 	 */
 	public abstract String getNewComment();
 
 	/**
 	 * 
-	 * @param comment
+	 * @param newComment
 	 */
 	public abstract void setNewComment(String newComment);
 
@@ -91,7 +91,7 @@ public interface IRestrictedGraphItem {
 	
 	/**
 	 * 
-	 * @param state
+	 * @param newState
 	 */
 	public abstract void setNewState(State newState);
 	
@@ -121,7 +121,7 @@ public interface IRestrictedGraphItem {
 	
 	/**
 	 * 
-	 * @param notTagged
+	 * @param tagged
 	 */
 	public abstract void setTagged(boolean tagged);
 	

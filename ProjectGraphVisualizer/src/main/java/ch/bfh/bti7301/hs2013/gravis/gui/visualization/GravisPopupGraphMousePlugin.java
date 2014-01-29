@@ -124,7 +124,7 @@ public class GravisPopupGraphMousePlugin extends
 	/**
 	 * Setter for the vertex create popup.
 	 * 
-	 * @param vertexPopup
+	 * @param vertexCreatePopup
 	 */
 	public void setVertexCreatePopup(JPopupMenu vertexCreatePopup) {
 		this.vertexCreatePopup = vertexCreatePopup;

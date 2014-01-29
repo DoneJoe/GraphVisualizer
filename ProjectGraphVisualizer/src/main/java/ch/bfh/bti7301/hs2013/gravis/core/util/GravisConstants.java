@@ -4,10 +4,12 @@ import java.awt.Color;
 
 
 /**
+ * This class defines static fields for all important constants in the application.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public interface GravisConstants {
+public final class GravisConstants {
 
 	public static final String TEMPLATES_DIR = "graph-templates";
 	public static final String IMAGES_DIR = "/META-INF/images/";
@@ -39,22 +41,24 @@ public interface GravisConstants {
 	
 	public final static int V_LOC_X_DEFAULT = 0;
 	public final static int V_LOC_Y_DEFAULT = 0;
+	
 	public final static double V_WIDTH_DEFAULT = 60.0;
 	public final static double V_HEIGHT_DEFAULT = 40.0;
 	public final static double E_WEIGHT_DEFAULT = 1.0;
 	
-	public final static Color V_START_COLOR = GravisColor.LIGHT_GRAY;
-	public final static Color V_END_COLOR = GravisColor.LIGHT_ORANGE;
-	
 	public final static Color E_COLOR_DEFAULT = GravisColor.BLACK;
-	public final static Color V_COLOR_DEFAULT = GravisColor.ANTIQUE;
+	public final static Color V_DRAW_COLOR_DEFAULT = GravisColor.BLACK;
+	public final static Color V_FILL_COLOR_DEFAULT = GravisColor.ANTIQUE;
 	
 	public final static Color V_INITIAL_COLOR = GravisColor.ANTIQUE;
 	public final static Color E_INITIAL_COLOR = GravisColor.BLACK;
-	public final static Color ACTIVATION_COLOR = GravisColor.LIGHT_BLUE;
-	public final static Color VISIT_COLOR = GravisColor.LIGHT_YELLOW;
-	public final static Color SOLUTION_COLOR = GravisColor.LIGHT_GREEN;
+	public final static Color ACTIVATION_COLOR = GravisColor.BLUE;
+	public final static Color VISIT_COLOR = GravisColor.YELLOW;
+	public final static Color SOLUTION_COLOR = GravisColor.GREEN;
 	public final static Color REFUSE_COLOR = GravisColor.RED;
+	
+	public final static float V_START_DASH = 5.0f;
+	public final static float V_END_DASH = 2.0f;
 	
 	public final static float STROKE_WIDTH_DEFAULT = 1.0f;
 	public final static float V_TAGGED_STROKE = 3.0f;
@@ -63,4 +67,10 @@ public interface GravisConstants {
 	public final static float DASH_DEFAULT = 5.0f;
 	public final static float DASH_PHASE_DEFAULT = 0.0f;
 	
+	/**
+     * Hide the constructor.
+     */
+    private GravisConstants() {
+    }
+    
 }

@@ -22,10 +22,18 @@ public class VertexStrokeTransformer implements Transformer<IVertex, Stroke> {
 	 */
 	@Override
 	public Stroke transform(IVertex vertex) {
-		return vertex.isCurrentDashed() ? new BasicStroke(
+		float dashValue = GravisConstants.DASH_DEFAULT;
+		
+		if (vertex.isStart()) {
+			dashValue = GravisConstants.V_START_DASH;
+		} else if (vertex.isEnd()) {
+			dashValue = GravisConstants.V_END_DASH;
+		}
+		
+		return vertex.isCurrentDashed() || vertex.isStart() || vertex.isEnd() ? new BasicStroke(
 				vertex.getCurrentStrokeWidth(), BasicStroke.CAP_BUTT,
 				BasicStroke.JOIN_MITER, GravisConstants.MITER_LIMIT_DEFAULT,
-				new float[] { GravisConstants.DASH_DEFAULT },
+				new float[] { dashValue },
 				GravisConstants.DASH_PHASE_DEFAULT) : new BasicStroke(
 				vertex.getCurrentStrokeWidth());
 	}

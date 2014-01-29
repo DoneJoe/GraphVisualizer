@@ -19,7 +19,7 @@ public class GravisStartup {
 	private final static String TITLE = "Graph Visualizer";
 
 	/**
-	 * Program starter
+	 * The application entry point with the main method.
 	 * 
 	 * @param args
 	 */

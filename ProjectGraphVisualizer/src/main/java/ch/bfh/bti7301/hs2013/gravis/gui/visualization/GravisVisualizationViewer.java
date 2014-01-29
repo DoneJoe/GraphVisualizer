@@ -12,7 +12,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.EdgeColorTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.EdgeLabelTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.EdgeStrokeTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.ShapeTransformer;
-import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexColorTransformer;
+import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexFillColorTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexLabelTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexStrokeTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.VertexToolTipTransformer;
@@ -42,7 +42,7 @@ public class GravisVisualizationViewer extends
 		// vertex visualization
 		this.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
 		this.getRenderContext().setVertexFillPaintTransformer(
-				new VertexColorTransformer());
+				new VertexFillColorTransformer());
 		this.getRenderContext().setVertexShapeTransformer(
 				new ShapeTransformer());
 		this.getRenderContext().setVertexLabelTransformer(

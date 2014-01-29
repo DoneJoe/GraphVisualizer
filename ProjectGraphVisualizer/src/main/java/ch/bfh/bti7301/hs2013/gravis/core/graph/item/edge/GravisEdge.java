@@ -72,10 +72,10 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 	 * (non-Javadoc)
 	 * 
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem#
-	 * getItemStrokeWidth()
+	 * getTaggedStrokeWidth()
 	 */
 	@Override
-	protected float getDefaultStrokeWidth() {
+	protected float getTaggedStrokeWidth() {
 		return GravisConstants.E_TAGGED_STROKE;
 	}
 

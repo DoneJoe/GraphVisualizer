@@ -61,12 +61,9 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 
 	@Override
 	public void setStart(boolean start) {
-		super.setCurrentColor(start ? GravisConstants.V_START_COLOR : (this
-				.isEnd() ? GravisConstants.V_END_COLOR : this.tempColor));
-		
 		boolean equal = this.start == start;
 		this.start = start;
-		
+
 		if (!equal) {
 			this.fireEditingGraphEvent(new GravisGraphEvent(this));
 		}
@@ -74,14 +71,9 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 
 	@Override
 	public void setEnd(boolean end) {
-		super.setCurrentColor(end ? (this.isStart() ? GravisConstants.V_START_COLOR
-				: GravisConstants.V_END_COLOR)
-				: (this.isStart() ? GravisConstants.V_START_COLOR
-						: this.tempColor));
-		
 		boolean equal = this.end == end;
 		this.end = end;
-		
+
 		if (!equal) {
 			this.fireEditingGraphEvent(new GravisGraphEvent(this));
 		}
@@ -187,7 +179,7 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	@Override
 	public GravisVertex clone() throws CloneNotSupportedException {
 		GravisVertex vertexClone = (GravisVertex) super.clone();
-		vertexClone.setLocation((Point2D) this.location.clone());
+		vertexClone.location = (Point2D) this.location.clone();
 		return vertexClone;
 	}
 
@@ -195,11 +187,12 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 * (non-Javadoc)
 	 * 
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem#
-	 * getItemStrokeWidth()
+	 * getTaggedStrokeWidth()
 	 */
 	@Override
-	protected float getDefaultStrokeWidth() {
+	protected float getTaggedStrokeWidth() {
 		return GravisConstants.V_TAGGED_STROKE;
 	}
+
 
 }

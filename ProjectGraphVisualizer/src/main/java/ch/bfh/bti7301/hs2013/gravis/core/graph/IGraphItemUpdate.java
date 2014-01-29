@@ -13,8 +13,7 @@ public interface IGraphItemUpdate<I extends IRestrictedGraphItem> {
 	 * Traversal state will be set to the value of state argument for all
 	 * graphItems.
 	 * 
-	 * @param array
-	 *            of graphItems
+	 * @param graphItems
 	 * @param state
 	 */
 	@SuppressWarnings("unchecked")
@@ -23,8 +22,7 @@ public interface IGraphItemUpdate<I extends IRestrictedGraphItem> {
 	/**
 	 * Each graphItem has own traversal state.
 	 * 
-	 * @param array
-	 *            of graphItems
+	 * @param graphItems
 	 */
 	@SuppressWarnings("unchecked")
 	public abstract void updateState(I... graphItems);

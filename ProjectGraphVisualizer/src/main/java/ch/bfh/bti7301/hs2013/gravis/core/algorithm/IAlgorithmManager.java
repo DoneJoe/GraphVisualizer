@@ -11,7 +11,7 @@ public interface IAlgorithmManager {
 	/**
 	 * 
 	 * @param edgetype
-	 * @return
+	 * @return string array
 	 */
 	public abstract String[] getAlgorithmNames(EdgeType edgetype);
 
