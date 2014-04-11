@@ -57,12 +57,12 @@ public final class GravisConstants {
 	public final static Color SOLUTION_COLOR = GravisColor.GREEN;
 	public final static Color REFUSE_COLOR = GravisColor.RED;
 	
-	public final static float V_START_DASH = 5.0f;
-	public final static float V_END_DASH = 2.0f;
+	public final static float V_START_DASH = 10.0f;
+	public final static float V_END_DASH = 5.0f;
 	
-	public final static float STROKE_WIDTH_DEFAULT = 1.0f;
-	public final static float V_TAGGED_STROKE = 3.0f;
-	public final static float E_TAGGED_STROKE = 3.0f;
+	public final static float STROKE_WIDTH_DEFAULT = 2.0f;
+	public final static float V_TAGGED_STROKE = 2.0f;
+	public final static float E_TAGGED_STROKE = 2.0f;
 	public final static float MITER_LIMIT_DEFAULT = 10.0f;
 	public final static float DASH_DEFAULT = 5.0f;
 	public final static float DASH_PHASE_DEFAULT = 0.0f;

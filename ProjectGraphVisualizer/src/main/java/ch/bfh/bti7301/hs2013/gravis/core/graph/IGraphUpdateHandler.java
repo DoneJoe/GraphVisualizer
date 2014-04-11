@@ -18,6 +18,13 @@ public interface IGraphUpdateHandler {
 	/**
 	 * 
 	 * @param graphItem
+	 * @param isVisible
+	 */
+	public abstract void set(IRestrictedGraphItem graphItem, boolean isVisible);
+
+	/**
+	 * 
+	 * @param graphItem
 	 * @param isStateCommentEnabled
 	 * @param isTagged
 	 */
@@ -51,6 +58,18 @@ public interface IGraphUpdateHandler {
 	 */
 	public abstract void set(IRestrictedGraphItem graphItem,
 			boolean isStateCommentEnabled, String newComment, boolean isTagged);
+
+	/**
+	 * 
+	 * @param graphItem
+	 * @param isStateCommentEnabled
+	 * @param newComment
+	 * @param isTagged
+	 * @param isDashed
+	 */
+	public abstract void set(IRestrictedGraphItem graphItem,
+			boolean isStateCommentEnabled, String newComment, boolean isTagged,
+			boolean isDashed);
 
 	/**
 	 * 
@@ -92,6 +111,19 @@ public interface IGraphUpdateHandler {
 	 * @param isStateCommentEnabled
 	 * @param isTagged
 	 * @param isDashed
+	 * @param isDone
+	 */
+	public abstract void set(IRestrictedGraphItem graphItem, State state,
+			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed,
+			boolean isDone);
+
+	/**
+	 * 
+	 * @param graphItem
+	 * @param state
+	 * @param isStateCommentEnabled
+	 * @param isTagged
+	 * @param isDashed
 	 * @param value
 	 * @param isDone
 	 */
@@ -115,11 +147,63 @@ public interface IGraphUpdateHandler {
 	 * @param graphItem
 	 * @param state
 	 * @param isStateCommentEnabled
+	 * @param newResult
+	 * @param isTagged
+	 */
+	public abstract void set(IRestrictedGraphItem graphItem, State state,
+			boolean isStateCommentEnabled, double newResult, boolean isTagged);
+
+	/**
+	 * 
+	 * @param graphItem
+	 * @param state
+	 * @param isStateCommentEnabled
+	 * @param newResult
+	 * @param isTagged
+	 * @param isDashed
+	 * @param isDone
+	 */
+	public abstract void set(IRestrictedGraphItem graphItem, State state,
+			boolean isStateCommentEnabled, double newResult, boolean isTagged,
+			boolean isDashed, boolean isDone);
+
+	/**
+	 * 
+	 * @param graphItem
+	 * @param state
+	 * @param isStateCommentEnabled
 	 * @param newComment
 	 * @param isTagged
 	 */
 	public abstract void set(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, String newComment, boolean isTagged);
+
+	/**
+	 * 
+	 * @param graphItem
+	 * @param state
+	 * @param isStateCommentEnabled
+	 * @param newComment
+	 * @param isTagged
+	 * @param isDashed
+	 */
+	public abstract void set(IRestrictedGraphItem graphItem, State state,
+			boolean isStateCommentEnabled, String newComment, boolean isTagged,
+			boolean isDashed);
+
+	/**
+	 * 
+	 * @param graphItem
+	 * @param state
+	 * @param isStateCommentEnabled
+	 * @param newComment
+	 * @param isTagged
+	 * @param isDashed
+	 * @param isDone
+	 */
+	public abstract void set(IRestrictedGraphItem graphItem, State state,
+			boolean isStateCommentEnabled, String newComment, boolean isTagged,
+			boolean isDashed, boolean isDone);
 
 	/**
 	 * 
@@ -169,6 +253,21 @@ public interface IGraphUpdateHandler {
 	 * @param newComment
 	 * @param newResult
 	 * @param isTagged
+	 * @param isDashed
+	 * @param isDone
+	 */
+	public abstract void set(IRestrictedGraphItem graphItem, State state,
+			boolean isStateCommentEnabled, String newComment, double newResult,
+			boolean isTagged, boolean isDashed, boolean isDone);
+	
+	/**
+	 * 
+	 * @param graphItem
+	 * @param state
+	 * @param isStateCommentEnabled
+	 * @param newComment
+	 * @param newResult
+	 * @param isTagged
 	 * @param value
 	 */
 	public abstract void set(IRestrictedGraphItem graphItem, State state,
@@ -189,104 +288,5 @@ public interface IGraphUpdateHandler {
 	 * update.
 	 */
 	public abstract void update();
-
-	/**
-	 * 
-	 * @param graphItem
-	 * @param state
-	 * @param isStateCommentEnabled
-	 * @param newResult
-	 * @param isTagged
-	 */
-	public abstract void set(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, double newResult, boolean isTagged);
-
-	/**
-	 * 
-	 * @param graphItem
-	 * @param state
-	 * @param isStateCommentEnabled
-	 * @param newComment
-	 * @param newResult
-	 * @param isTagged
-	 * @param isDashed
-	 * @param isDone
-	 */
-	public abstract void set(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged, boolean isDashed, boolean isDone);
-
-	/**
-	 * 
-	 * @param graphItem
-	 * @param state
-	 * @param isStateCommentEnabled
-	 * @param newResult
-	 * @param isTagged
-	 * @param isDashed
-	 * @param isDone
-	 */
-	public abstract void set(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, double newResult, boolean isTagged,
-			boolean isDashed, boolean isDone);
-
-	/**
-	 * 
-	 * @param graphItem
-	 * @param state
-	 * @param isStateCommentEnabled
-	 * @param isTagged
-	 * @param isDashed
-	 * @param isDone
-	 */
-	public abstract void set(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed,
-			boolean isDone);
-
-	/**
-	 * 
-	 * @param graphItem
-	 * @param state
-	 * @param isStateCommentEnabled
-	 * @param newComment
-	 * @param isTagged
-	 * @param isDashed
-	 * @param isDone
-	 */
-	public abstract void set(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
-			boolean isDashed, boolean isDone);
-	
-	/**
-	 * 
-	 * @param graphItem
-	 * @param state
-	 * @param isStateCommentEnabled
-	 * @param newComment
-	 * @param isTagged
-	 * @param isDashed
-	 */
-	public abstract void set(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
-			boolean isDashed);
-
-	/**
-	 * 
-	 * @param graphItem
-	 * @param isStateCommentEnabled
-	 * @param newComment
-	 * @param isTagged
-	 * @param isDashed
-	 */
-	public abstract void set(IRestrictedGraphItem graphItem,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
-			boolean isDashed);
-
-	/**
-	 * 
-	 * @param graphItem
-	 * @param isVisible
-	 */
-	public abstract void set(IRestrictedGraphItem graphItem, boolean isVisible);
 
 }

@@ -2,7 +2,7 @@ package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 
 import java.util.Observable;
 
-import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
 
@@ -28,10 +28,10 @@ class VisualizationController extends Observable implements
 	 * 
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener#
 	 * handleEditingGraphEvent
-	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent)
+	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)
 	 */
 	@Override
-	public void handleEditingGraphEvent(GravisGraphEvent evt) {
+	public void handleEditingGraphEvent(GraphStepEvent evt) {
 		// update model
 		this.model.resetStepEnabledState();
 		this.model.setGraphChanged(true);
@@ -50,10 +50,10 @@ class VisualizationController extends Observable implements
 	 * 
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener#
 	 * handleGraphNameChangedEvent
-	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent)
+	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)
 	 */
 	@Override
-	public void handleNameChangedEvent(GravisGraphEvent evt) {
+	public void handleNameChangedEvent(GraphStepEvent evt) {
 		// update model
 		this.model.setGraphUnsaved(true);
 		

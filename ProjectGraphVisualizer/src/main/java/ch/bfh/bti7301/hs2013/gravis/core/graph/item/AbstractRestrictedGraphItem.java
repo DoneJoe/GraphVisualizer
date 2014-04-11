@@ -29,11 +29,12 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#getId()
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#
+	 * appendComment(java.lang.String)
 	 */
 	@Override
-	public String getId() {
-		return this.item.getId();
+	public void appendToNewComment(String comment) {
+		this.item.appendToNewComment(comment);
 	}
 
 	/*
@@ -49,6 +50,36 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.common.IGraphItem#getPaintedResult()
+	 */
+	@Override
+	public double getCurrentResult() {
+		return this.item.getCurrentResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#getState()
+	 */
+	@Override
+	public State getCurrentState() {
+		return this.item.getCurrentState();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#getId()
+	 */
+	@Override
+	public String getId() {
+		return this.item.getId();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#getComment()
 	 */
 	@Override
@@ -59,23 +90,34 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#setComment(java
-	 * .lang.String)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#getTempResult()
 	 */
 	@Override
-	public void setNewComment(String comment) {
-		this.item.setNewComment(comment);
+	public double getNewResult() {
+		return this.item.getNewResult();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#
-	 * appendComment(java.lang.String)
+	 * getTraversalState()
 	 */
 	@Override
-	public void appendToNewComment(String comment) {
-		this.item.appendToNewComment(comment);
+	public State getNewState() {
+		return this.item.getNewState();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#getValue
+	 * ()
+	 */
+	@Override
+	public Object getValue() {
+		return this.item.getValue();
 	}
 
 	/*
@@ -92,6 +134,53 @@ public abstract class AbstractRestrictedGraphItem implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#isDashed
+	 * ()
+	 */
+	@Override
+	public boolean isNewDashed() {
+		return this.item.isNewDashed();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#
+	 * isStateCommentEnabled()
+	 */
+	@Override
+	public boolean isStateCommentEnabled() {
+		return this.item.isStateCommentEnabled();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#isTagged
+	 * ()
+	 */
+	@Override
+	public boolean isTagged() {
+		return this.item.isTagged();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#isVisible
+	 * ()
+	 */
+	@Override
+	public boolean isVisible() {
+		return this.item.isVisible();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#setVisited(boolean )
 	 */
 	@Override
@@ -102,22 +191,35 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#getState()
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#setComment(java
+	 * .lang.String)
 	 */
 	@Override
-	public State getCurrentState() {
-		return this.item.getCurrentState();
+	public void setNewComment(String comment) {
+		this.item.setNewComment(comment);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#
-	 * getTraversalState()
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#setDashed
+	 * (boolean)
 	 */
 	@Override
-	public State getNewState() {
-		return this.item.getNewState();
+	public void setNewDashed(boolean value) {
+		this.item.setNewDashed(value);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#setTempResult
+	 * (double)
+	 */
+	@Override
+	public void setNewResult(double value) {
+		this.item.setNewResult(value);
 	}
 
 	/*
@@ -135,54 +237,24 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#getTempResult()
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#
+	 * setStateCommentEnabled(boolean)
 	 */
 	@Override
-	public double getNewResult() {
-		return this.item.getNewResult();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#setTempResult
-	 * (double)
-	 */
-	@Override
-	public void setNewResult(double value) {
-		this.item.setNewResult(value);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return this.item.toString();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.common.IGraphItem#getPaintedResult()
-	 */
-	@Override
-	public double getCurrentResult() {
-		return this.item.getCurrentResult();
+	public void setStateCommentEnabled(boolean value) {
+		this.item.setStateCommentEnabled(value);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#getValue
-	 * ()
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#setTagged
+	 * (boolean)
 	 */
 	@Override
-	public Object getValue() {
-		return this.item.getValue();
+	public void setTagged(boolean tagged) {
+		this.item.setTagged(tagged);
 	}
 
 	/*
@@ -212,83 +284,11 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#isVisible
-	 * ()
+	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public boolean isVisible() {
-		return this.item.isVisible();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#setTagged
-	 * (boolean)
-	 */
-	@Override
-	public void setTagged(boolean tagged) {
-		this.item.setTagged(tagged);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#isTagged
-	 * ()
-	 */
-	@Override
-	public boolean isTagged() {
-		return this.item.isTagged();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#
-	 * setStateCommentEnabled(boolean)
-	 */
-	@Override
-	public void setStateCommentEnabled(boolean value) {
-		this.item.setStateCommentEnabled(value);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#
-	 * isStateCommentEnabled()
-	 */
-	@Override
-	public boolean isStateCommentEnabled() {
-		return this.item.isStateCommentEnabled();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#setDashed
-	 * (boolean)
-	 */
-	@Override
-	public void setNewDashed(boolean value) {
-		this.item.setNewDashed(value);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#isDashed
-	 * ()
-	 */
-	@Override
-	public boolean isNewDashed() {
-		return this.item.isNewDashed();
+	public String toString() {
+		return this.item.toString();
 	}
 
 }

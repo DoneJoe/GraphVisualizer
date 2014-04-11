@@ -104,7 +104,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		// add listeners
 		btnOpenGraph.setActionCommand(EventSource.OPEN_GRAPH.toString());
 		btnOpenGraph.addActionListener(menuToolbarController);
-		btnSaveGraph.setActionCommand(EventSource.SAVE_GRAPH.toString());
+		btnSaveGraph.setActionCommand(EventSource.SAVE_GRAPH_AS.toString());
 		btnSaveGraph.addActionListener(menuToolbarController);
 		btnNewDirGraph.setActionCommand(EventSource.NEW_DIR_GRAPH.toString());
 		btnNewDirGraph.addActionListener(menuToolbarController);

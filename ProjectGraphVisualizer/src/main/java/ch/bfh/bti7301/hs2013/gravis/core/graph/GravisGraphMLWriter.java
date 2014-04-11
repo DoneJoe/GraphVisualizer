@@ -16,6 +16,7 @@ import edu.uci.ics.jung.io.GraphMLWriter;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
+// TODO: Remove magic string literals
 class GravisGraphMLWriter extends GraphMLWriter<IVertex, IEdge> {
 
 	protected GravisGraphMLWriter() {

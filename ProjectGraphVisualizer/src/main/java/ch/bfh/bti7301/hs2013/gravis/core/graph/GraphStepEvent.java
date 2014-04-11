@@ -10,7 +10,7 @@ import edu.uci.ics.jung.graph.event.GraphEvent;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class GravisGraphEvent extends GraphEvent<IVertex, IEdge> {
+public class GraphStepEvent extends GraphEvent<IVertex, IEdge> {
 
 	private final IGraphItem[] items;
 	
@@ -19,7 +19,7 @@ public class GravisGraphEvent extends GraphEvent<IVertex, IEdge> {
 	 * @param graph
 	 * @param items
 	 */
-	public GravisGraphEvent(Graph<IVertex, IEdge> graph, IGraphItem ... items) {
+	public GraphStepEvent(Graph<IVertex, IEdge> graph, IGraphItem ... items) {
 		this(graph, null, items);
 	}
 	
@@ -27,7 +27,7 @@ public class GravisGraphEvent extends GraphEvent<IVertex, IEdge> {
 	 * 
 	 * @param items
 	 */
-	public GravisGraphEvent(IGraphItem ... items) {
+	public GraphStepEvent(IGraphItem ... items) {
 		this(null, null, items);
 	}
 
@@ -36,7 +36,7 @@ public class GravisGraphEvent extends GraphEvent<IVertex, IEdge> {
 	 * @param type
 	 * @param items
 	 */
-	public GravisGraphEvent(Graph<IVertex, IEdge> graph, GraphEvent.Type type,
+	public GraphStepEvent(Graph<IVertex, IEdge> graph, GraphEvent.Type type,
 			IGraphItem ... items) {
 		super(graph, type);
 		

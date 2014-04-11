@@ -25,15 +25,9 @@ public interface IMenuToolbarController extends ActionListener, WindowListener, 
 	 * 
 	 */
 	public static enum EventSource {
-		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, GRAPH_PROPERTY, EXIT,
+		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH_AS, GRAPH_PROPERTY, EXIT,
 		NEW_CALC, MODE, ALGORITHM
 	}
-
-	/**
-	 * @param fileChooserAdapter
-	 */
-	public abstract void setFileChooserAdapter(
-			FileChooserAdapter fileChooserAdapter);
 
 	/**
 	 * @param confirmDialogAdapter
@@ -42,15 +36,21 @@ public interface IMenuToolbarController extends ActionListener, WindowListener, 
 			ConfirmDialogAdapter confirmDialogAdapter);
 
 	/**
-	 * @param messageDialogAdapter
+	 * @param fileChooserAdapter
 	 */
-	public abstract void setMessageDialogAdapter(
-			MessageDialogAdapter messageDialogAdapter);
+	public abstract void setFileChooserAdapter(
+			FileChooserAdapter fileChooserAdapter);
 
 	/**
 	 * @param graphPropertyDialogFactory
 	 */
 	public abstract void setGraphPropertyDialogFactory(
 			GraphPropertyDialogFactory graphPropertyDialogFactory);
+
+	/**
+	 * @param messageDialogAdapter
+	 */
+	public abstract void setMessageDialogAdapter(
+			MessageDialogAdapter messageDialogAdapter);
 
 }

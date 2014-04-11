@@ -25,64 +25,9 @@ public interface IGuiModel {
 			IEditingGraphEventListener visualizationController);
 	
 	/**
-	 * @param edgeType
+	 * @return IStepModel
 	 */
-	public abstract void setNewGraphState(EdgeType edgeType);
-
-	/**
-	 * @param graph
-	 */
-	public abstract void setOpenGraphState(IGravisGraph graph);
-
-	/**
-	 * 
-	 * @param stepIterator
-	 */
-	public abstract void setStepEnabledState(IGravisListIterator<String> stepIterator);
-	
-	public abstract void resetStepEnabledState();
-	
-	/**
-	 * @param beginning
-	 * @param back
-	 * @param forward
-	 * @param end
-	 */
-	public abstract void updateStepButtonModels(boolean beginning, boolean back,
-			boolean forward, boolean end);
-	
-	/**
-	 * @return IGravisGraph
-	 */
-	public abstract IGravisGraph getGraph();
-
-	/**
-	 * 
-	 * @return IGravisListIterator<String>
-	 */
-	public abstract IGravisListIterator<String> getStepIterator();
-	
-	/**
-	 * @return boolean
-	 */
-	public abstract boolean hasGraphChanged();
-	
-	/**
-	 * 
-	 * @param graphChanged
-	 */
-	public abstract void setGraphChanged(boolean graphChanged);
-	
-	/**
-	 * @return boolean
-	 */
-	public abstract boolean isGraphUnsaved();
-	
-	/**
-	 * 
-	 * @param graphUnsaved
-	 */
-	public abstract void setGraphUnsaved(boolean graphUnsaved);
+	public abstract IStepModel createStepModel();
 
 	/**
 	 * 
@@ -91,90 +36,9 @@ public interface IGuiModel {
 	public abstract IToolBarModel createToolBarModel();
 
 	/**
-	 * @return IStepModel
-	 */
-	public abstract IStepModel createStepModel();
-	
-	/**
-	 * 
-	 * @param mode
-	 */
-	public void setPopupEditMode(Mode mode);
-	
-	/**
-	 * @param model
-	 */
-	public abstract void setDeleteEdgeButtonModel(ButtonModel model);
-
-	/**
-	 * @param model
-	 */
-	public abstract void setVertexCreateButtonModel(ButtonModel model);
-
-	/**
-	 * @param model
-	 */
-	public abstract void setDeleteVertexButtonModel(ButtonModel model);
-
-	/**
 	 * @return ComboBoxModel<String>
 	 */
 	public abstract ComboBoxModel<String> getAlgorithmComboModel();
-	
-	/**
-	 * 
-	 * @param algoNames
-	 */
-	public abstract void setAlgorithmComboModel(String[] algoNames);
-
-	/**
-	 * 
-	 * @param comboModel
-	 */
-	public abstract void setEditModeComboModel(ComboBoxModel<?> comboModel);
-	
-	/**
-	 * 
-	 * @return ComboBoxModel<?>
-	 */
-	public abstract ComboBoxModel<?> getEditModeComboModel();
-	
-	/**
-	 * @param model
-	 */
-	public abstract void setBeginningButtonModel(ButtonModel model);
-	
-	/**
-	 * @param model
-	 */
-	public abstract void setEndButtonModel(ButtonModel model);
-	
-	/**
-	 * @param model
-	 */
-	public abstract void setBackButtonModel(ButtonModel model);
-	
-	/**
-	 * @param model
-	 */
-	public abstract void setForwardButtonModel(ButtonModel model);
-	
-	/**
-	 * @param model
-	 */
-	public abstract void setProgressBarModel(BoundedRangeModel model);
-	
-	/**
-	 * 
-	 * @return ButtonModel
-	 */
-	public abstract ButtonModel getBeginningButtonModel();
-	
-	/**
-	 * 
-	 * @return ButtonModel
-	 */
-	public abstract ButtonModel getEndButtonModel();
 	
 	/**
 	 * 
@@ -186,13 +50,149 @@ public interface IGuiModel {
 	 * 
 	 * @return ButtonModel
 	 */
+	public abstract ButtonModel getBeginningButtonModel();
+	
+	/**
+	 * 
+	 * @return ComboBoxModel<?>
+	 */
+	public abstract ComboBoxModel<?> getEditModeComboModel();
+
+	/**
+	 * 
+	 * @return ButtonModel
+	 */
+	public abstract ButtonModel getEndButtonModel();
+	
+	/**
+	 * 
+	 * @return ButtonModel
+	 */
 	public abstract ButtonModel getForwardButtonModel();
+	
+	/**
+	 * @return IGravisGraph
+	 */
+	public abstract IGravisGraph getGraph();
 	
 	/**
 	 * 
 	 * @return BoundedRangeModel
 	 */
 	public abstract BoundedRangeModel getProgressBarModel();
+	
+	/**
+	 * 
+	 * @return IGravisListIterator<String>
+	 */
+	public abstract IGravisListIterator<String> getStepIterator();
+
+	/**
+	 * @return boolean
+	 */
+	public abstract boolean hasGraphChanged();
+
+	/**
+	 * @return boolean
+	 */
+	public abstract boolean isGraphUnsaved();
+	
+	public abstract void resetStepEnabledState();
+	
+	/**
+	 * 
+	 * @param algoNames
+	 */
+	public abstract void setAlgorithmComboModel(String[] algoNames);
+
+	/**
+	 * @param model
+	 */
+	public abstract void setBackButtonModel(ButtonModel model);
+
+	/**
+	 * @param model
+	 */
+	public abstract void setBeginningButtonModel(ButtonModel model);
+
+	/**
+	 * @param model
+	 */
+	public abstract void setDeleteEdgeButtonModel(ButtonModel model);
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setDeleteVertexButtonModel(ButtonModel model);
+
+	/**
+	 * 
+	 * @param comboModel
+	 */
+	public abstract void setEditModeComboModel(ComboBoxModel<?> comboModel);
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setEndButtonModel(ButtonModel model);
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setForwardButtonModel(ButtonModel model);
+	
+	/**
+	 * 
+	 * @param graphChanged
+	 */
+	public abstract void setGraphChanged(boolean graphChanged);
+	
+	/**
+	 * 
+	 * @param graphUnsaved
+	 */
+	public abstract void setGraphUnsaved(boolean graphUnsaved);
+	
+	/**
+	 * @param edgeType
+	 */
+	public abstract void setNewGraphState(EdgeType edgeType);
+	
+	/**
+	 * @param graph
+	 */
+	public abstract void setOpenGraphState(IGravisGraph graph);
+	
+	/**
+	 * 
+	 * @param mode
+	 */
+	public void setPopupEditMode(Mode mode);
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setProgressBarModel(BoundedRangeModel model);
+	
+	/**
+	 * 
+	 * @param stepIterator
+	 */
+	public abstract void setStepEnabledState(IGravisListIterator<String> stepIterator);
+	
+	/**
+	 * @param model
+	 */
+	public abstract void setVertexCreateButtonModel(ButtonModel model);
+	
+	/**
+	 * @param beginning
+	 * @param back
+	 * @param forward
+	 * @param end
+	 */
+	public abstract void updateStepButtonModels(boolean beginning, boolean back,
+			boolean forward, boolean end);
 
 	
 }

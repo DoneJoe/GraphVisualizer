@@ -72,57 +72,6 @@ class MenuToolbarController extends Observable implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
-	 * setFileChooserAdapter
-	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter)
-	 */
-	@Override
-	public void setFileChooserAdapter(FileChooserAdapter fileChooserAdapter) {
-		this.fileChooserAdapter = fileChooserAdapter;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
-	 * setConfirmDialogAdapter
-	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter)
-	 */
-	@Override
-	public void setConfirmDialogAdapter(
-			ConfirmDialogAdapter confirmDialogAdapter) {
-		this.confirmDialogAdapter = confirmDialogAdapter;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
-	 * setMessageDialogAdapter
-	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter)
-	 */
-	@Override
-	public void setMessageDialogAdapter(
-			MessageDialogAdapter messageDialogAdapter) {
-		this.messageDialogAdapter = messageDialogAdapter;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
-	 * setGraphPropertyDialogFactory
-	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory)
-	 */
-	@Override
-	public void setGraphPropertyDialogFactory(
-			GraphPropertyDialogFactory graphPropertyDialogFactory) {
-		this.graphPropertyDialogFactory = graphPropertyDialogFactory;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -136,8 +85,8 @@ class MenuToolbarController extends Observable implements
 				this.handleNewGraphEvent(EdgeType.UNDIRECTED);
 			} else if (e.getActionCommand().equals(OPEN_GRAPH.toString())) {
 				this.handleOpenGraphEvent();
-			} else if (e.getActionCommand().equals(SAVE_GRAPH.toString())) {
-				this.handleSaveGraphEvent();
+			} else if (e.getActionCommand().equals(SAVE_GRAPH_AS.toString())) {
+				this.handleSaveGraphAsEvent();
 			} else if (e.getActionCommand().equals(GRAPH_PROPERTY.toString())) {
 				this.handleGraphPropertyEvent();
 			} else if (e.getActionCommand().equals(EXIT.toString())) {
@@ -160,6 +109,207 @@ class MenuToolbarController extends Observable implements
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		try {
+			// choose the applicable event handler
+			if (e.getStateChange() == ItemEvent.SELECTED
+					&& e.getSource() instanceof JComboBox<?>) {
+				JComboBox<?> combo = (JComboBox<?>) e.getSource();
+
+				if (combo.getActionCommand().equals(MODE.toString())
+						&& e.getItem() instanceof Mode) {
+					this.handleModeEvent(((Mode) e.getItem()));
+				} else if (combo.getActionCommand()
+						.equals(ALGORITHM.toString())
+						&& e.getItem() instanceof String) {
+					this.handleAlgorithmEvent(((String) e.getItem()).trim());
+				}
+			}
+		} catch (Exception ex) {
+			if (this.messageDialogAdapter != null) {
+				this.messageDialogAdapter.showMessageDialog(
+						String.format(APP_ERR_MSG, ex.getMessage()),
+						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
+	 * setConfirmDialogAdapter
+	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter)
+	 */
+	@Override
+	public void setConfirmDialogAdapter(
+			ConfirmDialogAdapter confirmDialogAdapter) {
+		this.confirmDialogAdapter = confirmDialogAdapter;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
+	 * setFileChooserAdapter
+	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter)
+	 */
+	@Override
+	public void setFileChooserAdapter(FileChooserAdapter fileChooserAdapter) {
+		this.fileChooserAdapter = fileChooserAdapter;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
+	 * setGraphPropertyDialogFactory
+	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory)
+	 */
+	@Override
+	public void setGraphPropertyDialogFactory(
+			GraphPropertyDialogFactory graphPropertyDialogFactory) {
+		this.graphPropertyDialogFactory = graphPropertyDialogFactory;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController#
+	 * setMessageDialogAdapter
+	 * (ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter)
+	 */
+	@Override
+	public void setMessageDialogAdapter(
+			MessageDialogAdapter messageDialogAdapter) {
+		this.messageDialogAdapter = messageDialogAdapter;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
+	 */
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// no action
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
+	 */
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// no action
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+	 */
+	@Override
+	public void windowClosing(WindowEvent e) {
+		try {
+			this.handleExitEvent();
+		} catch (CoreException ex) {
+			if (this.messageDialogAdapter != null) {
+				this.messageDialogAdapter.showMessageDialog(
+						String.format(APP_ERR_MSG, ex.getMessage()),
+						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent
+	 * )
+	 */
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// no action
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent
+	 * )
+	 */
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// no action
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
+	 */
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// no action
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
+	 */
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// no action
+	}
+
+	/**
+	 * @param item
+	 * @throws CoreException
+	 * 
+	 */
+	private void handleAlgorithmEvent(String item) throws CoreException {
+		// ignore title entry
+		if (item.equals(IGuiModel.DEFAULT_ALGO_ENTRY)) {
+			this.model.resetStepEnabledState();
+		} else {	
+			// update model
+			if (this.model.getStepIterator() != null) {
+				this.model.getStepIterator().first();
+			}
+			this.model.setStepEnabledState(this.core.calculateSteps(
+					this.model.getGraph(), item));
+			this.model.setGraphChanged(false);
+
+			// update view
+			this.setChanged();
+			this.notifyObservers(this.model.createToolBarModel());
+			this.setChanged();
+			this.notifyObservers();
+			this.setChanged();
+			this.notifyObservers(this.model.createStepModel());
+			this.setChanged();
+			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, LN, item,
+					LN, this.core.getAlgorithmDescription(item), LN, LN));
+		}
+	}
+
 	/**
 	 * 
 	 * @throws CoreException
@@ -173,7 +323,7 @@ class MenuToolbarController extends Observable implements
 						JOptionPane.YES_NO_CANCEL_OPTION);
 
 				if (dialogResult == JOptionPane.YES_OPTION
-						&& this.handleSaveGraphEvent() == JFileChooser.APPROVE_OPTION) {
+						&& this.handleSaveGraphAsEvent() == JFileChooser.APPROVE_OPTION) {
 					System.exit(0);
 				} else if (dialogResult == JOptionPane.NO_OPTION) {
 					System.exit(0);
@@ -199,39 +349,56 @@ class MenuToolbarController extends Observable implements
 	}
 
 	/**
-	 * 
-	 * @throws CoreException
-	 * @return int
+	 * @param mode
 	 * 
 	 */
-	private int handleSaveGraphEvent() throws CoreException {
-		int saveResult = Integer.MAX_VALUE;
+	private void handleModeEvent(Mode mode) {
+		this.model.setPopupEditMode(mode);
+		if (this.model.getStepIterator() != null && mode == Mode.EDITING) {
+			// update model
+			this.model.setStepEnabledState(this.model.getStepIterator());
+			
+			// update view
+			this.setChanged();
+			this.notifyObservers();
+			this.setChanged();
+			this.notifyObservers(this.model.createStepModel());
+		}
+	}
 
-		if (this.fileChooserAdapter != null) {
-			saveResult = this.fileChooserAdapter.showSaveDialog();
-
-			if (saveResult == JFileChooser.APPROVE_OPTION) {
-				// save graph and update model
-				if (this.model.getStepIterator() != null) {
-					this.model
-							.setStepEnabledState(this.model.getStepIterator());
-				}
-				File file = this.fileChooserAdapter.getSelectedFile();
-				this.core.saveGraph(this.model.getGraph(), file);
-				this.model.setGraphUnsaved(false);
-
-				// update model
-				this.setChanged();
-				this.notifyObservers();
-				this.setChanged();
-				this.notifyObservers(String.format(SAVE_GRAPH_MSG, LN, LN, file
-						.getAbsolutePath(), LN,
-						this.model.getGraph().getName(), LN, this.model
-								.getGraph().getDescription(), LN));
+	/**
+	 * 
+	 * @param edgeType
+	 * @throws CoreException
+	 */
+	private void handleNewGraphEvent(EdgeType edgeType) throws CoreException {
+		// handle unsaved graph
+		if (this.model.isGraphUnsaved() && this.confirmDialogAdapter != null) {
+			int dialogResult = this.confirmDialogAdapter.showConfirmDialog(
+					SAVE_DIALOG_MSG, SAVE_DIALOG_TITLE,
+					JOptionPane.YES_NO_CANCEL_OPTION);
+			
+			if (dialogResult == JOptionPane.YES_OPTION && 
+					this.handleSaveGraphAsEvent() != JFileChooser.APPROVE_OPTION) {
+					return;
+			} else if (dialogResult == JOptionPane.CANCEL_OPTION || 
+					dialogResult == JOptionPane.CLOSED_OPTION) {
+				return;
 			}
 		}
 
-		return saveResult;
+		// update model
+		this.model.setNewGraphState(edgeType);
+		this.model.setAlgorithmComboModel(this.core
+				.getAlgorithmNames(this.model.getGraph().getEdgeType()));
+
+		// update view
+		this.setChanged();
+		this.notifyObservers(this.model.createToolBarModel());
+		this.setChanged();
+		this.notifyObservers(this.model.getGraph());
+		this.setChanged();
+		this.notifyObservers(this.model.createStepModel());
 	}
 
 	/**
@@ -248,7 +415,7 @@ class MenuToolbarController extends Observable implements
 						JOptionPane.YES_NO_CANCEL_OPTION);
 
 				if (dialogResult == JOptionPane.YES_OPTION) {
-					this.handleSaveGraphEvent();
+					this.handleSaveGraphAsEvent();
 				} else if (dialogResult == JOptionPane.CANCEL_OPTION ||
 						dialogResult == JOptionPane.CLOSED_OPTION) {
 					return;
@@ -257,6 +424,42 @@ class MenuToolbarController extends Observable implements
 
 			this.openGraph();
 		}
+	}
+
+	/**
+	 * 
+	 * @throws CoreException
+	 * @return int
+	 * 
+	 */
+	private int handleSaveGraphAsEvent() throws CoreException {
+		int saveResult = Integer.MAX_VALUE;
+
+		if (this.fileChooserAdapter != null) {
+			saveResult = this.fileChooserAdapter.showSaveDialog();
+
+			if (saveResult == JFileChooser.APPROVE_OPTION) {
+				// save graph and model update
+				if (this.model.getStepIterator() != null) {
+					this.model
+							.setStepEnabledState(this.model.getStepIterator());
+				}
+				File file = this.fileChooserAdapter.getSelectedFile();
+				this.core.saveGraph(this.model.getGraph(), file);
+				this.model.setGraphUnsaved(false);
+
+				// update view
+				this.setChanged();
+				this.notifyObservers();
+				this.setChanged();
+				this.notifyObservers(String.format(SAVE_GRAPH_MSG, LN, LN, file
+						.getAbsolutePath(), LN,
+						this.model.getGraph().getName(), LN, this.model
+								.getGraph().getDescription(), LN));
+			}
+		}
+
+		return saveResult;
 	}
 
 	/**
@@ -295,207 +498,6 @@ class MenuToolbarController extends Observable implements
 						FILE_ERR_TITLE, JOptionPane.WARNING_MESSAGE);
 			}
 		}
-	}
-
-	/**
-	 * 
-	 * @param edgeType
-	 * @throws CoreException
-	 */
-	private void handleNewGraphEvent(EdgeType edgeType) throws CoreException {
-		// handle unsaved graph
-		if (this.model.isGraphUnsaved() && this.confirmDialogAdapter != null) {
-			int dialogResult = this.confirmDialogAdapter.showConfirmDialog(
-					SAVE_DIALOG_MSG, SAVE_DIALOG_TITLE,
-					JOptionPane.YES_NO_CANCEL_OPTION);
-			
-			if (dialogResult == JOptionPane.YES_OPTION && 
-					this.handleSaveGraphEvent() != JFileChooser.APPROVE_OPTION) {
-					return;
-			} else if (dialogResult == JOptionPane.CANCEL_OPTION || 
-					dialogResult == JOptionPane.CLOSED_OPTION) {
-				return;
-			}
-		}
-
-		// update model
-		this.model.setNewGraphState(edgeType);
-		this.model.setAlgorithmComboModel(this.core
-				.getAlgorithmNames(this.model.getGraph().getEdgeType()));
-
-		// update view
-		this.setChanged();
-		this.notifyObservers(this.model.createToolBarModel());
-		this.setChanged();
-		this.notifyObservers(this.model.getGraph());
-		this.setChanged();
-		this.notifyObservers(this.model.createStepModel());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
-	 */
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		try {
-			// choose the applicable event handler
-			if (e.getStateChange() == ItemEvent.SELECTED
-					&& e.getSource() instanceof JComboBox<?>) {
-				JComboBox<?> combo = (JComboBox<?>) e.getSource();
-
-				if (combo.getActionCommand().equals(MODE.toString())
-						&& e.getItem() instanceof Mode) {
-					this.handleModeEvent(((Mode) e.getItem()));
-				} else if (combo.getActionCommand()
-						.equals(ALGORITHM.toString())
-						&& e.getItem() instanceof String) {
-					this.handleAlgorithmEvent(((String) e.getItem()).trim());
-				}
-			}
-		} catch (Exception ex) {
-			if (this.messageDialogAdapter != null) {
-				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, ex.getMessage()),
-						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
-
-	/**
-	 * @param item
-	 * @throws CoreException
-	 * 
-	 */
-	private void handleAlgorithmEvent(String item) throws CoreException {
-		// ignore title entry
-		if (!item.equals(IGuiModel.DEFAULT_ALGO_ENTRY)) {
-			// update model
-			if (this.model.getStepIterator() != null) {
-				this.model.getStepIterator().first();
-			}
-			this.model.setStepEnabledState(this.core.calculateSteps(
-					this.model.getGraph(), item));
-			this.model.setGraphChanged(false);
-
-			// update view
-			this.setChanged();
-			this.notifyObservers(this.model.createToolBarModel());
-			this.setChanged();
-			this.notifyObservers();
-			this.setChanged();
-			this.notifyObservers(this.model.createStepModel());
-			this.setChanged();
-			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, LN, item,
-					LN, this.core.getAlgorithmDescription(item), LN, LN));
-		}
-	}
-
-	/**
-	 * @param mode
-	 * 
-	 */
-	private void handleModeEvent(Mode mode) {
-		this.model.setPopupEditMode(mode);
-		if (this.model.getStepIterator() != null && mode == Mode.EDITING) {
-			// update model
-			this.model.setStepEnabledState(this.model.getStepIterator());
-			
-			// update view
-			this.setChanged();
-			this.notifyObservers();
-			this.setChanged();
-			this.notifyObservers(this.model.createStepModel());
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
-	 */
-	@Override
-	public void windowClosing(WindowEvent e) {
-		try {
-			this.handleExitEvent();
-		} catch (CoreException ex) {
-			if (this.messageDialogAdapter != null) {
-				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, ex.getMessage()),
-						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
-	 */
-	@Override
-	public void windowOpened(WindowEvent e) {
-		// no action
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
-	 */
-	@Override
-	public void windowClosed(WindowEvent e) {
-		// no action
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
-	 */
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// no action
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent
-	 * )
-	 */
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// no action
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
-	 */
-	@Override
-	public void windowActivated(WindowEvent e) {
-		// no action
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent
-	 * )
-	 */
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		// no action
 	}
 
 }

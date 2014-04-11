@@ -117,7 +117,7 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 			item.setNewState(state);
 		}
 
-		this.fireGraphEvent(new GravisGraphEvent(this, graphItems));
+		this.fireGraphEvent(new GraphStepEvent(this, graphItems));
 	}
 
 	/*
@@ -129,7 +129,7 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 	 */
 	@Override
 	public void updateState(IGraphItem... graphItems) {
-		this.fireGraphEvent(new GravisGraphEvent(this, graphItems));
+		this.fireGraphEvent(new GraphStepEvent(this, graphItems));
 	}
 
 	/*

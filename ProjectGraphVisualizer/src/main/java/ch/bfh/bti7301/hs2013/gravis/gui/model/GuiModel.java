@@ -23,7 +23,7 @@ class GuiModel implements IGuiModel {
 
 	private IEditingGraph graph;
 
-	private boolean graphChanged, graphUnsaved;
+	private boolean graphChanged, graphUnsaved, graphNew;
 
 	private DefaultComboBoxModel<String> algoComboModel;
 
@@ -36,7 +36,7 @@ class GuiModel implements IGuiModel {
 			beginningButtonModel = null, endButtonModel = null,
 			backButtonModel = null, forwardButtonModel = null;
 
-	private BoundedRangeModel progressBarModel = null;
+	private BoundedRangeModel progressBarModel = null; 
 
 	/**
 	 * 
@@ -54,11 +54,304 @@ class GuiModel implements IGuiModel {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#addEditingGraphEventListener
+	 * (ch.bfh.bti7301.hs2013.gravis.gui.controller.IEditingGraphEventListener)
+	 */
+	@Override
+	public void addEditingGraphEventListener(
+			IEditingGraphEventListener editingGraphEventListener) {
+		this.graph.addEditingGraphEventListener(editingGraphEventListener);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#createStepModel()
+	 */
+	@Override
+	public IStepModel createStepModel() {
+		return new StepModel(this.progressBarModel.getValue(),
+				this.progressBarModel.getMaximum());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#createToolBarModel()
+	 */
+	@Override
+	public IToolBarModel createToolBarModel() {
+		return new ToolBarModel(
+				this.algoComboModel,
+				!this.graph.isEmpty(),
+				this.graphChanged
+						&& this.algoComboModel.getSelectedItem() != DEFAULT_ALGO_ENTRY);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getAlgorithmComboModel()
+	 */
+	@Override
+	public ComboBoxModel<String> getAlgorithmComboModel() {
+		return this.algoComboModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getBackButtonModel()
+	 */
+	@Override
+	public ButtonModel getBackButtonModel() {
+		return this.backButtonModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getBeginningButtonModel
+	 * ()
+	 */
+	@Override
+	public ButtonModel getBeginningButtonModel() {
+		return this.beginningButtonModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getEditModeComboModel()
+	 */
+	@Override
+	public ComboBoxModel<?> getEditModeComboModel() {
+		return this.editModeComboModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getEndButtonModel()
+	 */
+	@Override
+	public ButtonModel getEndButtonModel() {
+		return this.endButtonModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getForwardButtonModel()
+	 */
+	@Override
+	public ButtonModel getForwardButtonModel() {
+		return this.forwardButtonModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getGraph()
 	 */
 	@Override
 	public IGravisGraph getGraph() {
 		return this.graph;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getProgressBarModel()
+	 */
+	@Override
+	public BoundedRangeModel getProgressBarModel() {
+		return this.progressBarModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getStepIterator()
+	 */
+	@Override
+	public IGravisListIterator<String> getStepIterator() {
+		return this.stepIterator;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#hasGraphChanged()
+	 */
+	@Override
+	public boolean hasGraphChanged() {
+		return this.graphChanged;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#isGraphUnsaved()
+	 */
+	@Override
+	public boolean isGraphUnsaved() {
+		return this.graphUnsaved;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#resetStepEnabledState()
+	 */
+	@Override
+	public void resetStepEnabledState() {
+		if (this.stepIterator != null) {
+			this.stepIterator.first();
+			this.stepIterator = null;
+
+			this.updateStepButtonModels(false, false, false, false);
+
+			if (this.progressBarModel != null) {
+				this.progressBarModel.setMinimum(0);
+				this.progressBarModel.setMaximum(0);
+				this.progressBarModel.setValue(0);
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setAlgorithmComboModel
+	 * (java.lang.String[])
+	 */
+	@Override
+	public void setAlgorithmComboModel(String[] algoNames) {
+		this.algoComboModel = new DefaultComboBoxModel<>();
+		this.algoComboModel.addElement(DEFAULT_ALGO_ENTRY);
+
+		for (String algoName : algoNames) {
+			this.algoComboModel.addElement(algoName);
+		}
+
+		this.algoComboModel.setSelectedItem(DEFAULT_ALGO_ENTRY);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setBackButtonModel(javax
+	 * .swing.ButtonModel)
+	 */
+	@Override
+	public void setBackButtonModel(ButtonModel model) {
+		this.backButtonModel = model;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setBeginningButtonModel
+	 * (javax.swing.ButtonModel)
+	 */
+	@Override
+	public void setBeginningButtonModel(ButtonModel model) {
+		this.beginningButtonModel = model;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setDeleteEdgeButtonModel
+	 * (javax.swing.ButtonModel)
+	 */
+	@Override
+	public void setDeleteEdgeButtonModel(ButtonModel model) {
+		this.deleteEdgeButtonModel = model;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setDeleteVertexButtonModel
+	 * (javax.swing.ButtonModel)
+	 */
+	@Override
+	public void setDeleteVertexButtonModel(ButtonModel model) {
+		this.deleteVertexButtonModel = model;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setEditModeComboModel
+	 * (javax.swing.ComboBoxModel)
+	 */
+	@Override
+	public void setEditModeComboModel(ComboBoxModel<?> comboModel) {
+		this.editModeComboModel = comboModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setEndButtonModel(javax
+	 * .swing.ButtonModel)
+	 */
+	@Override
+	public void setEndButtonModel(ButtonModel model) {
+		this.endButtonModel = model;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setForwardButtonModel
+	 * (javax.swing.ButtonModel)
+	 */
+	@Override
+	public void setForwardButtonModel(ButtonModel model) {
+		this.forwardButtonModel = model;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setGraphChanged(boolean)
+	 */
+	@Override
+	public void setGraphChanged(boolean graphChanged) {
+		this.graphChanged = graphChanged;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setGraphUnsaved(boolean)
+	 */
+	@Override
+	public void setGraphUnsaved(boolean graphUnsaved) {
+		this.graphUnsaved = graphUnsaved;
 	}
 
 	/*
@@ -94,83 +387,6 @@ class GuiModel implements IGuiModel {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#hasGraphChanged()
-	 */
-	@Override
-	public boolean hasGraphChanged() {
-		return this.graphChanged;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setGraphChanged(boolean)
-	 */
-	@Override
-	public void setGraphChanged(boolean graphChanged) {
-		this.graphChanged = graphChanged;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#isGraphUnsaved()
-	 */
-	@Override
-	public boolean isGraphUnsaved() {
-		return this.graphUnsaved;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setGraphUnsaved(boolean)
-	 */
-	@Override
-	public void setGraphUnsaved(boolean graphUnsaved) {
-		this.graphUnsaved = graphUnsaved;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getStepIterator()
-	 */
-	@Override
-	public IGravisListIterator<String> getStepIterator() {
-		return this.stepIterator;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#addEditingGraphEventListener
-	 * (ch.bfh.bti7301.hs2013.gravis.gui.controller.IEditingGraphEventListener)
-	 */
-	@Override
-	public void addEditingGraphEventListener(
-			IEditingGraphEventListener editingGraphEventListener) {
-		this.graph.addEditingGraphEventListener(editingGraphEventListener);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setDeleteEdgeButtonModel
-	 * (javax.swing.ButtonModel)
-	 */
-	@Override
-	public void setDeleteEdgeButtonModel(ButtonModel model) {
-		this.deleteEdgeButtonModel = model;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setPopupEditMode(edu
 	 * .uci. ics.jung.visualization.control.ModalGraphMouse.Mode)
@@ -192,49 +408,12 @@ class GuiModel implements IGuiModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setVertexCreateButtonModel
-	 * (javax.swing.ButtonModel)
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setProgressBarModel(
+	 * javax.swing.BoundedRangeModel)
 	 */
 	@Override
-	public void setVertexCreateButtonModel(ButtonModel model) {
-		this.vertexCreateButtonModel = model;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setDeleteVertexButtonModel
-	 * (javax.swing.ButtonModel)
-	 */
-	@Override
-	public void setDeleteVertexButtonModel(ButtonModel model) {
-		this.deleteVertexButtonModel = model;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#updateStepButtonModels
-	 * (boolean, boolean, boolean, boolean)
-	 */
-	@Override
-	public void updateStepButtonModels(boolean beginning, boolean back,
-			boolean forward, boolean end) {
-		
-		if (this.beginningButtonModel != null) {
-			this.beginningButtonModel.setEnabled(beginning);
-		}
-		if (this.backButtonModel != null) {
-			this.backButtonModel.setEnabled(back);
-		}
-		if (this.forwardButtonModel != null) {
-			this.forwardButtonModel.setEnabled(forward);
-		}
-		if (this.endButtonModel != null) {
-			this.endButtonModel.setEnabled(end);
-		}
+	public void setProgressBarModel(BoundedRangeModel model) {
+		this.progressBarModel = model;
 	}
 
 	/*
@@ -266,216 +445,37 @@ class GuiModel implements IGuiModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#resetStepEnabledState()
-	 */
-	@Override
-	public void resetStepEnabledState() {
-		if (this.stepIterator != null) {
-			this.stepIterator.first();
-			this.stepIterator = null;
-
-			this.updateStepButtonModels(false, false, false, false);
-
-			if (this.progressBarModel != null) {
-				this.progressBarModel.setMinimum(0);
-				this.progressBarModel.setMaximum(0);
-				this.progressBarModel.setValue(0);
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#createToolBarModel()
-	 */
-	@Override
-	public IToolBarModel createToolBarModel() {
-		return new ToolBarModel(
-				this.algoComboModel,
-				!this.graph.isEmpty(),
-				this.graphChanged
-						&& this.algoComboModel.getSelectedItem() != DEFAULT_ALGO_ENTRY);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#createStepModel()
-	 */
-	@Override
-	public IStepModel createStepModel() {
-		return new StepModel(this.progressBarModel.getValue(),
-				this.progressBarModel.getMaximum());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getAlgorithmComboModel()
-	 */
-	@Override
-	public ComboBoxModel<String> getAlgorithmComboModel() {
-		return this.algoComboModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setAlgorithmComboModel
-	 * (java.lang.String[])
-	 */
-	@Override
-	public void setAlgorithmComboModel(String[] algoNames) {
-		this.algoComboModel = new DefaultComboBoxModel<>();
-		this.algoComboModel.addElement(DEFAULT_ALGO_ENTRY);
-
-		for (String algoName : algoNames) {
-			this.algoComboModel.addElement(algoName);
-		}
-
-		this.algoComboModel.setSelectedItem(DEFAULT_ALGO_ENTRY);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setEditModeComboModel
-	 * (javax.swing.ComboBoxModel)
-	 */
-	@Override
-	public void setEditModeComboModel(ComboBoxModel<?> comboModel) {
-		this.editModeComboModel = comboModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getEditModeComboModel()
-	 */
-	@Override
-	public ComboBoxModel<?> getEditModeComboModel() {
-		return this.editModeComboModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setBeginningButtonModel
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setVertexCreateButtonModel
 	 * (javax.swing.ButtonModel)
 	 */
 	@Override
-	public void setBeginningButtonModel(ButtonModel model) {
-		this.beginningButtonModel = model;
+	public void setVertexCreateButtonModel(ButtonModel model) {
+		this.vertexCreateButtonModel = model;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setEndButtonModel(javax
-	 * .swing.ButtonModel)
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#updateStepButtonModels
+	 * (boolean, boolean, boolean, boolean)
 	 */
 	@Override
-	public void setEndButtonModel(ButtonModel model) {
-		this.endButtonModel = model;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setBackButtonModel(javax
-	 * .swing.ButtonModel)
-	 */
-	@Override
-	public void setBackButtonModel(ButtonModel model) {
-		this.backButtonModel = model;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setForwardButtonModel
-	 * (javax.swing.ButtonModel)
-	 */
-	@Override
-	public void setForwardButtonModel(ButtonModel model) {
-		this.forwardButtonModel = model;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#setProgressBarModel(
-	 * javax.swing.BoundedRangeModel)
-	 */
-	@Override
-	public void setProgressBarModel(BoundedRangeModel model) {
-		this.progressBarModel = model;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getBeginningButtonModel
-	 * ()
-	 */
-	@Override
-	public ButtonModel getBeginningButtonModel() {
-		return this.beginningButtonModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getEndButtonModel()
-	 */
-	@Override
-	public ButtonModel getEndButtonModel() {
-		return this.endButtonModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getBackButtonModel()
-	 */
-	@Override
-	public ButtonModel getBackButtonModel() {
-		return this.backButtonModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getForwardButtonModel()
-	 */
-	@Override
-	public ButtonModel getForwardButtonModel() {
-		return this.forwardButtonModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel#getProgressBarModel()
-	 */
-	@Override
-	public BoundedRangeModel getProgressBarModel() {
-		return this.progressBarModel;
+	public void updateStepButtonModels(boolean beginning, boolean back,
+			boolean forward, boolean end) {
+		
+		if (this.beginningButtonModel != null) {
+			this.beginningButtonModel.setEnabled(beginning);
+		}
+		if (this.backButtonModel != null) {
+			this.backButtonModel.setEnabled(back);
+		}
+		if (this.forwardButtonModel != null) {
+			this.forwardButtonModel.setEnabled(forward);
+		}
+		if (this.endButtonModel != null) {
+			this.endButtonModel.setEnabled(end);
+		}
 	}
 
 }

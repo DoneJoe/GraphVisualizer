@@ -3,7 +3,7 @@ package ch.bfh.bti7301.hs2013.gravis.core.util;
 import java.util.Iterator;
 
 /**
- * A bidirectinal immutable iterator.
+ * Interface defining a bidirectinal immutable iterator.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 

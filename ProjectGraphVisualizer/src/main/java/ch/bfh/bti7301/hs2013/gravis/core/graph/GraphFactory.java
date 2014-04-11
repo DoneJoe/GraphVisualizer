@@ -119,7 +119,7 @@ public final class GraphFactory {
 	 */
 	public static GraphEventListener<IVertex, IEdge> createGravisGraphEventListener(
 			List<IStep> commandList) {
-		return new GravisGraphEventListener(commandList,
+		return new GraphStepEventListener(commandList,
 				StepTransformerFactory.createStepTransformer());
 	}
 

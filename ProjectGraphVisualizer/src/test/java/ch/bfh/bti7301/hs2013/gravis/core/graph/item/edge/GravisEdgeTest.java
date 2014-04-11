@@ -404,7 +404,7 @@ public class GravisEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#fireEditingGraphEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent)}.
+	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#fireEditingGraphEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}.
 	 */
 	@Test
 	public void testFireEditingGraphEvent() {
@@ -412,7 +412,7 @@ public class GravisEdgeTest {
 	}
 
 	/**
-	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#fireNameChangedEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent)}.
+	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#fireNameChangedEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}.
 	 */
 	@Test
 	public void testFireNameChangedEvent() {

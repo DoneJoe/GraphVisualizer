@@ -12,11 +12,11 @@ public interface IEditingGraphEventListener extends IGravisObservable {
 	 * 
 	 * @param evt
 	 */
-	public abstract void handleEditingGraphEvent(GravisGraphEvent evt);
+	public abstract void handleEditingGraphEvent(GraphStepEvent evt);
 	
 	/**
 	 * 
 	 * @param evt
 	 */
-	public abstract void handleNameChangedEvent(GravisGraphEvent evt);
+	public abstract void handleNameChangedEvent(GraphStepEvent evt);
 }

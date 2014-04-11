@@ -3,7 +3,7 @@ package ch.bfh.bti7301.hs2013.gravis.core.graph.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphEvent;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
 
 /**
@@ -36,7 +36,7 @@ public abstract class AbstractEditingGraphItem {
 	 * 
 	 * @param event
 	 */
-	protected void fireEditingGraphEvent(GravisGraphEvent event) {
+	protected void fireEditingGraphEvent(GraphStepEvent event) {
 		for (IEditingGraphEventListener listener : this.listeners) {
 			listener.handleEditingGraphEvent(event);
 		}
@@ -46,7 +46,7 @@ public abstract class AbstractEditingGraphItem {
 	 * 
 	 * @param event
 	 */
-	protected void fireNameChangedEvent(GravisGraphEvent event) {
+	protected void fireNameChangedEvent(GraphStepEvent event) {
 		for (IEditingGraphEventListener listener : this.listeners) {
 			listener.handleNameChangedEvent(event);
 		}

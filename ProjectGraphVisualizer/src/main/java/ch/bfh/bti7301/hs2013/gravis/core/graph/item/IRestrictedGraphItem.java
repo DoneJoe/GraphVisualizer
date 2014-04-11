@@ -19,10 +19,9 @@ public interface IRestrictedGraphItem {
 	}
 
 	/**
-	 * 
-	 * @return String id
+	 * @param comment
 	 */
-	public abstract String getId();
+	public abstract void appendToNewComment(String comment);
 
 	/**
 	 * 
@@ -39,15 +38,15 @@ public interface IRestrictedGraphItem {
 	
 	/**
 	 * 
-	 * @return double value
+	 * @return State
 	 */
-	public abstract double getNewResult();
+	public abstract State getCurrentState();
 
 	/**
 	 * 
-	 * @param value
+	 * @return String id
 	 */
-	public abstract void setNewResult(double value);
+	public abstract String getId();
 
 	/**
 	 * 
@@ -57,32 +56,10 @@ public interface IRestrictedGraphItem {
 
 	/**
 	 * 
-	 * @param newComment
+	 * @return double value
 	 */
-	public abstract void setNewComment(String newComment);
+	public abstract double getNewResult();
 
-	/**
-	 * @param comment
-	 */
-	public abstract void appendToNewComment(String comment);
-	
-	/**
-	 * @return boolean
-	 */
-	public abstract boolean isDone();
-
-	/**
-	 * 
-	 * @param value
-	 */
-	public abstract void setDone(boolean value);
-
-	/**
-	 * 
-	 * @return State
-	 */
-	public abstract State getCurrentState();
-	
 	/**
 	 * 
 	 * @return State
@@ -91,15 +68,78 @@ public interface IRestrictedGraphItem {
 	
 	/**
 	 * 
-	 * @param newState
-	 */
-	public abstract void setNewState(State newState);
-	
-	/**
-	 * 
 	 * @return State
 	 */
 	public abstract Object getValue();
+
+	/**
+	 * @return boolean
+	 */
+	public abstract boolean isDone();
+
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isNewDashed();
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isStateCommentEnabled();
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isTagged();
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isVisible();
+	
+	/**
+	 * 
+	 * @param value
+	 */
+	public abstract void setDone(boolean value);
+	
+	/**
+	 * 
+	 * @param newComment
+	 */
+	public abstract void setNewComment(String newComment);
+	
+	/**
+	 * @param value
+	 */
+	public abstract void setNewDashed(boolean value);
+	
+	/**
+	 * 
+	 * @param value
+	 */
+	public abstract void setNewResult(double value);
+	
+	/**
+	 * 
+	 * @param newState
+	 */
+	public abstract void setNewState(State newState);
+
+	/**
+	 * @param value
+	 */
+	public abstract void setStateCommentEnabled(boolean value);
+	
+	/**
+	 * 
+	 * @param tagged
+	 */
+	public abstract void setTagged(boolean tagged);
 	
 	/**
 	 * 
@@ -112,44 +152,4 @@ public interface IRestrictedGraphItem {
 	 * @param visible
 	 */
 	public abstract void setVisible(boolean visible);
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public abstract boolean isVisible();
-	
-	/**
-	 * 
-	 * @param tagged
-	 */
-	public abstract void setTagged(boolean tagged);
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public abstract boolean isTagged();
-
-	/**
-	 * @param value
-	 */
-	public abstract void setStateCommentEnabled(boolean value);
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public abstract boolean isStateCommentEnabled();
-	
-	/**
-	 * @param value
-	 */
-	public abstract void setNewDashed(boolean value);
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public abstract boolean isNewDashed();
 }
