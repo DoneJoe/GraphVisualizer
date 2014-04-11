@@ -30,13 +30,19 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	
 	private static final String OPEN_ICON = "Open24.gif";
 	private static final String OPEN_TOOLTIP = "Graph öffnen...";
-	private static final String SAVE_ICON = "SaveAs24.gif";
-	private static final String SAVE_TOOLTIP = "Graph speichern unter...";
-	private static final String NEW_ICON = "New24.gif";
+	private static final String SAVE_ICON = "Save24.gif";
+	private static final String SAVE_TOOLTIP = "Graph speichern";
+	private static final String SAVE_AS_ICON = "SaveAs24.gif";
+	private static final String SAVE_AS_TOOLTIP = "Graph speichern unter...";
+	
+	private static final String NEW_ICON = "New24.gif";	
 	private static final String NEW_DIR_LABEL = "G";
 	private static final String NEW_DIR_TOOLTIP = "Neuer gerichteter Graph";
 	private static final String NEW_UNDIR_LABEL = "U";
 	private static final String NEW_UNDIR_TOOLTIP = "Neuer ungerichteter Graph";
+	private static final String PROPERTIES_ICON = "Edit24.gif";	
+	private static final String PROPERTIES_TOOLTIP = "Graph Eigenschaften...";
+	
 	private static final String EDIT_MODE_LABEL = "Bearbeitungsmodus:";
 	private static final String MODE_TOOLTIP = "Bearbeitungs-Modus wählen";
 	private static final String ALGO_TOOLTIP = "Algorithmus wählen";
@@ -63,6 +69,16 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		layout.setAlignment(FlowLayout.LEADING);
 		this.setLayout(layout);
 		
+		JButton btnNewDirGraph = new JButton(NEW_DIR_LABEL);
+		btnNewDirGraph.setIcon(new ImageIcon(this.loadImage(NEW_ICON)));
+		btnNewDirGraph.setToolTipText(NEW_DIR_TOOLTIP);
+		this.add(btnNewDirGraph);
+		
+		JButton btnNewUndirGraph = new JButton(NEW_UNDIR_LABEL);
+		btnNewUndirGraph.setIcon(new ImageIcon(this.loadImage(NEW_ICON)));
+		btnNewUndirGraph.setToolTipText(NEW_UNDIR_TOOLTIP);
+		this.add(btnNewUndirGraph);
+		
 		JButton btnOpenGraph = new JButton();
 		btnOpenGraph.setIcon(new ImageIcon(this.loadImage(OPEN_ICON)));
 		btnOpenGraph.setToolTipText(OPEN_TOOLTIP);
@@ -73,15 +89,15 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		btnSaveGraph.setToolTipText(SAVE_TOOLTIP);
 		this.add(btnSaveGraph);
 		
-		JButton btnNewDirGraph = new JButton(NEW_DIR_LABEL);
-		btnNewDirGraph.setIcon(new ImageIcon(this.loadImage(NEW_ICON)));
-		btnNewDirGraph.setToolTipText(NEW_DIR_TOOLTIP);
-		this.add(btnNewDirGraph);
+		JButton btnSaveGraphAs = new JButton();
+		btnSaveGraphAs.setIcon(new ImageIcon(this.loadImage(SAVE_AS_ICON)));
+		btnSaveGraphAs.setToolTipText(SAVE_AS_TOOLTIP);
+		this.add(btnSaveGraphAs);
 		
-		JButton btnNewUndirGraph = new JButton(NEW_UNDIR_LABEL);
-		btnNewUndirGraph.setIcon(new ImageIcon(this.loadImage(NEW_ICON)));
-		btnNewUndirGraph.setToolTipText(NEW_UNDIR_TOOLTIP);
-		this.add(btnNewUndirGraph);
+		JButton btnGraphProp = new JButton();
+		btnGraphProp.setIcon(new ImageIcon(this.loadImage(PROPERTIES_ICON)));
+		btnGraphProp.setToolTipText(PROPERTIES_TOOLTIP);
+		this.add(btnGraphProp);
 		
 		JLabel lblEditMode = new JLabel(EDIT_MODE_LABEL);
 		this.add(lblEditMode);
@@ -104,12 +120,16 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		// add listeners
 		btnOpenGraph.setActionCommand(EventSource.OPEN_GRAPH.toString());
 		btnOpenGraph.addActionListener(menuToolbarController);
-		btnSaveGraph.setActionCommand(EventSource.SAVE_GRAPH_AS.toString());
+		btnSaveGraph.setActionCommand(EventSource.SAVE_GRAPH.toString());
 		btnSaveGraph.addActionListener(menuToolbarController);
+		btnSaveGraphAs.setActionCommand(EventSource.SAVE_GRAPH_AS.toString());
+		btnSaveGraphAs.addActionListener(menuToolbarController);
 		btnNewDirGraph.setActionCommand(EventSource.NEW_DIR_GRAPH.toString());
 		btnNewDirGraph.addActionListener(menuToolbarController);
 		btnNewUndirGraph.setActionCommand(EventSource.NEW_UNDIR_GRAPH.toString());
 		btnNewUndirGraph.addActionListener(menuToolbarController);
+		btnGraphProp.setActionCommand(EventSource.GRAPH_PROPERTY.toString());
+		btnGraphProp.addActionListener(menuToolbarController);
 		comboBoxMode.setActionCommand(EventSource.MODE.toString());
 		comboBoxMode.addItemListener(menuToolbarController);
 		this.comboBoxAlgorithm.setActionCommand(EventSource.ALGORITHM.toString());

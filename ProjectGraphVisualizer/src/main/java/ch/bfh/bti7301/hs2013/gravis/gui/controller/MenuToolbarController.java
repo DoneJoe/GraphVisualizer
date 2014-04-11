@@ -85,6 +85,8 @@ class MenuToolbarController extends Observable implements
 				this.handleNewGraphEvent(EdgeType.UNDIRECTED);
 			} else if (e.getActionCommand().equals(OPEN_GRAPH.toString())) {
 				this.handleOpenGraphEvent();
+			} else if (e.getActionCommand().equals(SAVE_GRAPH.toString())) {
+				this.handleSaveGraphEvent();
 			} else if (e.getActionCommand().equals(SAVE_GRAPH_AS.toString())) {
 				this.handleSaveGraphAsEvent();
 			} else if (e.getActionCommand().equals(GRAPH_PROPERTY.toString())) {
@@ -460,6 +462,16 @@ class MenuToolbarController extends Observable implements
 		}
 
 		return saveResult;
+	}
+
+	/**
+	 * 
+	 * @throws CoreException
+	 */
+	private void handleSaveGraphEvent()  throws CoreException {
+		// TODO Auto-generated method stub
+		this.messageDialogAdapter.showMessageDialog("handleSaveGraphEvent", "", 
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**

@@ -32,10 +32,12 @@ public class StepPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1543453026902655850L;
 
 	private static final String PROGRESS_LABEL = "Schritt %d/%d ";
-	private static final String BEGINNING_ICON = "Rewind24.gif";
-	private static final String BACK_ICON = "StepBack24.gif";
-	private static final String FORWARD_ICON = "StepForward24.gif";
-	private static final String END_ICON = "FastForward24.gif";
+	
+	private static final String BEGINNING_ICON = "skip-backward-icon_32.png";
+	private static final String BACK_ICON = "backward-icon_32.png";
+	private static final String FORWARD_ICON = "forward-icon_32.png";
+	private static final String END_ICON = "skip-forward-icon_32.png";
+	
 	private static final String BEGINNING_TOOLTIP = "Zum Anfang";
 	private static final String BACK_TOOLTIP = "Einen Schritt zurück";
 	private static final String FORWARD_TOOLTIP = "Einen Schritt vorwärts";

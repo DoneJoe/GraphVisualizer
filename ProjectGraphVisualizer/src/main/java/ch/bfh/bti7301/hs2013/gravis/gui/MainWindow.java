@@ -51,6 +51,7 @@ public class MainWindow extends JFrame {
 	private final static String NEW_UNDIR_GRAPH = "Neuer ungerichteter Graph";
 	private final static String OPEN = "Öffnen...";
 	private final static String SAVE_AS = "Speichern unter...";
+	private final static String SAVE = "Speichern";	
 	private final static String PROPERTIES = "Graph Eigenschaften...";
 	private final static String EXIT = "Beenden";
 	private final static String HELP_MENU = "Hilfe";
@@ -61,7 +62,8 @@ public class MainWindow extends JFrame {
 	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten: %s";
 
 	private static final String OPEN_ICON = "Open16.gif";
-	private static final String SAVE_ICON = "SaveAs16.gif";
+	private static final String SAVE_AS_ICON = "SaveAs16.gif";
+	private static final String SAVE_ICON = "Save16.gif";
 	private static final String NEW_ICON = "New16.gif";
 	private static final String EDIT_ICON = "Edit16.gif";
 	private static final String HELP_ICON = "Help16.gif";
@@ -209,6 +211,8 @@ public class MainWindow extends JFrame {
 		JMenuItem menuItemOpenGraph = new JMenuItem(OPEN, new ImageIcon(
 				this.loadImage(OPEN_ICON)));
 		JMenuItem menuItemSaveGraphAs = new JMenuItem(SAVE_AS, new ImageIcon(
+				this.loadImage(SAVE_AS_ICON)));
+		JMenuItem menuItemSaveGraph = new JMenuItem(SAVE, new ImageIcon(
 				this.loadImage(SAVE_ICON)));
 		JMenuItem menuItemGraphProperties = new JMenuItem(PROPERTIES,
 				new ImageIcon(this.loadImage(EDIT_ICON)));
@@ -221,7 +225,7 @@ public class MainWindow extends JFrame {
 		JMenuItem menuItemInfo = new JMenuItem(INFO, new ImageIcon(
 				this.loadImage(INFO_ICON)));
 
-		// set menu shortcuts and mnemonics
+		// set mnemonics and menu shortcuts
 		menuFile.setMnemonic(KeyEvent.VK_D);
 		menuHelp.setMnemonic(KeyEvent.VK_H);
 		menuItemNewDirGraph.setAccelerator(KeyStroke.getKeyStroke(
@@ -230,8 +234,10 @@ public class MainWindow extends JFrame {
 				KeyEvent.VK_N, ActionEvent.SHIFT_MASK));
 		menuItemOpenGraph.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
 				ActionEvent.CTRL_MASK));
-		menuItemSaveGraphAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+		menuItemSaveGraph.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				ActionEvent.CTRL_MASK));
+		menuItemSaveGraphAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				ActionEvent.SHIFT_MASK | ActionEvent.CTRL_MASK));
 		menuItemGraphProperties.setAccelerator(KeyStroke.getKeyStroke(
 				KeyEvent.VK_E, ActionEvent.CTRL_MASK));
 		menuItemExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4,
@@ -250,6 +256,8 @@ public class MainWindow extends JFrame {
 		menuItemNewUndirGraph.addActionListener(menuToolbarController);
 		menuItemOpenGraph.setActionCommand(EventSource.OPEN_GRAPH.toString());
 		menuItemOpenGraph.addActionListener(menuToolbarController);
+		menuItemSaveGraph.setActionCommand(EventSource.SAVE_GRAPH.toString());
+		menuItemSaveGraph.addActionListener(menuToolbarController);
 		menuItemSaveGraphAs.setActionCommand(EventSource.SAVE_GRAPH_AS.toString());
 		menuItemSaveGraphAs.addActionListener(menuToolbarController);
 		menuItemGraphProperties.setActionCommand(EventSource.GRAPH_PROPERTY
@@ -266,6 +274,7 @@ public class MainWindow extends JFrame {
 		menuFile.add(menuItemNewDirGraph);
 		menuFile.add(menuItemNewUndirGraph);
 		menuFile.add(menuItemOpenGraph);
+		menuFile.add(menuItemSaveGraph);
 		menuFile.add(menuItemSaveGraphAs);
 		menuFile.add(menuItemGraphProperties);
 		menuFile.addSeparator();
