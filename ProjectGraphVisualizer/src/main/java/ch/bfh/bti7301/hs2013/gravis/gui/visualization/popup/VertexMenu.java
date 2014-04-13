@@ -5,7 +5,7 @@ import javax.swing.JPopupMenu;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
@@ -25,7 +25,7 @@ public class VertexMenu extends JPopupMenu {
 	 * @param model
 	 */
 	public VertexMenu(VisualizationViewer<IVertex, IEdge> vViewer,
-			JFrame owner, IGuiModel model) {
+			JFrame owner, IAppModel model) {
 		super(TITLE);
 
 		DeleteVertexMenuItem deleteVertexMenuItem = new DeleteVertexMenuItem(

@@ -23,7 +23,7 @@ public interface ICore {
 	 * @return IGravisGraph
 	 * @throws CoreException
 	 */
-	public abstract IGravisGraph importGraph(File source) throws CoreException;
+	public abstract IGravisGraph loadGraph(File source) throws CoreException;
 
 	/**
 	 * 

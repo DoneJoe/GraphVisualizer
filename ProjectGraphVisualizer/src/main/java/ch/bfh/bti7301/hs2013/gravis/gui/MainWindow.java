@@ -11,14 +11,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.VisualizationPanel;
 import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController.EventSource;
 import static ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants.*;
@@ -133,8 +133,8 @@ public class MainWindow extends JFrame {
 	 * @throws IOException
 	 */
 	public MainWindow(IMenuToolbarController menuToolbarController,
-			IEditingGraphEventListener visualizationController,
-			IStepController stepController, IGuiModel model) throws IOException {
+			IEditableGraphEventListener visualizationController,
+			IStepController stepController, IAppModel model) throws IOException {
 		super(TITLE);
 
 		JPanel contentPane = new JPanel();
@@ -148,8 +148,7 @@ public class MainWindow extends JFrame {
 		this.infoEditorPane = this.createEditorPane(INFO_TEXT);
 		VisualizationPanel visualizationPanel = new VisualizationPanel(model,
 				this);
-		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model,
-				visualizationPanel.getModeComboBox());
+		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model);
 		StepPanel stepPanel = new StepPanel(stepController, model);
 		ProtocolPanel protocolPanel = new ProtocolPanel();
 		JPanel footerPanel = new JPanel();
@@ -200,7 +199,7 @@ public class MainWindow extends JFrame {
 	 * @throws IOException
 	 */
 	private void createMenus(IMenuToolbarController menuToolbarController,
-			IGuiModel model) throws IOException {
+			IAppModel model) throws IOException {
 		// create menu items
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(FILE);

@@ -59,11 +59,11 @@ class GraphManager implements IGraphManager {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphManager#importGraph(java
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphManager#loadGraph(java
 	 * .io.File)
 	 */
 	@Override
-	public IGravisGraph importGraph(File file) throws GraphException {
+	public IGravisGraph loadGraph(File file) throws GraphException {
 		try {
 			GraphMLReader2<IGravisGraph, IVertex, IEdge> graphReader = new GraphMLReader2<>(
 					new FileReader(file), this.graphTransformer,

@@ -3,35 +3,35 @@ package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 import java.util.Observable;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
 class VisualizationController extends Observable implements
-		IEditingGraphEventListener {
+		IEditableGraphEventListener {
 
-	private final IGuiModel model;
+	private final IAppModel model;
 
 	/**
 	 * 
 	 * @param model
 	 */
-	protected VisualizationController(IGuiModel model) {
+	protected VisualizationController(IAppModel model) {
 		this.model = model;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener#
-	 * handleEditingGraphEvent
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener#
+	 * raphItemsChangedEvent
 	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)
 	 */
 	@Override
-	public void handleEditingGraphEvent(GraphStepEvent evt) {
+	public void graphItemsChangedEvent(GraphStepEvent evt) {
 		// update model
 		this.model.resetStepEnabledState();
 		this.model.setGraphChanged(true);
@@ -48,12 +48,12 @@ class VisualizationController extends Observable implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener#
-	 * handleGraphNameChangedEvent
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener#
+	 * graphPropertiesChangedEvent
 	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)
 	 */
 	@Override
-	public void handleNameChangedEvent(GraphStepEvent evt) {
+	public void graphPropertiesChangedEvent(GraphStepEvent evt) {
 		// update model
 		this.model.setGraphUnsaved(true);
 		

@@ -11,7 +11,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.VertexFactory;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.GravisVisualizationViewer;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 
@@ -35,7 +35,7 @@ public class VertexCreateMenu extends JPopupMenu implements
 	 * @param viewer
 	 * @param model 
 	 */
-	public VertexCreateMenu(final GravisVisualizationViewer viewer, IGuiModel model) {
+	public VertexCreateMenu(final GravisVisualizationViewer viewer, IAppModel model) {
 		super(TITLE);
 
 		this.vertexFactory = new VertexFactory();

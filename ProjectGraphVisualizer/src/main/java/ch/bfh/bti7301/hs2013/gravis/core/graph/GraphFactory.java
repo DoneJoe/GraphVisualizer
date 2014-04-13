@@ -55,24 +55,24 @@ public final class GraphFactory {
 	}
 	
 	/**
-	 * @return directed IEditingGraph
+	 * @return directed IEditableGraph
 	 */
-	public static IEditingGraph createEditingGraph() {
-		return new EditingGraph(createGravisGraph());
+	public static IEditableGraph createEditingGraph() {
+		return new EditableGraph(createGravisGraph());
 	}
 	
 	/**
 	 * 
 	 * @param edgeType
 	 * @param listeners 
-	 * @return IEditingGraph
+	 * @return IEditableGraph
 	 */
-	public static IEditingGraph createEditingGraph(EdgeType edgeType, 
-			IEditingGraphEventListener ... listeners) {
-		EditingGraph editingGraph = new EditingGraph(createGravisGraph(edgeType));
+	public static IEditableGraph createEditingGraph(EdgeType edgeType, 
+			IEditableGraphEventListener ... listeners) {
+		EditableGraph editingGraph = new EditableGraph(createGravisGraph(edgeType));
 		
-		for (IEditingGraphEventListener listener : listeners) {
-			editingGraph.addEditingGraphEventListener(listener);
+		for (IEditableGraphEventListener listener : listeners) {
+			editingGraph.addEditableGraphEventListener(listener);
 		}
 		return editingGraph;
 	}
@@ -81,14 +81,14 @@ public final class GraphFactory {
 	 * 
 	 * @param graph
 	 * @param listeners
-	 * @return IEditingGraph
+	 * @return IEditableGraph
 	 */
-	public static IEditingGraph createEditingGraph(IGravisGraph graph, 
-			IEditingGraphEventListener ... listeners) {
-		EditingGraph editingGraph = new EditingGraph(graph);
+	public static IEditableGraph createEditingGraph(IGravisGraph graph, 
+			IEditableGraphEventListener ... listeners) {
+		EditableGraph editingGraph = new EditableGraph(graph);
 		
-		for (IEditingGraphEventListener listener : listeners) {
-			editingGraph.addEditingGraphEventListener(listener);
+		for (IEditableGraphEventListener listener : listeners) {
+			editingGraph.addEditableGraphEventListener(listener);
 		}
 		return editingGraph;
 	}

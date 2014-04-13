@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
@@ -14,8 +14,8 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.PointTransformer;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.ControllerFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.GuiModelFactory;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.AppModelFactory;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 
@@ -36,16 +36,17 @@ public final class GuiFactory {
 	 */
 	public static JFrame createGUI(ICore core) throws CoreException, IOException {
 		// model
-		IGuiModel model = GuiModelFactory.createGuiModel(core);
+		IAppModel model = AppModelFactory.createAppModel(core);
 
 		// controllers
 		IMenuToolbarController menuToolbarController = ControllerFactory
 				.createMenuToolbarController(core, model);
-		IEditingGraphEventListener visualizationController = ControllerFactory
+		IEditableGraphEventListener visualizationController = ControllerFactory
 				.createVisualizationController(model);
 		IStepController stepController = ControllerFactory
 				.createStepController(model);
-		model.addEditingGraphEventListener(visualizationController);
+		// add change listener to graph
+		model.getGraph().addEditableGraphEventListener(visualizationController);
 		
 		// view
 		return new MainWindow(menuToolbarController, visualizationController,

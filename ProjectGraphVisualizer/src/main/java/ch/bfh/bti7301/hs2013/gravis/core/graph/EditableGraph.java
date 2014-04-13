@@ -14,20 +14,20 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
-		IEditingGraph {
+class EditableGraph extends GraphDecorator<IVertex, IEdge> implements
+		IEditableGraph {
 
 	private static final long serialVersionUID = 7295632383192262799L;
 
 	private final IGravisGraph gravisGraph;
 
-	private final List<IEditingGraphEventListener> listeners;
+	private final List<IEditableGraphEventListener> listeners;
 
 	/**
 	 * 
 	 * @param delegate
 	 */
-	protected EditingGraph(IGravisGraph delegate) {
+	protected EditableGraph(IGravisGraph delegate) {
 		super(delegate);
 
 		this.gravisGraph = delegate;
@@ -43,7 +43,7 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices) {
 		boolean ok = super.addEdge(edge, vertices);
-		edge.addEditingGraphEventListener(this.getEditingGraphEventListeners());
+		edge.addEditingGraphEventListener(this.getEditableGraphEventListeners());
 		this.fireEditingGraphEvent(new GraphStepEvent(this, Type.EDGE_ADDED,
 				edge));
 		return ok;
@@ -59,7 +59,7 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices,
 			EdgeType edge_type) {
 		boolean ok = super.addEdge(edge, vertices, edge_type);
-		edge.addEditingGraphEventListener(this.getEditingGraphEventListeners());
+		edge.addEditingGraphEventListener(this.getEditableGraphEventListeners());
 		this.fireEditingGraphEvent(new GraphStepEvent(this, Type.EDGE_ADDED,
 				edge));
 		return ok;
@@ -74,7 +74,7 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean addEdge(IEdge e, IVertex v1, IVertex v2) {
 		boolean ok = super.addEdge(e, v1, v2);
-		e.addEditingGraphEventListener(this.getEditingGraphEventListeners());
+		e.addEditingGraphEventListener(this.getEditableGraphEventListeners());
 		this.fireEditingGraphEvent(new GraphStepEvent(this, Type.EDGE_ADDED,
 				e));
 		return ok;
@@ -89,7 +89,7 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean addEdge(IEdge e, IVertex v1, IVertex v2, EdgeType edgeType) {
 		boolean ok = super.addEdge(e, v1, v2, edgeType);
-		e.addEditingGraphEventListener(this.getEditingGraphEventListeners());
+		e.addEditingGraphEventListener(this.getEditableGraphEventListeners());
 		this.fireEditingGraphEvent(new GraphStepEvent(this, Type.EDGE_ADDED,
 				e));
 		return ok;
@@ -98,12 +98,12 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraph#
-	 * addEditingGraphEventListener
-	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraph#
+	 * addEditableGraphEventListener
+	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener)
 	 */
 	@Override
-	public void addEditingGraphEventListener(IEditingGraphEventListener listener) {
+	public void addEditableGraphEventListener(IEditableGraphEventListener listener) {
 		this.listeners.add(listener);
 
 		for (IVertex vertex : this.getVertices()) {
@@ -123,7 +123,7 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	public boolean addVertex(IVertex vertex) {
 		boolean ok = super.addVertex(vertex);
 		vertex.addEditingGraphEventListener(this
-				.getEditingGraphEventListeners());
+				.getEditableGraphEventListeners());
 		this.fireEditingGraphEvent(new GraphStepEvent(this,
 				Type.VERTEX_ADDED, vertex));
 		return ok;
@@ -132,7 +132,7 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraph#clear()
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraph#clear()
 	 */
 	@Override
 	public void clear() {
@@ -207,13 +207,13 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraph#
-	 * getEditingGraphEventListeners()
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraph#
+	 * getEditableGraphEventListeners()
 	 */
 	@Override
-	public IEditingGraphEventListener[] getEditingGraphEventListeners() {
+	public IEditableGraphEventListener[] getEditableGraphEventListeners() {
 		return this.listeners
-				.toArray(new IEditingGraphEventListener[this.listeners.size()]);
+				.toArray(new IEditableGraphEventListener[this.listeners.size()]);
 	}
 
 	/*
@@ -268,7 +268,7 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraph#setDescription(java
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraph#setDescription(java
 	 * .lang.String)
 	 */
 	@Override
@@ -285,7 +285,7 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraph#setEdgeType(edu.uci
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraph#setEdgeType(edu.uci
 	 * .ics.jung.graph.util.EdgeType)
 	 */
 	@Override
@@ -302,7 +302,7 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraph#setName(java.lang
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraph#setName(java.lang
 	 * .String)
 	 */
 	@Override
@@ -320,8 +320,8 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * @param event
 	 */
 	protected void fireEditingGraphEvent(GraphStepEvent event) {
-		for (IEditingGraphEventListener listener : this.listeners) {
-			listener.handleEditingGraphEvent(event);
+		for (IEditableGraphEventListener listener : this.listeners) {
+			listener.graphItemsChangedEvent(event);
 		}
 	}
 
@@ -330,8 +330,8 @@ class EditingGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * @param event
 	 */
 	protected void fireNameChangedEvent(GraphStepEvent event) {
-		for (IEditingGraphEventListener listener : this.listeners) {
-			listener.handleNameChangedEvent(event);
+		for (IEditableGraphEventListener listener : this.listeners) {
+			listener.graphPropertiesChangedEvent(event);
 		}
 	}
 

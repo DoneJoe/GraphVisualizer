@@ -15,7 +15,7 @@ public interface IGraphManager {
 	 * @return IGravisGraph
 	 * @throws GraphException
 	 */
-	public abstract IGravisGraph importGraph(File source) throws GraphException;
+	public abstract IGravisGraph loadGraph(File source) throws GraphException;
 
 	/**
 	 * 

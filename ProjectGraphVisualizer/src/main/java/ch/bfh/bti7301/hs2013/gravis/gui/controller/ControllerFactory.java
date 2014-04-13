@@ -1,8 +1,8 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -19,17 +19,17 @@ public final class ControllerFactory {
 	 * @return IMenuToolbarController
 	 */
 	public static IMenuToolbarController createMenuToolbarController(
-			ICore core, IGuiModel model) {
+			ICore core, IAppModel model) {
 		return new MenuToolbarController(core, model);
 	}
 
 	/**
 	 * 
 	 * @param model
-	 * @return IEditingGraphEventListener
+	 * @return IEditableGraphEventListener
 	 */
-	public static IEditingGraphEventListener createVisualizationController(
-			IGuiModel model) {
+	public static IEditableGraphEventListener createVisualizationController(
+			IAppModel model) {
 		return new VisualizationController(model);
 	}
 
@@ -37,7 +37,7 @@ public final class ControllerFactory {
 	 * @param model
 	 * @return IStepController
 	 */
-	public static IStepController createStepController(IGuiModel model) {
+	public static IStepController createStepController(IAppModel model) {
 		return new StepController(model);
 	}
 

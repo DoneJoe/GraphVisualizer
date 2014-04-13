@@ -47,12 +47,12 @@ class Core implements ICore {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#importGraph(java.io.File)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#loadGraph(java.io.File)
 	 */
 	@Override
-	public IGravisGraph importGraph(File source) throws CoreException {
+	public IGravisGraph loadGraph(File source) throws CoreException {
 		try {
-			return this.graphManager.importGraph(source);
+			return this.graphManager.loadGraph(source);
 		} catch (Exception e) {
 			throw new CoreException(e);
 		}

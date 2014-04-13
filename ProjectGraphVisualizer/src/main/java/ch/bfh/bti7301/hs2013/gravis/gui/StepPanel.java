@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import static ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants.*;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController.EventSource;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IStepModel;
 
 import javax.swing.ImageIcon;
@@ -53,7 +53,7 @@ public class StepPanel extends JPanel implements Observer {
 	 * @param stepController 
 	 * @throws IOException 
 	 */
-	public StepPanel(IStepController stepController, IGuiModel model) throws IOException {
+	public StepPanel(IStepController stepController, IAppModel model) throws IOException {
 		this.setLayout(new GridLayout(2, 0, 0, 0));
 		
 		JPanel panelProgress = new JPanel();

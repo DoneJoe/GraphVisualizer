@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -12,7 +12,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
  */
 public abstract class AbstractEditingGraphItem {
 
-	private final List<IEditingGraphEventListener> listeners;
+	private final List<IEditableGraphEventListener> listeners;
 	
 	protected AbstractEditingGraphItem() {
 		this.listeners = new ArrayList<>();
@@ -22,8 +22,8 @@ public abstract class AbstractEditingGraphItem {
 	 * 
 	 * @param listeners
 	 */
-	public void addEditingGraphEventListener(IEditingGraphEventListener ... listeners) {
-		for (IEditingGraphEventListener listener : listeners) {
+	public void addEditingGraphEventListener(IEditableGraphEventListener ... listeners) {
+		for (IEditableGraphEventListener listener : listeners) {
 			this.listeners.add(listener);
 		}
 	}
@@ -37,8 +37,8 @@ public abstract class AbstractEditingGraphItem {
 	 * @param event
 	 */
 	protected void fireEditingGraphEvent(GraphStepEvent event) {
-		for (IEditingGraphEventListener listener : this.listeners) {
-			listener.handleEditingGraphEvent(event);
+		for (IEditableGraphEventListener listener : this.listeners) {
+			listener.graphItemsChangedEvent(event);
 		}
 	}
 
@@ -47,8 +47,8 @@ public abstract class AbstractEditingGraphItem {
 	 * @param event
 	 */
 	protected void fireNameChangedEvent(GraphStepEvent event) {
-		for (IEditingGraphEventListener listener : this.listeners) {
-			listener.handleNameChangedEvent(event);
+		for (IEditableGraphEventListener listener : this.listeners) {
+			listener.graphPropertiesChangedEvent(event);
 		}
 	}
 }

@@ -4,7 +4,8 @@ import javax.swing.BoundedRangeModel;
 import javax.swing.ButtonModel;
 import javax.swing.ComboBoxModel;
 
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditingGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraph;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -14,15 +15,13 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public interface IGuiModel {
+public interface IAppModel {
 
-	public static final String DEFAULT_ALGO_ENTRY = "Algorithmus wählen:";
+	public static enum CalculationState { 
+		NOT_CALCULABLE, CALCULABLE, CALCULATED
+	}
 	
-	/**
-	 * @param visualizationController
-	 */
-	public abstract void addEditingGraphEventListener(
-			IEditingGraphEventListener visualizationController);
+	public static final String DEFAULT_ALGO_ENTRY = "Algorithmus wählen:";
 	
 	/**
 	 * @return IStepModel
@@ -71,9 +70,9 @@ public interface IGuiModel {
 	public abstract ButtonModel getForwardButtonModel();
 	
 	/**
-	 * @return IGravisGraph
+	 * @return IEditableGraph
 	 */
-	public abstract IGravisGraph getGraph();
+	public abstract IEditableGraph getGraph();
 	
 	/**
 	 * 

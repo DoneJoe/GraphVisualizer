@@ -8,18 +8,18 @@ import ch.bfh.bti7301.hs2013.gravis.core.ICore;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public final class GuiModelFactory {
+public final class AppModelFactory {
 
-	private GuiModelFactory() {
+	private AppModelFactory() {
 	}
 	
 	/**
 	 * @param core 
-	 * @return IGuiModel
+	 * @return IAppModel
 	 * @throws CoreException 
 	 */
-	public static IGuiModel createGuiModel(ICore core) throws CoreException {
-		return new GuiModel(core);
+	public static IAppModel createAppModel(ICore core) throws CoreException {
+		return new AppModel(core);
 	}
 
 }

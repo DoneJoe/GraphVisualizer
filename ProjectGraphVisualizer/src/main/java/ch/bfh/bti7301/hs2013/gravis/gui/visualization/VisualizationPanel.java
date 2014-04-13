@@ -5,7 +5,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,7 +14,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.VertexFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.EdgeMenu;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.VertexCreateMenu;
 import ch.bfh.bti7301.hs2013.gravis.gui.visualization.popup.VertexMenu;
@@ -38,14 +37,12 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 */
 	private GravisVisualizationViewer viewer;
 
-	private JComboBox<?> comboBoxMode;
-
 	/**
 	 * 
 	 * @param model
 	 * @param owner
 	 */
-	public VisualizationPanel(IGuiModel model, JFrame owner) {
+	public VisualizationPanel(IAppModel model, JFrame owner) {
 		// create components
 		this.viewer = new GravisVisualizationViewer(
 				GuiFactory.createLayout(model.getGraph()));
@@ -57,7 +54,6 @@ public class VisualizationPanel extends JPanel implements Observer {
 		EditingModalGraphMouse<IVertex, IEdge> graphMouse = new GravisModalGraphMouse(
 				this.viewer.getRenderContext(), new VertexFactory(),
 				new EdgeFactory(), edgeMenu, vertexMenu, vertexCreateMenu);
-		this.comboBoxMode = graphMouse.getModeComboBox();
 
 		this.setBorder(BorderFactory.createTitledBorder(model.getGraph()
 				.getName()));
@@ -67,7 +63,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 		this.viewer.addKeyListener(graphMouse.getModeKeyListener());
 		graphMouse.setMode(Mode.PICKING);
 		model.setPopupEditMode(Mode.PICKING);
-		model.setEditModeComboModel(this.comboBoxMode.getModel());
+		model.setEditModeComboModel(graphMouse.getModeComboBox().getModel());
 	}
 
 	/*
@@ -82,14 +78,6 @@ public class VisualizationPanel extends JPanel implements Observer {
 					.createTitledBorder(((IGravisGraph) arg).getName()));
 		}
 		this.viewer.update(o, arg);
-	}
-
-	/**
-	 * 
-	 * @return JComboBox<?>
-	 */
-	public JComboBox<?> getModeComboBox() {
-		return this.comboBoxMode;
 	}
 
 }

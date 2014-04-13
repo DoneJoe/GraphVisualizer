@@ -17,7 +17,7 @@ import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController.EventSource.*;
@@ -50,7 +50,7 @@ class MenuToolbarController extends Observable implements
 
 	private final ICore core;
 
-	private final IGuiModel model;
+	private final IAppModel model;
 
 	private FileChooserAdapter fileChooserAdapter = null;
 
@@ -64,7 +64,7 @@ class MenuToolbarController extends Observable implements
 	 * @param core
 	 * @param model
 	 */
-	protected MenuToolbarController(ICore core, IGuiModel model) {
+	protected MenuToolbarController(ICore core, IAppModel model) {
 		this.core = core;
 		this.model = model;
 	}
@@ -108,7 +108,6 @@ class MenuToolbarController extends Observable implements
 						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
 			}
 		}
-
 	}
 
 	/*
@@ -288,7 +287,7 @@ class MenuToolbarController extends Observable implements
 	 */
 	private void handleAlgorithmEvent(String item) throws CoreException {
 		// ignore title entry
-		if (item.equals(IGuiModel.DEFAULT_ALGO_ENTRY)) {
+		if (item.equals(IAppModel.DEFAULT_ALGO_ENTRY)) {
 			this.model.resetStepEnabledState();
 		} else {	
 			// update model
@@ -358,6 +357,7 @@ class MenuToolbarController extends Observable implements
 		this.model.setPopupEditMode(mode);
 		if (this.model.getStepIterator() != null && mode == Mode.EDITING) {
 			// update model
+			// TODO besser lösen: ev. Methode initStepEnableState
 			this.model.setStepEnabledState(this.model.getStepIterator());
 			
 			// update view
@@ -485,7 +485,7 @@ class MenuToolbarController extends Observable implements
 
 			if (file.exists()) {
 				// update model
-				this.model.setOpenGraphState(this.core.importGraph(file));
+				this.model.setOpenGraphState(this.core.loadGraph(file));
 				this.model.setAlgorithmComboModel(this.core
 						.getAlgorithmNames(this.model.getGraph()
 								.getEdgeType()));

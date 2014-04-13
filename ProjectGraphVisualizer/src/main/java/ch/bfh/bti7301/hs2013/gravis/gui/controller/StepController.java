@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.util.Observable;
 
 import ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator;
-import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
+import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -14,12 +14,12 @@ import ch.bfh.bti7301.hs2013.gravis.gui.model.IGuiModel;
  */
 class StepController extends Observable implements IStepController {
 
-	private final IGuiModel model;
+	private final IAppModel model;
 
 	/**
 	 * @param model
 	 */
-	protected StepController(IGuiModel model) {
+	protected StepController(IAppModel model) {
 		this.model = model;
 	}
 
@@ -51,6 +51,7 @@ class StepController extends Observable implements IStepController {
 			this.model.updateStepButtonModels(stepIterator.hasPrevious(),
 					stepIterator.hasPrevious(), stepIterator.hasNext(),
 					stepIterator.hasNext());
+			// TODO nicht auf null pruefen
 			if (this.model.getProgressBarModel() != null) {
 				this.model.getProgressBarModel().setValue(stepIterator.size());
 			}
