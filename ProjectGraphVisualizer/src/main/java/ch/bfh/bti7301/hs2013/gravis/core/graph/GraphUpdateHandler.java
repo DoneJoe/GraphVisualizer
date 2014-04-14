@@ -5,7 +5,7 @@ import java.util.List;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
-import static ch.bfh.bti7301.hs2013.gravis.core.util.transformer.ValueTransformer.toArray;
+import static ch.bfh.bti7301.hs2013.gravis.core.util.ValueTransformer.toArray;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -30,12 +30,12 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem) {
+	public void add(IRestrictedGraphItem graphItem) {
 		this.itemUpdateList.add(graphItem);
 	}
 
 	@Override
-	public void set(IRestrictedGraphItem graphItem, boolean isVisible) {
+	public void add(IRestrictedGraphItem graphItem, boolean isVisible) {
 		graphItem.setVisible(isVisible);
 		this.itemUpdateList.add(graphItem);
 	}
@@ -49,7 +49,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem,
+	public void add(IRestrictedGraphItem graphItem,
 			boolean isStateCommentEnabled, boolean isTagged) {
 		graphItem.setStateCommentEnabled(isStateCommentEnabled);
 		graphItem.setTagged(isTagged);
@@ -67,7 +67,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, boolean isVisible,
+	public void add(IRestrictedGraphItem graphItem, boolean isVisible,
 			State state, boolean isStateCommentEnabled, String newComment,
 			double newResult, boolean isTagged, boolean isDashed, Object value,
 			boolean isDone) {
@@ -92,7 +92,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * java.lang.String, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem,
+	public void add(IRestrictedGraphItem graphItem,
 			boolean isStateCommentEnabled, String newComment, boolean isTagged) {
 		graphItem.setStateCommentEnabled(isStateCommentEnabled);
 		graphItem.setNewComment(newComment);
@@ -109,7 +109,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * java.lang.String, boolean, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem,
+	public void add(IRestrictedGraphItem graphItem,
 			boolean isStateCommentEnabled, String newComment, boolean isTagged,
 			boolean isDashed) {
 		graphItem.setStateCommentEnabled(isStateCommentEnabled);
@@ -128,7 +128,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * java.lang.String, double, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem,
+	public void add(IRestrictedGraphItem graphItem,
 			boolean isStateCommentEnabled, String newComment, double newResult,
 			boolean isTagged) {
 		graphItem.setStateCommentEnabled(isStateCommentEnabled);
@@ -148,7 +148,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, boolean isTagged) {
 		graphItem.setNewState(state);
 		graphItem.setStateCommentEnabled(isStateCommentEnabled);
@@ -166,7 +166,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, boolean, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed) {
 		graphItem.setNewState(state);
 		graphItem.setStateCommentEnabled(isStateCommentEnabled);
@@ -185,7 +185,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, boolean, boolean, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed,
 			boolean isDone) {
 		graphItem.setNewState(state);
@@ -206,7 +206,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, boolean, boolean, java.lang.Object, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed,
 			Object value, boolean isDone) {
 		graphItem.setNewState(state);
@@ -228,7 +228,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, boolean, java.lang.Object)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, boolean isTagged, Object value) {
 		graphItem.setNewState(state);
 		graphItem.setStateCommentEnabled(isStateCommentEnabled);
@@ -247,7 +247,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, double, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, double newResult, boolean isTagged) {
 		graphItem.setNewState(state);
 		graphItem.setStateCommentEnabled(isStateCommentEnabled);
@@ -266,7 +266,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, double, boolean, boolean, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, double newResult, boolean isTagged,
 			boolean isDashed, boolean isDone) {
 		graphItem.setNewState(state);
@@ -288,7 +288,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, java.lang.String, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, String newComment, boolean isTagged) {
 		graphItem.setNewState(state);
 		graphItem.setStateCommentEnabled(isStateCommentEnabled);
@@ -307,7 +307,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, java.lang.String, boolean, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, String newComment, boolean isTagged,
 			boolean isDashed) {
 		graphItem.setNewState(state);
@@ -328,7 +328,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, java.lang.String, boolean, boolean, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, String newComment, boolean isTagged,
 			boolean isDashed, boolean isDone) {
 		graphItem.setNewState(state);
@@ -350,7 +350,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, java.lang.String, boolean, java.lang.Object)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, String newComment, boolean isTagged,
 			Object value) {
 		graphItem.setNewState(state);
@@ -371,7 +371,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, java.lang.String, double, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
 			boolean isTagged) {
 		graphItem.setNewState(state);
@@ -392,7 +392,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, java.lang.String, double, boolean, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
 			boolean isTagged, boolean isDashed) {
 		graphItem.setNewState(state);
@@ -414,7 +414,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, java.lang.String, double, boolean, boolean, boolean)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
 			boolean isTagged, boolean isDashed, boolean isDone) {
 		graphItem.setNewState(state);
@@ -437,7 +437,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * boolean, java.lang.String, double, boolean, java.lang.Object)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, State state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
 			boolean isTagged, Object value) {
 		graphItem.setNewState(state);
@@ -458,7 +458,7 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * java.lang.String, double)
 	 */
 	@Override
-	public void set(IRestrictedGraphItem graphItem, String newComment,
+	public void add(IRestrictedGraphItem graphItem, String newComment,
 			double newResult) {
 		graphItem.setNewComment(newComment);
 		graphItem.setNewResult(newResult);

@@ -6,7 +6,7 @@ import java.awt.Color;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public interface IGraphItem extends IEditingGraphItem, IRestrictedGraphItem, Cloneable {
+public interface IGraphItem extends IRestrictedGraphItem, IEditItemObservable, Cloneable {
 
 	/**
 	 * 
@@ -18,6 +18,7 @@ public interface IGraphItem extends IEditingGraphItem, IRestrictedGraphItem, Clo
 	 * 
 	 * @param id
 	 */
+	// itemId ändern zu itemName
 	public abstract void setId(String id);
 
 	/**

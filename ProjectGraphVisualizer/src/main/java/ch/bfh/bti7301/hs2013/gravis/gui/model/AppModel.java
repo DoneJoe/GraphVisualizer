@@ -10,7 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraph;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphObservable;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -22,7 +22,7 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
  */
 class AppModel implements IAppModel {
 
-	private IEditableGraph graph;
+	private IEditGraphObservable graph;
 
 	private boolean graphItemsEdited, graphUnsaved, playing;
 	
@@ -51,7 +51,7 @@ class AppModel implements IAppModel {
 	 */
 	protected AppModel(ICore core) throws CoreException {
 		// creates an empty graph
-		this.graph = GraphFactory.createEditingGraph();
+		this.graph = GraphFactory.createDirectedEditGraphDecorator();
 		this.graphUnsaved = this.graphItemsEdited = false;
 		// TODO set calcState
 		this.calcState = CalculationState.NOT_CALCULABLE;
@@ -157,7 +157,7 @@ class AppModel implements IAppModel {
 	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel#getGraph()
 	 */
 	@Override
-	public IEditableGraph getGraph() {
+	public IEditGraphObservable getGraph() {
 		return this.graph;
 	}
 
@@ -358,8 +358,8 @@ class AppModel implements IAppModel {
 	 */
 	@Override
 	public void setNewGraphState(EdgeType edgeType) {
-		this.graph = GraphFactory.createEditingGraph(edgeType,
-				this.graph.getEditableGraphEventListeners());
+		this.graph = GraphFactory.createEditGraphDecorator(edgeType,
+				this.graph.getEditGraphEventListeners());
 		this.graphUnsaved = this.graphItemsEdited = false;
 		this.resetStepEnabledState();
 	}
@@ -373,8 +373,8 @@ class AppModel implements IAppModel {
 	 */
 	@Override
 	public void setOpenGraphState(IGravisGraph graph) {
-		this.graph = GraphFactory.createEditingGraph(graph,
-				this.graph.getEditableGraphEventListeners());
+		this.graph = GraphFactory.createEditGraphDecorator(graph,
+				this.graph.getEditGraphEventListeners());
 		this.graphUnsaved = this.graphItemsEdited = false;
 		this.resetStepEnabledState();
 	}

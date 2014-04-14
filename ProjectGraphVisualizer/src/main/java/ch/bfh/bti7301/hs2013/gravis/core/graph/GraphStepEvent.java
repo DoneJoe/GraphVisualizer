@@ -19,25 +19,17 @@ public class GraphStepEvent extends GraphEvent<IVertex, IEdge> {
 	 * @param graph
 	 * @param items
 	 */
-	public GraphStepEvent(Graph<IVertex, IEdge> graph, IGraphItem ... items) {
+	public GraphStepEvent(Graph<IVertex, IEdge> graph, IGraphItem[] items) {
 		this(graph, null, items);
 	}
 	
-	/**
-	 * 
-	 * @param items
-	 */
-	public GraphStepEvent(IGraphItem ... items) {
-		this(null, null, items);
-	}
-
 	/**
 	 * @param graph
 	 * @param type
 	 * @param items
 	 */
 	public GraphStepEvent(Graph<IVertex, IEdge> graph, GraphEvent.Type type,
-			IGraphItem ... items) {
+			IGraphItem[] items) {
 		super(graph, type);
 		
 		this.items = items;

@@ -10,10 +10,12 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public abstract class AbstractGraphItem extends AbstractEditingGraphItem implements IGraphItem {
+public abstract class AbstractGraphItem extends AbstractEditItemObservable
+		implements IGraphItem {
 
 	private static int counter = 0;
 
+	// TODO nicht id, sondern name wie bei graph
 	private String id, newComment;
 
 	private double currentResult, newResult;
@@ -24,7 +26,8 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 
 	private float currentStrokeWidth, newStrokeWidth, oldStrokeWidth;
 
-	private boolean done, tagged, visible, stateCommentEnabled, newDashed, currentDashed;
+	private boolean done, tagged, visible, stateCommentEnabled, newDashed,
+			currentDashed;
 
 	private Object value = null;
 
@@ -33,6 +36,8 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 	 */
 	protected AbstractGraphItem() {
 		super();
+
+		// TODO weitere Events auslösen?
 		
 		this.id = String.valueOf(++counter);
 		this.newComment = "";
@@ -172,8 +177,11 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 		return Double.isNaN(this.currentResult);
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem#isCurrentDashed()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem#isCurrentDashed()
 	 */
 	@Override
 	public boolean isCurrentDashed() {
@@ -245,8 +253,8 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 		this.currentResult = Double.NaN;
 		this.newState = null;
 		this.stateCommentEnabled = false;
-//		this.newDashed = false;
-//		this.newStrokeWidth = Float.NaN;
+		// this.newDashed = false;
+		// this.newStrokeWidth = Float.NaN;
 	}
 
 	@Override
@@ -255,8 +263,12 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 		this.visible = color != GravisColor.WHITE;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem#setCurrentDashed(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem#setCurrentDashed
+	 * (boolean)
 	 */
 	@Override
 	public void setCurrentDashed(boolean value) {
@@ -307,9 +319,9 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 	public void setId(String id) {
 		boolean equal = this.id.equals(id.trim());
 		this.id = id.trim();
-		
+
 		if (!equal) {
-			this.fireEditingGraphEvent(new GraphStepEvent(this));
+			this.fireGraphItemsChangedEvent(this);
 		}
 	}
 
@@ -438,5 +450,4 @@ public abstract class AbstractGraphItem extends AbstractEditingGraphItem impleme
 	 */
 	protected abstract float getTaggedStrokeWidth();
 
-	
 }

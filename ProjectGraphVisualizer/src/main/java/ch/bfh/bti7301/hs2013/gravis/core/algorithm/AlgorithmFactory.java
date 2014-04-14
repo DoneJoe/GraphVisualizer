@@ -11,8 +11,9 @@ public final class AlgorithmFactory {
 
 	/**
 	 * @return IAlgorithmManager
+	 * @throws AlgorithmException 
 	 */
-	public static IAlgorithmManager createAlgorithmManager() {
+	public static IAlgorithmManager createAlgorithmManager() throws AlgorithmException {
 		return new AlgorithmManager();
 	}
 	

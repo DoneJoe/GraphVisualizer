@@ -380,7 +380,7 @@ public class GravisEdgeTest {
 //	}
 //
 //	/**
-//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#AbstractEditingGraphItem()}.
+//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#AbstractEditingGraphItem()}.
 //	 */
 //	@Test
 //	public void testAbstractEditingGraphItem() {
@@ -388,7 +388,7 @@ public class GravisEdgeTest {
 //	}
 //
 //	/**
-//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#addEditingGraphEventListener(ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener[])}.
+//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#addEditingGraphEventListener(ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener[])}.
 //	 */
 //	@Test
 //	public void testAddEditingGraphEventListener() {
@@ -396,7 +396,7 @@ public class GravisEdgeTest {
 //	}
 //
 //	/**
-//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#removeEditingGraphEventListeners()}.
+//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#removeEditingGraphEventListeners()}.
 //	 */
 //	@Test
 //	public void testRemoveEditingGraphEventListeners() {
@@ -404,7 +404,7 @@ public class GravisEdgeTest {
 //	}
 //
 //	/**
-//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#fireEditingGraphEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}.
+//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#fireEditingGraphEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}.
 //	 */
 //	@Test
 //	public void testFireEditingGraphEvent() {
@@ -412,7 +412,7 @@ public class GravisEdgeTest {
 //	}
 //
 //	/**
-//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#fireNameChangedEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}.
+//	 * Test method for {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#fireNameChangedEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}.
 //	 */
 //	@Test
 //	public void testFireNameChangedEvent() {

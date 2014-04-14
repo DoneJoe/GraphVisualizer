@@ -1,7 +1,6 @@
 package ch.bfh.bti7301.hs2013.gravis.core.graph;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import edu.uci.ics.jung.graph.ObservableGraph;
@@ -47,23 +46,11 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 		this.gravisGraph.clear();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getGraphName()
-	 */
 	@Override
 	public String getDescription() {
 		return this.gravisGraph.getDescription();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setGraphName(java
-	 * .lang.String)
-	 */
 	@Override
 	public void setDescription(String graphName) {
 		this.gravisGraph.setDescription(graphName);
@@ -111,15 +98,6 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 		this.gravisGraph.setEdgeType(edgeType);
 	}
 
-	@Override
-	public void updateState(State state, IGraphItem... graphItems) {
-		for (IGraphItem item : graphItems) {
-			item.setNewState(state);
-		}
-
-		this.fireGraphEvent(new GraphStepEvent(this, graphItems));
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -136,36 +114,36 @@ class ObservableGravisGraph extends ObservableGraph<IVertex, IEdge> implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsVertexId
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsVertexName
 	 * (java.lang.String)
 	 */
 	@Override
-	public boolean containsVertexId(String vertexId) {
-		return this.gravisGraph.containsVertexId(vertexId);
+	public boolean containsVertexName(String vertexName) {
+		return this.gravisGraph.containsVertexName(vertexName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsEdgeId(java
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsEdgeName(java
 	 * .lang.String)
 	 */
 	@Override
-	public boolean containsEdgeId(String edgeId) {
-		return this.gravisGraph.containsEdgeId(edgeId);
+	public boolean containsEdgeName(String edgeName) {
+		return this.gravisGraph.containsEdgeName(edgeName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsItemId(java
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsItemName(java
 	 * .lang.String)
 	 */
 	@Override
-	public boolean containsItemId(String itemId) {
-		return this.gravisGraph.containsItemId(itemId);
+	public boolean containsItemName(String itemName) {
+		return this.gravisGraph.containsItemName(itemName);
 	}
 
 }

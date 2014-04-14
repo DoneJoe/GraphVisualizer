@@ -61,15 +61,15 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 				this.tagEdge(graph, updateHandler, selectedVertex);
 				if (this.updateEndVertexMessage(selectedVertex, updateHandler)) {
 					selectedVertex.appendToNewComment(END_MSG2);
-					updateHandler.set(selectedVertex, false, false);
+					updateHandler.add(selectedVertex, false, false);
 					updateHandler.update();
 					return;
 				}
-				updateHandler.set(selectedVertex, State.SOLUTION, true,
+				updateHandler.add(selectedVertex, State.SOLUTION, true,
 						++this.counter, true);
 				updateHandler.update();
 
-				updateHandler.set(selectedVertex, State.SOLUTION, false, false);
+				updateHandler.add(selectedVertex, State.SOLUTION, false, false);
 				this.visitSuccessors(graph, vertexQueue, updateHandler,
 						selectedVertex);
 			}
@@ -82,7 +82,7 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 
 		if (startVertex != null) {
 			startVertex.appendToNewComment(END_MSG2);
-			updateHandler.set(startVertex, false, false);
+			updateHandler.add(startVertex, false, false);
 			updateHandler.update();
 		}
 	}
@@ -104,16 +104,16 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 			if (successor.isDone()) {
 				if (edge.getCurrentState() != State.REFUSE
 						&& selectedVertex.getValue() != successor) {
-					updateHandler.set(edge, State.REFUSE, true, true, true);
+					updateHandler.add(edge, State.REFUSE, true, true, true);
 					updateHandler.update();
 				}
 			} else {
-				updateHandler.set(edge, State.VISIT, true, true);
-				updateHandler.set(successor, State.VISIT, true, true, false,
+				updateHandler.add(edge, State.VISIT, true, true);
+				updateHandler.add(successor, State.VISIT, true, true, false,
 						selectedVertex, true);
 				updateHandler.update();
 
-				updateHandler.set(successor, State.VISIT, false, false);
+				updateHandler.add(successor, State.VISIT, false, false);
 				vertexQueue.offer(successor);
 			}
 		}
@@ -130,7 +130,7 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 		if (vertex.getValue() != null) {
 			IRestrictedEdge edge = graph.findEdge(
 					(IRestrictedVertex) vertex.getValue(), vertex);
-			updateHandler.set(edge, State.SOLUTION, true, true);
+			updateHandler.add(edge, State.SOLUTION, true, true);
 		}
 	}
 
@@ -144,12 +144,12 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 			IGraphUpdateHandler updateHandler) {
 
 		if (endVertex.isEnd()) {
-			updateHandler.set(endVertex, State.SOLUTION, true,
+			updateHandler.add(endVertex, State.SOLUTION, true,
 					String.format(END_MSG1, endVertex.getId()), ++this.counter,
 					true);
 			updateHandler.update();
 
-			updateHandler.set(endVertex, State.SOLUTION, false, false);
+			updateHandler.add(endVertex, State.SOLUTION, false, false);
 			return true;
 		}
 		return false;

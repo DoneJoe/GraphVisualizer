@@ -10,7 +10,7 @@ public interface IGravisObservable {
 	
 	/**
 	 * 
-	 * @param o
+	 * @param observer
 	 */
-	public abstract void addObserver(Observer o);
+	public abstract void addObserver(Observer observer);
 }

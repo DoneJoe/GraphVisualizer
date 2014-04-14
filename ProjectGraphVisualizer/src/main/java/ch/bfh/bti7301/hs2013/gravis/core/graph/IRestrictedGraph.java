@@ -23,12 +23,6 @@ public interface IRestrictedGraph extends
 		IGraphItemUpdate<IRestrictedGraphItem> {
 
 	/**
-	 * 
-	 * @return true, if this graph contains no vertices and edges.
-	 */
-	public abstract boolean isEmpty();
-
-	 /**
      * Returns true if this graph's edge collection contains <code>edge</code>.
      * Equivalent to <code>getEdges().contains(edge)</code>.
      * @param edge the edge whose presence is being queried
@@ -36,7 +30,7 @@ public interface IRestrictedGraph extends
      */
 	public boolean containsEdge(IRestrictedEdge edge);
 
-	/**
+	 /**
      * Returns true if this graph's vertex collection contains <code>vertex</code>.
      * Equivalent to <code>getVertices().contains(vertex)</code>.
      * @param vertex the vertex whose presence is being queried
@@ -121,6 +115,19 @@ public interface IRestrictedGraph extends
      */
 	public EdgeType getDefaultEdgeType();
 
+	/**
+     * If <code>directed_edge</code> is a directed edge in this graph, returns the destination; 
+     * otherwise returns <code>null</code>. 
+     * The destination of a directed edge <code>d</code> is defined to be the vertex 
+     * incident to <code>d</code> for which  
+     * <code>d</code> is an incoming edge.
+     * <code>directed_edge</code> is guaranteed to be a directed edge if 
+     * its <code>EdgeType</code> is <code>DIRECTED</code>. 
+     * @param directed_edge
+     * @return  the destination of <code>directed_edge</code> if it is a directed edge in this graph, or <code>null</code> otherwise
+     */
+	public IRestrictedVertex getDest(IRestrictedEdge directed_edge);
+
 	 /**
      * Returns the number of edges in this graph.
      * @return the number of edges in this graph
@@ -135,13 +142,6 @@ public interface IRestrictedGraph extends
 	public int getEdgeCount(EdgeType edge_type);
 
 	/**
-     * Returns the edge type of <code>edge</code> in this graph.
-     * @param edge
-     * @return the <code>EdgeType</code> of <code>edge</code>, or <code>null</code> if <code>edge</code> has no defined type
-     */
-	public EdgeType getEdgeType(IRestrictedEdge edge);
-
-	 /**
      * Returns a view of all edges in this graph. In general, this
      * obeys the <code>Collection</code> contract, and therefore makes no guarantees 
      * about the ordering of the vertices within the set.
@@ -159,6 +159,27 @@ public interface IRestrictedGraph extends
 	public Collection<? extends IRestrictedEdge> getEdges(EdgeType edge_type);
 
 	 /**
+	 * Returns the edge type of this graph (directed or undirected).
+	 * 
+	 * @return edge type
+	 */
+	public abstract EdgeType getEdgeType();
+
+	 /**
+     * Returns the edge type of <code>edge</code> in this graph.
+     * @param edge
+     * @return the <code>EdgeType</code> of <code>edge</code>, or <code>null</code> if <code>edge</code> has no defined type
+     */
+	public EdgeType getEdgeType(IRestrictedEdge edge);
+
+	 /**
+     * Returns the endpoints of <code>edge</code> as a <code>Pair<V></code>.
+     * @param edge the edge whose endpoints are to be returned
+     * @return the endpoints (incident vertices) of <code>edge</code>
+     */
+	public Pair<? extends IRestrictedVertex> getEndpoints(IRestrictedEdge edge);
+
+	 /**
      * Returns the number of vertices that are incident to <code>edge</code>.
      * For hyperedges, this can be any nonnegative integer; for edges this
      * must be 2 (or 1 if self-loops are permitted). 
@@ -169,7 +190,7 @@ public interface IRestrictedGraph extends
      */
 	public int getIncidentCount(IRestrictedEdge edge);
 
-	 /**
+	/**
      * Returns the collection of edges in this graph which are connected to <code>vertex</code>.
      * 
      * @param vertex the vertex whose incident edges are to be returned
@@ -179,7 +200,7 @@ public interface IRestrictedGraph extends
 	public Collection<? extends IRestrictedEdge> getIncidentEdges(
 			IRestrictedVertex vertex);
 
-	 /**
+	/**
      * Returns the collection of vertices in this graph which are connected to <code>edge</code>.
      * Note that for some graph types there are guarantees about the size of this collection
      * (i.e., some graphs contain edges that have exactly two endpoints, which may or may 
@@ -194,6 +215,16 @@ public interface IRestrictedGraph extends
 			IRestrictedEdge edge);
 
 	/**
+     * Returns a <code>Collection</code> view of the incoming edges incident to <code>vertex</code>
+     * in this graph.
+     * @param vertex    the vertex whose incoming edges are to be returned
+     * @return  a <code>Collection</code> view of the incoming edges incident 
+     * to <code>vertex</code> in this graph
+     */
+	public Collection<? extends IRestrictedEdge> getInEdges(
+			IRestrictedVertex vertex);
+
+	/**
      * Returns the number of vertices that are adjacent to <code>vertex</code>
      * (that is, the number of vertices that are incident to edges in <code>vertex</code>'s
      * incident edge set).
@@ -204,7 +235,7 @@ public interface IRestrictedGraph extends
      */
 	public int getNeighborCount(IRestrictedVertex vertex);
 
-	/**
+	 /**
      * Returns the collection of vertices which are connected to <code>vertex</code>
      * via any edges in this graph.
      * If <code>vertex</code> is connected to itself with a self-loop, then 
@@ -215,72 +246,6 @@ public interface IRestrictedGraph extends
      * or <code>null</code> if <code>vertex</code> is not present
      */
 	public Collection<? extends IRestrictedVertex> getNeighbors(
-			IRestrictedVertex vertex);
-
-	/**
-     * Returns the number of vertices in this graph.
-     * @return the number of vertices in this graph
-     */
-	public int getVertexCount();
-
-	/**
-     * Returns a view of all vertices in this graph. In general, this
-     * obeys the <code>Collection</code> contract, and therefore makes no guarantees 
-     * about the ordering of the vertices within the set.
-     * @return a <code>Collection</code> view of all vertices in this graph
-     */
-	public Collection<? extends IRestrictedVertex> getVertices();
-
-	 /**
-     * Returns <code>true</code> if <code>vertex</code> and <code>edge</code> 
-     * are incident to each other.
-     * Equivalent to <code>getIncidentEdges(vertex).contains(edge)</code> and to
-     * <code>getIncidentVertices(edge).contains(vertex)</code>.
-     * @param vertex
-     * @param edge
-     * @return <code>true</code> if <code>vertex</code> and <code>edge</code> 
-     * are incident to each other
-     */
-	public boolean isIncident(IRestrictedVertex vertex, IRestrictedEdge edge);
-
-	/**
-     * Returns <code>true</code> if <code>v1</code> and <code>v2</code> share an incident edge.
-     * Equivalent to <code>getNeighbors(v1).contains(v2)</code>.
-     * 
-     * @param v1 the first vertex to test
-     * @param v2 the second vertex to test
-     * @return <code>true</code> if <code>v1</code> and <code>v2</code> share an incident edge
-     */
-	public boolean isNeighbor(IRestrictedVertex v1, IRestrictedVertex v2);
-
-	/**
-     * If <code>directed_edge</code> is a directed edge in this graph, returns the destination; 
-     * otherwise returns <code>null</code>. 
-     * The destination of a directed edge <code>d</code> is defined to be the vertex 
-     * incident to <code>d</code> for which  
-     * <code>d</code> is an incoming edge.
-     * <code>directed_edge</code> is guaranteed to be a directed edge if 
-     * its <code>EdgeType</code> is <code>DIRECTED</code>. 
-     * @param directed_edge
-     * @return  the destination of <code>directed_edge</code> if it is a directed edge in this graph, or <code>null</code> otherwise
-     */
-	public IRestrictedVertex getDest(IRestrictedEdge directed_edge);
-
-	 /**
-     * Returns the endpoints of <code>edge</code> as a <code>Pair<V></code>.
-     * @param edge the edge whose endpoints are to be returned
-     * @return the endpoints (incident vertices) of <code>edge</code>
-     */
-	public Pair<? extends IRestrictedVertex> getEndpoints(IRestrictedEdge edge);
-
-	/**
-     * Returns a <code>Collection</code> view of the incoming edges incident to <code>vertex</code>
-     * in this graph.
-     * @param vertex    the vertex whose incoming edges are to be returned
-     * @return  a <code>Collection</code> view of the incoming edges incident 
-     * to <code>vertex</code> in this graph
-     */
-	public Collection<? extends IRestrictedEdge> getInEdges(
 			IRestrictedVertex vertex);
 
 	/**
@@ -303,7 +268,7 @@ public interface IRestrictedGraph extends
 	public Collection<? extends IRestrictedEdge> getOutEdges(
 			IRestrictedVertex vertex);
 
-	/**
+	 /**
      * Returns the number of predecessors that <code>vertex</code> has in this graph.
      * Equivalent to <code>vertex.getPredecessors().size()</code>.
      * @param vertex the vertex whose predecessor count is to be returned
@@ -337,6 +302,14 @@ public interface IRestrictedGraph extends
 	public IRestrictedVertex getSource(IRestrictedEdge directed_edge);
 
 	/**
+	 * The first start vertex in this graph.
+	 * Null, if this graph is empty.
+	 * 
+	 * @return start vertex
+	 */
+	public IRestrictedVertex getStartVertex();
+
+	/**
      * Returns the number of successors that <code>vertex</code> has in this graph.
      * Equivalent to <code>vertex.getSuccessors().size()</code>.
      * @param vertex the vertex whose successor count is to be returned
@@ -358,6 +331,20 @@ public interface IRestrictedGraph extends
 			IRestrictedVertex vertex);
 
 	/**
+     * Returns the number of vertices in this graph.
+     * @return the number of vertices in this graph
+     */
+	public int getVertexCount();
+
+	/**
+     * Returns a view of all vertices in this graph. In general, this
+     * obeys the <code>Collection</code> contract, and therefore makes no guarantees 
+     * about the ordering of the vertices within the set.
+     * @return a <code>Collection</code> view of all vertices in this graph
+     */
+	public Collection<? extends IRestrictedVertex> getVertices();
+
+	/**
      * Returns the number of incoming edges incident to <code>vertex</code>.
      * Equivalent to <code>getInEdges(vertex).size()</code>.
      * @param vertex    the vertex whose indegree is to be calculated
@@ -375,6 +362,34 @@ public interface IRestrictedGraph extends
 	public boolean isDest(IRestrictedVertex vertex, IRestrictedEdge edge);
 
 	/**
+	 * 
+	 * @return true, if this graph contains no vertices and edges.
+	 */
+	public abstract boolean isEmpty();
+
+	/**
+     * Returns <code>true</code> if <code>vertex</code> and <code>edge</code> 
+     * are incident to each other.
+     * Equivalent to <code>getIncidentEdges(vertex).contains(edge)</code> and to
+     * <code>getIncidentVertices(edge).contains(vertex)</code>.
+     * @param vertex
+     * @param edge
+     * @return <code>true</code> if <code>vertex</code> and <code>edge</code> 
+     * are incident to each other
+     */
+	public boolean isIncident(IRestrictedVertex vertex, IRestrictedEdge edge);
+
+	 /**
+     * Returns <code>true</code> if <code>v1</code> and <code>v2</code> share an incident edge.
+     * Equivalent to <code>getNeighbors(v1).contains(v2)</code>.
+     * 
+     * @param v1 the first vertex to test
+     * @param v2 the second vertex to test
+     * @return <code>true</code> if <code>v1</code> and <code>v2</code> share an incident edge
+     */
+	public boolean isNeighbor(IRestrictedVertex v1, IRestrictedVertex v2);
+
+	/**
      * Returns <code>true</code> if <code>v1</code> is a predecessor of <code>v2</code> in this graph.
      * Equivalent to <code>v1.getPredecessors().contains(v2)</code>.
      * @param v1 the first vertex to be queried
@@ -383,7 +398,7 @@ public interface IRestrictedGraph extends
      */
 	public boolean isPredecessor(IRestrictedVertex v1, IRestrictedVertex v2);
 
-	 /**
+	/**
      * Returns <code>true</code> if <code>vertex</code> is the source of <code>edge</code>.
      * Equivalent to <code>getSource(edge).equals(vertex)</code>.
      * @param vertex the vertex to be queried
@@ -400,7 +415,7 @@ public interface IRestrictedGraph extends
      * @return <code>true</code> if <code>v1</code> is a successor of <code>v2</code>, and false otherwise.
      */
 	public boolean isSuccessor(IRestrictedVertex v1, IRestrictedVertex v2);
-
+	
 	/**
      * Returns the number of outgoing edges incident to <code>vertex</code>.
      * Equivalent to <code>getOutEdges(vertex).size()</code>.
@@ -408,20 +423,5 @@ public interface IRestrictedGraph extends
      * @return  the number of outgoing edges incident to <code>vertex</code>
      */
 	public int outDegree(IRestrictedVertex vertex);
-
-	/**
-	 * The first start vertex in this graph.
-	 * Null, if this graph is empty.
-	 * 
-	 * @return start vertex
-	 */
-	public IRestrictedVertex getStartVertex();
-	
-	/**
-	 * Returns the edge type of this graph (directed or undirected).
-	 * 
-	 * @return edge type
-	 */
-	public abstract EdgeType getEdgeType();
 
 }

@@ -8,16 +8,15 @@ import java.util.List;
 import org.apache.commons.collections15.BidiMap;
 import org.apache.commons.collections15.bidimap.DualHashBidiMap;
 
+import ch.bfh.bti7301.hs2013.gravis.core.graph.comparator.ItemNameComparator;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.EdgeFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.VertexFactory;
-import ch.bfh.bti7301.hs2013.gravis.core.util.comparator.ItemComparator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
 
@@ -35,7 +34,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	private final BidiMap<IVertex, IRestrictedVertex> verticesMap;
 	private final BidiMap<IEdge, IRestrictedEdge> edgesMap;
 
-	private final ItemComparator itemComparator;
+	private final ItemNameComparator itemComparator;
 
 	/**
 	 * @param graph
@@ -44,7 +43,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 		this.observableGraph = graph;
 		this.verticesMap = new DualHashBidiMap<>();
 		this.edgesMap = new DualHashBidiMap<>();
-		this.itemComparator = new ItemComparator();
+		this.itemComparator = new ItemNameComparator();
 		this.verticesList = this.getRestrictedSortedVerticesList(graph
 				.getVertices());
 		this.edgesList = this.getRestrictedSortedEdgesList(graph.getEdges());
@@ -112,13 +111,6 @@ final class RestrictedGraph implements IRestrictedGraph {
 		}
 
 		return verticesList;
-	}
-
-	@Override
-	public void updateState(State state,
-			IRestrictedGraphItem... restrictedItems) {
-		this.observableGraph.updateState(state,
-				this.getOriginalItems(restrictedItems));
 	}
 
 	/*

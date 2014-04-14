@@ -5,10 +5,10 @@ import java.util.Collection;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.comparator.CurrentResultComparator;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex;
-import ch.bfh.bti7301.hs2013.gravis.core.util.comparator.CurrentResultComparator;
 import edu.uci.ics.jung.algorithms.util.MapBinaryHeap;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
@@ -77,19 +77,19 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 		for (IRestrictedVertex vertex : vertices) {
 			if (vertex == startVertex) {
 				// start vertex has distance 0
-				updateHandler.set(startVertex, true,
+				updateHandler.add(startVertex, true,
 						String.format(START_VERTEX, startVertex.getId()), 0.0,
 						false);
 			} else {
 				// initialize infinite distance from start vertex
-				updateHandler.set(vertex, String.format(RESULT_INIT,
+				updateHandler.add(vertex, String.format(RESULT_INIT,
 						vertex.getId(), Double.POSITIVE_INFINITY),
 						Double.POSITIVE_INFINITY);
 			}
 		}
 
 		this.calculateDistances(graph, vertices, startVertex, updateHandler);
-		updateHandler.set(startVertex, false, END_MSG, false);
+		updateHandler.add(startVertex, false, END_MSG, false);
 		this.updateUnreachableVertices(vertices, updateHandler);
 		updateHandler.update();
 	}
@@ -114,10 +114,10 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 			if (selectedVertex == startVertex) {
 				selectedVertex.appendToNewComment(String.format(MIN_MSG,
 						selectedVertex.getId(), selectedVertex.getNewResult()));
-				updateHandler.set(selectedVertex, State.ACTIVATION, true,
+				updateHandler.add(selectedVertex, State.ACTIVATION, true,
 						selectedVertex.getNewResult(), true);
 			} else {
-				updateHandler.set(selectedVertex, State.ACTIVATION, true,
+				updateHandler.add(selectedVertex, State.ACTIVATION, true,
 						String.format(MIN_MSG, selectedVertex.getId(),
 								selectedVertex.getCurrentResult()),
 						selectedVertex.getCurrentResult(), true);
@@ -128,18 +128,18 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 				IRestrictedEdge edge = graph.findEdge(
 						(IRestrictedVertex) selectedVertex.getValue(),
 						selectedVertex);
-				updateHandler.set(edge, State.SOLUTION, true, true);
+				updateHandler.add(edge, State.SOLUTION, true, true);
 			}
 			if (this.updateEndVertexMessage(startVertex, selectedVertex,
 					updateHandler)) {
 				this.showShortestPath(graph, selectedVertex, updateHandler);
 				return;
 			}
-			updateHandler.set(selectedVertex, State.SOLUTION, true, true);
+			updateHandler.add(selectedVertex, State.SOLUTION, true, true);
 			this.setSuccessorMessage(graph, selectedVertex);
 			updateHandler.update();
 
-			updateHandler.set(selectedVertex, false, false);
+			updateHandler.add(selectedVertex, false, false);
 			this.updateAdjacentVertexDistances(graph, selectedVertex,
 					prioQueue, updateHandler);
 		}
@@ -167,14 +167,14 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 			if (adjacentVertex.getCurrentState() == State.SOLUTION) {
 				if (edge.getCurrentState() != State.SOLUTION
 						&& edge.getCurrentState() != State.REFUSE) {
-					updateHandler.set(edge, State.REFUSE, true, true, true);
+					updateHandler.add(edge, State.REFUSE, true, true, true);
 					updateHandler.update();
 				}
 			} else {
 				if (newDistance < oldDistance) {
-					updateHandler.set(edge, State.VISIT, true, true);
+					updateHandler.add(edge, State.VISIT, true, true);
 					// set new predecessor for shortest path
-					updateHandler.set(
+					updateHandler.add(
 							adjacentVertex,
 							State.VISIT,
 							true,
@@ -185,12 +185,12 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 					this.updatePredecessors(graph, vertex, updateHandler,
 							adjacentVertex);
 				} else {
-					updateHandler.set(edge, State.REFUSE, true, true, true);
-					updateHandler.set(adjacentVertex, State.VISIT, true, true);
+					updateHandler.add(edge, State.REFUSE, true, true, true);
+					updateHandler.add(adjacentVertex, State.VISIT, true, true);
 				}
 				updateHandler.update();
 
-				updateHandler.set(adjacentVertex, false, false);
+				updateHandler.add(adjacentVertex, false, false);
 				if (Double.compare(newDistance, oldDistance) != 0) {
 					// adjust the position of adjacentVertex in the proirity
 					// queue, if the distance has changed
@@ -218,7 +218,7 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 						adjacentVertex);
 
 				if (refusedEdge.getCurrentState() != State.REFUSE) {
-					updateHandler.set(refusedEdge, State.REFUSE, true, true,
+					updateHandler.add(refusedEdge, State.REFUSE, true, true,
 							true);
 				}
 			}
@@ -236,7 +236,7 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 			IRestrictedVertex endVertex, IGraphUpdateHandler updateHandler) {
 
 		if (endVertex.isEnd()) {
-			updateHandler.set(endVertex, State.SOLUTION, true, String.format(
+			updateHandler.add(endVertex, State.SOLUTION, true, String.format(
 					SHORTEST_PATH_OK, startVertex.getId(), endVertex.getId(),
 					endVertex.getCurrentResult()), false);
 			updateHandler.update();
@@ -290,21 +290,21 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 			IRestrictedVertex selectedVertex, IGraphUpdateHandler updateHandler) {
 
 		for (IRestrictedEdge edge : graph.getEdges()) {
-			updateHandler.set(edge, State.INITIAL, false, false, false);
+			updateHandler.add(edge, State.INITIAL, false, false, false);
 		}
 
 		for (IRestrictedVertex vertex : graph.getVertices()) {
-			updateHandler.set(vertex, State.INITIAL, false, false, false);
+			updateHandler.add(vertex, State.INITIAL, false, false, false);
 		}
 
-		updateHandler.set(selectedVertex, State.SOLUTION, false, false);
+		updateHandler.add(selectedVertex, State.SOLUTION, false, false);
 		IRestrictedVertex currentVertex = null;
 		while (selectedVertex.getValue() != null) {
 			currentVertex = (IRestrictedVertex) selectedVertex.getValue();
 			IRestrictedEdge edge = graph
 					.findEdge(currentVertex, selectedVertex);
-			updateHandler.set(edge, State.SOLUTION, false, true);
-			updateHandler.set(currentVertex, State.SOLUTION, false, false);
+			updateHandler.add(edge, State.SOLUTION, false, true);
+			updateHandler.add(currentVertex, State.SOLUTION, false, false);
 			selectedVertex = currentVertex;
 		}
 	}
@@ -319,7 +319,7 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 
 		for (IRestrictedVertex vertex : vertices) {
 			if (vertex.getCurrentResult() == Double.POSITIVE_INFINITY) {
-				updateHandler.set(vertex, State.REFUSE, true, false);
+				updateHandler.add(vertex, State.REFUSE, true, false);
 			}
 		}
 	}

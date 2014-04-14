@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
@@ -133,7 +133,7 @@ public class MainWindow extends JFrame {
 	 * @throws IOException
 	 */
 	public MainWindow(IMenuToolbarController menuToolbarController,
-			IEditableGraphEventListener visualizationController,
+			IEditGraphEventListener visualizationController,
 			IStepController stepController, IAppModel model) throws IOException {
 		super(TITLE);
 

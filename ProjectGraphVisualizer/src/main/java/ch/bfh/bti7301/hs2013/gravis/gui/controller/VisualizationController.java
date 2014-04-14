@@ -2,8 +2,9 @@ package ch.bfh.bti7301.hs2013.gravis.gui.controller;
 
 import java.util.Observable;
 
-import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
 
 /**
@@ -11,7 +12,7 @@ import ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel;
  * 
  */
 class VisualizationController extends Observable implements
-		IEditableGraphEventListener {
+		IEditGraphEventListener {
 
 	private final IAppModel model;
 
@@ -26,37 +27,37 @@ class VisualizationController extends Observable implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener#
-	 * raphItemsChangedEvent
-	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener#
+	 * handleGraphItemsChangedEvent
+	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem,
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener.Type)
 	 */
 	@Override
-	public void graphItemsChangedEvent(GraphStepEvent evt) {
+	public void handleGraphItemsChangedEvent(IGraphItem source, Type type) {
 		// update model
 		this.model.resetStepEnabledState();
 		this.model.setGraphChanged(true);
 		this.model.setGraphUnsaved(true);
-		
+
 		// update view
 		this.setChanged();
 		this.notifyObservers(this.model.createToolBarModel());
 		this.setChanged();
 		this.notifyObservers(this.model.createStepModel());
-
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener#
-	 * graphPropertiesChangedEvent
-	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener#
+	 * handleGraphPropertiesChangedEvent
+	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph)
 	 */
 	@Override
-	public void graphPropertiesChangedEvent(GraphStepEvent evt) {
+	public void handleGraphPropertiesChangedEvent(IGravisGraph source) {
 		// update model
 		this.model.setGraphUnsaved(true);
-		
+
 		// update view
 		this.setChanged();
 		this.notifyObservers(this.model.getGraph());

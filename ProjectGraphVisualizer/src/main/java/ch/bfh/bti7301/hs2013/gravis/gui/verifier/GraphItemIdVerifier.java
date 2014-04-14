@@ -47,7 +47,7 @@ public class GraphItemIdVerifier extends AbstractGravisVerifier {
 			return !textField.getText().trim().isEmpty()
 					&& (textField.getText()
 							.equals(this.graphItem.getId()) || !gravisGraph
-							.containsItemId(textField.getText().trim()));
+							.containsItemName(textField.getText().trim()));
 		}
 
 		return false;

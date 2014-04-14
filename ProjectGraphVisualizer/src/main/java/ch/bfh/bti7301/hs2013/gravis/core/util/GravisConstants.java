@@ -47,7 +47,7 @@ public final class GravisConstants {
 	public final static double E_WEIGHT_DEFAULT = 1.0;
 	
 	public final static Color E_COLOR_DEFAULT = GravisColor.BLACK;
-	public final static Color V_DRAW_COLOR_DEFAULT = GravisColor.BLACK;
+	public final static Color V_BORDER_COLOR_DEFAULT = GravisColor.BLACK;
 	public final static Color V_FILL_COLOR_DEFAULT = GravisColor.ANTIQUE;
 	
 	public final static Color V_INITIAL_COLOR = GravisColor.ANTIQUE;
@@ -60,9 +60,9 @@ public final class GravisConstants {
 	public final static float V_START_DASH = 10.0f;
 	public final static float V_END_DASH = 5.0f;
 	
-	public final static float STROKE_WIDTH_DEFAULT = 2.0f;
-	public final static float V_TAGGED_STROKE = 2.0f;
-	public final static float E_TAGGED_STROKE = 2.0f;
+	public final static float STROKE_WIDTH_DEFAULT = 1.0f;
+	public final static float V_TAGGED_STROKE = 1.5f;
+	public final static float E_TAGGED_STROKE = 1.5f;
 	public final static float MITER_LIMIT_DEFAULT = 10.0f;
 	public final static float DASH_DEFAULT = 5.0f;
 	public final static float DASH_PHASE_DEFAULT = 0.0f;

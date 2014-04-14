@@ -4,10 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.bfh.bti7301.hs2013.gravis.core.algorithm.AlgorithmException;
 import ch.bfh.bti7301.hs2013.gravis.core.algorithm.IAlgorithm;
 import ch.bfh.bti7301.hs2013.gravis.core.algorithm.IAlgorithmManager;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphManager;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphIOException;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphIOManager;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IObservableGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph;
@@ -31,14 +33,14 @@ class Core implements ICore {
 
 	private final static String UNKNOWN_ALGO = "This is not a valid algorithm name: %s";
 
-	private IGraphManager graphManager;
+	private IGraphIOManager graphManager;
 	private IAlgorithmManager algorithmManager;
 
 	/**
 	 * @param graphManager
 	 * @param algorithmManager
 	 */
-	protected Core(IGraphManager graphManager,
+	protected Core(IGraphIOManager graphManager,
 			IAlgorithmManager algorithmManager) {
 		this.graphManager = graphManager;
 		this.algorithmManager = algorithmManager;
@@ -50,12 +52,8 @@ class Core implements ICore {
 	 * @see ch.bfh.bti7301.hs2013.gravis.core.ICore#loadGraph(java.io.File)
 	 */
 	@Override
-	public IGravisGraph loadGraph(File source) throws CoreException {
-		try {
+	public IGravisGraph loadGraph(File source) throws GravisGraphIOException {
 			return this.graphManager.loadGraph(source);
-		} catch (Exception e) {
-			throw new CoreException(e);
-		}
 	}
 
 	/*
@@ -66,12 +64,8 @@ class Core implements ICore {
 	 * .gravis.core.graph.IGravisGraph, java.io.File)
 	 */
 	@Override
-	public void saveGraph(IGravisGraph graph, File file) throws CoreException {
-		try {
+	public void saveGraph(IGravisGraph graph, File file) throws GravisGraphIOException {
 			this.graphManager.saveGraph(graph, file);
-		} catch (Exception e) {
-			throw new CoreException(e);
-		}
 	}
 
 	/*
@@ -85,7 +79,7 @@ class Core implements ICore {
 	public String[] getAlgorithmNames(EdgeType edgeType) throws CoreException {
 		try {
 			return this.algorithmManager.getAlgorithmNames(edgeType);
-		} catch (Exception e) {
+		} catch (AlgorithmException e) {
 			throw new CoreException(e);
 		}
 	}
@@ -103,7 +97,7 @@ class Core implements ICore {
 		try {
 			List<IStep> commandList = new ArrayList<>();
 			GraphEventListener<IVertex, IEdge> graphEventListener = GraphFactory
-					.createGravisGraphEventListener(commandList);
+					.createGraphStepListener(commandList);
 			IObservableGravisGraph observableGraph = GraphFactory
 					.createObservableGraph(graph);
 			observableGraph.addGraphEventListener(graphEventListener);
@@ -141,7 +135,7 @@ class Core implements ICore {
 		try {
 			IAlgorithm algo = this.algorithmManager.getAlgorithm(algoName);
 			return algo == null ? null : algo.getDescription();
-		} catch (Exception e) {
+		} catch (AlgorithmException e) {
 			throw new CoreException(e);
 		}
 	}

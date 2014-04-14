@@ -25,7 +25,7 @@ public final class GraphFactory {
 
 	/**
 	 * 
-	 * @return a new instance of type Graph<IVertex, IEdge>
+	 * @return a new graph instance of type Graph<IVertex, IEdge>
 	 */
 	public static Graph<IVertex, IEdge> createGraph() {
 		return new SparseGraph<IVertex, IEdge>();
@@ -33,62 +33,62 @@ public final class GraphFactory {
 
 	/**
 	 * @param graph
-	 * @return a new instance of type IGravisGraph
+	 * @return a new directed graph instance of type IGravisGraph
 	 */
-	public static IGravisGraph createGravisGraph(Graph<IVertex, IEdge> graph) {
+	public static IGravisGraph createDirectedGravisGraph(Graph<IVertex, IEdge> graph) {
 		return new GravisGraph(graph);
 	}
 
 	/**
-	 * @return a new instance of type IGravisGraph
+	 * @return a new directed graph instance of type IGravisGraph
 	 */
-	public static IGravisGraph createGravisGraph() {
+	public static IGravisGraph createDirectedGravisGraph() {
 		return new GravisGraph(createGraph());
 	}
 
 	/**
 	 * @param edgeType
-	 * @return IGravisGraph
+	 * @return a new graph instance of type IGravisGraph
 	 */
 	public static IGravisGraph createGravisGraph(EdgeType edgeType) {
 		return new GravisGraph(createGraph(), edgeType);
 	}
 	
 	/**
-	 * @return directed IEditableGraph
+	 * @return a new directed graph instance of type IEditGraphObservable
 	 */
-	public static IEditableGraph createEditingGraph() {
-		return new EditableGraph(createGravisGraph());
+	public static IEditGraphObservable createDirectedEditGraphDecorator() {
+		return new EditGraphDecorator(createDirectedGravisGraph());
 	}
 	
 	/**
 	 * 
 	 * @param edgeType
 	 * @param listeners 
-	 * @return IEditableGraph
+	 * @return a new graph instance of type IEditGraphObservable
 	 */
-	public static IEditableGraph createEditingGraph(EdgeType edgeType, 
-			IEditableGraphEventListener ... listeners) {
-		EditableGraph editingGraph = new EditableGraph(createGravisGraph(edgeType));
+	public static IEditGraphObservable createEditGraphDecorator(EdgeType edgeType, 
+			IEditGraphEventListener ... listeners) {
+		EditGraphDecorator graph = new EditGraphDecorator(createGravisGraph(edgeType));
 		
-		for (IEditableGraphEventListener listener : listeners) {
-			editingGraph.addEditableGraphEventListener(listener);
+		for (IEditGraphEventListener listener : listeners) {
+			graph.addEditGraphEventListener(listener);
 		}
-		return editingGraph;
+		return graph;
 	}
 	
 	/**
 	 * 
 	 * @param graph
 	 * @param listeners
-	 * @return IEditableGraph
+	 * @return a new graph instance of type IEditGraphObservable
 	 */
-	public static IEditableGraph createEditingGraph(IGravisGraph graph, 
-			IEditableGraphEventListener ... listeners) {
-		EditableGraph editingGraph = new EditableGraph(graph);
+	public static IEditGraphObservable createEditGraphDecorator(IGravisGraph graph, 
+			IEditGraphEventListener ... listeners) {
+		EditGraphDecorator editingGraph = new EditGraphDecorator(graph);
 		
-		for (IEditableGraphEventListener listener : listeners) {
-			editingGraph.addEditableGraphEventListener(listener);
+		for (IEditGraphEventListener listener : listeners) {
+			editingGraph.addEditGraphEventListener(listener);
 		}
 		return editingGraph;
 	}
@@ -115,17 +115,18 @@ public final class GraphFactory {
 	/**
 	 * 
 	 * @param commandList
-	 * @return a new instance of type GraphEventListener<IVertex, IEdge>
+	 * @return a new instance of type GraphEventListener<IVertex, IEdge> listen to 
+	 * graph step updates
 	 */
-	public static GraphEventListener<IVertex, IEdge> createGravisGraphEventListener(
+	public static GraphEventListener<IVertex, IEdge> createGraphStepListener(
 			List<IStep> commandList) {
 		return new GraphStepEventListener(commandList,
 				StepTransformerFactory.createStepTransformer());
 	}
 
 	/**
-	 * @param graph
-	 * @return IGraphUpdateHandler
+	 * @param restricted graph
+	 * @return a new instance of type IGraphUpdateHandler
 	 */
 	public static IGraphUpdateHandler createGraphUpdateHandler(
 			IRestrictedGraph graph) {
@@ -135,10 +136,10 @@ public final class GraphFactory {
 	/**
 	 * Creates a graph manager.
 	 * 
-	 * @return IGraphManager
+	 * @return a new instance of type IGraphIOManager
 	 */
-	public static IGraphManager createGraphManager() {
-		return new GraphManager();
+	public static IGraphIOManager createGraphManager() {
+		return new GraphIOManager();
 	}
 
 }

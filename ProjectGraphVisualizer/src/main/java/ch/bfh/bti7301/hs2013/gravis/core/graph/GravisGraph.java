@@ -47,12 +47,14 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	protected GravisGraph(Graph<IVertex, IEdge> delegate, EdgeType edgeType) {
 		super(delegate);
-		
+			
 		String edgeTypeStr = edgeType == EdgeType.DIRECTED ? DIR_STR : UNDIR_STR;
+		
 		counter++;
-		this.graphName = String.format(DEFAULT_NAME, edgeTypeStr, counter);
-		this.graphDescription = String.format(DEFAULT_DESCRIPTION, edgeTypeStr, counter);
-		this.edgeType = edgeType;
+		this.setName(String.format(DEFAULT_NAME, edgeTypeStr, counter));
+		this.setDescription(String.format(DEFAULT_DESCRIPTION, edgeTypeStr, counter));
+		this.setEdgeType(edgeType);
+
 	}
 
 	/*
@@ -62,12 +64,87 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void clear() {
-		Collection<IVertex> collection = this.delegate.getVertices();
-		IVertex[] vertices = collection.toArray(new IVertex[collection.size()]);
-
-		for (IVertex vertex : vertices) {
+		Collection<IVertex> vertices = this.delegate.getVertices();
+		
+		for (IVertex vertex : vertices.toArray(new IVertex[vertices.size()])) {
 			this.delegate.removeVertex(vertex);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsEdgeName(java
+	 * .lang.String)
+	 */
+	@Override
+	public boolean containsEdgeName(String edgeName) {
+		for (IEdge edge : this.getEdges()) {
+			if (edge.getId().equals(edgeName.trim())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsItemName(java
+	 * .lang.String)
+	 */
+	@Override
+	public boolean containsItemName(String itemName) {
+		return this.containsVertexName(itemName) || this.containsEdgeName(itemName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsVertexName
+	 * (java.lang.String)
+	 */
+	@Override
+	public boolean containsVertexName(String vertexName) {
+		for (IVertex vertex : this.getVertices()) {
+			if (vertex.getId().equals(vertexName.trim())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getGraphName()
+	 */
+	@Override
+	public String getDescription() {
+		return this.graphDescription;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getEdgeType()
+	 */
+	@Override
+	public EdgeType getEdgeType() {
+		return this.edgeType;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getName()
+	 */
+	@Override
+	public String getName() {
+		return this.graphName;
 	}
 
 	/*
@@ -79,16 +156,6 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	public boolean isEmpty() {
 		return this.delegate.getVertexCount() == 0
 				&& this.delegate.getEdgeCount() == 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getGraphName()
-	 */
-	@Override
-	public String getDescription() {
-		return this.graphDescription;
 	}
 
 	/*
@@ -106,36 +173,6 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getName()
-	 */
-	@Override
-	public String getName() {
-		return this.graphName;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setName(int)
-	 */
-	@Override
-	public void setName(String graphName) {
-		this.graphName = graphName.trim();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#getEdgeType()
-	 */
-	@Override
-	public EdgeType getEdgeType() {
-		return this.edgeType;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setEdgeType(edu.
 	 * uci.ics.jung.graph.util.EdgeType)
@@ -148,47 +185,11 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsVertexId
-	 * (java.lang.String)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#setName(int)
 	 */
 	@Override
-	public boolean containsVertexId(String vertexId) {
-		for (IVertex vertex : this.getVertices()) {
-			if (vertex.getId().equals(vertexId.trim())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsEdgeId(java
-	 * .lang.String)
-	 */
-	@Override
-	public boolean containsEdgeId(String edgeId) {
-		for (IEdge edge : this.getEdges()) {
-			if (edge.getId().equals(edgeId.trim())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph#containsItemId(java
-	 * .lang.String)
-	 */
-	@Override
-	public boolean containsItemId(String itemId) {
-		return this.containsVertexId(itemId) || this.containsEdgeId(itemId);
+	public void setName(String graphName) {
+		this.graphName = graphName.trim();
 	}
 
 }

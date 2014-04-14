@@ -6,11 +6,11 @@ import javax.swing.JFrame;
 
 import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.bti7301.hs2013.gravis.core.util.transformer.PointTransformer;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.PointTransformer;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.ControllerFactory;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
@@ -41,12 +41,12 @@ public final class GuiFactory {
 		// controllers
 		IMenuToolbarController menuToolbarController = ControllerFactory
 				.createMenuToolbarController(core, model);
-		IEditableGraphEventListener visualizationController = ControllerFactory
+		IEditGraphEventListener visualizationController = ControllerFactory
 				.createVisualizationController(model);
 		IStepController stepController = ControllerFactory
 				.createStepController(model);
-		// add change listener to graph
-		model.getGraph().addEditableGraphEventListener(visualizationController);
+		// add EditGraphEventListener to graph
+		model.getGraph().addEditGraphEventListener(visualizationController);
 		
 		// view
 		return new MainWindow(menuToolbarController, visualizationController,

@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphIOException;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.GraphPropertyDialogFactory;
@@ -39,7 +40,8 @@ class MenuToolbarController extends Observable implements
 	private final static String EXIT_MSG = "Programm wirklich beenden?";
 	private final static String SAVE_DIALOG_MSG = "Änderungen speichern?";
 	private final static String APP_ERR_TITLE = "Fehler";
-	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten: %s";
+	// TODO stackTrace angeben
+	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten:\n\n%s";
 	private final static String OPEN_GRAPH_MSG = "%sFolgender Graph wurde geöffnet:%s"
 			+ "Datei: %s%sName: %s%sBeschreibung: %s%s";
 	private final static String SAVE_GRAPH_MSG = "%sFolgender Graph wurde gespeichert:%s"
@@ -103,6 +105,7 @@ class MenuToolbarController extends Observable implements
 			}
 		} catch (Exception ex) {
 			if (this.messageDialogAdapter != null) {
+				// TODO stackTrace angeben
 				this.messageDialogAdapter.showMessageDialog(
 						String.format(APP_ERR_MSG, ex.getMessage()),
 						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -225,7 +228,7 @@ class MenuToolbarController extends Observable implements
 	public void windowClosing(WindowEvent e) {
 		try {
 			this.handleExitEvent();
-		} catch (CoreException ex) {
+		} catch (CoreException | GravisGraphIOException ex) {
 			if (this.messageDialogAdapter != null) {
 				this.messageDialogAdapter.showMessageDialog(
 						String.format(APP_ERR_MSG, ex.getMessage()),
@@ -289,7 +292,7 @@ class MenuToolbarController extends Observable implements
 		// ignore title entry
 		if (item.equals(IAppModel.DEFAULT_ALGO_ENTRY)) {
 			this.model.resetStepEnabledState();
-		} else {	
+		} else {
 			// update model
 			if (this.model.getStepIterator() != null) {
 				this.model.getStepIterator().first();
@@ -314,8 +317,9 @@ class MenuToolbarController extends Observable implements
 	/**
 	 * 
 	 * @throws CoreException
+	 * @throws GravisGraphIOException
 	 */
-	private void handleExitEvent() throws CoreException {
+	private void handleExitEvent() throws CoreException, GravisGraphIOException {
 		if (this.confirmDialogAdapter != null) {
 			// handle unsaved graph
 			if (this.model.isGraphUnsaved()) {
@@ -359,7 +363,7 @@ class MenuToolbarController extends Observable implements
 			// update model
 			// TODO besser lösen: ev. Methode initStepEnableState
 			this.model.setStepEnabledState(this.model.getStepIterator());
-			
+
 			// update view
 			this.setChanged();
 			this.notifyObservers();
@@ -372,19 +376,21 @@ class MenuToolbarController extends Observable implements
 	 * 
 	 * @param edgeType
 	 * @throws CoreException
+	 * @throws GravisGraphIOException
 	 */
-	private void handleNewGraphEvent(EdgeType edgeType) throws CoreException {
+	private void handleNewGraphEvent(EdgeType edgeType) throws CoreException,
+			GravisGraphIOException {
 		// handle unsaved graph
 		if (this.model.isGraphUnsaved() && this.confirmDialogAdapter != null) {
 			int dialogResult = this.confirmDialogAdapter.showConfirmDialog(
 					SAVE_DIALOG_MSG, SAVE_DIALOG_TITLE,
 					JOptionPane.YES_NO_CANCEL_OPTION);
-			
-			if (dialogResult == JOptionPane.YES_OPTION && 
-					this.handleSaveGraphAsEvent() != JFileChooser.APPROVE_OPTION) {
-					return;
-			} else if (dialogResult == JOptionPane.CANCEL_OPTION || 
-					dialogResult == JOptionPane.CLOSED_OPTION) {
+
+			if (dialogResult == JOptionPane.YES_OPTION
+					&& this.handleSaveGraphAsEvent() != JFileChooser.APPROVE_OPTION) {
+				return;
+			} else if (dialogResult == JOptionPane.CANCEL_OPTION
+					|| dialogResult == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
 		}
@@ -406,20 +412,22 @@ class MenuToolbarController extends Observable implements
 	/**
 	 * 
 	 * @throws CoreException
+	 * @throws GravisGraphIOException 
 	 */
-	private void handleOpenGraphEvent() throws CoreException {
+	private void handleOpenGraphEvent() throws CoreException, GravisGraphIOException {
 		if (this.fileChooserAdapter != null
 				&& this.messageDialogAdapter != null) {
 			// handle unsaved graph
-			if (this.model.isGraphUnsaved() && this.confirmDialogAdapter != null) {
+			if (this.model.isGraphUnsaved()
+					&& this.confirmDialogAdapter != null) {
 				int dialogResult = this.confirmDialogAdapter.showConfirmDialog(
 						SAVE_DIALOG_MSG, SAVE_DIALOG_TITLE,
 						JOptionPane.YES_NO_CANCEL_OPTION);
 
 				if (dialogResult == JOptionPane.YES_OPTION) {
 					this.handleSaveGraphAsEvent();
-				} else if (dialogResult == JOptionPane.CANCEL_OPTION ||
-						dialogResult == JOptionPane.CLOSED_OPTION) {
+				} else if (dialogResult == JOptionPane.CANCEL_OPTION
+						|| dialogResult == JOptionPane.CLOSED_OPTION) {
 					return;
 				}
 			}
@@ -432,11 +440,14 @@ class MenuToolbarController extends Observable implements
 	 * 
 	 * @throws CoreException
 	 * @return int
+	 * @throws GravisGraphIOException
 	 * 
 	 */
-	private int handleSaveGraphAsEvent() throws CoreException {
+	private int handleSaveGraphAsEvent() throws CoreException,
+			GravisGraphIOException {
 		int saveResult = Integer.MAX_VALUE;
 
+		// TODO wenn Datei existiert, fragen ob Ueberschreiben
 		if (this.fileChooserAdapter != null) {
 			saveResult = this.fileChooserAdapter.showSaveDialog();
 
@@ -468,9 +479,9 @@ class MenuToolbarController extends Observable implements
 	 * 
 	 * @throws CoreException
 	 */
-	private void handleSaveGraphEvent()  throws CoreException {
+	private void handleSaveGraphEvent() throws CoreException {
 		// TODO Auto-generated method stub
-		this.messageDialogAdapter.showMessageDialog("handleSaveGraphEvent", "", 
+		this.messageDialogAdapter.showMessageDialog("handleSaveGraphEvent", "",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -478,17 +489,19 @@ class MenuToolbarController extends Observable implements
 	 * Try to open the file selected from FileChooser.
 	 * 
 	 * @throws CoreException
+	 * @throws GravisGraphIOException 
 	 */
-	private void openGraph() throws CoreException {
+	private void openGraph() throws CoreException, GravisGraphIOException {
 		while (this.fileChooserAdapter.showOpenDialog() == JFileChooser.APPROVE_OPTION) {
 			File file = this.fileChooserAdapter.getSelectedFile();
 
 			if (file.exists()) {
 				// update model
 				this.model.setOpenGraphState(this.core.loadGraph(file));
-				this.model.setAlgorithmComboModel(this.core
-						.getAlgorithmNames(this.model.getGraph()
-								.getEdgeType()));
+				this.model
+						.setAlgorithmComboModel(this.core
+								.getAlgorithmNames(this.model.getGraph()
+										.getEdgeType()));
 
 				// update view
 				this.setChanged();
@@ -498,10 +511,10 @@ class MenuToolbarController extends Observable implements
 				this.setChanged();
 				this.notifyObservers(this.model.createStepModel());
 				this.setChanged();
-				this.notifyObservers(String.format(OPEN_GRAPH_MSG, LN, LN,
-						file.getAbsolutePath(), LN, this.model.getGraph()
-								.getName(), LN, this.model.getGraph()
-								.getDescription(), LN));
+				this.notifyObservers(String.format(OPEN_GRAPH_MSG, LN, LN, file
+						.getAbsolutePath(), LN,
+						this.model.getGraph().getName(), LN, this.model
+								.getGraph().getDescription(), LN));
 
 				break;
 			} else {

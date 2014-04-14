@@ -17,7 +17,11 @@ class AlgorithmManager implements IAlgorithmManager {
 	
 	private List<String> directedAlgoNames, undirectedAlgoNames;
 
-	protected AlgorithmManager() {
+	/**
+	 * 
+	 * @throws AlgorithmException
+	 */
+	protected AlgorithmManager() throws AlgorithmException {
 		this.algorithmMap = new TreeMap<>();
 		this.directedAlgoNames = new ArrayList<>();
 		this.undirectedAlgoNames = new ArrayList<>();

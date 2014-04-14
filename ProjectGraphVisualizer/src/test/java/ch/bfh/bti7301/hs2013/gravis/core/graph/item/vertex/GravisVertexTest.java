@@ -575,7 +575,7 @@ public class GravisVertexTest {
 //
 //	/**
 //	 * Test method for
-//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#AbstractEditingGraphItem()}
+//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#AbstractEditingGraphItem()}
 //	 * .
 //	 */
 //	@Test
@@ -585,7 +585,7 @@ public class GravisVertexTest {
 //
 //	/**
 //	 * Test method for
-//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#addEditingGraphEventListener(ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener[])}
+//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#addEditingGraphEventListener(ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener[])}
 //	 * .
 //	 */
 //	@Test
@@ -595,7 +595,7 @@ public class GravisVertexTest {
 //
 //	/**
 //	 * Test method for
-//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#removeEditingGraphEventListeners()}
+//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#removeEditingGraphEventListeners()}
 //	 * .
 //	 */
 //	@Test
@@ -605,7 +605,7 @@ public class GravisVertexTest {
 //
 //	/**
 //	 * Test method for
-//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#fireEditingGraphEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}
+//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#fireEditingGraphEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}
 //	 * .
 //	 */
 //	@Test
@@ -615,7 +615,7 @@ public class GravisVertexTest {
 //
 //	/**
 //	 * Test method for
-//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditingGraphItem#fireNameChangedEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}
+//	 * {@link ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractEditItemObservable#fireNameChangedEvent(ch.bfh.bti7301.hs2013.gravis.core.graph.GraphStepEvent)}
 //	 * .
 //	 */
 //	@Test

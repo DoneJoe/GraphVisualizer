@@ -15,6 +15,7 @@ import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
  */
 public class GravisStartup {
 
+	// TODO stackTrace angeben
 	private final static String STARTUP_ERROR = "Fehler beim Starten der Applikation:%s%s";
 	private final static String TITLE = "Graph Visualizer";
 
@@ -30,6 +31,7 @@ public class GravisStartup {
 				try {
 					GuiFactory.createGUI(CoreFactory.createCore());
 				} catch (Exception e) {
+					// TODO stackTrace angeben
 					JOptionPane.showMessageDialog(null, String.format(
 							STARTUP_ERROR, System.lineSeparator(),
 							e.getMessage()), TITLE, JOptionPane.ERROR_MESSAGE);

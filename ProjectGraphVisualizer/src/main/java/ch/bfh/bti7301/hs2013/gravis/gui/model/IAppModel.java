@@ -4,8 +4,8 @@ import javax.swing.BoundedRangeModel;
 import javax.swing.ButtonModel;
 import javax.swing.ComboBoxModel;
 
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraph;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditableGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphObservable;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -70,9 +70,9 @@ public interface IAppModel {
 	public abstract ButtonModel getForwardButtonModel();
 	
 	/**
-	 * @return IEditableGraph
+	 * @return IEditGraphObservable
 	 */
-	public abstract IEditableGraph getGraph();
+	public abstract IEditGraphObservable getGraph();
 	
 	/**
 	 * 

@@ -61,7 +61,7 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 
 		if (lastVertex != null) {
 			lastVertex.appendToNewComment(END_MSG2);
-			updateHandler.set(lastVertex, false, false);
+			updateHandler.add(lastVertex, false, false);
 			updateHandler.update();
 		}
 	}
@@ -75,10 +75,10 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 	 */
 	private boolean visit(IRestrictedGraph graph,
 			IGraphUpdateHandler updateHandler, IRestrictedVertex vertex1) {
-		updateHandler.set(vertex1, State.VISIT, true, true, false, true);
+		updateHandler.add(vertex1, State.VISIT, true, true, false, true);
 		updateHandler.update();
 
-		updateHandler.set(vertex1, State.VISIT, false, false);
+		updateHandler.add(vertex1, State.VISIT, false, false);
 		Iterator<? extends IRestrictedVertex> vertexIterator = graph
 				.getSuccessors(vertex1).iterator();
 		while (vertexIterator.hasNext()) {
@@ -86,10 +86,10 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 			IRestrictedEdge edge = graph.findEdge(vertex1, vertex2);
 
 			if (vertex2.isDone()) {
-				updateHandler.set(edge, State.REFUSE, true, true, true);
+				updateHandler.add(edge, State.REFUSE, true, true, true);
 				updateHandler.update();
 			} else {
-				updateHandler.set(edge, State.VISIT, true, true);
+				updateHandler.add(edge, State.VISIT, true, true);
 
 				boolean abort = this.visit(graph, updateHandler, vertex2);
 
@@ -105,10 +105,10 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 		if (this.updateEndVertexMessage(vertex1, updateHandler)) {
 			return true;
 		}
-		updateHandler.set(vertex1, State.SOLUTION, true, ++this.counter, true);
+		updateHandler.add(vertex1, State.SOLUTION, true, ++this.counter, true);
 		updateHandler.update();
 
-		updateHandler.set(vertex1, State.SOLUTION, false, false);
+		updateHandler.add(vertex1, State.SOLUTION, false, false);
 		return false;
 	}
 
@@ -124,10 +124,10 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 			Iterator<? extends IRestrictedVertex> vertexIterator) {
 
 		if (vertexIterator.hasNext()) {
-			updateHandler.set(vertex1, State.ACTIVATION, true, true);
+			updateHandler.add(vertex1, State.ACTIVATION, true, true);
 			updateHandler.update();
 
-			updateHandler.set(vertex1, State.VISIT, false, false);
+			updateHandler.add(vertex1, State.VISIT, false, false);
 		}
 	}
 
@@ -145,7 +145,7 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 			
 			if (vertex.getCurrentState() == State.SOLUTION && edge.getCurrentState() !=
 					State.REFUSE) {
-				updateHandler.set(edge, State.SOLUTION, true, true);
+				updateHandler.add(edge, State.SOLUTION, true, true);
 			}
 		}
 	}
@@ -160,11 +160,11 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 			IGraphUpdateHandler updateHandler) {
 
 		if (endVertex.isEnd()) {
-			updateHandler.set(endVertex, State.SOLUTION, true, String.format(
+			updateHandler.add(endVertex, State.SOLUTION, true, String.format(
 					END_MSG1, endVertex.getId()), ++this.counter, true, false, true);
 			updateHandler.update();
 			
-			updateHandler.set(endVertex, State.SOLUTION, false, false);
+			updateHandler.add(endVertex, State.SOLUTION, false, false);
 			return true;
 		}
 		return false;

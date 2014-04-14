@@ -1,9 +1,10 @@
 package ch.bfh.bti7301.hs2013.gravis.core;
 
+import ch.bfh.bti7301.hs2013.gravis.core.algorithm.AlgorithmException;
 import ch.bfh.bti7301.hs2013.gravis.core.algorithm.AlgorithmFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.algorithm.IAlgorithmManager;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphManager;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphIOManager;
 
 /**
  * This factory class creates and composes all necessary objects used in the
@@ -28,11 +29,17 @@ public final class CoreFactory {
 	 * core classes.
 	 * 
 	 * @return an instance of type ICore
+	 * @throws CoreException 
 	 */
-	public static ICore createCore() {
-		IGraphManager graphManager = GraphFactory.createGraphManager();
-		IAlgorithmManager algorithmManager = AlgorithmFactory
-				.createAlgorithmManager();
+	public static ICore createCore() throws CoreException {
+		IGraphIOManager graphManager;
+		IAlgorithmManager algorithmManager;
+		try {
+			graphManager = GraphFactory.createGraphManager();
+			algorithmManager = AlgorithmFactory.createAlgorithmManager();
+		} catch (AlgorithmException e) {
+			throw new CoreException(e);
+		}
 
 		return new Core(graphManager, algorithmManager);
 

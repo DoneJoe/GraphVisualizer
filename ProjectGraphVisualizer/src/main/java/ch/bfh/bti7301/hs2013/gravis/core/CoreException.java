@@ -1,7 +1,6 @@
 package ch.bfh.bti7301.hs2013.gravis.core;
 
 /**
- * Gravis Core Exception<br>
  * This class extends <code>Exception</code> that indicates conditions that a
  * reasonable application might want to catch.
  * 
@@ -10,7 +9,7 @@ package ch.bfh.bti7301.hs2013.gravis.core;
  */
 public class CoreException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6698107603270481097L;
 
 	/**
 	 * Constructs a new exception with <code>null</code> as its detail message.
@@ -70,4 +69,16 @@ public class CoreException extends Exception {
 	public CoreException(Throwable cause) {
 		super(cause);
 	}
+
+	/**
+	 * @param message
+	 * @param cause
+	 * @param enableSuppression
+	 * @param writableStackTrace
+	 */
+	public CoreException(String message, Throwable cause,
+			boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+	}	
+	
 }

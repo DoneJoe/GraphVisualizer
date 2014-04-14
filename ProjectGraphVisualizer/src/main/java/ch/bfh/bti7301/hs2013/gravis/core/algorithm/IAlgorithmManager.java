@@ -11,14 +11,17 @@ public interface IAlgorithmManager {
 	/**
 	 * 
 	 * @param edgetype
-	 * @return string array
+	 * @return String[]
+	 * @throws AlgorithmException
 	 */
-	public abstract String[] getAlgorithmNames(EdgeType edgetype);
+	public abstract String[] getAlgorithmNames(EdgeType edgetype) throws AlgorithmException;
 
 	/**
+	 * 
 	 * @param algorithmName
 	 * @return IAlgorithm
+	 * @throws AlgorithmException
 	 */
-	public abstract IAlgorithm getAlgorithm(String algorithmName);
+	public abstract IAlgorithm getAlgorithm(String algorithmName) throws AlgorithmException;
 
 }

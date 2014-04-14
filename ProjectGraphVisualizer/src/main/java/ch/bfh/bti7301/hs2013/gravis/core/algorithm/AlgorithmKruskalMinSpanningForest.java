@@ -9,11 +9,11 @@ import org.apache.commons.collections15.map.HashedMap;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.comparator.EdgeWeightComparator;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.util.Partition;
-import ch.bfh.bti7301.hs2013.gravis.core.util.comparator.EdgeWeightComparator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
 
@@ -77,7 +77,7 @@ public class AlgorithmKruskalMinSpanningForest extends AbstractAlgorithm {
 
 		if (selectedEdge != null) {
 			selectedEdge.appendToNewComment(END_MSG);
-			updateHandler.set(selectedEdge);
+			updateHandler.add(selectedEdge);
 			updateHandler.update();
 		}
 	}
@@ -101,52 +101,52 @@ public class AlgorithmKruskalMinSpanningForest extends AbstractAlgorithm {
 			Pair<? extends IRestrictedVertex> pair = graph
 					.getEndpoints(selectedEdge);
 
-			updateHandler.set(
+			updateHandler.add(
 					selectedEdge,
 					State.ACTIVATION,
 					true,
 					String.format(MIN_EDGE, selectedEdge.getId(),
 							selectedEdge.getWeight()), true);
-			updateHandler.set(pair.getFirst(), State.ACTIVATION, true, true);
-			updateHandler.set(pair.getSecond(), State.ACTIVATION, true, true);
+			updateHandler.add(pair.getFirst(), State.ACTIVATION, true, true);
+			updateHandler.add(pair.getSecond(), State.ACTIVATION, true, true);
 			updateHandler.update();
 
-			updateHandler.set(pair.getFirst(), false, false);
-			updateHandler.set(pair.getSecond(), false, false);
+			updateHandler.add(pair.getFirst(), false, false);
+			updateHandler.add(pair.getSecond(), false, false);
 			if (!Partition.areMerged(partitionMap.get(pair.getFirst()).find(),
 					partitionMap.get(pair.getSecond()).find())) {
-				updateHandler.set(selectedEdge, State.SOLUTION, true,
+				updateHandler.add(selectedEdge, State.SOLUTION, true,
 						++this.counter, true);
 				if (!pair.getFirst().isDone()) {
-					updateHandler.set(pair.getFirst(), State.SOLUTION, true,
+					updateHandler.add(pair.getFirst(), State.SOLUTION, true,
 							true, false, true);
 				} else {
-					updateHandler.set(pair.getFirst(), State.SOLUTION, true,
+					updateHandler.add(pair.getFirst(), State.SOLUTION, true,
 							true);
 				}
 				if (!pair.getSecond().isDone()) {
-					updateHandler.set(pair.getSecond(), State.SOLUTION, true,
+					updateHandler.add(pair.getSecond(), State.SOLUTION, true,
 							true, false, true);
 				} else {
-					updateHandler.set(pair.getSecond(), State.SOLUTION, true,
+					updateHandler.add(pair.getSecond(), State.SOLUTION, true,
 							true);
 				}
 				updateHandler.update();
 
-				updateHandler.set(pair.getFirst(), false, false);
-				updateHandler.set(pair.getSecond(), false, false);
+				updateHandler.add(pair.getFirst(), false, false);
+				updateHandler.add(pair.getSecond(), false, false);
 				partitionMap.get(pair.getFirst()).merge(
 						partitionMap.get(pair.getSecond()));
 			} else {
-				updateHandler.set(selectedEdge, State.REFUSE, true,
+				updateHandler.add(selectedEdge, State.REFUSE, true,
 						String.format(CIRCLE_EDGE, selectedEdge.getId()), true,
 						true);
 				updateHandler.update();
 
-				updateHandler.set(selectedEdge, false);
+				updateHandler.add(selectedEdge, false);
 				updateHandler
-						.set(pair.getFirst(), State.SOLUTION, false, false);
-				updateHandler.set(pair.getSecond(), State.SOLUTION, false,
+						.add(pair.getFirst(), State.SOLUTION, false, false);
+				updateHandler.add(pair.getSecond(), State.SOLUTION, false,
 						false);
 			}
 		}

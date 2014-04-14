@@ -163,7 +163,6 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		btnGroupEditMode.add(tglbtnEditing);
 		btnGroupEditMode.add(tglbtnTransforming);
 		// TODO finish implementation
-		
 	}
 
 	/**

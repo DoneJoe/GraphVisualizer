@@ -62,22 +62,22 @@ public interface IGravisGraph extends Graph<IVertex, IEdge> {
 	public abstract void setEdgeType(EdgeType edgeType);
 
 	/**
-	 * @param vertexId
+	 * @param vertexName
 	 * @return boolean
 	 */
-	public abstract boolean containsVertexId(String vertexId);
+	public abstract boolean containsVertexName(String vertexName);
 	
 	/**
-	 * @param edgeId
+	 * @param edgeName
 	 * @return boolean
 	 */
-	public abstract boolean containsEdgeId(String edgeId);
+	public abstract boolean containsEdgeName(String edgeName);
 
 	/**
-	 * @param itemId
+	 * @param itemName
 	 * @return boolean
 	 */
-	public abstract boolean containsItemId(String itemId);
+	public abstract boolean containsItemName(String itemName);
 
 
 }

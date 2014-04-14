@@ -2,6 +2,7 @@ package ch.bfh.bti7301.hs2013.gravis.core;
 
 import java.io.File;
 
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphIOException;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -21,18 +22,18 @@ public interface ICore {
 	 * @param source
 	 *            the graph file to import
 	 * @return IGravisGraph
-	 * @throws CoreException
+	 * @throws GravisGraphIOException
 	 */
-	public abstract IGravisGraph loadGraph(File source) throws CoreException;
+	public abstract IGravisGraph loadGraph(File source) throws GravisGraphIOException;
 
 	/**
 	 * 
 	 * @param graph
 	 * @param file
-	 * @throws CoreException
+	 * @throws GravisGraphIOException
 	 */
 	public abstract void saveGraph(IGravisGraph graph, File file)
-			throws CoreException;
+			throws GravisGraphIOException;
 
 	/**
 	 * 

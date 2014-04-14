@@ -30,8 +30,9 @@ public interface IAlgorithm {
 	 * 
 	 * @param edgeType
 	 * @return boolean
+	 * @throws AlgorithmException
 	 */
-	public abstract boolean hasEdgeType(EdgeType edgeType);
+	public abstract boolean hasEdgeType(EdgeType edgeType) throws AlgorithmException;
 
 	/**
 	 * @param graph
