@@ -10,6 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JToggleButton;
 
 import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
@@ -78,7 +79,7 @@ class MenuToolbarController extends Observable implements
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		try {
 			// choose the applicable event handler
 			if (e.getActionCommand().equals(NEW_DIR_GRAPH.toString())) {
@@ -120,20 +121,26 @@ class MenuToolbarController extends Observable implements
 	 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
 	 */
 	@Override
-	public void itemStateChanged(ItemEvent e) {
+	public void itemStateChanged(final ItemEvent e) {
 		try {
 			// choose the applicable event handler
-			if (e.getStateChange() == ItemEvent.SELECTED
-					&& e.getSource() instanceof JComboBox<?>) {
-				JComboBox<?> combo = (JComboBox<?>) e.getSource();
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				if (e.getSource() instanceof JComboBox<?>) {
+					JComboBox<?> combo = (JComboBox<?>) e.getSource();
 
-				if (combo.getActionCommand().equals(MODE.toString())
-						&& e.getItem() instanceof Mode) {
-					this.handleModeEvent(((Mode) e.getItem()));
-				} else if (combo.getActionCommand()
-						.equals(ALGORITHM.toString())
-						&& e.getItem() instanceof String) {
-					this.handleAlgorithmEvent(((String) e.getItem()).trim());
+					if (combo.getActionCommand().equals(MODE.toString())
+							&& e.getItem() instanceof Mode) {
+						this.handleModeEvent(((Mode) e.getItem()));
+					} else if (combo.getActionCommand().equals(
+							ALGORITHM.toString())
+							&& e.getItem() instanceof String) {
+						this.handleAlgorithmEvent(((String) e.getItem()).trim());
+					}
+				} else if (!this.model.isModeToggleChanging()
+						&& e.getSource() instanceof JToggleButton) {
+					JToggleButton tglBtn = (JToggleButton) e.getSource();
+
+					this.handleToggleEvent(tglBtn);
 				}
 			}
 		} catch (Exception ex) {
@@ -143,6 +150,25 @@ class MenuToolbarController extends Observable implements
 						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
 			}
 		}
+	}
+
+	/**
+	 * @param tglBtn
+	 */
+	private void handleToggleEvent(final JToggleButton tglBtn) {
+		this.model.setModeToggleChanging(true);
+
+		if (tglBtn.getActionCommand().equals(TOGGLE_PICKING.toString())) {
+			this.model.getEditModeComboModel().setSelectedItem(Mode.PICKING);
+		} else if (tglBtn.getActionCommand().equals(TOGGLE_EDITING.toString())) {
+			this.model.getEditModeComboModel().setSelectedItem(Mode.EDITING);
+		} else if (tglBtn.getActionCommand().equals(
+				TOGGLE_TRANSFORMING.toString())) {
+			this.model.getEditModeComboModel().setSelectedItem(
+					Mode.TRANSFORMING);
+		}
+		
+		this.model.setModeToggleChanging(false);
 	}
 
 	/*
@@ -225,7 +251,7 @@ class MenuToolbarController extends Observable implements
 	 * java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
 	 */
 	@Override
-	public void windowClosing(WindowEvent e) {
+	public void windowClosing(final WindowEvent e) {
 		try {
 			this.handleExitEvent();
 		} catch (CoreException | GravisGraphIOException ex) {
@@ -288,7 +314,7 @@ class MenuToolbarController extends Observable implements
 	 * @throws CoreException
 	 * 
 	 */
-	private void handleAlgorithmEvent(String item) throws CoreException {
+	private void handleAlgorithmEvent(final String item) throws CoreException {
 		// ignore title entry
 		if (item.equals(IAppModel.DEFAULT_ALGO_ENTRY)) {
 			this.model.resetStepEnabledState();
@@ -357,18 +383,33 @@ class MenuToolbarController extends Observable implements
 	 * @param mode
 	 * 
 	 */
-	private void handleModeEvent(Mode mode) {
-		this.model.setPopupEditMode(mode);
-		if (this.model.getStepIterator() != null && mode == Mode.EDITING) {
-			// update model
-			// TODO besser lösen: ev. Methode initStepEnableState
-			this.model.setStepEnabledState(this.model.getStepIterator());
+	private void handleModeEvent(final Mode mode) {
+		if (!this.model.isModeComboChanging()) {
+			this.model.setModeComboChanging(true);
 
-			// update view
-			this.setChanged();
-			this.notifyObservers();
-			this.setChanged();
-			this.notifyObservers(this.model.createStepModel());
+			this.model.setPopupEditMode(mode);
+			
+			if (mode == Mode.PICKING) {
+				this.model.getPickingToggleModel().setSelected(true);
+			} else if (mode == Mode.EDITING) {
+				this.model.getEditingToggleModel().setSelected(true);
+			} else if (mode == Mode.TRANSFORMING) {
+				this.model.getTransformingToggleModel().setSelected(true);
+			}
+			
+			if (this.model.getStepIterator() != null && mode == Mode.EDITING) {
+				// update model
+				// TODO besser lösen: ev. Methode initStepEnableState
+				this.model.setStepEnabledState(this.model.getStepIterator());
+
+				// update view
+				this.setChanged();
+				this.notifyObservers();
+				this.setChanged();
+				this.notifyObservers(this.model.createStepModel());
+			}
+			
+			this.model.setModeComboChanging(false);
 		}
 	}
 
@@ -378,7 +419,7 @@ class MenuToolbarController extends Observable implements
 	 * @throws CoreException
 	 * @throws GravisGraphIOException
 	 */
-	private void handleNewGraphEvent(EdgeType edgeType) throws CoreException,
+	private void handleNewGraphEvent(final EdgeType edgeType) throws CoreException,
 			GravisGraphIOException {
 		// handle unsaved graph
 		if (this.model.isGraphUnsaved() && this.confirmDialogAdapter != null) {
@@ -412,9 +453,10 @@ class MenuToolbarController extends Observable implements
 	/**
 	 * 
 	 * @throws CoreException
-	 * @throws GravisGraphIOException 
+	 * @throws GravisGraphIOException
 	 */
-	private void handleOpenGraphEvent() throws CoreException, GravisGraphIOException {
+	private void handleOpenGraphEvent() throws CoreException,
+			GravisGraphIOException {
 		if (this.fileChooserAdapter != null
 				&& this.messageDialogAdapter != null) {
 			// handle unsaved graph
@@ -489,7 +531,7 @@ class MenuToolbarController extends Observable implements
 	 * Try to open the file selected from FileChooser.
 	 * 
 	 * @throws CoreException
-	 * @throws GravisGraphIOException 
+	 * @throws GravisGraphIOException
 	 */
 	private void openGraph() throws CoreException, GravisGraphIOException {
 		while (this.fileChooserAdapter.showOpenDialog() == JFileChooser.APPROVE_OPTION) {

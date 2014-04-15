@@ -14,7 +14,6 @@ import ch.bfh.bti7301.hs2013.gravis.gui.GuiFactory;
  * 
  */
 public class GravisStartup {
-
 	// TODO stackTrace angeben
 	private final static String STARTUP_ERROR = "Fehler beim Starten der Applikation:%s%s";
 	private final static String TITLE = "Graph Visualizer";
@@ -29,6 +28,10 @@ public class GravisStartup {
 			@Override
 			public void run() {
 				try {
+					// TODO set Look and Feel
+//					UIManager.setLookAndFeel(
+//				            UIManager.getSystemLookAndFeelClassName());
+					
 					GuiFactory.createGUI(CoreFactory.createCore());
 				} catch (Exception e) {
 					// TODO stackTrace angeben

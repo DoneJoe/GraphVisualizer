@@ -20,7 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
-import ch.bfh.bti7301.hs2013.gravis.gui.verifier.GraphIdVerifier;
+import ch.bfh.bti7301.hs2013.gravis.gui.verifier.GraphNameVerifier;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -46,7 +46,7 @@ public class GraphPropertyDialog extends JDialog {
 	 * @param owner 
 	 * @param graph 
 	 */
-	public GraphPropertyDialog(IGravisGraph graph, JFrame owner) {
+	public GraphPropertyDialog(final IGravisGraph graph, final JFrame owner) {
 		super(owner, true);
 		
 		this.setTitle(String.format(TITLE, graph.getName()));
@@ -122,7 +122,7 @@ public class GraphPropertyDialog extends JDialog {
 	/**
 	 * @param graph
 	 */
-	private void updateTextFieldValues(IGravisGraph graph) {
+	private void updateTextFieldValues(final IGravisGraph graph) {
 		graph.setName(this.txtGraphName.getText().trim());
 		graph.setDescription(this.textAreaGraphDescription.getText().trim());
 		this.dispose();
@@ -131,11 +131,11 @@ public class GraphPropertyDialog extends JDialog {
 	/**
 	 * @param graph
 	 */
-	private void setTextFieldValues(IGravisGraph graph) {
+	private void setTextFieldValues(final IGravisGraph graph) {
 		this.txtGraphName.setText(graph.getName());
 		this.textAreaGraphDescription.setText(graph.getDescription());
 
-		this.txtGraphName.setInputVerifier(new GraphIdVerifier(
+		this.txtGraphName.setInputVerifier(new GraphNameVerifier(
 				this.txtGraphName.getText().trim()));
 	}
 

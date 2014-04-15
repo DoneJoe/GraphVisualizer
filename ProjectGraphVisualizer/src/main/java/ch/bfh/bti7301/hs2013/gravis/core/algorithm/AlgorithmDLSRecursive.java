@@ -41,7 +41,7 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 	 * (ch.bfh .bti7301.hs2013.gravis.graph.IImmutableGraph)
 	 */
 	@Override
-	public void execute(IRestrictedGraph graph) {
+	public void execute(final IRestrictedGraph graph) {
 		IGraphUpdateHandler updateHandler = GraphFactory
 				.createGraphUpdateHandler(graph);
 		IRestrictedVertex lastVertex = null;
@@ -60,7 +60,7 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 		}
 
 		if (lastVertex != null) {
-			lastVertex.appendToNewComment(END_MSG2);
+			lastVertex.appendComment(END_MSG2);
 			updateHandler.add(lastVertex, false, false);
 			updateHandler.update();
 		}
@@ -73,8 +73,8 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 	 * @param vertex1
 	 * @return boolean
 	 */
-	private boolean visit(IRestrictedGraph graph,
-			IGraphUpdateHandler updateHandler, IRestrictedVertex vertex1) {
+	private boolean visit(final IRestrictedGraph graph,
+			final IGraphUpdateHandler updateHandler, final IRestrictedVertex vertex1) {
 		updateHandler.add(vertex1, State.VISIT, true, true, false, true);
 		updateHandler.update();
 
@@ -119,9 +119,9 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 	 * @param vertex1
 	 * @param vertexIterator
 	 */
-	private void activateVertex(IRestrictedGraph graph,
-			IGraphUpdateHandler updateHandler, IRestrictedVertex vertex1,
-			Iterator<? extends IRestrictedVertex> vertexIterator) {
+	private void activateVertex(final IRestrictedGraph graph,
+			final IGraphUpdateHandler updateHandler, final IRestrictedVertex vertex1,
+			final Iterator<? extends IRestrictedVertex> vertexIterator) {
 
 		if (vertexIterator.hasNext()) {
 			updateHandler.add(vertex1, State.ACTIVATION, true, true);
@@ -137,8 +137,8 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 	 * @param updateHandler
 	 * @param vertex1
 	 */
-	private void tagSolvedEdges(IRestrictedGraph graph,
-			IGraphUpdateHandler updateHandler, IRestrictedVertex vertex1) {
+	private void tagSolvedEdges(final IRestrictedGraph graph,
+			final IGraphUpdateHandler updateHandler, final IRestrictedVertex vertex1) {
 
 		for (IRestrictedVertex vertex : graph.getSuccessors(vertex1)) {
 			IRestrictedEdge edge = graph.findEdge(vertex1, vertex);
@@ -156,12 +156,12 @@ class AlgorithmDLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 	 * @param updateHandler
 	 * @return boolean
 	 */
-	private boolean updateEndVertexMessage(IRestrictedVertex endVertex,
-			IGraphUpdateHandler updateHandler) {
+	private boolean updateEndVertexMessage(final IRestrictedVertex endVertex,
+			final IGraphUpdateHandler updateHandler) {
 
 		if (endVertex.isEnd()) {
 			updateHandler.add(endVertex, State.SOLUTION, true, String.format(
-					END_MSG1, endVertex.getId()), ++this.counter, true, false, true);
+					END_MSG1, endVertex.getName()), ++this.counter, true, false, true);
 			updateHandler.update();
 			
 			updateHandler.add(endVertex, State.SOLUTION, false, false);

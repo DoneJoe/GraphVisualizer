@@ -13,7 +13,7 @@ import edu.uci.ics.jung.graph.Graph;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class GraphItemIdVerifier extends AbstractGravisVerifier {
+public class GraphItemNameVerifier extends AbstractGravisVerifier {
 
 	private final IGraphItem graphItem;
 
@@ -25,7 +25,7 @@ public class GraphItemIdVerifier extends AbstractGravisVerifier {
 	 * @param graphItem
 	 * @param graph
 	 */
-	public GraphItemIdVerifier(String lastGood, IGraphItem graphItem,
+	public GraphItemNameVerifier(String lastGood, IGraphItem graphItem,
 			Graph<IVertex, IEdge> graph) {
 		super(lastGood);
 		this.graphItem = graphItem;
@@ -38,7 +38,7 @@ public class GraphItemIdVerifier extends AbstractGravisVerifier {
 	 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
 	 */
 	@Override
-	public boolean verify(JComponent input) {
+	public boolean verify(final JComponent input) {
 		if (input instanceof JTextComponent
 				&& this.graph instanceof IGravisGraph) {
 			JTextComponent textField = (JTextComponent) input;
@@ -46,7 +46,7 @@ public class GraphItemIdVerifier extends AbstractGravisVerifier {
 			
 			return !textField.getText().trim().isEmpty()
 					&& (textField.getText()
-							.equals(this.graphItem.getId()) || !gravisGraph
+							.equals(this.graphItem.getName()) || !gravisGraph
 							.containsItemName(textField.getText().trim()));
 		}
 

@@ -61,7 +61,7 @@ abstract class AbstractVisualizationState implements IVisualizationState {
 
 		if (!currentItem.getNewComment().isEmpty()) {
 			command = new CommentCommand(String.format(UNDO_MSG,
-					currentItem.getId()), currentItem.getNewComment());
+					currentItem.getName()), currentItem.getNewComment());
 			command.execute();
 			complexCommand.add(command);
 		}

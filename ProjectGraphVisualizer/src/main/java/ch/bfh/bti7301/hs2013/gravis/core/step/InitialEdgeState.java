@@ -22,12 +22,12 @@ public class InitialEdgeState extends AbstractVisualizationState {
 
 	@Override
 	public String getStateDoMessage(IGraphItem currentItem) {
-		return String.format(E_DO_MSG, currentItem.getId());
+		return String.format(E_DO_MSG, currentItem.getName());
 	}
 
 	@Override
 	public String getStateUndoMessage(IGraphItem currentItem) {
-		return String.format(E_UNDO_MSG, currentItem.getId());
+		return String.format(E_UNDO_MSG, currentItem.getName());
 	}
 
 	/*

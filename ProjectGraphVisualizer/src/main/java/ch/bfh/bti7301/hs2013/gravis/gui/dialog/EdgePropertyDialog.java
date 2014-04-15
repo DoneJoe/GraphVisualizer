@@ -13,7 +13,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.util.ValueTransformer;
 import ch.bfh.bti7301.hs2013.gravis.gui.verifier.EdgeWeightVerifier;
-import ch.bfh.bti7301.hs2013.gravis.gui.verifier.GraphItemIdVerifier;
+import ch.bfh.bti7301.hs2013.gravis.gui.verifier.GraphItemNameVerifier;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 import java.awt.GridLayout;
@@ -48,11 +48,11 @@ public class EdgePropertyDialog extends JDialog {
 	 * @param owner
 	 * @param edge
 	 */
-	public EdgePropertyDialog(IEdge edge, JFrame owner,
-			VisualizationViewer<IVertex, IEdge> vViewer) {
+	public EdgePropertyDialog(final IEdge edge, final JFrame owner,
+			final VisualizationViewer<IVertex, IEdge> vViewer) {
 		super(owner, true);
 
-		this.setTitle(String.format(TITLE, edge.getId()));
+		this.setTitle(String.format(TITLE, edge.getName()));
 
 		JPanel contentPanel = new JPanel();
 		this.setResizable(false);
@@ -121,10 +121,10 @@ public class EdgePropertyDialog extends JDialog {
 	 * @param edge
 	 * @param vViewer
 	 */
-	protected void updateTextFieldValues(IEdge edge,
-			VisualizationViewer<IVertex, IEdge> vViewer) {
+	protected void updateTextFieldValues(final IEdge edge,
+			final VisualizationViewer<IVertex, IEdge> vViewer) {
 
-		edge.setId(this.txtEdgeName.getText().trim());
+		edge.setName(this.txtEdgeName.getText().trim());
 		edge.setWeight(ValueTransformer.round2Decimals(ValueTransformer
 				.transformDouble(this.txtEdgeWeight.getText())));
 		vViewer.repaint();
@@ -135,13 +135,13 @@ public class EdgePropertyDialog extends JDialog {
 	 * @param edge
 	 * @param vViewer
 	 */
-	private void setTextFieldValues(IEdge edge,
-			VisualizationViewer<IVertex, IEdge> vViewer) {
+	private void setTextFieldValues(final IEdge edge,
+			final VisualizationViewer<IVertex, IEdge> vViewer) {
 
-		this.txtEdgeName.setText(edge.getId());
+		this.txtEdgeName.setText(edge.getName());
 		this.txtEdgeWeight.setText(String.valueOf(edge.getWeight()));
 
-		this.txtEdgeName.setInputVerifier(new GraphItemIdVerifier(
+		this.txtEdgeName.setInputVerifier(new GraphItemNameVerifier(
 				this.txtEdgeName.getText().trim(), edge, vViewer
 						.getGraphLayout().getGraph()));
 		this.txtEdgeWeight.setInputVerifier(new EdgeWeightVerifier(

@@ -43,7 +43,7 @@ class DeleteVertexMenuItem extends JMenuItem implements
 	 * 
 	 * @param vViewer
 	 */
-	private void deleteVertex(VisualizationViewer<IVertex, IEdge> vViewer) {
+	private void deleteVertex(final VisualizationViewer<IVertex, IEdge> vViewer) {
 		if (this.vertex != null) {
 			vViewer.getPickedVertexState().pick(this.vertex, false);
 			vViewer.getGraphLayout().getGraph().removeVertex(this.vertex);
@@ -60,10 +60,10 @@ class DeleteVertexMenuItem extends JMenuItem implements
 	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
-	public void setGraphItemAndView(IGraphItem item) {
+	public void setGraphItemAndView(final IGraphItem item) {
 		if (item instanceof IVertex) {
 			this.vertex = (IVertex) item;
-			this.setText(String.format(DELETE_VERTEX_LABEL, this.vertex.getId()));
+			this.setText(String.format(DELETE_VERTEX_LABEL, this.vertex.getName()));
 		}
 	}
 

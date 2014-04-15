@@ -37,10 +37,10 @@ class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge> {
 	 * @param vertexPopup
 	 * @param vertexCreatePopup
 	 */
-	public GravisModalGraphMouse(RenderContext<IVertex, IEdge> rc,
-			Factory<IVertex> vertexFactory, Factory<IEdge> edgeFactory,
-			JPopupMenu edgePopup, JPopupMenu vertexPopup,
-			VertexCreateMenu vertexCreatePopup) {
+	public GravisModalGraphMouse(final RenderContext<IVertex, IEdge> rc,
+			final Factory<IVertex> vertexFactory, final Factory<IEdge> edgeFactory,
+			final JPopupMenu edgePopup, final JPopupMenu vertexPopup,
+			final VertexCreateMenu vertexCreatePopup) {
 
 		super(rc, vertexFactory, edgeFactory);
 

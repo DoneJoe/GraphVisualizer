@@ -42,7 +42,7 @@ class EndVertexCheckBox extends JCheckBoxMenuItem implements
 	 * 
 	 * @param vViewer
 	 */
-	private void setValue(VisualizationViewer<IVertex, IEdge> vViewer) {
+	private void setValue(final VisualizationViewer<IVertex, IEdge> vViewer) {
 		if (this.vertex != null) {
 			this.vertex.setEnd(this.isSelected());
 			vViewer.repaint();
@@ -57,7 +57,7 @@ class EndVertexCheckBox extends JCheckBoxMenuItem implements
 	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
-	public void setGraphItemAndView(IGraphItem item) {
+	public void setGraphItemAndView(final IGraphItem item) {
 		if (item instanceof IVertex) {
 			this.vertex = (IVertex) item;
 			this.setSelected(this.vertex.isEnd());

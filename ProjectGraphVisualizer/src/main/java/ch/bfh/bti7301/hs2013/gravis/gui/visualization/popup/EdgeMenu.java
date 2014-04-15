@@ -10,29 +10,30 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- *
+ * 
  */
 public class EdgeMenu extends JPopupMenu {
 
 	private static final long serialVersionUID = 2640685878709501654L;
 
 	private final static String TITLE = "Kanten";
-	
+
 	/**
 	 * 
 	 * @param vViewer
-	 * @param owner 
-	 * @param model 
+	 * @param owner
+	 * @param model
 	 */
-	public EdgeMenu(VisualizationViewer<IVertex, IEdge> vViewer, JFrame owner, IAppModel model) {
+	public EdgeMenu(final VisualizationViewer<IVertex, IEdge> vViewer,
+			final JFrame owner, final IAppModel model) {
 		super(TITLE);
-		
+
 		DeleteEdgeMenuItem deleteEdgeMenuItem = new DeleteEdgeMenuItem(vViewer);
 		model.setDeleteEdgeButtonModel(deleteEdgeMenuItem.getModel());
-		
+
 		this.add(new EdgePropertyMenuItem(vViewer, owner));
 		this.addSeparator();
 		this.add(deleteEdgeMenuItem);
 	}
-	
+
 }

@@ -31,7 +31,7 @@ public class GravisPickingGraphMousePlugin extends
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void mouseDragged(MouseEvent e) {
+	public void mouseDragged(final MouseEvent e) {
 		if (this.locked == false) {
 			VisualizationViewer<IVertex, IEdge> vv = 
 					(VisualizationViewer<IVertex, IEdge>) e.getSource();

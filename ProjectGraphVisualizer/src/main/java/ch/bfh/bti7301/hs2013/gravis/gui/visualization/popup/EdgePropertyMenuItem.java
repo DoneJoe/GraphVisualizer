@@ -22,7 +22,7 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 	private static final long serialVersionUID = -1894264493446725645L;
 
 	private final static String TITLE = "Kante bearbeiten...";
-	
+
 	private IEdge edge = null;
 
 	private Point2D point = null;
@@ -32,7 +32,8 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 	 * @param owner
 	 * 
 	 */
-	protected EdgePropertyMenuItem(final VisualizationViewer<IVertex, IEdge> vViewer,
+	protected EdgePropertyMenuItem(
+			final VisualizationViewer<IVertex, IEdge> vViewer,
 			final JFrame owner) {
 		super(TITLE);
 
@@ -48,7 +49,9 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 	 * @param vViewer
 	 * @param owner
 	 */
-	protected void showDialog(VisualizationViewer<IVertex, IEdge> vViewer, JFrame owner) {
+	protected void showDialog(
+			final VisualizationViewer<IVertex, IEdge> vViewer,
+			final JFrame owner) {
 		if (this.point != null && this.edge != null) {
 			EdgePropertyDialog dialog = new EdgePropertyDialog(this.edge,
 					owner, vViewer);
@@ -67,7 +70,7 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
-	public void setGraphItemAndView(IGraphItem item) {
+	public void setGraphItemAndView(final IGraphItem item) {
 		if (item instanceof IEdge) {
 			this.edge = (IEdge) item;
 		}
@@ -81,7 +84,7 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 	 * setGraphItemLocation(java.awt.geom.Point2D)
 	 */
 	@Override
-	public void setGraphItemLocation(Point2D point) {
+	public void setGraphItemLocation(final Point2D point) {
 		if (point != null) {
 			this.point = point;
 		}

@@ -21,7 +21,7 @@ public interface IRestrictedGraphItem {
 	/**
 	 * @param comment
 	 */
-	public abstract void appendToNewComment(String comment);
+	public abstract void appendComment(String comment);
 
 	/**
 	 * 
@@ -44,9 +44,9 @@ public interface IRestrictedGraphItem {
 
 	/**
 	 * 
-	 * @return String id
+	 * @return name
 	 */
-	public abstract String getId();
+	public abstract String getName();
 
 	/**
 	 * 

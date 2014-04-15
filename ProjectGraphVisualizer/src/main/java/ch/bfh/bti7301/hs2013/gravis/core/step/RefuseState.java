@@ -56,10 +56,10 @@ public class RefuseState extends AbstractVisualizationState {
 	@Override
 	protected String getStateDoMessage(IGraphItem currentItem) {
 		if (currentItem instanceof IVertex) {
-			return String.format(V_DO_MSG, currentItem.getId());
+			return String.format(V_DO_MSG, currentItem.getName());
 		}
 
-		return String.format(E_DO_MSG, currentItem.getId());
+		return String.format(E_DO_MSG, currentItem.getName());
 	}
 
 	/*
@@ -72,10 +72,10 @@ public class RefuseState extends AbstractVisualizationState {
 	@Override
 	protected String getStateUndoMessage(IGraphItem currentItem) {
 		if (currentItem instanceof IVertex) {
-			return String.format(V_UNDO_MSG, currentItem.getId());
+			return String.format(V_UNDO_MSG, currentItem.getName());
 		}
 
-		return String.format(E_UNDO_MSG, currentItem.getId());
+		return String.format(E_UNDO_MSG, currentItem.getName());
 	}
 
 }

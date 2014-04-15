@@ -6,6 +6,7 @@ import javax.swing.BoundedRangeModel;
 import javax.swing.ButtonModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JToggleButton;
 
 import ch.bfh.bti7301.hs2013.gravis.core.CoreException;
 import ch.bfh.bti7301.hs2013.gravis.core.ICore;
@@ -24,24 +25,29 @@ class AppModel implements IAppModel {
 
 	private IEditGraphObservable graph;
 
-	private boolean graphItemsEdited, graphUnsaved, playing;
-	
+	private boolean graphItemsEdited, graphUnsaved, playing, modeToggleChanging,
+	modeComboChanging;
+
 	private CalculationState calcState;
-	
+
 	private DefaultComboBoxModel<String> algoComboModel;
 
+	private JToggleButton.ToggleButtonModel pickingToggleModel,
+			editingToggleModel, transformingToggleModel;
+
 	private ComboBoxModel<?> editModeComboModel = null;
-	// TODO in VisualPanel setzen,in ToolbarPanel abrufen, keine Ruekgabe von VisualPanel 
+	// TODO in VisualPanel setzen,in ToolbarPanel abrufen, keine Ruekgabe von
+	// VisualPanel
 
 	private ButtonModel deleteEdgeButtonModel = null,
 			vertexCreateButtonModel = null, deleteVertexButtonModel = null,
 			beginningButtonModel = null, endButtonModel = null,
 			backButtonModel = null, forwardButtonModel = null;
 
-	private BoundedRangeModel progressBarModel = null; 
-	
+	private BoundedRangeModel progressBarModel = null;
+
 	private IGravisListIterator<String> stepIterator = null;
-	
+
 	private File graphFile = null;
 
 	/**
@@ -49,7 +55,7 @@ class AppModel implements IAppModel {
 	 * @param core
 	 * @throws CoreException
 	 */
-	protected AppModel(ICore core) throws CoreException {
+	protected AppModel(final ICore core) throws CoreException {
 		// creates an empty graph
 		this.graph = GraphFactory.createDirectedEditGraphDecorator();
 		this.graphUnsaved = this.graphItemsEdited = false;
@@ -57,6 +63,11 @@ class AppModel implements IAppModel {
 		this.calcState = CalculationState.NOT_CALCULABLE;
 		this.setAlgorithmComboModel(core.getAlgorithmNames(this.graph
 				.getEdgeType()));
+		
+		this.modeToggleChanging = this.modeComboChanging = false;
+		this.pickingToggleModel = new JToggleButton.ToggleButtonModel();
+		this.editingToggleModel = new JToggleButton.ToggleButtonModel();
+		this.transformingToggleModel = new JToggleButton.ToggleButtonModel();
 	}
 
 	/*
@@ -477,4 +488,71 @@ class AppModel implements IAppModel {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel#getPickingToggleModel()
+	 */
+	@Override
+	public ButtonModel getPickingToggleModel() {
+		return this.pickingToggleModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel#getEditingToggleModel()
+	 */
+	@Override
+	public ButtonModel getEditingToggleModel() {
+		return this.editingToggleModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel#getTransformingToggleModel
+	 * ()
+	 */
+	@Override
+	public ButtonModel getTransformingToggleModel() {
+		return this.transformingToggleModel;
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel#isModeToggleChanging()
+	 */
+	@Override
+	public boolean isModeToggleChanging() {
+		return this.modeToggleChanging;
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel#setModeToggleChanging(boolean)
+	 */
+	@Override
+	public void setModeToggleChanging(boolean modeChanging) {
+		this.modeToggleChanging = modeChanging;
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel#isModeComboChanging()
+	 */
+	@Override
+	public boolean isModeComboChanging() {
+		return this.modeComboChanging;
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.bti7301.hs2013.gravis.gui.model.IAppModel#setModeComboChanging(boolean)
+	 */
+	@Override
+	public void setModeComboChanging(boolean modeChanging) {
+		this.modeComboChanging = modeChanging;
+	}
+
+	
 }

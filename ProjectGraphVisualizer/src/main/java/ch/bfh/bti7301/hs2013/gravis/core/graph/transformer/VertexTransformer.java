@@ -28,7 +28,7 @@ public class VertexTransformer implements Transformer<NodeMetadata, IVertex> {
 		IVertex vertex = this.vertexFactory.create();
 		String color = vertexMeta.getProperty(GravisConstants.V_COLOR);
 		
-		vertex.setId(vertexMeta.getId());
+		vertex.setName(vertexMeta.getId());
 		vertex.setCurrentColor(color == null ? GravisConstants.V_FILL_COLOR_DEFAULT : 
 			ValueTransformer.transformStringToColor(color));		
 		

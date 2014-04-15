@@ -7,12 +7,12 @@ import javax.swing.text.JTextComponent;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public class GraphIdVerifier extends AbstractGravisVerifier {
+public class GraphNameVerifier extends AbstractGravisVerifier {
 
 	/**
 	 * @param lastGood 
 	 */
-	public GraphIdVerifier(String lastGood) {
+	public GraphNameVerifier(String lastGood) {
 		super(lastGood);
 	}
 
@@ -20,7 +20,7 @@ public class GraphIdVerifier extends AbstractGravisVerifier {
 	 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
 	 */
 	@Override
-	public boolean verify(JComponent input) {
+	public boolean verify(final JComponent input) {
 		if (input instanceof JTextComponent) {
 			JTextComponent textField = (JTextComponent) input;
 			

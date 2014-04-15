@@ -21,7 +21,7 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 </key>
 <key id="vertexColor" for="node">
 <desc></desc>
-<default>red</default>
+<default>antique</default>
 </key>
 <key id="vertexLocation.x" for="node">
 <desc></desc>
@@ -43,36 +43,61 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <desc></desc>
 <default>black</default>
 </key>
-<graph id="gerichteter Graph 12" edgedefault="directed">
+<graph id="gerichteter Graph 12" edgedefault="undirected">
 <data key="description">gerichteter Graph 12</data>
-<node id="20">
-<data key="vertexLocation.y">175</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">green</data>
-<data key="vertexLocation.x">325</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
 <node id="19">
-<data key="vertexLocation.y">315</data>
+<data key="vertexLocation.y">106</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">blue</data>
-<data key="vertexLocation.x">759</data>
+<data key="vertexLocation.x">366</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="10">
+<data key="vertexLocation.y">505</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">1212</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="20">
+<data key="vertexLocation.y">125</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">green</data>
+<data key="vertexLocation.x">919</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
 <node id="18">
-<data key="vertexLocation.y">159</data>
+<data key="vertexLocation.y">527</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">green</data>
-<data key="vertexLocation.x">693</data>
-<data key="startVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">625</data>
+<data key="startVertex">true</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<edge id="21" directed="false" source="19" target="20">
+<edge id="5" source="18" target="20">
+<data key="weight">1.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="8" source="18" target="18">
+<data key="weight">12.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="9" source="19" target="18">
+<data key="weight">1.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="11" source="10" target="18">
+<data key="weight">1.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="21" source="19" target="20">
 <data key="weight">1.0</data>
 <data key="edgeColor">red</data>
 </edge>

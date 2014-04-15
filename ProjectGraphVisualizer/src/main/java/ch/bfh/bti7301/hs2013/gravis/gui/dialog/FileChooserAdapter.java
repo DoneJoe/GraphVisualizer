@@ -23,7 +23,7 @@ public class FileChooserAdapter extends AbstractDialogAdapter {
 	 * 
 	 * @param parent
 	 */
-	public FileChooserAdapter(Component parent) {
+	public FileChooserAdapter(final Component parent) {
 		super(parent);
 		
 		this.fileChooser = new JFileChooser();

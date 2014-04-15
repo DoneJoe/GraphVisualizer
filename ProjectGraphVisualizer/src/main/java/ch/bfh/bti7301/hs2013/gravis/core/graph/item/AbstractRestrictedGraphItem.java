@@ -22,7 +22,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	 * @param item
 	 *            the item
 	 */
-	protected AbstractRestrictedGraphItem(final IGraphItem item) {
+	protected AbstractRestrictedGraphItem(IGraphItem item) {
 		this.item = item;
 	}
 
@@ -33,8 +33,8 @@ public abstract class AbstractRestrictedGraphItem implements
 	 * appendComment(java.lang.String)
 	 */
 	@Override
-	public void appendToNewComment(String comment) {
-		this.item.appendToNewComment(comment);
+	public void appendComment(String comment) {
+		this.item.appendComment(comment);
 	}
 
 	/*
@@ -70,11 +70,11 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#getId()
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IItem#getName()
 	 */
 	@Override
-	public String getId() {
-		return this.item.getId();
+	public String getName() {
+		return this.item.getName();
 	}
 
 	/*

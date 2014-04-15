@@ -24,8 +24,8 @@ public class VertexMenu extends JPopupMenu {
 	 * @param owner
 	 * @param model
 	 */
-	public VertexMenu(VisualizationViewer<IVertex, IEdge> vViewer,
-			JFrame owner, IAppModel model) {
+	public VertexMenu(final VisualizationViewer<IVertex, IEdge> vViewer,
+			final JFrame owner, final IAppModel model) {
 		super(TITLE);
 
 		DeleteVertexMenuItem deleteVertexMenuItem = new DeleteVertexMenuItem(

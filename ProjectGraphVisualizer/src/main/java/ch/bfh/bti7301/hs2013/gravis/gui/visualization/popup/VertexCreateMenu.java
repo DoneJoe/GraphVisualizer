@@ -56,7 +56,7 @@ public class VertexCreateMenu extends JPopupMenu implements
 	 * 
 	 * @param viewer
 	 */
-	private void createVertex(GravisVisualizationViewer viewer) {
+	private void createVertex(final GravisVisualizationViewer viewer) {
 		if (this.point != null) {
 			IVertex newVertex = this.vertexFactory.create();
 			Layout<IVertex, IEdge> layout = viewer.getGraphLayout();

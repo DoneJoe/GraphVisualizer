@@ -42,7 +42,7 @@ class DeleteEdgeMenuItem extends JMenuItem implements
 	 * 
 	 * @param vViewer
 	 */
-	private void deleteEdge(VisualizationViewer<IVertex, IEdge> vViewer) {
+	private void deleteEdge(final VisualizationViewer<IVertex, IEdge> vViewer) {
 		vViewer.getPickedEdgeState().pick(this.edge, false);
 		vViewer.getGraphLayout().getGraph().removeEdge(this.edge);
 		vViewer.repaint();
@@ -57,10 +57,10 @@ class DeleteEdgeMenuItem extends JMenuItem implements
 	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
-	public void setGraphItemAndView(IGraphItem item) {
+	public void setGraphItemAndView(final IGraphItem item) {
 		if (item instanceof IEdge) {
 			this.edge = (IEdge) item;
-			this.setText(String.format(DELETE_EDGE_LABEL, this.edge.getId()));
+			this.setText(String.format(DELETE_EDGE_LABEL, this.edge.getName()));
 		}
 	}
 

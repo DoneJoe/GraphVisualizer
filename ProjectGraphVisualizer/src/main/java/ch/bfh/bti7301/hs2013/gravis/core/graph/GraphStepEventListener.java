@@ -42,7 +42,7 @@ class GraphStepEventListener implements GraphEventListener<IVertex, IEdge> {
 	 * uci.ics.jung.graph.event.GraphEvent)
 	 */
 	@Override
-	public void handleGraphEvent(GraphEvent<IVertex, IEdge> evt) {
+	public void handleGraphEvent(final GraphEvent<IVertex, IEdge> evt) {
 		if (evt instanceof GraphStepEvent) {
 			IGraphItem[] currentItems = ((GraphStepEvent) evt).getGraphItems();
 

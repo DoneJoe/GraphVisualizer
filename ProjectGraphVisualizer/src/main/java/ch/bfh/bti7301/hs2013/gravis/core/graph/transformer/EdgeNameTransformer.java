@@ -15,7 +15,7 @@ public class EdgeNameTransformer implements Transformer<IEdge, String> {
 	 */
 	@Override
 	public String transform(IEdge edge) {
-		return edge.getId();
+		return edge.getName();
 	}
 
 }

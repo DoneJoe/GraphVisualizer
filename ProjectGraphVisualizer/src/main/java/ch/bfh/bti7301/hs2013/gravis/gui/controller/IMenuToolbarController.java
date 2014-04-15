@@ -14,8 +14,8 @@ import ch.bfh.bti7301.hs2013.gravis.gui.dialog.MessageDialogAdapter;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public interface IMenuToolbarController extends ActionListener, WindowListener, ItemListener,
-		IGravisObservable {
+public interface IMenuToolbarController extends ActionListener, WindowListener,
+		ItemListener, IGravisObservable {
 
 	/**
 	 * This enum constants are usefull to distinguish between different kinds of
@@ -25,8 +25,9 @@ public interface IMenuToolbarController extends ActionListener, WindowListener, 
 	 * 
 	 */
 	public static enum EventSource {
-		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, SAVE_GRAPH_AS, GRAPH_PROPERTY, EXIT,
-		NEW_CALC, MODE, ALGORITHM
+		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, SAVE_GRAPH_AS, 
+		GRAPH_PROPERTY, EXIT, NEW_CALC, MODE, ALGORITHM, TOGGLE_PICKING, 
+		TOGGLE_EDITING, TOGGLE_TRANSFORMING
 	}
 
 	/**

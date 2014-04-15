@@ -22,7 +22,7 @@ public class EdgeWeightVerifier extends AbstractGravisVerifier {
 	 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
 	 */
 	@Override
-	public boolean verify(JComponent input) {
+	public boolean verify(final JComponent input) {
 		if (input instanceof JTextComponent) {
 			JTextComponent textField = (JTextComponent) input;
 

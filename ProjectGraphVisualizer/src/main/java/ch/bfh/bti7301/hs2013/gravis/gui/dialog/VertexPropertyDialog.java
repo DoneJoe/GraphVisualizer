@@ -13,7 +13,7 @@ import javax.swing.border.EmptyBorder;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.util.ValueTransformer;
-import ch.bfh.bti7301.hs2013.gravis.gui.verifier.GraphItemIdVerifier;
+import ch.bfh.bti7301.hs2013.gravis.gui.verifier.GraphItemNameVerifier;
 import ch.bfh.bti7301.hs2013.gravis.gui.verifier.VertexSizeVerifier;
 
 import java.awt.GridLayout;
@@ -57,7 +57,7 @@ public class VertexPropertyDialog extends JDialog {
 			final VisualizationViewer<IVertex, IEdge> vViewer) {
 		super(owner, true);
 
-		this.setTitle(String.format(TITLE, vertex.getId()));
+		this.setTitle(String.format(TITLE, vertex.getName()));
 
 		JPanel contentPanel = new JPanel();
 		this.setResizable(false);
@@ -104,7 +104,7 @@ public class VertexPropertyDialog extends JDialog {
 	 */
 	private void setListeners(final IVertex vertex,
 			final VisualizationViewer<IVertex, IEdge> vViewer,
-			JButton okButton, JButton cancelButton) {
+			final JButton okButton, JButton cancelButton) {
 
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -127,7 +127,7 @@ public class VertexPropertyDialog extends JDialog {
 	private void updateTextFieldValues(final IVertex vertex,
 			final VisualizationViewer<IVertex, IEdge> vViewer) {
 		
-		vertex.setId(this.txtVertexName.getText().trim());
+		vertex.setName(this.txtVertexName.getText().trim());
 		vertex.setWidth(ValueTransformer.transformDouble(this.txtWidth.getText().trim()));
 		vertex.setHeight(ValueTransformer.transformDouble(this.txtHeight.getText().trim()));
 		vViewer.repaint();
@@ -138,16 +138,16 @@ public class VertexPropertyDialog extends JDialog {
 	 * @param vertex
 	 * @param vViewer
 	 */
-	private void setTextFieldValues(IVertex vertex,
-			VisualizationViewer<IVertex, IEdge> vViewer) {
+	private void setTextFieldValues(final IVertex vertex,
+			final VisualizationViewer<IVertex, IEdge> vViewer) {
 
-		this.txtVertexName.setText(vertex.getId());
+		this.txtVertexName.setText(vertex.getName());
 		this.txtWidth.setText(String.valueOf(new Double(vertex.getWidth())
 				.intValue()));
 		this.txtHeight.setText(String.valueOf(new Double(vertex.getHeight())
 				.intValue()));
 
-		this.txtVertexName.setInputVerifier(new GraphItemIdVerifier(
+		this.txtVertexName.setInputVerifier(new GraphItemNameVerifier(
 				this.txtVertexName.getText().trim(), vertex, vViewer
 						.getGraphLayout().getGraph()));
 		this.txtWidth.setInputVerifier(new VertexSizeVerifier(this.txtWidth

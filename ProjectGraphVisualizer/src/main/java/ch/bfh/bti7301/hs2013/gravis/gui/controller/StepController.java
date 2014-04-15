@@ -30,7 +30,7 @@ class StepController extends Observable implements IStepController {
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals(BEGINNING.toString())) {
 			this.handleBeginningEvent();
 		} else if (e.getActionCommand().equals(BACK.toString())) {

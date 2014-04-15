@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.EdgeColorStringTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.EdgeNameTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.EdgeTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.EdgeWeightTransformer;
@@ -16,6 +17,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.GraphDescriptionTrans
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.GraphTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.HyperEdgeTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.StartVertexTransformer;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.VertexColorStringTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.VertexHeightTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.VertexLocationXTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.VertexLocationYTransformer;
@@ -23,6 +25,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.VertexNameTransformer
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.VertexTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.transformer.VertexWidthTransformer;
 import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
+import ch.bfh.bti7301.hs2013.gravis.core.util.ValueTransformer;
 import edu.uci.ics.jung.io.GraphIOException;
 import edu.uci.ics.jung.io.graphml.GraphMLReader2;
 
@@ -31,13 +34,13 @@ import edu.uci.ics.jung.io.graphml.GraphMLReader2;
  * 
  */
 class GraphIOManager implements IGraphIOManager {
+	// TODO Exception handling verbessern
 
 	private static final String GRAPH_IO_EXCEPTION_LOAD = "I/O Exception in GraphML-file %s!";
 	private static final String FILE_NOT_FOUND_EXCEPTION_LOAD = "GraphML-file not found: %s!";
 	private static final String EXCEPTION_LOAD = "Exception while loading data from "
 			+ "GraphML-file %s!";
-	private static final String FILE_NOT_FOUND_EXCEPTION_SAVE = 
-			"Exception while creating GraphML-file %s!";
+	private static final String FILE_NOT_FOUND_EXCEPTION_SAVE = "Exception while creating GraphML-file %s!";
 	private static final String IO_EXCEPTION_SAVE = "I/O Exception while saving GraphML-file %s!";
 	private static final String EXCEPTION_SAVE = "Exception while storing data to GraphML-file %s!";
 
@@ -61,7 +64,7 @@ class GraphIOManager implements IGraphIOManager {
 	 * .io.File)
 	 */
 	@Override
-	public IGravisGraph loadGraph(File file) throws GravisGraphIOException {
+	public IGravisGraph loadGraph(final File file) throws GravisGraphIOException {
 		try {
 			GraphMLReader2<IGravisGraph, IVertex, IEdge> graphReader = new GraphMLReader2<>(
 					new FileReader(file), this.graphTransformer,
@@ -74,14 +77,14 @@ class GraphIOManager implements IGraphIOManager {
 
 			return newGraph;
 		} catch (GraphIOException e) {
-			throw new GravisGraphIOException(String.format(GRAPH_IO_EXCEPTION_LOAD,
-					file.getName()), e);
+			throw new GravisGraphIOException(String.format(
+					GRAPH_IO_EXCEPTION_LOAD, file.getName()), e);
 		} catch (FileNotFoundException e) {
-			throw new GravisGraphIOException(String.format(FILE_NOT_FOUND_EXCEPTION_LOAD,
-					file.getName()), e);
+			throw new GravisGraphIOException(String.format(
+					FILE_NOT_FOUND_EXCEPTION_LOAD, file.getName()), e);
 		} catch (Exception e) {
 			throw new GravisGraphIOException(String.format(EXCEPTION_LOAD,
-							file.getName()), e);
+					file.getName()), e);
 		}
 	}
 
@@ -93,7 +96,8 @@ class GraphIOManager implements IGraphIOManager {
 	 * .bti7301.hs2013.gravis.core.graph.IGravisGraph, java.io.File)
 	 */
 	@Override
-	public void saveGraph(IGravisGraph graph, File file) throws GravisGraphIOException {
+	public void saveGraph(final IGravisGraph graph, final File file)
+			throws GravisGraphIOException {
 		try {
 			GravisGraphMLWriter graphWriter = new GravisGraphMLWriter();
 			PrintWriter writer = new PrintWriter(file);
@@ -104,10 +108,24 @@ class GraphIOManager implements IGraphIOManager {
 			graphWriter.addGraphData(GravisConstants.G_DESCRIPTION, "", "",
 					new GraphDescriptionTransformer());
 
+			graphWriter
+					.addEdgeData(
+							GravisConstants.E_COLOR,
+							"",
+							ValueTransformer
+									.transformColorToString(GravisConstants.E_COLOR_DEFAULT),
+							new EdgeColorStringTransformer());
 			graphWriter.addEdgeData(GravisConstants.E_WEIGHT, "",
 					String.valueOf(GravisConstants.E_WEIGHT_DEFAULT),
 					new EdgeWeightTransformer());
 
+			graphWriter
+					.addVertexData(
+							GravisConstants.V_COLOR,
+							"",
+							ValueTransformer
+									.transformColorToString(GravisConstants.V_FILL_COLOR_DEFAULT),
+							new VertexColorStringTransformer());
 			graphWriter.addVertexData(GravisConstants.V_START, "",
 					String.valueOf(GravisConstants.V_START_DEFAULT),
 					new StartVertexTransformer());
@@ -131,13 +149,14 @@ class GraphIOManager implements IGraphIOManager {
 
 			writer.close();
 		} catch (FileNotFoundException e) {
-			throw new GravisGraphIOException(String.format(FILE_NOT_FOUND_EXCEPTION_SAVE,
-					file.getName()), e);
+			throw new GravisGraphIOException(String.format(
+					FILE_NOT_FOUND_EXCEPTION_SAVE, file.getName()), e);
 		} catch (IOException e) {
 			throw new GravisGraphIOException(String.format(IO_EXCEPTION_SAVE,
 					file.getName()), e);
 		} catch (Exception e) {
-			throw new GravisGraphIOException(String.format(EXCEPTION_SAVE, file.getName()), e);
+			throw new GravisGraphIOException(String.format(EXCEPTION_SAVE,
+					file.getName()), e);
 		}
 	}
 

@@ -33,7 +33,7 @@ class VisualizationController extends Observable implements
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener.Type)
 	 */
 	@Override
-	public void handleGraphItemsChangedEvent(IGraphItem source, Type type) {
+	public void handleGraphItemsChangedEvent(final IGraphItem source, final Type type) {
 		// update model
 		this.model.resetStepEnabledState();
 		this.model.setGraphChanged(true);
@@ -54,7 +54,7 @@ class VisualizationController extends Observable implements
 	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph)
 	 */
 	@Override
-	public void handleGraphPropertiesChangedEvent(IGravisGraph source) {
+	public void handleGraphPropertiesChangedEvent(final IGravisGraph source) {
 		// update model
 		this.model.setGraphUnsaved(true);
 

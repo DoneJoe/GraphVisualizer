@@ -42,7 +42,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 * @param model
 	 * @param owner
 	 */
-	public VisualizationPanel(IAppModel model, JFrame owner) {
+	public VisualizationPanel(final IAppModel model, final JFrame owner) {
 		// create components
 		this.viewer = new GravisVisualizationViewer(
 				GuiFactory.createLayout(model.getGraph()));

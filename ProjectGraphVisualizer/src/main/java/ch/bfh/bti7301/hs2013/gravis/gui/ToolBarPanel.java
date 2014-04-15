@@ -19,8 +19,9 @@ import static ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JToggleButton;
+
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -42,18 +43,25 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	private static final String NEW_DIR_TOOLTIP = "Neuer gerichteter Graph";
 	private static final String NEW_UNDIR_LABEL = "U";
 	private static final String NEW_UNDIR_TOOLTIP = "Neuer ungerichteter Graph";
-	private static final String PROPERTIES_ICON = "Edit24.gif";
+	private static final String PROPERTIES_ICON = "GraphProperties_24.gif";
 	private static final String PROPERTIES_TOOLTIP = "Graph Eigenschaften...";
 
-	private static final String EDIT_MODE_LABEL = "Modus: ";
+	// private static final String EDIT_MODE_LABEL = "Modus: ";
 	private static final String MODE_TOOLTIP = "Bearbeitungs-Modus wählen";
+	private static final String PICKING_ICON = "Picking_24.png";
+	private static final String PICKING_TOOLTIP = "Knoten auswählen und verschieben";
+	private static final String EDITING_ICON = "Editing_24.png";
+	private static final String EDITING_TOOLTIP = "Elemente hinzufügen und löschen";
+	private static final String TRANSFORMING_ICON = "Transforming_24.png";
+	private static final String TRANSFORMING_TOOLTIP = "Graph verschieben und drehen";
+
 	private static final String ALGO_TOOLTIP = "Algorithmus wählen";
 	private static final String CALC_LABEL = "Neu berechnen";
 	private static final String CALC_TOOLTIP = "Schritte neu berechnen";
 
-	private JComboBox<String> comboBoxAlgorithm;
+	private final JComboBox<String> comboBoxAlgorithm;
 
-	private JButton btnNewCalculation;
+	private final JButton btnNewCalculation;
 
 	/**
 	 * Create the panel.
@@ -62,8 +70,8 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	 * @param menuToolbarController
 	 * @throws IOException
 	 */
-	public ToolBarPanel(IMenuToolbarController menuToolbarController,
-			IAppModel model) throws IOException {
+	public ToolBarPanel(final IMenuToolbarController menuToolbarController,
+			final IAppModel model) throws IOException {
 		this.setFloatable(false);
 
 		FlowLayout layout = new FlowLayout();
@@ -100,10 +108,30 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		btnGraphProp.setToolTipText(PROPERTIES_TOOLTIP);
 		this.add(btnGraphProp);
 
-		JLabel lblEditMode = new JLabel(EDIT_MODE_LABEL);
-		this.add(lblEditMode);
+		this.addSeparator();
+		// JLabel lblEditMode = new JLabel(EDIT_MODE_LABEL);
+		// this.add(lblEditMode);
 
-		JComboBox<?> comboBoxMode = null;
+		JToggleButton tglbtnPicking = new JToggleButton();
+		tglbtnPicking.setIcon(new ImageIcon(this.loadImage(PICKING_ICON)));
+		tglbtnPicking.setToolTipText(PICKING_TOOLTIP);
+		tglbtnPicking.setModel(model.getPickingToggleModel());
+		this.add(tglbtnPicking);
+
+		JToggleButton tglbtnEditing = new JToggleButton();
+		tglbtnEditing.setIcon(new ImageIcon(this.loadImage(EDITING_ICON)));
+		tglbtnEditing.setToolTipText(EDITING_TOOLTIP);
+		tglbtnEditing.setModel(model.getEditingToggleModel());
+		this.add(tglbtnEditing);
+
+		JToggleButton tglbtnTransforming = new JToggleButton();
+		tglbtnTransforming.setIcon(new ImageIcon(this
+				.loadImage(TRANSFORMING_ICON)));
+		tglbtnTransforming.setToolTipText(TRANSFORMING_TOOLTIP);
+		tglbtnTransforming.setModel(model.getTransformingToggleModel());
+		this.add(tglbtnTransforming);
+
+		JComboBox<?> comboBoxMode;
 		if (model.getEditModeComboModel() == null) {
 			comboBoxMode = new JComboBox<>();
 		} else {
@@ -112,17 +140,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		comboBoxMode.setToolTipText(MODE_TOOLTIP);
 		this.add(comboBoxMode);
 
-		JToggleButton tglbtnPicking = new JToggleButton("P");
-		tglbtnPicking.setIcon(new ImageIcon(this.loadImage(SAVE_ICON)));
-		this.add(tglbtnPicking);
-
-		JToggleButton tglbtnEditing = new JToggleButton("E");
-		tglbtnEditing.setIcon(new ImageIcon(this.loadImage(SAVE_AS_ICON)));
-		this.add(tglbtnEditing);
-
-		JToggleButton tglbtnTransforming = new JToggleButton("T");
-		tglbtnTransforming.setIcon(new ImageIcon(this.loadImage(OPEN_ICON)));
-		this.add(tglbtnTransforming);
+		this.addSeparator();
 
 		this.comboBoxAlgorithm = new JComboBox<>();
 		this.comboBoxAlgorithm.setToolTipText(ALGO_TOOLTIP);
@@ -149,6 +167,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		btnNewUndirGraph.addActionListener(menuToolbarController);
 		btnGraphProp.setActionCommand(EventSource.GRAPH_PROPERTY.toString());
 		btnGraphProp.addActionListener(menuToolbarController);
+		
 		comboBoxMode.setActionCommand(EventSource.MODE.toString());
 		comboBoxMode.addItemListener(menuToolbarController);
 		this.comboBoxAlgorithm.setActionCommand(EventSource.ALGORITHM
@@ -157,24 +176,20 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		this.btnNewCalculation
 				.setActionCommand(EventSource.NEW_CALC.toString());
 		this.btnNewCalculation.addActionListener(menuToolbarController);
-
+		
+		tglbtnPicking.setActionCommand(EventSource.TOGGLE_PICKING.toString());
+		tglbtnPicking.addItemListener(menuToolbarController);
+		tglbtnEditing.setActionCommand(EventSource.TOGGLE_EDITING.toString());
+		tglbtnEditing.addItemListener(menuToolbarController);
+		tglbtnTransforming.setActionCommand(EventSource.TOGGLE_TRANSFORMING
+				.toString());
+		tglbtnTransforming.addItemListener(menuToolbarController);
+		
 		ButtonGroup btnGroupEditMode = new ButtonGroup();
 		btnGroupEditMode.add(tglbtnPicking);
 		btnGroupEditMode.add(tglbtnEditing);
 		btnGroupEditMode.add(tglbtnTransforming);
-		// TODO finish implementation
-	}
-
-	/**
-	 * Loads an icon ressource with the given name.
-	 * 
-	 * @param iconName
-	 * @return Image
-	 * @throws IOException
-	 */
-	private Image loadImage(String iconName) throws IOException {
-		return ImageIO.read(this.getClass().getResourceAsStream(
-				IMAGES_DIR + iconName));
+		btnGroupEditMode.setSelected(tglbtnEditing.getModel(), true);
 	}
 
 	/*
@@ -190,7 +205,21 @@ public class ToolBarPanel extends JToolBar implements Observer {
 			this.comboBoxAlgorithm.setModel(model.getAlgorithmComboBoxModel());
 			this.comboBoxAlgorithm.setEnabled(model.isAlgoComboEnabled());
 			this.btnNewCalculation.setVisible(model.isNewCalcButtonVisible());
+		} else if (arg instanceof Mode) {
+			
 		}
+	}
+
+	/**
+	 * Loads an icon ressource with the given name.
+	 * 
+	 * @param iconName
+	 * @return Image
+	 * @throws IOException
+	 */
+	private Image loadImage(String iconName) throws IOException {
+		return ImageIO.read(this.getClass().getResourceAsStream(
+				IMAGES_DIR + iconName));
 	}
 
 }

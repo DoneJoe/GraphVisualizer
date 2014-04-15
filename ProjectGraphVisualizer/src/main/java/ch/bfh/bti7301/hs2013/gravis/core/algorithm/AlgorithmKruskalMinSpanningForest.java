@@ -56,7 +56,7 @@ public class AlgorithmKruskalMinSpanningForest extends AbstractAlgorithm {
 	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph)
 	 */
 	@Override
-	public void execute(IRestrictedGraph graph) throws AlgorithmException {
+	public void execute(final IRestrictedGraph graph) throws AlgorithmException {
 		this.checkEdgeType(graph);
 
 		this.counter = 0;
@@ -76,7 +76,7 @@ public class AlgorithmKruskalMinSpanningForest extends AbstractAlgorithm {
 				partitionMap, prioQueue, updateHandler);
 
 		if (selectedEdge != null) {
-			selectedEdge.appendToNewComment(END_MSG);
+			selectedEdge.appendComment(END_MSG);
 			updateHandler.add(selectedEdge);
 			updateHandler.update();
 		}
@@ -90,10 +90,10 @@ public class AlgorithmKruskalMinSpanningForest extends AbstractAlgorithm {
 	 * @param updateHandler
 	 * @return IRestrictedEdge
 	 */
-	private IRestrictedEdge buildSpanningForrest(IRestrictedGraph graph,
-			Map<IRestrictedVertex, Partition<IRestrictedVertex>> partitionMap,
-			PriorityQueue<IRestrictedEdge> prioQueue,
-			IGraphUpdateHandler updateHandler) {
+	private IRestrictedEdge buildSpanningForrest(final IRestrictedGraph graph,
+			final Map<IRestrictedVertex, Partition<IRestrictedVertex>> partitionMap,
+			final PriorityQueue<IRestrictedEdge> prioQueue,
+			final IGraphUpdateHandler updateHandler) {
 		IRestrictedEdge selectedEdge = null;
 
 		while (!prioQueue.isEmpty()) {
@@ -105,7 +105,7 @@ public class AlgorithmKruskalMinSpanningForest extends AbstractAlgorithm {
 					selectedEdge,
 					State.ACTIVATION,
 					true,
-					String.format(MIN_EDGE, selectedEdge.getId(),
+					String.format(MIN_EDGE, selectedEdge.getName(),
 							selectedEdge.getWeight()), true);
 			updateHandler.add(pair.getFirst(), State.ACTIVATION, true, true);
 			updateHandler.add(pair.getSecond(), State.ACTIVATION, true, true);
@@ -139,7 +139,7 @@ public class AlgorithmKruskalMinSpanningForest extends AbstractAlgorithm {
 						partitionMap.get(pair.getSecond()));
 			} else {
 				updateHandler.add(selectedEdge, State.REFUSE, true,
-						String.format(CIRCLE_EDGE, selectedEdge.getId()), true,
+						String.format(CIRCLE_EDGE, selectedEdge.getName()), true,
 						true);
 				updateHandler.update();
 
@@ -158,7 +158,7 @@ public class AlgorithmKruskalMinSpanningForest extends AbstractAlgorithm {
 	 * @param graph
 	 * @throws AlgorithmException
 	 */
-	private void checkEdgeType(IRestrictedGraph graph)
+	private void checkEdgeType(final IRestrictedGraph graph)
 			throws AlgorithmException {
 
 		if (graph.getEdgeType() == EdgeType.DIRECTED) {

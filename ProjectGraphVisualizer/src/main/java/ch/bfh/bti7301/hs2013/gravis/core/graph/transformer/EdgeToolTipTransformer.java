@@ -15,7 +15,7 @@ public class EdgeToolTipTransformer implements Transformer<IEdge, String> {
 	 */
 	@Override
 	public String transform(IEdge edge) {
-		return "Kante " + edge.getId();
+		return "Kante " + edge.getName();
 	}
 
 }

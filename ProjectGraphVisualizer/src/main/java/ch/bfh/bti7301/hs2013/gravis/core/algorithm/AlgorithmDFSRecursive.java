@@ -44,7 +44,7 @@ class AlgorithmDFSRecursive extends AbstractAlgorithm {
 	 * #execute(edu.uci.ics.jung.graph.Graph)
 	 */
 	@Override
-	public void execute(IRestrictedGraph graph) {
+	public void execute(final IRestrictedGraph graph) {
 		IGraphUpdateHandler updateHandler = GraphFactory
 				.createGraphUpdateHandler(graph);
 		IRestrictedVertex lastVertex = null;
@@ -63,7 +63,7 @@ class AlgorithmDFSRecursive extends AbstractAlgorithm {
 		}
 
 		if (lastVertex != null) {
-			lastVertex.appendToNewComment(END_MSG2);
+			lastVertex.appendComment(END_MSG2);
 			updateHandler.add(lastVertex, false, false);
 			updateHandler.update();
 		}
@@ -76,8 +76,8 @@ class AlgorithmDFSRecursive extends AbstractAlgorithm {
 	 * @param vertex1
 	 * @return boolean
 	 */
-	private boolean visit(IRestrictedGraph graph,
-			IGraphUpdateHandler updateHandler, IRestrictedVertex vertex1) {
+	private boolean visit(final IRestrictedGraph graph,
+			final IGraphUpdateHandler updateHandler, final IRestrictedVertex vertex1) {
 		
 		if (this.updateEndVertexMessage(vertex1, updateHandler)) {
 			return true;
@@ -117,12 +117,12 @@ class AlgorithmDFSRecursive extends AbstractAlgorithm {
 	 * @param updateHandler
 	 * @return boolean
 	 */
-	private boolean updateEndVertexMessage(IRestrictedVertex endVertex,
-			IGraphUpdateHandler updateHandler) {
+	private boolean updateEndVertexMessage(final IRestrictedVertex endVertex,
+			final IGraphUpdateHandler updateHandler) {
 
 		if (endVertex.isEnd()) {
 			updateHandler.add(endVertex, State.SOLUTION, true, String.format(
-					END_MSG1, endVertex.getId()), ++this.counter, true, false, true);
+					END_MSG1, endVertex.getName()), ++this.counter, true, false, true);
 			updateHandler.update();
 			
 			updateHandler.add(endVertex, State.SOLUTION, false, false);

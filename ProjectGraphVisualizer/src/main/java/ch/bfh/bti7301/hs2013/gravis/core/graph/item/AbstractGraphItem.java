@@ -15,8 +15,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 
 	private static int counter = 0;
 
-	// TODO nicht id, sondern name wie bei graph
-	private String id, newComment;
+	private String name, newComment;
 
 	private double currentResult, newResult;
 
@@ -39,7 +38,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 
 		// TODO weitere Events auslösen?
 		
-		this.id = String.valueOf(++counter);
+		this.name = String.valueOf(++counter);
 		this.newComment = "";
 		this.currentResult = this.newResult = Double.NaN;
 		this.currentState = State.INITIAL;
@@ -60,7 +59,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	 * appendComment(java.lang.String)
 	 */
 	@Override
-	public void appendToNewComment(String comment) {
+	public void appendComment(String comment) {
 		this.newComment += System.lineSeparator() + comment;
 	}
 
@@ -106,8 +105,8 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	}
 
 	@Override
-	public String getId() {
-		return this.id;
+	public String getName() {
+		return this.name;
 	}
 
 	/*
@@ -316,9 +315,9 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	}
 
 	@Override
-	public void setId(String id) {
-		boolean equal = this.id.equals(id.trim());
-		this.id = id.trim();
+	public void setName(String id) {
+		boolean equal = this.name.equals(id.trim());
+		this.name = id.trim();
 
 		if (!equal) {
 			this.fireGraphItemsChangedEvent(this);
@@ -442,7 +441,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	 */
 	@Override
 	public String toString() {
-		return this.getId();
+		return this.getName();
 	}
 
 	/**

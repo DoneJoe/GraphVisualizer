@@ -18,7 +18,7 @@ public class VertexToolTipTransformer implements Transformer<IVertex, String> {
 	 */
 	@Override
 	public String transform(IVertex vertex) {
-		return "Knoten " + vertex.getId() + ": (x = "
+		return "Knoten " + vertex.getName() + ": (x = "
 				+ new Double(vertex.getLocation().getX()).intValue() + ", y = "
 				+ new Double(vertex.getLocation().getY()).intValue() + ")";
 	}

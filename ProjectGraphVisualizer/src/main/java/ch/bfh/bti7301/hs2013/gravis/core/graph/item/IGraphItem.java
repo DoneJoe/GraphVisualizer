@@ -16,10 +16,9 @@ public interface IGraphItem extends IRestrictedGraphItem, IEditItemObservable, C
 	
 	/**
 	 * 
-	 * @param id
+	 * @param name
 	 */
-	// itemId ändern zu itemName
-	public abstract void setId(String id);
+	public abstract void setName(String name);
 
 	/**
 	 * 

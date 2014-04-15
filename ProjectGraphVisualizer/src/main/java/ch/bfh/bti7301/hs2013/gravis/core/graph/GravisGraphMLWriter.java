@@ -30,7 +30,7 @@ class GravisGraphMLWriter extends GraphMLWriter<IVertex, IEdge> {
 	 * java.io.Writer)
 	 */
 	@Override
-	public void save(Hypergraph<IVertex, IEdge> graph, Writer w)
+	public void save(final Hypergraph<IVertex, IEdge> graph, final Writer w)
 			throws IOException {
 
 		if (!(graph instanceof IGravisGraph)) {

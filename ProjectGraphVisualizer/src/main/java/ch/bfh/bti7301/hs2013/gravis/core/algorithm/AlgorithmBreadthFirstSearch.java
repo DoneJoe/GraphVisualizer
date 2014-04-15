@@ -42,8 +42,9 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 	 * (ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph)
 	 */
 	@Override
-	public void execute(IRestrictedGraph graph) throws AlgorithmException {
+	public void execute(final IRestrictedGraph graph) throws AlgorithmException {
 		this.counter = 0;
+		
 		Queue<IRestrictedVertex> vertexQueue = new LinkedList<>();
 		Collection<? extends IRestrictedVertex> vertices = graph.getVertices();
 		IRestrictedVertex startVertex = graph.getStartVertex();
@@ -60,7 +61,7 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 
 				this.tagEdge(graph, updateHandler, selectedVertex);
 				if (this.updateEndVertexMessage(selectedVertex, updateHandler)) {
-					selectedVertex.appendToNewComment(END_MSG2);
+					selectedVertex.appendComment(END_MSG2);
 					updateHandler.add(selectedVertex, false, false);
 					updateHandler.update();
 					return;
@@ -81,7 +82,7 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 		}
 
 		if (startVertex != null) {
-			startVertex.appendToNewComment(END_MSG2);
+			startVertex.appendComment(END_MSG2);
 			updateHandler.add(startVertex, false, false);
 			updateHandler.update();
 		}
@@ -94,9 +95,9 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 	 * @param updateHandler
 	 * @param selectedVertex
 	 */
-	private void visitSuccessors(IRestrictedGraph graph,
-			Queue<IRestrictedVertex> vertexQueue,
-			IGraphUpdateHandler updateHandler, IRestrictedVertex selectedVertex) {
+	private void visitSuccessors(final IRestrictedGraph graph,
+			final Queue<IRestrictedVertex> vertexQueue,
+			final IGraphUpdateHandler updateHandler, final IRestrictedVertex selectedVertex) {
 
 		for (IRestrictedVertex successor : graph.getSuccessors(selectedVertex)) {
 			IRestrictedEdge edge = graph.findEdge(selectedVertex, successor);
@@ -125,8 +126,8 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 	 * @param updateHandler
 	 * @param vertex
 	 */
-	private void tagEdge(IRestrictedGraph graph,
-			IGraphUpdateHandler updateHandler, IRestrictedVertex vertex) {
+	private void tagEdge(final IRestrictedGraph graph,
+			final IGraphUpdateHandler updateHandler, final IRestrictedVertex vertex) {
 		if (vertex.getValue() != null) {
 			IRestrictedEdge edge = graph.findEdge(
 					(IRestrictedVertex) vertex.getValue(), vertex);
@@ -140,12 +141,12 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 	 * @param updateHandler
 	 * @return boolean
 	 */
-	private boolean updateEndVertexMessage(IRestrictedVertex endVertex,
-			IGraphUpdateHandler updateHandler) {
+	private boolean updateEndVertexMessage(final IRestrictedVertex endVertex,
+			final IGraphUpdateHandler updateHandler) {
 
 		if (endVertex.isEnd()) {
 			updateHandler.add(endVertex, State.SOLUTION, true,
-					String.format(END_MSG1, endVertex.getId()), ++this.counter,
+					String.format(END_MSG1, endVertex.getName()), ++this.counter,
 					true);
 			updateHandler.update();
 

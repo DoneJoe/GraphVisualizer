@@ -49,7 +49,7 @@ public class GravisPopupGraphMousePlugin extends
 	 * handlePopup(java.awt.event.MouseEvent)
 	 */
 	@Override
-	protected void handlePopup(MouseEvent e) {
+	protected void handlePopup(final MouseEvent e) {
 		if (e.getSource() instanceof VisualizationViewer<?, ?>) {
 			@SuppressWarnings("unchecked")
 			VisualizationViewer<IVertex, IEdge> vViewer = (VisualizationViewer<IVertex, IEdge>) e
@@ -94,7 +94,8 @@ public class GravisPopupGraphMousePlugin extends
 	 * @param point
 	 * @param popUp
 	 */
-	private void updateItemMenu(IGraphItem item, Point2D point, JPopupMenu popUp) {
+	private void updateItemMenu(final IGraphItem item, final Point2D point,
+			final JPopupMenu popUp) {
 		for (Component comp : popUp.getComponents()) {
 			if (comp instanceof IGraphItemMenuListener) {
 				((IGraphItemMenuListener) comp).setGraphItemAndView(item);

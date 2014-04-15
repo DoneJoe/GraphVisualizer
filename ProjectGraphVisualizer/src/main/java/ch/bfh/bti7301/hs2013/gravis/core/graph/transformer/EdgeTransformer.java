@@ -31,7 +31,7 @@ public class EdgeTransformer implements Transformer<EdgeMetadata, IEdge> {
 		IEdge edge = this.edgeFactory.create();
 		String color = edgeMeta.getProperty(GravisConstants.E_COLOR);
 
-		edge.setId(edgeMeta.getId());
+		edge.setName(edgeMeta.getId());
 		edge.setCurrentColor(color == null ? GravisConstants.E_COLOR_DEFAULT : 
 			ValueTransformer.transformStringToColor(color));		
 		

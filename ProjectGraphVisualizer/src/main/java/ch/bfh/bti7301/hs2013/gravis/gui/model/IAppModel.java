@@ -193,5 +193,43 @@ public interface IAppModel {
 	public abstract void updateStepButtonModels(boolean beginning, boolean back,
 			boolean forward, boolean end);
 
+	/**
+	 * @return ButtonModel
+	 */
+	public abstract ButtonModel getPickingToggleModel();
+
+	/**
+	 * @return ButtonModel
+	 */
+	public abstract ButtonModel getEditingToggleModel();
+
+	/**
+	 * @return ButtonModel
+	 */
+	public abstract ButtonModel getTransformingToggleModel();
+
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public boolean isModeToggleChanging();
+	
+	/**
+	 * 
+	 * @param modeChanging
+	 */
+	public void setModeToggleChanging(boolean modeChanging);
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public boolean isModeComboChanging();
+	
+	/**
+	 * 
+	 * @param modeChanging
+	 */
+	public void setModeComboChanging(boolean modeChanging);
 	
 }

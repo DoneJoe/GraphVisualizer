@@ -53,7 +53,9 @@ public class StepPanel extends JPanel implements Observer {
 	 * @param stepController 
 	 * @throws IOException 
 	 */
-	public StepPanel(IStepController stepController, IAppModel model) throws IOException {
+	public StepPanel(final IStepController stepController, final IAppModel model) 
+			throws IOException {
+		
 		this.setLayout(new GridLayout(2, 0, 0, 0));
 		
 		JPanel panelProgress = new JPanel();

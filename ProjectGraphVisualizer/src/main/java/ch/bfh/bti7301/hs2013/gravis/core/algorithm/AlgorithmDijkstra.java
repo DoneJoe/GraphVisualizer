@@ -48,6 +48,7 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 
 	protected AlgorithmDijkstra() {
 		super(ALGO_NAME, ALGO_DESCRIPTION);
+		
 		this.addEdgeType(EdgeType.DIRECTED);
 		this.addEdgeType(EdgeType.UNDIRECTED);
 		this.vertexResultComparator = new CurrentResultComparator();
@@ -62,7 +63,7 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 	 * java.util.PriorityQueue)
 	 */
 	@Override
-	public void execute(IRestrictedGraph graph) throws AlgorithmException {
+	public void execute(final IRestrictedGraph graph) throws AlgorithmException {
 		this.checkPositiveWeights(graph.getEdges());
 
 		Collection<? extends IRestrictedVertex> vertices = graph.getVertices();
@@ -78,12 +79,12 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 			if (vertex == startVertex) {
 				// start vertex has distance 0
 				updateHandler.add(startVertex, true,
-						String.format(START_VERTEX, startVertex.getId()), 0.0,
+						String.format(START_VERTEX, startVertex.getName()), 0.0,
 						false);
 			} else {
 				// initialize infinite distance from start vertex
 				updateHandler.add(vertex, String.format(RESULT_INIT,
-						vertex.getId(), Double.POSITIVE_INFINITY),
+						vertex.getName(), Double.POSITIVE_INFINITY),
 						Double.POSITIVE_INFINITY);
 			}
 		}
@@ -100,9 +101,9 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 	 * @param startVertex
 	 * @param updateHandler
 	 */
-	private void calculateDistances(IRestrictedGraph graph,
-			Collection<? extends IRestrictedVertex> vertices,
-			IRestrictedVertex startVertex, IGraphUpdateHandler updateHandler) {
+	private void calculateDistances(final IRestrictedGraph graph,
+			final Collection<? extends IRestrictedVertex> vertices,
+			final IRestrictedVertex startVertex, final IGraphUpdateHandler updateHandler) {
 
 		MapBinaryHeap<IRestrictedVertex> prioQueue = new MapBinaryHeap<>(
 				this.vertexResultComparator);
@@ -112,13 +113,13 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 			IRestrictedVertex selectedVertex = prioQueue.poll();
 
 			if (selectedVertex == startVertex) {
-				selectedVertex.appendToNewComment(String.format(MIN_MSG,
-						selectedVertex.getId(), selectedVertex.getNewResult()));
+				selectedVertex.appendComment(String.format(MIN_MSG,
+						selectedVertex.getName(), selectedVertex.getNewResult()));
 				updateHandler.add(selectedVertex, State.ACTIVATION, true,
 						selectedVertex.getNewResult(), true);
 			} else {
 				updateHandler.add(selectedVertex, State.ACTIVATION, true,
-						String.format(MIN_MSG, selectedVertex.getId(),
+						String.format(MIN_MSG, selectedVertex.getName(),
 								selectedVertex.getCurrentResult()),
 						selectedVertex.getCurrentResult(), true);
 			}
@@ -152,10 +153,10 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 	 * @param prioQueue
 	 * @param updateHandler
 	 */
-	private void updateAdjacentVertexDistances(IRestrictedGraph graph,
-			IRestrictedVertex vertex,
-			MapBinaryHeap<IRestrictedVertex> prioQueue,
-			IGraphUpdateHandler updateHandler) {
+	private void updateAdjacentVertexDistances(final IRestrictedGraph graph,
+			final IRestrictedVertex vertex,
+			final MapBinaryHeap<IRestrictedVertex> prioQueue,
+			final IGraphUpdateHandler updateHandler) {
 		double newDistance = 0.0;
 		double oldDistance = 0.0;
 
@@ -179,7 +180,7 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 							State.VISIT,
 							true,
 							String.format(SHORTEST_PATH_UPDATE,
-									adjacentVertex.getId(), newDistance),
+									adjacentVertex.getName(), newDistance),
 							newDistance, true, vertex);
 
 					this.updatePredecessors(graph, vertex, updateHandler,
@@ -206,9 +207,9 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 	 * @param updateHandler
 	 * @param adjacentVertex
 	 */
-	private void updatePredecessors(IRestrictedGraph graph,
-			IRestrictedVertex currentVertex, IGraphUpdateHandler updateHandler,
-			IRestrictedVertex adjacentVertex) {
+	private void updatePredecessors(final IRestrictedGraph graph,
+			final IRestrictedVertex currentVertex, final IGraphUpdateHandler updateHandler,
+			final IRestrictedVertex adjacentVertex) {
 
 		for (IRestrictedVertex predecessor : graph
 				.getPredecessors(adjacentVertex)) {
@@ -232,12 +233,12 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 	 * @param updateHandler
 	 * @return boolean
 	 */
-	private boolean updateEndVertexMessage(IRestrictedVertex startVertex,
-			IRestrictedVertex endVertex, IGraphUpdateHandler updateHandler) {
+	private boolean updateEndVertexMessage(final IRestrictedVertex startVertex,
+			final IRestrictedVertex endVertex, final IGraphUpdateHandler updateHandler) {
 
 		if (endVertex.isEnd()) {
 			updateHandler.add(endVertex, State.SOLUTION, true, String.format(
-					SHORTEST_PATH_OK, startVertex.getId(), endVertex.getId(),
+					SHORTEST_PATH_OK, startVertex.getName(), endVertex.getName(),
 					endVertex.getCurrentResult()), false);
 			updateHandler.update();
 			return true;
@@ -249,20 +250,20 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 	 * @param graph
 	 * @param vertex
 	 */
-	private void setSuccessorMessage(IRestrictedGraph graph,
-			IRestrictedVertex vertex) {
+	private void setSuccessorMessage(final IRestrictedGraph graph,
+			final IRestrictedVertex vertex) {
 		StringBuilder successors = new StringBuilder();
 
 		for (IRestrictedVertex adjacentVertex : graph.getSuccessors(vertex)) {
-			successors.append(adjacentVertex.getId() + ", ");
+			successors.append(adjacentVertex.getName() + ", ");
 		}
 
 		successors.delete(Math.max(0, successors.length() - 2),
 				Math.max(0, successors.length()));
 
 		if (successors.length() != 0) {
-			vertex.appendToNewComment(String.format(SUCCESSOR_MSG,
-					vertex.getId(), successors));
+			vertex.appendComment(String.format(SUCCESSOR_MSG,
+					vertex.getName(), successors));
 		}
 	}
 
@@ -271,7 +272,7 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 	 * @throws AlgorithmException
 	 */
 	private void checkPositiveWeights(
-			Collection<? extends IRestrictedEdge> edges)
+			final Collection<? extends IRestrictedEdge> edges)
 			throws AlgorithmException {
 
 		for (IRestrictedEdge edge : edges) {
@@ -286,8 +287,8 @@ class AlgorithmDijkstra extends AbstractAlgorithm {
 	 * @param selectedVertex
 	 * @param updateHandler
 	 */
-	private void showShortestPath(IRestrictedGraph graph,
-			IRestrictedVertex selectedVertex, IGraphUpdateHandler updateHandler) {
+	private void showShortestPath(final IRestrictedGraph graph,
+			IRestrictedVertex selectedVertex, final IGraphUpdateHandler updateHandler) {
 
 		for (IRestrictedEdge edge : graph.getEdges()) {
 			updateHandler.add(edge, State.INITIAL, false, false, false);

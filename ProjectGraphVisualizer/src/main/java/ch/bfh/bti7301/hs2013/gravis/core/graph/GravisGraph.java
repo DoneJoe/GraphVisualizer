@@ -81,7 +81,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean containsEdgeName(String edgeName) {
 		for (IEdge edge : this.getEdges()) {
-			if (edge.getId().equals(edgeName.trim())) {
+			if (edge.getName().equals(edgeName.trim())) {
 				return true;
 			}
 		}
@@ -110,7 +110,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean containsVertexName(String vertexName) {
 		for (IVertex vertex : this.getVertices()) {
-			if (vertex.getId().equals(vertexName.trim())) {
+			if (vertex.getName().equals(vertexName.trim())) {
 				return true;
 			}
 		}

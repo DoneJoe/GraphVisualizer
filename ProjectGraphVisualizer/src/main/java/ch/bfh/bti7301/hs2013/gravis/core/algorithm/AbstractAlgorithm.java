@@ -3,11 +3,10 @@ package ch.bfh.bti7301.hs2013.gravis.core.algorithm;
 import java.util.HashSet;
 import java.util.Set;
 
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
- * Abstract algorithm, does nothing on execute().
+ * Abstract class with basic functionality.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -25,7 +24,7 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	private final String description;
 
 	/**
-	 * A set for the graphtypes.
+	 * A set for the edgeTypes.
 	 */
 	private final Set<EdgeType> edgeTypes;
 
@@ -46,18 +45,6 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 */
 	protected void addEdgeType(EdgeType edgeType) {
 		this.edgeTypes.add(edgeType);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.processing.algorithms.IGraphAlgorithm
-	 * #execute(edu.uci.ics.jung.graph.Graph)
-	 */
-	@Override
-	public void execute(IRestrictedGraph graph) throws AlgorithmException {
-		// Does nothing on execute.
 	}
 
 	/*
@@ -90,6 +77,7 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 */
 	@Override
 	public final boolean hasEdgeType(EdgeType edgeType) {
+		// TODO Verhalten bei edgeType == null?
 		return this.edgeTypes.contains(edgeType);
 	}
 

@@ -39,7 +39,7 @@ public class GravisEditingGraphMousePlugin extends
 	 * @param down
 	 * @param out
 	 */
-	private void transformEdgeShape(Point2D down, Point2D out) {
+	private void transformEdgeShape(final Point2D down, final Point2D out) {
 		float x1 = (float) down.getX();
 		float y1 = (float) down.getY();
 		float x2 = (float) out.getX();
@@ -61,7 +61,7 @@ public class GravisEditingGraphMousePlugin extends
 	 * @param down
 	 * @param out
 	 */
-	private void transformArrowShape(Point2D down, Point2D out) {
+	private void transformArrowShape(final Point2D down, final Point2D out) {
 		float x1 = (float) down.getX();
 		float y1 = (float) down.getY();
 		float x2 = (float) out.getX();
@@ -85,7 +85,7 @@ public class GravisEditingGraphMousePlugin extends
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(final MouseEvent e) {
 		if (this.checkModifiers(e)) {
 			final VisualizationViewer<IVertex, IEdge> vv = (VisualizationViewer<IVertex, IEdge>) e
 					.getSource();
@@ -149,7 +149,7 @@ public class GravisEditingGraphMousePlugin extends
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(final MouseEvent e) {
 		if (this.checkModifiers(e)) {
 			final VisualizationViewer<IVertex, IEdge> vv = (VisualizationViewer<IVertex, IEdge>) e
 					.getSource();

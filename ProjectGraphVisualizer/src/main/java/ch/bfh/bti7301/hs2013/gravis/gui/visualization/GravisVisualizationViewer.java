@@ -35,7 +35,7 @@ public class GravisVisualizationViewer extends
 	 * 
 	 * @param layout
 	 */
-	public GravisVisualizationViewer(Layout<IVertex, IEdge> layout) {
+	public GravisVisualizationViewer(final Layout<IVertex, IEdge> layout) {
 		super(layout);
 		this.setBackground(Color.white);
 

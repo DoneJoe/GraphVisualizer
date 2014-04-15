@@ -12,6 +12,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IEditGraphEventListener;
+import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.bti7301.hs2013.gravis.gui.controller.IStepController;
 import ch.bfh.bti7301.hs2013.gravis.gui.dialog.ConfirmDialogAdapter;
@@ -59,13 +60,15 @@ public class MainWindow extends JFrame {
 	private final static String SHORTCUTS = "Shortcuts...";
 	private final static String INFO = "Info...";
 	private final static String APP_ERR_TITLE = "Fehler";
-	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten: %s";
+	private final static String APP_ERR_MSG = 
+			"In der Applikation ist ein Fehler aufgetreten: %s";
 
+	private static final String APP_ICON = "Circle-group-icon_32.png";
 	private static final String OPEN_ICON = "Open16.gif";
 	private static final String SAVE_AS_ICON = "SaveAs16.gif";
 	private static final String SAVE_ICON = "Save16.gif";
 	private static final String NEW_ICON = "New16.gif";
-	private static final String EDIT_ICON = "Edit16.gif";
+	private static final String PROPERTIES_ICON = "GraphProperties_16.gif";
 	private static final String HELP_ICON = "Help16.gif";
 	private static final String INFO_ICON = "About16.gif";
 
@@ -132,9 +135,9 @@ public class MainWindow extends JFrame {
 	 * @param model
 	 * @throws IOException
 	 */
-	public MainWindow(IMenuToolbarController menuToolbarController,
-			IEditGraphEventListener visualizationController,
-			IStepController stepController, IAppModel model) throws IOException {
+	public MainWindow(final IMenuToolbarController menuToolbarController,
+			final IEditGraphEventListener visualizationController,
+			final IStepController stepController, IAppModel model) throws IOException {
 		super(TITLE);
 
 		JPanel contentPane = new JPanel();
@@ -189,6 +192,8 @@ public class MainWindow extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		this.setIconImage(ImageIO.read(this.getClass().getResourceAsStream
+				(GravisConstants.IMAGES_DIR + APP_ICON)));
 		this.setVisible(true);
 	}
 
@@ -214,7 +219,7 @@ public class MainWindow extends JFrame {
 		JMenuItem menuItemSaveGraph = new JMenuItem(SAVE, new ImageIcon(
 				this.loadImage(SAVE_ICON)));
 		JMenuItem menuItemGraphProperties = new JMenuItem(PROPERTIES,
-				new ImageIcon(this.loadImage(EDIT_ICON)));
+				new ImageIcon(this.loadImage(PROPERTIES_ICON)));
 		JMenuItem menuItemExit = new JMenuItem(EXIT);
 		JMenu menuHelp = new JMenu(HELP_MENU);
 		JMenuItem menuItemHelp = new JMenuItem(HELP_ITEM, new ImageIcon(
@@ -355,6 +360,7 @@ public class MainWindow extends JFrame {
 						}
 					}
 				} catch (Exception ex) {
+					// TODO Exception stack trace
 					JOptionPane.showMessageDialog(MainWindow.this,
 							String.format(APP_ERR_MSG, ex.getMessage()),
 							APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
