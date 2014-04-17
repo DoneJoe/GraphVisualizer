@@ -1,7 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.core.graph;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.item.ItemState;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -20,7 +20,7 @@ public interface IGraphUpdateHandler {
 	 * @param graphItem
 	 * @param isVisible
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, boolean isVisible);
+	public abstract void add(IRestrictedGraphItem graphItem, Boolean isVisible);
 
 	/**
 	 * 
@@ -29,7 +29,7 @@ public interface IGraphUpdateHandler {
 	 * @param isTagged
 	 */
 	public abstract void add(IRestrictedGraphItem graphItem,
-			boolean isStateCommentEnabled, boolean isTagged);
+			boolean isStateCommentEnabled, Boolean isTagged);
 
 	/**
 	 * 
@@ -44,9 +44,9 @@ public interface IGraphUpdateHandler {
 	 * @param value
 	 * @param isDone
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, boolean isVisible,
-			State state, boolean isStateCommentEnabled, String newComment,
-			double newResult, boolean isTagged, boolean isDashed, Object value,
+	public abstract void add(IRestrictedGraphItem graphItem, Boolean isVisible,
+			ItemState state, boolean isStateCommentEnabled, String newComment,
+			double newResult, Boolean isTagged, Boolean isDashed, Object value,
 			boolean isDone);
 
 	/**
@@ -57,7 +57,7 @@ public interface IGraphUpdateHandler {
 	 * @param isTagged
 	 */
 	public abstract void add(IRestrictedGraphItem graphItem,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged);
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged);
 
 	/**
 	 * 
@@ -68,8 +68,8 @@ public interface IGraphUpdateHandler {
 	 * @param isDashed
 	 */
 	public abstract void add(IRestrictedGraphItem graphItem,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
-			boolean isDashed);
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged,
+			Boolean isDashed);
 
 	/**
 	 * 
@@ -81,7 +81,7 @@ public interface IGraphUpdateHandler {
 	 */
 	public abstract void add(IRestrictedGraphItem graphItem,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged);
+			Boolean isTagged);
 
 	/**
 	 * 
@@ -90,8 +90,8 @@ public interface IGraphUpdateHandler {
 	 * @param isStateCommentEnabled
 	 * @param isTagged
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged);
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged);
 
 	/**
 	 * 
@@ -101,8 +101,8 @@ public interface IGraphUpdateHandler {
 	 * @param isTagged
 	 * @param isDashed
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed);
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged, Boolean isDashed);
 
 	/**
 	 * 
@@ -113,8 +113,8 @@ public interface IGraphUpdateHandler {
 	 * @param isDashed
 	 * @param isDone
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed,
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged, Boolean isDashed,
 			boolean isDone);
 
 	/**
@@ -127,8 +127,8 @@ public interface IGraphUpdateHandler {
 	 * @param value
 	 * @param isDone
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed,
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged, Boolean isDashed,
 			Object value, boolean isDone);
 
 	/**
@@ -139,8 +139,8 @@ public interface IGraphUpdateHandler {
 	 * @param isTagged
 	 * @param value
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged, Object value);
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged, Object value);
 
 	/**
 	 * 
@@ -150,8 +150,8 @@ public interface IGraphUpdateHandler {
 	 * @param newResult
 	 * @param isTagged
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, double newResult, boolean isTagged);
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, double newResult, Boolean isTagged);
 
 	/**
 	 * 
@@ -163,9 +163,9 @@ public interface IGraphUpdateHandler {
 	 * @param isDashed
 	 * @param isDone
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, double newResult, boolean isTagged,
-			boolean isDashed, boolean isDone);
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, double newResult, Boolean isTagged,
+			Boolean isDashed, boolean isDone);
 
 	/**
 	 * 
@@ -175,8 +175,8 @@ public interface IGraphUpdateHandler {
 	 * @param newComment
 	 * @param isTagged
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged);
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged);
 
 	/**
 	 * 
@@ -187,9 +187,9 @@ public interface IGraphUpdateHandler {
 	 * @param isTagged
 	 * @param isDashed
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
-			boolean isDashed);
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged,
+			Boolean isDashed);
 
 	/**
 	 * 
@@ -201,9 +201,9 @@ public interface IGraphUpdateHandler {
 	 * @param isDashed
 	 * @param isDone
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
-			boolean isDashed, boolean isDone);
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged,
+			Boolean isDashed, boolean isDone);
 
 	/**
 	 * 
@@ -214,8 +214,8 @@ public interface IGraphUpdateHandler {
 	 * @param isTagged
 	 * @param value
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged,
 			Object value);
 
 	/**
@@ -227,9 +227,9 @@ public interface IGraphUpdateHandler {
 	 * @param newResult
 	 * @param isTagged
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged);
+			Boolean isTagged);
 
 	/**
 	 * 
@@ -241,9 +241,9 @@ public interface IGraphUpdateHandler {
 	 * @param isTagged
 	 * @param isDashed
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged, boolean isDashed);
+			Boolean isTagged, Boolean isDashed);
 
 	/**
 	 * 
@@ -256,9 +256,9 @@ public interface IGraphUpdateHandler {
 	 * @param isDashed
 	 * @param isDone
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged, boolean isDashed, boolean isDone);
+			Boolean isTagged, Boolean isDashed, boolean isDone);
 	
 	/**
 	 * 
@@ -270,9 +270,9 @@ public interface IGraphUpdateHandler {
 	 * @param isTagged
 	 * @param value
 	 */
-	public abstract void add(IRestrictedGraphItem graphItem, State state,
+	public abstract void add(IRestrictedGraphItem graphItem, ItemState state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged, Object value);
+			Boolean isTagged, Object value);
 
 	/**
 	 * 

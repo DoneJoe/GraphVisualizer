@@ -1,8 +1,13 @@
 package ch.bfh.bti7301.hs2013.gravis.gui.visualization;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.util.Observable;
 import java.util.Observer;
+
+import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
@@ -39,10 +44,22 @@ public class GravisVisualizationViewer extends
 		super(layout);
 		this.setBackground(Color.white);
 
-		// vertex visualization
+		// vertex visualization:
+		// TODO config Visualisation
+		
 		this.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
 		this.getRenderContext().setVertexFillPaintTransformer(
 				new VertexFillColorTransformer());
+		
+		// TODO setVertexDrawPaintTransformer 
+//		this.getRenderContext().setVertexDrawPaintTransformer(
+//				new Transformer<IVertex, Paint>() {					
+//					@Override
+//					public Paint transform(IVertex input) {
+//						return Color.BLUE;
+//					}
+//				});
+		
 		this.getRenderContext().setVertexShapeTransformer(
 				new ShapeTransformer());
 		this.getRenderContext().setVertexLabelTransformer(
@@ -51,23 +68,77 @@ public class GravisVisualizationViewer extends
 				new VertexStrokeTransformer());
 		this.setVertexToolTipTransformer(new VertexToolTipTransformer());
 
-		// edge visualization
+		// edge visualization:
+		
 		this.getRenderContext().setEdgeShapeTransformer(
 				new EdgeShape.Line<IVertex, IEdge>());
+		
 		this.getRenderContext().setEdgeDrawPaintTransformer(
 				new EdgeColorTransformer());
+//		this.getRenderContext().setEdgeDrawPaintTransformer(
+//				new Transformer<IEdge, Paint>() {					
+//					@Override
+//					public Paint transform(IEdge input) {
+//						return Color.BLUE;
+//					}
+//				});
+			
+		// TODO warum wird fill color nicht angezeigt?
+//		this.getRenderContext().setEdgeFillPaintTransformer(
+//				new Transformer<IEdge, Paint>() {					
+//					@Override
+//					public Paint transform(IEdge input) {
+//						return Color.RED;
+//					}
+//				});
+		
+		this.getRenderContext().setEdgeStrokeTransformer(
+		new EdgeStrokeTransformer());
+//		this.getRenderContext().setEdgeStrokeTransformer(
+//		new Transformer<IEdge, Stroke>() {
+//				@Override
+//				public Stroke transform(IEdge input) {
+//					return new BasicStroke(0.0f);
+//				}								
+//			});				
+		
 		this.getRenderContext().setArrowDrawPaintTransformer(
 				new EdgeColorTransformer());
+//		this.getRenderContext().setArrowDrawPaintTransformer(
+//				new Transformer<IEdge, Paint>() {					
+//					@Override
+//					public Paint transform(IEdge input) {
+//						return Color.PINK;
+//					}
+//				});
+
+		this.getRenderContext().setArrowFillPaintTransformer(
+				new EdgeColorTransformer());
+//		this.getRenderContext().setArrowFillPaintTransformer(
+//				new Transformer<IEdge, Paint>() {					
+//					@Override
+//					public Paint transform(IEdge input) {
+//						return Color.PINK;
+//					}
+//				});
+		
+		this.getRenderContext().setEdgeArrowStrokeTransformer(
+		new EdgeArrowStrokeTransformer());
+//		this.getRenderContext().setEdgeArrowStrokeTransformer(
+//			new Transformer<IEdge, Stroke>() {
+//				@Override
+//				public Stroke transform(IEdge input) {
+//					return new BasicStroke(2.0f);
+//				}								
+//			});		
+		
 		// centers edge label
 		this.getRenderContext().setEdgeLabelClosenessTransformer(
 				new ConstantDirectionalEdgeValueTransformer<IVertex, IEdge>(
 						0.5, 0.5));
 		this.getRenderContext().setEdgeLabelTransformer(
 				new EdgeLabelTransformer());
-		this.getRenderContext().setEdgeStrokeTransformer(
-				new EdgeStrokeTransformer());
-		this.getRenderContext().setEdgeArrowStrokeTransformer(
-				new EdgeArrowStrokeTransformer());
+		
 	}
 
 	/*
@@ -76,7 +147,7 @@ public class GravisVisualizationViewer extends
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(final Observable o, final Object arg) {
 		if (arg instanceof IGravisGraph) {
 			this.getGraphLayout().setGraph((IGravisGraph) arg);
 			this.repaint();

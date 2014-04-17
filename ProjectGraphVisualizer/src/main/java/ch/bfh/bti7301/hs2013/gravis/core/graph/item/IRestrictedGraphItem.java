@@ -1,7 +1,5 @@
 package ch.bfh.bti7301.hs2013.gravis.core.graph.item;
 
-import java.awt.Color;
-
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -10,24 +8,9 @@ import java.awt.Color;
 public interface IRestrictedGraphItem {
 
 	/**
-	 * 
-	 * @author Patrick Kofmel (kofmp1@bfh.ch)
-	 * 
-	 */
-	public static enum State {
-		INITIAL, ACTIVATION, VISIT, SOLUTION, REFUSE;
-	}
-
-	/**
 	 * @param comment
 	 */
 	public abstract void appendComment(String comment);
-
-	/**
-	 * 
-	 * @return current color
-	 */
-	public abstract Color getCurrentColor();
 
 	/**
 	 * The current result of this item.
@@ -40,7 +23,7 @@ public interface IRestrictedGraphItem {
 	 * 
 	 * @return State
 	 */
-	public abstract State getCurrentState();
+	public abstract ItemState getCurrentState();
 
 	/**
 	 * 
@@ -64,7 +47,7 @@ public interface IRestrictedGraphItem {
 	 * 
 	 * @return State
 	 */
-	public abstract State getNewState();
+	public abstract ItemState getNewState();
 	
 	/**
 	 * 
@@ -87,19 +70,20 @@ public interface IRestrictedGraphItem {
 	 * 
 	 * @return boolean
 	 */
+	public abstract boolean isNewTagged();
+	
+	/**
+	 * 
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isNewVisible();
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public abstract boolean isStateCommentEnabled();
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public abstract boolean isTagged();
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public abstract boolean isVisible();
 	
 	/**
 	 * 
@@ -116,20 +100,40 @@ public interface IRestrictedGraphItem {
 	/**
 	 * @param value
 	 */
-	public abstract void setNewDashed(boolean value);
+	public abstract void setNewDashed(Boolean value);
+	
+	/**
+	 * 
+	 * Replaces the default comment defined in ItemState enum.
+	 * 
+	 * @param comment
+	 */
+	public abstract void setNewDefaultComment(String comment);
 	
 	/**
 	 * 
 	 * @param value
 	 */
 	public abstract void setNewResult(double value);
-	
+
 	/**
 	 * 
 	 * @param newState
 	 */
-	public abstract void setNewState(State newState);
-
+	public abstract void setNewState(ItemState newState);
+	
+	/**
+	 * 
+	 * @param tagged
+	 */
+	public abstract void setNewTagged(Boolean tagged);
+	
+	/**
+	 * 
+	 * @param visible
+	 */
+	public abstract void setNewVisible(Boolean visible);
+	
 	/**
 	 * @param value
 	 */
@@ -137,19 +141,8 @@ public interface IRestrictedGraphItem {
 	
 	/**
 	 * 
-	 * @param tagged
-	 */
-	public abstract void setTagged(boolean tagged);
-	
-	/**
-	 * 
 	 * @param value
 	 */
 	public abstract void setValue(Object value);
 	
-	/**
-	 * 
-	 * @param visible
-	 */
-	public abstract void setVisible(boolean visible);
 }

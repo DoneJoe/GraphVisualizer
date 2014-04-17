@@ -127,10 +127,10 @@ class GraphIOManager implements IGraphIOManager {
 									.transformColorToString(GravisConstants.V_FILL_COLOR_DEFAULT),
 							new VertexColorStringTransformer());
 			graphWriter.addVertexData(GravisConstants.V_START, "",
-					String.valueOf(GravisConstants.V_START_DEFAULT),
+					String.valueOf(false),
 					new StartVertexTransformer());
 			graphWriter.addVertexData(GravisConstants.V_END, "",
-					String.valueOf(GravisConstants.V_END_DEFAULT),
+					String.valueOf(false),
 					new EndVertexTransformer());
 			graphWriter.addVertexData(GravisConstants.V_LOC_X, "",
 					String.valueOf(GravisConstants.V_LOC_X_DEFAULT),

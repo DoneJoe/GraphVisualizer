@@ -53,13 +53,5 @@ final class RestrictedVertex extends AbstractRestrictedGraphItem
 		return this.vertex.getLocation();
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return this.vertex.toString();
-	}
-
 	
 }

@@ -3,8 +3,11 @@ package ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.util.Objects;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.item.ItemState;
+import ch.bfh.bti7301.hs2013.gravis.core.util.GravisColor;
 import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
 
 /**
@@ -15,80 +18,83 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
  */
 class GravisVertex extends AbstractGraphItem implements IVertex {
 
-	/**
-	 * A field for the start position.
-	 */
-	private boolean start;
+	// constants:
+
+	private final static char FIRST_CHAR = 'A';
+
+	private final static char LAST_CHAR = 'Z';
+
+	// static counters:
+
+	private static int intCounter = 0;
+
+	private static char charCounter = FIRST_CHAR;
 
 	/**
-	 * A field for the end position.
+	 * @return default name
 	 */
-	private boolean end;
+	protected static String createNewDefaultVertexName() {
+		String newChar = String.valueOf(charCounter);
+		String newName = intCounter == 0 ? newChar : newChar
+				+ String.valueOf(intCounter);
 
-	private double width;
+		if (LAST_CHAR - charCounter == 0) {
+			charCounter = FIRST_CHAR;
+			intCounter++;
+		} else {
+			charCounter++;
+		}
 
-	private double height;
+		return newName;
+	}
+
+	// special vertex fields:
+
+	private String vertexName;
+
+	private boolean start, end;
+
+	private double width, height;
 
 	private Point2D location;
 
-	private Color tempColor;
+	private Color currentDrawColor;
 
 	/**
 	 * Main constructor setting start and end to false both by default.
 	 */
 	protected GravisVertex() {
-		super();
-
-		this.tempColor = this.getCurrentColor();
-		this.setStart(GravisConstants.V_START_DEFAULT);
-		this.setEnd(GravisConstants.V_END_DEFAULT);
-		this.width = GravisConstants.V_WIDTH_DEFAULT;
-		this.height = GravisConstants.V_HEIGHT_DEFAULT;
-		this.location = new Point(GravisConstants.V_LOC_X_DEFAULT,
-				GravisConstants.V_LOC_Y_DEFAULT);
+		this.setName(createNewDefaultVertexName());
+		this.setStart(false);
+		this.setEnd(false);
+		this.setWidth(GravisConstants.V_WIDTH_DEFAULT);
+		this.setHeight(GravisConstants.V_HEIGHT_DEFAULT);
+		this.setLocation(new Point(GravisConstants.V_LOC_X_DEFAULT,
+				GravisConstants.V_LOC_Y_DEFAULT));
+		this.setCurrentDrawColor(GravisConstants.V_DRAW_COLOR_DEFAULT);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex#
+	 * getCurrentDrawColor()
+	 */
 	@Override
-	public boolean isStart() {
-		return this.start;
-	}
-
-	@Override
-	public boolean isEnd() {
-		return this.end;
-	}
-
-	@Override
-	public void setStart(boolean start) {
-		boolean equal = this.start == start;
-		this.start = start;
-
-		if (!equal) {
-			this.fireGraphItemsChangedEvent(this);
-		}
-	}
-
-	@Override
-	public void setEnd(boolean end) {
-		boolean equal = this.end == end;
-		this.end = end;
-
-		if (!equal) {
-			this.fireGraphItemsChangedEvent(this);
-		}
+	public Color getCurrentDrawColor() {
+		return this.isCurrentVisible() ? this.currentDrawColor
+				: GravisColor.WHITE;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem#setColor
-	 * (java.awt.Color)
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex#getHeight()
 	 */
 	@Override
-	public void setCurrentColor(Color color) {
-		super.setCurrentColor(color);
-		this.tempColor = color;
+	public double getHeight() {
+		return this.height;
 	}
 
 	/*
@@ -105,12 +111,12 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.common.IVertex#setLocation(java.awt.geom
-	 * .Point2D)
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#getName
+	 * ()
 	 */
 	@Override
-	public void setLocation(Point2D location) {
-		this.location = (Point2D) location.clone();
+	public String getName() {
+		return this.vertexName;
 	}
 
 	/*
@@ -124,27 +130,48 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 		return this.width;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex#setWidth(
-	 * double)
-	 */
 	@Override
-	public void setWidth(double width) {
-		this.width = width;
+	public boolean isEnd() {
+		return this.end;
+	}
+
+	@Override
+	public boolean isStart() {
+		return this.start;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex#getHeight()
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex#
+	 * setCurrentDrawColor(java.awt.Color)
 	 */
 	@Override
-	public double getHeight() {
-		return this.height;
+	public void setCurrentDrawColor(Color color) {
+		// TODO Exception handling bei null values
+		this.currentDrawColor = Objects.requireNonNull(color);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem#
+	 * setCurrentState(ch.bfh.bti7301.hs2013.gravis.core.graph.item.ItemState)
+	 */
+	@Override
+	public void setCurrentState(ItemState currentState) {
+		super.setCurrentState(currentState);
+		this.setCurrentDrawColor(currentState.getDrawColor(this));
+	}
+
+	@Override
+	public void setEnd(boolean end) {
+		boolean equal = this.end == end;
+		this.end = end;
+
+		if (!equal) {
+			this.fireGraphItemsChangedEvent(this);
+		}
 	}
 
 	/*
@@ -162,36 +189,57 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.lang.Object#toString()
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.common.IVertex#setLocation(java.awt.geom
+	 * .Point2D)
 	 */
 	@Override
-	public String toString() {
-		return super.toString();
+	public void setLocation(Point2D location) {
+		// TODO Exception handling bei null values
+		Objects.requireNonNull(location);
+		this.location = (Point2D) location.clone();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem#clone()
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem#setName(java.
+	 * lang.String)
 	 */
 	@Override
-	public GravisVertex clone() throws CloneNotSupportedException {
-		GravisVertex vertexClone = (GravisVertex) super.clone();
-		vertexClone.location = (Point2D) this.location.clone();
-		return vertexClone;
+	public void setName(String name) {
+		// TODO Exception handling bei null values
+		Objects.requireNonNull(name);
+		boolean equal = this.getName() == null ? false : this.getName().equals(
+				name.trim());
+		this.vertexName = name.trim();
+
+		if (!equal) {
+			this.fireGraphItemsChangedEvent(this);
+		}
+	}
+
+	@Override
+	public void setStart(boolean start) {
+		boolean equal = this.start == start;
+		this.start = start;
+
+		if (!equal) {
+			this.fireGraphItemsChangedEvent(this);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem#
-	 * getTaggedStrokeWidth()
+	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex#setWidth(
+	 * double)
 	 */
 	@Override
-	protected float getTaggedStrokeWidth() {
-		return GravisConstants.V_TAGGED_STROKE;
+	public void setWidth(double width) {
+		this.width = width;
 	}
-
 
 }

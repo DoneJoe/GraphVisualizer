@@ -6,6 +6,7 @@ import java.awt.Stroke;
 import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
+import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -21,7 +22,8 @@ public class EdgeArrowStrokeTransformer implements Transformer<IEdge, Stroke> {
 	 */
 	@Override
 	public Stroke transform(IEdge edge) {
-		return new BasicStroke(edge.getCurrentStrokeWidth());
+		return new BasicStroke(edge.isCurrentTagged() ? GravisConstants.E_TAGGED_STROKE : 
+			GravisConstants.STROKE_WIDTH_DEFAULT);
 	}
 
 }

@@ -44,6 +44,7 @@ public abstract class AbstractEditItemObservable implements IEditItemObservable 
 	}
 
 	/**
+	 * Only non visualisation fields should call this method.
 	 * 
 	 * @param source
 	 */

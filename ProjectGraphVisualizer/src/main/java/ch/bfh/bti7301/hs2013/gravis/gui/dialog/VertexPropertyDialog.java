@@ -128,8 +128,8 @@ public class VertexPropertyDialog extends JDialog {
 			final VisualizationViewer<IVertex, IEdge> vViewer) {
 		
 		vertex.setName(this.txtVertexName.getText().trim());
-		vertex.setWidth(ValueTransformer.transformDouble(this.txtWidth.getText().trim()));
-		vertex.setHeight(ValueTransformer.transformDouble(this.txtHeight.getText().trim()));
+		vertex.setWidth(ValueTransformer.transformToDouble(this.txtWidth.getText().trim()));
+		vertex.setHeight(ValueTransformer.transformToDouble(this.txtHeight.getText().trim()));
 		vViewer.repaint();
 		this.dispose();
 	}

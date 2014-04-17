@@ -16,43 +16,37 @@ public class Step extends EmptyStep {
 	 */
 	public Step(IStep command) {
 		this();
+
 		this.nestedCommands.add(command);
 	}
 
 	public Step() {
-		super();
 		this.nestedCommands = new ArrayList<>();
 	}
 
 	@Override
 	public IStepResult execute() {
 		StringBuilder totalComment = new StringBuilder();
-		IStepResult stepResult = null;
-		
+		IStepResult stepResult;
+
 		for (IStep command : this.nestedCommands) {
 			stepResult = command.execute();
-			
-			if (stepResult.hasComment()) {
-				totalComment.append(stepResult.getComment() + System.lineSeparator());
-			}
+			totalComment.append(stepResult.getComment());
 		}
-		
+
 		return new StepResult(totalComment.toString().trim());
 	}
 
 	@Override
 	public IStepResult unExecute() {
 		StringBuilder totalComment = new StringBuilder();
-		IStepResult stepResult = null;
-		
+		IStepResult stepResult;
+
 		for (int i = this.nestedCommands.size() - 1; i >= 0; i--) {
 			stepResult = this.nestedCommands.get(i).unExecute();
-			
-			if (stepResult.hasComment()) {
-				totalComment.append(stepResult.getComment() + System.lineSeparator());
-			}
+			totalComment.append(stepResult.getComment());
 		}
-		
+
 		return new StepResult(totalComment.toString().trim());
 	}
 

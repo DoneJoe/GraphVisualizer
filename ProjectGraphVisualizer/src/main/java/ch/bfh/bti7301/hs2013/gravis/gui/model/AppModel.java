@@ -56,8 +56,8 @@ class AppModel implements IAppModel {
 	 * @throws CoreException
 	 */
 	protected AppModel(final ICore core) throws CoreException {
-		// creates an empty graph
-		this.graph = GraphFactory.createDirectedEditGraphDecorator();
+		// creates an empty undirected graph
+		this.graph = GraphFactory.createEditGraphDecorator(EdgeType.UNDIRECTED);
 		this.graphUnsaved = this.graphItemsEdited = false;
 		// TODO set calcState
 		this.calcState = CalculationState.NOT_CALCULABLE;

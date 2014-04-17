@@ -42,7 +42,7 @@ class MenuToolbarController extends Observable implements
 	private final static String SAVE_DIALOG_MSG = "Änderungen speichern?";
 	private final static String APP_ERR_TITLE = "Fehler";
 	// TODO stackTrace angeben
-	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten:\n\n%s";
+	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten:%s%s%s";
 	private final static String OPEN_GRAPH_MSG = "%sFolgender Graph wurde geöffnet:%s"
 			+ "Datei: %s%sName: %s%sBeschreibung: %s%s";
 	private final static String SAVE_GRAPH_MSG = "%sFolgender Graph wurde gespeichert:%s"
@@ -108,7 +108,7 @@ class MenuToolbarController extends Observable implements
 			if (this.messageDialogAdapter != null) {
 				// TODO stackTrace angeben
 				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, ex.getMessage()),
+						String.format(APP_ERR_MSG, ex.getMessage(), LN, LN),
 						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -146,7 +146,7 @@ class MenuToolbarController extends Observable implements
 		} catch (Exception ex) {
 			if (this.messageDialogAdapter != null) {
 				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, ex.getMessage()),
+						String.format(APP_ERR_MSG, LN, LN, ex.getMessage()),
 						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
 			}
 		}
@@ -257,7 +257,7 @@ class MenuToolbarController extends Observable implements
 		} catch (CoreException | GravisGraphIOException ex) {
 			if (this.messageDialogAdapter != null) {
 				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, ex.getMessage()),
+						String.format(APP_ERR_MSG, LN, LN, ex.getMessage()),
 						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
 			}
 		}

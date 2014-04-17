@@ -7,7 +7,7 @@ import java.util.Queue;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.item.ItemState;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -16,9 +16,9 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
+public class BreadthFirstSearch extends AbstractAlgorithm {
 
-	private final static String ALGO_NAME = "Breadth-First-Search Algorithmus (BFS)";
+	private final static String ALGO_NAME = "Breadth-First-Search (BFS)";
 	private final static String ALGO_DESCRIPTION = "Die Breitensuche ist iterativ "
 			+ "implementiert. Es sind sowohl gerichtete als auch ungerichtete Graphen "
 			+ "zulässig. Die Breitensuche wird für jede (schwache) Zusammenhangskomponente "
@@ -28,7 +28,7 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 
 	private int counter = 0;
 
-	public AlgorithmBreadthFirstSearch() {
+	public BreadthFirstSearch() {
 		super(ALGO_NAME, ALGO_DESCRIPTION);
 		this.addEdgeType(EdgeType.DIRECTED);
 		this.addEdgeType(EdgeType.UNDIRECTED);
@@ -66,11 +66,11 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 					updateHandler.update();
 					return;
 				}
-				updateHandler.add(selectedVertex, State.SOLUTION, true,
+				updateHandler.add(selectedVertex, ItemState.SOLUTION, true,
 						++this.counter, true);
 				updateHandler.update();
 
-				updateHandler.add(selectedVertex, State.SOLUTION, false, false);
+				updateHandler.add(selectedVertex, ItemState.SOLUTION, false, false);
 				this.visitSuccessors(graph, vertexQueue, updateHandler,
 						selectedVertex);
 			}
@@ -103,18 +103,18 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 			IRestrictedEdge edge = graph.findEdge(selectedVertex, successor);
 
 			if (successor.isDone()) {
-				if (edge.getCurrentState() != State.REFUSE
+				if (edge.getCurrentState() != ItemState.ELIMINATION
 						&& selectedVertex.getValue() != successor) {
-					updateHandler.add(edge, State.REFUSE, true, true, true);
+					updateHandler.add(edge, ItemState.ELIMINATION, true, true, true);
 					updateHandler.update();
 				}
 			} else {
-				updateHandler.add(edge, State.VISIT, true, true);
-				updateHandler.add(successor, State.VISIT, true, true, false,
+				updateHandler.add(edge, ItemState.VISIT, true, true);
+				updateHandler.add(successor, ItemState.VISIT, true, true, false,
 						selectedVertex, true);
 				updateHandler.update();
 
-				updateHandler.add(successor, State.VISIT, false, false);
+				updateHandler.add(successor, ItemState.VISIT, false, false);
 				vertexQueue.offer(successor);
 			}
 		}
@@ -131,7 +131,7 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 		if (vertex.getValue() != null) {
 			IRestrictedEdge edge = graph.findEdge(
 					(IRestrictedVertex) vertex.getValue(), vertex);
-			updateHandler.add(edge, State.SOLUTION, true, true);
+			updateHandler.add(edge, ItemState.SOLUTION, true, true);
 		}
 	}
 
@@ -145,12 +145,12 @@ public class AlgorithmBreadthFirstSearch extends AbstractAlgorithm {
 			final IGraphUpdateHandler updateHandler) {
 
 		if (endVertex.isEnd()) {
-			updateHandler.add(endVertex, State.SOLUTION, true,
+			updateHandler.add(endVertex, ItemState.SOLUTION, true,
 					String.format(END_MSG1, endVertex.getName()), ++this.counter,
 					true);
 			updateHandler.update();
 
-			updateHandler.add(endVertex, State.SOLUTION, false, false);
+			updateHandler.add(endVertex, ItemState.SOLUTION, false, false);
 			return true;
 		}
 		return false;

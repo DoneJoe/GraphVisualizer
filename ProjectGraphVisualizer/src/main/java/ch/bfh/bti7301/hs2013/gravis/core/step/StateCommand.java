@@ -1,7 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.core.step;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.item.ItemState;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -11,16 +11,19 @@ public class StateCommand extends EmptyStep {
 
 	private final IGraphItem item;
 
-	private final State newState;
-	private final State oldState;
+	private final ItemState newState, oldState;
 	
 	/**
-	 * @param newState 
-	 * @param oldState 
-	 * @param currentItem 
 	 * 
+	 * @param currentItem
+	 * @param oldState
+	 * @param newState
+	 * @param comment
 	 */
-	public StateCommand(IGraphItem currentItem, State oldState, State newState) {
+	public StateCommand(IGraphItem currentItem, ItemState oldState, ItemState newState,
+			String comment) {
+		super(comment);
+		
 		this.item = currentItem;
 		this.oldState = oldState;
 		this.newState = newState;
@@ -29,13 +32,13 @@ public class StateCommand extends EmptyStep {
 	@Override
 	public IStepResult execute() {
 		this.item.setCurrentState(this.newState);
-		return new StepResult();
+		return new StepResult(this.comment);
 	}
 
 	@Override
 	public IStepResult unExecute() {
 		this.item.setCurrentState(this.oldState);
-		return new StepResult();
+		return new StepResult(this.comment);
 	}
 
 	

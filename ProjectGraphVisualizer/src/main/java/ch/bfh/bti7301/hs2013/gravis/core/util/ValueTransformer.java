@@ -37,7 +37,7 @@ public final class ValueTransformer {
 	 * @param stringValue
 	 * @return boolean
 	 */
-	public static boolean transformBoolean(String stringValue) {
+	public static boolean transformToBoolean(String stringValue) {
 		try {
 			return Boolean.parseBoolean(stringValue);
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public final class ValueTransformer {
 	 * @param color
 	 * @return Color
 	 */
-	public static String transformColorToString(Color color) {
+	public static String transformColorToString(final Color color) {
 		if (color == null) {
 			return GravisConstants.ANTIQUE;
 		}
@@ -79,7 +79,7 @@ public final class ValueTransformer {
 	 * @param stringValue
 	 * @return a transformed double value
 	 */
-	public static double transformDouble(String stringValue) {
+	public static double transformToDouble(String stringValue) {
 		try {
 			return Double.parseDouble(stringValue);
 		} catch (Exception e) {
@@ -92,7 +92,7 @@ public final class ValueTransformer {
 	 * @param yValue
 	 * @return Point2D
 	 */
-	public static Point2D transformLocation(String xValue, String yValue) {
+	public static Point2D transformToLocation(String xValue, String yValue) {
 		try {
 			return new Point(Integer.parseInt(xValue), Integer.parseInt(yValue));
 		} catch (Exception e) {
@@ -108,7 +108,7 @@ public final class ValueTransformer {
 	 * @param value
 	 * @return String
 	 */
-	public static String transformNumberToString(double value) {
+	public static String transformDoubleToString(double value) {
 		return Double.compare(round2Decimals(value), (int) Math.round(value)) == 0 ? 
 				String.valueOf((int) Math.round(value)) : String.valueOf(round2Decimals(value));
 	}
@@ -117,7 +117,7 @@ public final class ValueTransformer {
 	 * @param stringValue
 	 * @return Color
 	 */
-	public static Color transformStringToColor(String stringValue) {
+	public static Color transformStringToColor(final String stringValue) {
 		if (stringValue == null) {
 			return GravisColor.ANTIQUE;
 		}

@@ -12,18 +12,15 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem;
 public interface IRestrictedVertex extends IRestrictedGraphItem {
 
 	/**
-	 * Returns <code>true</code> if this is a start.
 	 * 
-	 * @return <code>true</code> if this is a start
+	 * @return double
 	 */
-	public abstract boolean isStart();
+	public abstract double getHeight();
 
 	/**
-	 * Returns <code>true</code> if this is an end.
-	 * 
-	 * @return Returns <code>true</code> if this is an end.
+	 * @return Point2D
 	 */
-	public abstract boolean isEnd();
+	public abstract Point2D getLocation();
 
 	/**
 	 * 
@@ -32,15 +29,18 @@ public interface IRestrictedVertex extends IRestrictedGraphItem {
 	public abstract double getWidth();
 	
 	/**
+	 * Returns <code>true</code> if this is an end vertex.
 	 * 
-	 * @return double
+	 * @return Returns <code>true</code> if this is an end vertex
 	 */
-	public abstract double getHeight();
+	public abstract boolean isEnd();
 	
 	/**
-	 * @return Point2D
+	 * Returns <code>true</code> if this is a start vertex.
+	 * 
+	 * @return <code>true</code> if this is a start vertex
 	 */
-	public abstract Point2D getLocation();
+	public abstract boolean isStart();
 
 	
 }

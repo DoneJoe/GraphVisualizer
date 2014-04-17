@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.item.ItemState;
 import static ch.bfh.bti7301.hs2013.gravis.core.util.ValueTransformer.toArray;
 
 /**
@@ -17,6 +17,10 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 
 	private final IRestrictedGraph graph;
 
+	/**
+	 * 
+	 * @param graph
+	 */
 	protected GraphUpdateHandler(IRestrictedGraph graph) {
 		this.itemUpdateList = new ArrayList<IRestrictedGraphItem>();
 		this.graph = graph;
@@ -31,13 +35,18 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 */
 	@Override
 	public void add(IRestrictedGraphItem graphItem) {
-		this.itemUpdateList.add(graphItem);
+		
+		this.add(graphItem, null, null, graphItem.isStateCommentEnabled(),
+				"", graphItem.getCurrentResult(), null, null, graphItem.getValue(), 
+				graphItem.isDone());
 	}
 
 	@Override
-	public void add(IRestrictedGraphItem graphItem, boolean isVisible) {
-		graphItem.setVisible(isVisible);
-		this.itemUpdateList.add(graphItem);
+	public void add(IRestrictedGraphItem graphItem, Boolean isVisible) {
+		
+		this.add(graphItem, isVisible, null, graphItem.isStateCommentEnabled(),
+				"", graphItem.getCurrentResult(), null, null, graphItem.getValue(), 
+				graphItem.isDone());
 	}
 
 	/*
@@ -45,15 +54,16 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * 
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
-	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, boolean,
-	 * boolean)
+	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, Boolean,
+	 * Boolean)
 	 */
 	@Override
 	public void add(IRestrictedGraphItem graphItem,
-			boolean isStateCommentEnabled, boolean isTagged) {
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setTagged(isTagged);
-		this.itemUpdateList.add(graphItem);
+			boolean isStateCommentEnabled, Boolean isTagged) {
+		
+		this.add(graphItem, null, null, graphItem.isStateCommentEnabled(),
+				"", graphItem.getCurrentResult(), isTagged, null, graphItem.getValue(), 
+				graphItem.isDone());
 	}
 
 	/*
@@ -61,23 +71,25 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * 
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
-	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, boolean,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, java.lang.String, double, boolean, boolean, java.lang.Object,
+	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, Boolean,
+	 * ch.bfh
+	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState,
+	 * Boolean, java.lang.String, double, Boolean, Boolean, java.lang.Object,
 	 * boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, boolean isVisible,
-			State state, boolean isStateCommentEnabled, String newComment,
-			double newResult, boolean isTagged, boolean isDashed, Object value,
+	public void add(IRestrictedGraphItem graphItem, Boolean isVisible,
+			ItemState state, boolean isStateCommentEnabled, String newComment,
+			double newResult, Boolean isTagged, Boolean isDashed, Object value,
 			boolean isDone) {
-		graphItem.setVisible(isVisible);
+
+		graphItem.setNewVisible(isVisible);
 		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
 		graphItem.setNewComment(newComment);
 		graphItem.setNewResult(newResult);
-		graphItem.setTagged(isTagged);
+		graphItem.setNewTagged(isTagged);
 		graphItem.setNewDashed(isDashed);
+		graphItem.setStateCommentEnabled(isStateCommentEnabled);
 		graphItem.setValue(value);
 		graphItem.setDone(isDone);
 		this.itemUpdateList.add(graphItem);
@@ -88,16 +100,16 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * 
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
-	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, boolean,
-	 * java.lang.String, boolean)
+	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, Boolean,
+	 * java.lang.String, Boolean)
 	 */
 	@Override
 	public void add(IRestrictedGraphItem graphItem,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged) {
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setTagged(isTagged);
-		this.itemUpdateList.add(graphItem);
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged) {
+		
+		this.add(graphItem, null, null, isStateCommentEnabled,
+				newComment, graphItem.getCurrentResult(), isTagged, null, 
+				graphItem.getValue(), graphItem.isDone());
 	}
 
 	/*
@@ -105,18 +117,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * 
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
-	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, boolean,
-	 * java.lang.String, boolean, boolean)
+	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, Boolean,
+	 * java.lang.String, Boolean, Boolean)
 	 */
 	@Override
 	public void add(IRestrictedGraphItem graphItem,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
-			boolean isDashed) {
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setTagged(isTagged);
-		graphItem.setNewDashed(isDashed);
-		this.itemUpdateList.add(graphItem);
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged,
+			Boolean isDashed) {
+		
+		this.add(graphItem, null, null, isStateCommentEnabled,
+				newComment, graphItem.getCurrentResult(), isTagged, isDashed, 
+				graphItem.getValue(), graphItem.isDone());
 	}
 
 	/*
@@ -124,18 +135,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * 
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
-	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, boolean,
-	 * java.lang.String, double, boolean)
+	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem, Boolean,
+	 * java.lang.String, double, Boolean)
 	 */
 	@Override
 	public void add(IRestrictedGraphItem graphItem,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged) {
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setNewResult(newResult);
-		graphItem.setTagged(isTagged);
-		this.itemUpdateList.add(graphItem);
+			Boolean isTagged) {
+		
+		this.add(graphItem, null, null, isStateCommentEnabled,
+				newComment, newResult, isTagged, null, graphItem.getValue(), 
+				graphItem.isDone());
 	}
 
 	/*
@@ -144,16 +154,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setTagged(isTagged);
-		this.itemUpdateList.add(graphItem);
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				"", graphItem.getCurrentResult(), isTagged, null, 
+				graphItem.getValue(), graphItem.isDone());
 	}
 
 	/*
@@ -162,17 +173,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, boolean, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * Boolean, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setTagged(isTagged);
-		graphItem.setNewDashed(isDashed);
-		this.itemUpdateList.add(graphItem);
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged, Boolean isDashed) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				"", graphItem.getCurrentResult(), isTagged, isDashed, 
+				graphItem.getValue(), graphItem.isDone());
 	}
 
 	/*
@@ -181,19 +192,18 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, boolean, boolean, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * Boolean, Boolean, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed,
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged, Boolean isDashed,
 			boolean isDone) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setTagged(isTagged);
-		graphItem.setNewDashed(isDashed);
-		graphItem.setDone(isDone);
-		this.itemUpdateList.add(graphItem);
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				"", graphItem.getCurrentResult(), isTagged, isDashed, 
+				graphItem.getValue(), isDone);
 	}
 
 	/*
@@ -202,20 +212,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, boolean, boolean, java.lang.Object, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * Boolean, Boolean, java.lang.Object, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged, boolean isDashed,
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged, Boolean isDashed,
 			Object value, boolean isDone) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setTagged(isTagged);
-		graphItem.setNewDashed(isDashed);
-		graphItem.setValue(value);
-		graphItem.setDone(isDone);
-		this.itemUpdateList.add(graphItem);
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				"", graphItem.getCurrentResult(), isTagged, isDashed, value, isDone);
 	}
 
 	/*
@@ -224,17 +231,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, boolean, java.lang.Object)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * Boolean, java.lang.Object)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, boolean isTagged, Object value) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setTagged(isTagged);
-		graphItem.setValue(value);
-		this.itemUpdateList.add(graphItem);
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, Boolean isTagged, Object value) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				"", graphItem.getCurrentResult(), isTagged, null, value, 
+				graphItem.isDone());
 	}
 
 	/*
@@ -243,17 +250,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, double, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * double, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, double newResult, boolean isTagged) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewResult(newResult);
-		graphItem.setTagged(isTagged);
-		this.itemUpdateList.add(graphItem);
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, double newResult, Boolean isTagged) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				"", newResult, isTagged, null, graphItem.getValue(), 
+				graphItem.isDone());
 	}
 
 	/*
@@ -262,20 +269,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, double, boolean, boolean, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * double, Boolean, Boolean, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, double newResult, boolean isTagged,
-			boolean isDashed, boolean isDone) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewResult(newResult);
-		graphItem.setTagged(isTagged);
-		graphItem.setNewDashed(isDashed);
-		graphItem.setDone(isDone);
-		this.itemUpdateList.add(graphItem);
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, double newResult, Boolean isTagged,
+			Boolean isDashed, boolean isDone) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				"", newResult, isTagged, isDashed, graphItem.getValue(), isDone);
 	}
 
 	/*
@@ -284,17 +288,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, java.lang.String, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * java.lang.String, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setTagged(isTagged);
-		this.itemUpdateList.add(graphItem);
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				newComment, graphItem.getCurrentResult(), isTagged, null, 
+				graphItem.getValue(), graphItem.isDone());
 	}
 
 	/*
@@ -303,19 +307,18 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, java.lang.String, boolean, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * java.lang.String, Boolean, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
-			boolean isDashed) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setTagged(isTagged);
-		graphItem.setNewDashed(isDashed);
-		this.itemUpdateList.add(graphItem);
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged,
+			Boolean isDashed) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				newComment, graphItem.getCurrentResult(), isTagged, isDashed, 
+				graphItem.getValue(), graphItem.isDone());
 	}
 
 	/*
@@ -324,20 +327,18 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, java.lang.String, boolean, boolean, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * java.lang.String, Boolean, Boolean, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
-			boolean isDashed, boolean isDone) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setTagged(isTagged);
-		graphItem.setNewDashed(isDashed);
-		graphItem.setDone(isDone);
-		this.itemUpdateList.add(graphItem);
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged,
+			Boolean isDashed, boolean isDone) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				newComment, graphItem.getCurrentResult(), isTagged, isDashed, 
+				graphItem.getValue(), isDone);
 	}
 
 	/*
@@ -346,19 +347,18 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, java.lang.String, boolean, java.lang.Object)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * java.lang.String, Boolean, java.lang.Object)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
-			boolean isStateCommentEnabled, String newComment, boolean isTagged,
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
+			boolean isStateCommentEnabled, String newComment, Boolean isTagged,
 			Object value) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setTagged(isTagged);
-		graphItem.setValue(value);
-		this.itemUpdateList.add(graphItem);
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				newComment, graphItem.getCurrentResult(), isTagged, null, value, 
+				graphItem.isDone());
 	}
 
 	/*
@@ -367,19 +367,18 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, java.lang.String, double, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * java.lang.String, double, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setNewResult(newResult);
-		graphItem.setTagged(isTagged);
-		this.itemUpdateList.add(graphItem);
+			Boolean isTagged) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				newComment, newResult, isTagged, null, graphItem.getValue(), 
+				graphItem.isDone());
 	}
 
 	/*
@@ -388,20 +387,18 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, java.lang.String, double, boolean, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * java.lang.String, double, Boolean, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged, boolean isDashed) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setNewResult(newResult);
-		graphItem.setTagged(isTagged);
-		graphItem.setNewDashed(isDashed);
-		this.itemUpdateList.add(graphItem);
+			Boolean isTagged, Boolean isDashed) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				newComment, newResult, isTagged, isDashed, graphItem.getValue(), 
+				graphItem.isDone());
 	}
 
 	/*
@@ -410,21 +407,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, java.lang.String, double, boolean, boolean, boolean)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * java.lang.String, double, Boolean, Boolean, Boolean)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged, boolean isDashed, boolean isDone) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setNewResult(newResult);
-		graphItem.setTagged(isTagged);
-		graphItem.setNewDashed(isDashed);
-		graphItem.setDone(isDone);
-		this.itemUpdateList.add(graphItem);
+			Boolean isTagged, Boolean isDashed, boolean isDone) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				newComment, newResult, isTagged, isDashed, graphItem.getValue(), isDone);
 	}
 
 	/*
@@ -433,20 +426,17 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphUpdateHandler#set(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem,
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem.State,
-	 * boolean, java.lang.String, double, boolean, java.lang.Object)
+	 * ch.bfh.bti7301
+	 * .hs2013.gravis.core.graph.item.IRestrictedGraphItem.ItemState, Boolean,
+	 * java.lang.String, double, Boolean, java.lang.Object)
 	 */
 	@Override
-	public void add(IRestrictedGraphItem graphItem, State state,
+	public void add(IRestrictedGraphItem graphItem, ItemState state,
 			boolean isStateCommentEnabled, String newComment, double newResult,
-			boolean isTagged, Object value) {
-		graphItem.setNewState(state);
-		graphItem.setStateCommentEnabled(isStateCommentEnabled);
-		graphItem.setNewComment(newComment);
-		graphItem.setNewResult(newResult);
-		graphItem.setTagged(isTagged);
-		graphItem.setValue(value);
-		this.itemUpdateList.add(graphItem);
+			Boolean isTagged, Object value) {
+		
+		this.add(graphItem, null, state, isStateCommentEnabled,
+				newComment, newResult, isTagged, null, value, graphItem.isDone());
 	}
 
 	/*
@@ -460,9 +450,10 @@ class GraphUpdateHandler implements IGraphUpdateHandler {
 	@Override
 	public void add(IRestrictedGraphItem graphItem, String newComment,
 			double newResult) {
-		graphItem.setNewComment(newComment);
-		graphItem.setNewResult(newResult);
-		this.itemUpdateList.add(graphItem);
+		
+		this.add(graphItem, null, null, graphItem.isStateCommentEnabled(),
+				newComment, newResult, null, null, graphItem.getValue(), 
+				graphItem.isDone());
 	}
 
 	/*

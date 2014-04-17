@@ -30,7 +30,7 @@ public class HyperEdgeTransformer implements Transformer<HyperEdgeMetadata, IEdg
 		edge.setName(hEdgeMeta.getId());
 		edge.setCurrentColor(ValueTransformer.transformStringToColor(hEdgeMeta
 				.getProperty(GravisConstants.E_COLOR)));
-		edge.setWeight(ValueTransformer.transformDouble(hEdgeMeta
+		edge.setWeight(ValueTransformer.transformToDouble(hEdgeMeta
 				.getProperty(GravisConstants.E_WEIGHT)));
 		return edge;
 	}

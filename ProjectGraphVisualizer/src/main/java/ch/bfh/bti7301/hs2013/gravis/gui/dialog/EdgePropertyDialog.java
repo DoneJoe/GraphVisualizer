@@ -126,7 +126,7 @@ public class EdgePropertyDialog extends JDialog {
 
 		edge.setName(this.txtEdgeName.getText().trim());
 		edge.setWeight(ValueTransformer.round2Decimals(ValueTransformer
-				.transformDouble(this.txtEdgeWeight.getText())));
+				.transformToDouble(this.txtEdgeWeight.getText())));
 		vViewer.repaint();
 		this.dispose();
 	}

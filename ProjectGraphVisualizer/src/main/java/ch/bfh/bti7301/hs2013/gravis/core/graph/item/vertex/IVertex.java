@@ -1,5 +1,6 @@
 package ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
@@ -12,10 +13,23 @@ public interface IVertex extends IGraphItem, IRestrictedVertex {
 
 	/**
 	 * 
-	 * @param width
+	 * @return draw color
 	 */
-	public abstract void setWidth(double width);
+	public abstract Color getCurrentDrawColor();
 	
+	/**
+	 * 
+	 * @param color
+	 */
+	public abstract void setCurrentDrawColor(Color color);
+	
+	/**
+	 * Sets as end vertex.
+	 * 
+	 * @param end
+	 */
+	public abstract void setEnd(boolean end);
+
 	/**
 	 * 
 	 * @param height
@@ -23,25 +37,22 @@ public interface IVertex extends IGraphItem, IRestrictedVertex {
 	public abstract void setHeight(double height);
 
 	/**
-	 * Sets the start.
-	 * 
-	 * @param start
-	 *            the start to set
-	 */
-	public abstract void setStart(boolean start);
-
-	/**
-	 * Sets the end.
-	 * 
-	 * @param end
-	 *            the end to set
-	 */
-	public abstract void setEnd(boolean end);
-
-	/**
 	 * 
 	 * @param location
 	 */
 	public abstract void setLocation(Point2D location);
+
+	/**
+	 * Sets as start vertex.
+	 * 
+	 * @param start
+	 */
+	public abstract void setStart(boolean start);
+	
+	/**
+	 * 
+	 * @param width
+	 */
+	public abstract void setWidth(double width);
 
 }

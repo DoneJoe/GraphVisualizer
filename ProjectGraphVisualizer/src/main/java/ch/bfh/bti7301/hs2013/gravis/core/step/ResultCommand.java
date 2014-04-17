@@ -10,17 +10,17 @@ class ResultCommand extends EmptyStep {
 
 	private final IGraphItem item;
 
-	private final double newResult;
-	private final double oldResult;
+	private final double newResult, oldResult;
 
 	/**
 	 * @param currentItem
 	 * @param oldResult
 	 * @param newResult
+	 * @param comment 
 	 */
 	protected ResultCommand(IGraphItem currentItem, double oldResult,
-			double newResult) {
-		super();
+			double newResult, String comment) {
+		super(comment);
 
 		this.item = currentItem;
 		this.oldResult = oldResult;
@@ -30,13 +30,13 @@ class ResultCommand extends EmptyStep {
 	@Override
 	public IStepResult execute() {
 		this.item.setCurrentResult(this.newResult);
-		return new StepResult();
+		return new StepResult(this.comment);
 	}
 
 	@Override
 	public IStepResult unExecute() {
 		this.item.setCurrentResult(this.oldResult);
-		return new StepResult();
+		return new StepResult(this.comment);
 	}
 
 }

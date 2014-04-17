@@ -6,72 +6,39 @@ import java.awt.Color;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public interface IGraphItem extends IRestrictedGraphItem, IEditItemObservable, Cloneable {
+public interface IGraphItem extends IRestrictedGraphItem, IEditItemObservable {
 
 	/**
 	 * 
-	 * @param result
+	 * @return current color
 	 */
-	public abstract void setCurrentResult(double result);
+	public abstract Color getCurrentColor();
+
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isCurrentDashed();
+
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isCurrentTagged();
 	
 	/**
 	 * 
-	 * @param name
+	 * @return boolean
 	 */
-	public abstract void setName(String name);
+	public abstract boolean isCurrentVisible();
 
+	public abstract void resetNewValues();
+	
 	/**
 	 * 
 	 * @param currentColor
 	 */
 	public abstract void setCurrentColor(Color currentColor);
-	
-	/**
-	 * 
-	 * @param newColor
-	 */
-	public abstract void setNewColor(Color newColor);
-	
-	/**
-	 * 
-	 * @return Color
-	 */
-	public abstract Color getNewColor();
-
-	public abstract void resetVisualizationValues();
-
-	/**
-	 * @return boolean
-	 */
-	public abstract boolean hasNoResult();
-
-	/**
-	 * 
-	 * @param currentState
-	 */
-	public abstract void setCurrentState(State currentState);
-	
-	/**
-	 * @return float
-	 */
-	public abstract float getCurrentStrokeWidth();
-	
-	/**
-	 * 
-	 * @param width
-	 */
-	public abstract void setCurrentStrokeWidth(float width);
-	
-	/**
-	 * @return float
-	 */
-	public abstract float getNewStrokeWidth();
-	
-	/**
-	 * 
-	 * @param width
-	 */
-	public abstract void setNewStrokeWidth(float width);
 	
 	/**
 	 * @param value
@@ -80,14 +47,32 @@ public interface IGraphItem extends IRestrictedGraphItem, IEditItemObservable, C
 	
 	/**
 	 * 
-	 * @return boolean
+	 * @param result
 	 */
-	public abstract boolean isCurrentDashed();
+	public abstract void setCurrentResult(double result);
+	
+	/**
+	 * null pointer throws an Exception.
+	 * 
+	 * @param currentState
+	 */
+	public abstract void setCurrentState(ItemState currentState);
 	
 	/**
 	 * 
-	 * @return clone
-	 * @throws CloneNotSupportedException
+	 * @param tagged
 	 */
-	public IGraphItem clone() throws CloneNotSupportedException;
+	public abstract void setCurrentTagged(boolean tagged);
+	
+	/**
+	 * 
+	 * @param visible
+	 */
+	public abstract void setCurrentVisible(boolean visible);
+	
+	/**
+	 * 
+	 * @param name
+	 */
+	public abstract void setName(String name);
 }

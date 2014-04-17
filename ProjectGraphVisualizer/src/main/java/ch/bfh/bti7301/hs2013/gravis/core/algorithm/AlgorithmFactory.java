@@ -27,15 +27,15 @@ public class AlgorithmFactory {
 		this.undirectedAlgoNames = new ArrayList<>();
 		
 		// Create an instance of each available algorithm
-		IAlgorithm algorithm = new AlgorithmDFSRecursive();
+		IAlgorithm algorithm = new DFSRecursive();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
-		algorithm = new AlgorithmDLSRecursive();
+		algorithm = new DLSRecursive();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
-		algorithm = new AlgorithmBreadthFirstSearch();
+		algorithm = new BreadthFirstSearch();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
-		algorithm = new AlgorithmDijkstra();
+		algorithm = new Dijkstra();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
-		algorithm = new AlgorithmKruskalMinSpanningForest();
+		algorithm = new KruskalMinSpanningForest();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
 		
 		for (String algoName : this.algorithmMap.keySet()) {

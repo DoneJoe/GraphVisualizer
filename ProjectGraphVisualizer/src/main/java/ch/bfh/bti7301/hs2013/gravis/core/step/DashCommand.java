@@ -6,22 +6,22 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public class StrokeDashCommand extends EmptyStep {
+public class DashCommand extends EmptyStep {
 
 	private final IGraphItem item;
 
-	private final boolean oldDashed;
-	private final boolean newDashed;
+	private final boolean oldDashed, newDashed;
 	
 	/**
 	 * 
 	 * @param currentItem
 	 * @param oldDashed
 	 * @param newDashed
+	 * @param comment
 	 */
-	public StrokeDashCommand(IGraphItem currentItem, boolean oldDashed, 
-			boolean newDashed) {
-		super();
+	public DashCommand(IGraphItem currentItem, boolean oldDashed, 
+			boolean newDashed, String comment) {
+		super(comment);
 		
 		this.item = currentItem;
 		this.oldDashed = oldDashed;
@@ -34,7 +34,7 @@ public class StrokeDashCommand extends EmptyStep {
 	@Override
 	public IStepResult execute() {
 		this.item.setCurrentDashed(this.newDashed);
-		return new StepResult();
+		return new StepResult(this.comment);
 	}
 
 	/* (non-Javadoc)
@@ -43,8 +43,7 @@ public class StrokeDashCommand extends EmptyStep {
 	@Override
 	public IStepResult unExecute() {
 		this.item.setCurrentDashed(this.oldDashed);
-		return new StepResult();
+		return new StepResult(this.comment);
 	}
-
 	
 }

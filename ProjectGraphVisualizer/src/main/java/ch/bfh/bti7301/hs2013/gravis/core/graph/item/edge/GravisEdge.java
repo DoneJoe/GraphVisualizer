@@ -1,5 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge;
 
+import java.util.Objects;
+
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem;
 import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
 
@@ -9,26 +11,18 @@ import ch.bfh.bti7301.hs2013.gravis.core.util.GravisConstants;
  */
 class GravisEdge extends AbstractGraphItem implements IEdge {
 
+	private static final String LABEL = "e";
+	
+	private static int counter = 0;
+	
+	private String edgeName;
+
 	private double weight;
 
 	protected GravisEdge() {
-		super();
-
-		this.weight = GravisConstants.E_WEIGHT_DEFAULT;
+		this.setName(LABEL + String.valueOf(++counter));
+		this.setWeight(GravisConstants.E_WEIGHT_DEFAULT);
 		this.setCurrentColor(GravisConstants.E_COLOR_DEFAULT);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.AbstractGravisGraphItem#toString
-	 * ()
-	 */
-	@Override
-	public String toString() {
-		;
-		return super.toString();
 	}
 
 	/*
@@ -48,7 +42,7 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 	 */
 	@Override
 	public void setWeight(double weight) {
-		boolean equal = Double.compare(this.weight, weight) == 0;
+		boolean equal = Double.compare(this.getWeight(), weight) == 0;
 		this.weight = weight;
 		
 		if (!equal) {
@@ -56,26 +50,27 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem#clone()
+	/* (non-Javadoc)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IGraphItem#setName(java.lang.String)
 	 */
 	@Override
-	public GravisEdge clone() throws CloneNotSupportedException {
-		return (GravisEdge) super.clone();
+	public void setName(String name) {
+		// TODO Exception handling bei null values
+		Objects.requireNonNull(name);
+		boolean equal = this.getName() == null ? false : this.getName().equals(name.trim());
+		this.edgeName = name.trim();
+
+		if (!equal) {
+			this.fireGraphItemsChangedEvent(this);
+		}		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.AbstractGraphItem#
-	 * getTaggedStrokeWidth()
+	/* (non-Javadoc)
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#getName()
 	 */
 	@Override
-	protected float getTaggedStrokeWidth() {
-		return GravisConstants.E_TAGGED_STROKE;
+	public String getName() {
+		return this.edgeName;
 	}
 
 }
