@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
 Created-By: 1.7.0_51 (Oracle Corporation)
-Main-Class: ch.bfh.bti7301.hs2013.gravis.GravisStartup
+Main-Class: ch.bfh.ti.gravis.GravisStartup

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ch.bfh.bti7301.hs2013.gravis</groupId>
+	<groupId>ch.bfh.ti.gravis</groupId>
 	<artifactId>GraphVisualizer</artifactId>
 	<description>Software zur Visualisierung der Traversierung von Graphen. Ein Algorithmus, wie etwa derjenige von Dijkstra soll mit diesem Werkzeug so auf einfache Weise visualisiert werden. Das Werkzeug soll sich als didaktisches Hilfsmittel für beliebige Graphen-Algorithmen eignen.</description>
 	<packaging>jar</packaging>
@@ -104,7 +104,7 @@
 					  <archive>
 					    <manifest>
 					    	<addClasspath>true</addClasspath>
-							<mainClass>ch.bfh.bti7301.hs2013.gravis.GravisStartup</mainClass>
+							<mainClass>ch.bfh.ti.gravis.GravisStartup</mainClass>
 							<classpathPrefix>dependency-jars/</classpathPrefix>
 					    </manifest>
 					  </archive>
