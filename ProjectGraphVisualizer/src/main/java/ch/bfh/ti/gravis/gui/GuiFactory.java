@@ -1,7 +1,9 @@
 package ch.bfh.ti.gravis.gui;
 
+import java.awt.Image;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import ch.bfh.ti.gravis.core.CoreException;
@@ -14,10 +16,16 @@ import ch.bfh.ti.gravis.core.graph.transformer.PointTransformer;
 import ch.bfh.ti.gravis.gui.controller.ControllerFactory;
 import ch.bfh.ti.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.ti.gravis.gui.controller.IStepController;
+import ch.bfh.ti.gravis.gui.dialog.ConfirmDialogAdapter;
+import ch.bfh.ti.gravis.gui.dialog.FileChooserAdapter;
+import ch.bfh.ti.gravis.gui.dialog.GraphPropertyDialogFactory;
+import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.ti.gravis.gui.model.AppModelFactory;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
+
+import static ch.bfh.ti.gravis.core.util.GravisConstants.*;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -31,10 +39,11 @@ public final class GuiFactory {
 	/**
 	 * @param core
 	 * @return JFrame
-	 * @throws CoreException 
-	 * @throws IOException 
+	 * @throws CoreException
+	 * @throws IOException
 	 */
-	public static JFrame createGUI(ICore core) throws CoreException, IOException {
+	public static JFrame createGUI(ICore core) throws CoreException,
+			IOException {
 		// model
 		IAppModel model = AppModelFactory.createAppModel(core);
 
@@ -47,10 +56,23 @@ public final class GuiFactory {
 				.createStepController(model);
 		// add EditGraphEventListener to graph
 		model.getGraph().addEditGraphEventListener(visualizationController);
-		
+
 		// view
-		return new MainWindow(menuToolbarController, visualizationController,
-				stepController, model);
+		JFrame mainWindow = new MainWindow(menuToolbarController,
+				visualizationController, stepController, model);
+
+		// set dialog adapters to controllers
+		menuToolbarController.setFileChooserAdapter(new FileChooserAdapter(
+				mainWindow));
+		menuToolbarController.setMessageDialogAdapter(new MessageDialogAdapter(
+				mainWindow));
+		menuToolbarController.setConfirmDialogAdapter(new ConfirmDialogAdapter(
+				mainWindow));
+		menuToolbarController
+				.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
+						mainWindow));
+
+		return mainWindow;
 	}
 
 	/**
@@ -59,6 +81,18 @@ public final class GuiFactory {
 	 */
 	public static Layout<IVertex, IEdge> createLayout(IGravisGraph graph) {
 		return new StaticLayout<>(graph, new PointTransformer());
+	}
+	
+	/**
+	 * Loads an icon ressource with the given name.
+	 * 
+	 * @param iconName
+	 * @return Image
+	 * @throws IOException
+	 */
+	public static Image loadImage(String iconName) throws IOException {
+		return ImageIO.read(GuiFactory.class.getResourceAsStream(
+				IMAGES_DIR + iconName));
 	}
 
 }

@@ -300,7 +300,7 @@ class MenuToolbarController extends Observable implements
 	 */
 	private void handleAlgorithmEvent(final String item) throws CoreException {
 		
-		// TODO algo auswahl-message vor Berechnung anzeigen
+		// TODO start-message vor der Step-Berechnung
 		
 		// ignore title entry
 		if (item.equals(IAppModel.DEFAULT_ALGO_ENTRY)) {

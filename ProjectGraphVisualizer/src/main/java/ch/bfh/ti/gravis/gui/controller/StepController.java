@@ -5,6 +5,9 @@ import static ch.bfh.ti.gravis.gui.controller.IStepController.EventSource.*;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
 
+import javax.swing.JSpinner;
+import javax.swing.event.ChangeEvent;
+
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 
@@ -31,6 +34,8 @@ class StepController extends Observable implements IStepController {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
+		// TODO Exception handling
+		
 		if (e.getActionCommand().equals(BEGINNING.toString())) {
 			this.handleBeginningEvent();
 		} else if (e.getActionCommand().equals(BACK.toString())) {
@@ -39,6 +44,60 @@ class StepController extends Observable implements IStepController {
 			this.handleForwardEvent();
 		} else if (e.getActionCommand().equals(END.toString())) {
 			this.handleEndEvent();
+		} else if(e.getActionCommand().equals(PLAY.toString())) {
+			this.handlePlayEvent();
+		} else if(e.getActionCommand().equals(PAUSE.toString())) {
+			this.handlePauseEvent();
+		} else if(e.getActionCommand().equals(STOP.toString())) {
+			this.handleStopEvent();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// TODO implement
+		
+		if (e.getSource() instanceof JSpinner) {
+			System.out.println("spinner state changed");
+		}
+		
+	}
+
+	private void handleBackEvent() {
+		IGravisListIterator<String> stepIterator = this.model.getStepIterator();
+
+		if (stepIterator != null && stepIterator.hasPrevious()) {
+			// update model
+			String stepMessage = stepIterator.previous();
+			this.model.updateStepButtonModels(stepIterator.hasPrevious(),
+					stepIterator.hasPrevious(), stepIterator.hasNext(),
+					stepIterator.hasNext());
+			if (this.model.getProgressBarModel() != null) {
+				this.model.getProgressBarModel().setValue(
+						this.model.getProgressBarModel().getValue() - 1);
+			}
+
+			this.updateView(stepMessage);
+		}
+	}
+
+	private void handleBeginningEvent() {
+		IGravisListIterator<String> stepIterator = this.model.getStepIterator();
+
+		if (stepIterator != null && stepIterator.hasPrevious()) {
+			// update model
+			String stepMessage = stepIterator.first();
+			this.model.updateStepButtonModels(stepIterator.hasPrevious(),
+					stepIterator.hasPrevious(), stepIterator.hasNext(),
+					stepIterator.hasNext());
+			if (this.model.getProgressBarModel() != null) {
+				this.model.getProgressBarModel().setValue(0);
+			}
+
+			this.updateView(stepMessage);
 		}
 	}
 
@@ -78,39 +137,22 @@ class StepController extends Observable implements IStepController {
 		}
 	}
 
-	private void handleBackEvent() {
-		IGravisListIterator<String> stepIterator = this.model.getStepIterator();
-
-		if (stepIterator != null && stepIterator.hasPrevious()) {
-			// update model
-			String stepMessage = stepIterator.previous();
-			this.model.updateStepButtonModels(stepIterator.hasPrevious(),
-					stepIterator.hasPrevious(), stepIterator.hasNext(),
-					stepIterator.hasNext());
-			if (this.model.getProgressBarModel() != null) {
-				this.model.getProgressBarModel().setValue(
-						this.model.getProgressBarModel().getValue() - 1);
-			}
-
-			this.updateView(stepMessage);
-		}
+	private void handlePauseEvent() {
+		// TODO implement
+		
+		System.out.println("handlePauseEvent");
 	}
 
-	private void handleBeginningEvent() {
-		IGravisListIterator<String> stepIterator = this.model.getStepIterator();
+	private void handlePlayEvent() {
+		// TODO implement
+		
+		System.out.println("handlePlayEvent");
+	}
 
-		if (stepIterator != null && stepIterator.hasPrevious()) {
-			// update model
-			String stepMessage = stepIterator.first();
-			this.model.updateStepButtonModels(stepIterator.hasPrevious(),
-					stepIterator.hasPrevious(), stepIterator.hasNext(),
-					stepIterator.hasNext());
-			if (this.model.getProgressBarModel() != null) {
-				this.model.getProgressBarModel().setValue(0);
-			}
-
-			this.updateView(stepMessage);
-		}
+	private void handleStopEvent() {
+		// TODO implement
+		
+		System.out.println("handleStopEvent");
 	}
 
 	/**

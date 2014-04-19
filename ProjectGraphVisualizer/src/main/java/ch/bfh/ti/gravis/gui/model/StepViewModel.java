@@ -4,7 +4,7 @@ package ch.bfh.ti.gravis.gui.model;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public class StepModel implements IStepModel {
+public class StepViewModel implements IStepViewModel {
 
 	private final int stepValue;
 	
@@ -14,13 +14,13 @@ public class StepModel implements IStepModel {
 	 * @param stepValue
 	 * @param stepMaximum
 	 */
-	public StepModel(int stepValue, int stepMaximum) {
+	public StepViewModel(int stepValue, int stepMaximum) {
 		this.stepValue = stepValue;
 		this.stepMaximum = stepMaximum;
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IStepModel#getStepValue()
+	 * @see ch.bfh.ti.gravis.gui.model.IStepViewModel#getStepValue()
 	 */
 	@Override
 	public int getStepValue() {
@@ -28,7 +28,7 @@ public class StepModel implements IStepModel {
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IStepModel#getStepMaximum()
+	 * @see ch.bfh.ti.gravis.gui.model.IStepViewModel#getStepMaximum()
 	 */
 	@Override
 	public int getStepMaximum() {

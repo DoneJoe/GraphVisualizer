@@ -24,15 +24,15 @@ public interface IAppModel {
 	public static final String DEFAULT_ALGO_ENTRY = "Algorithmus wählen:";
 	
 	/**
-	 * @return IStepModel
+	 * @return IStepViewModel
 	 */
-	public abstract IStepModel createStepModel();
+	public abstract IStepViewModel createStepModel();
 
 	/**
 	 * 
-	 * @return IToolBarModel
+	 * @return IToolBarViewModel
 	 */
-	public abstract IToolBarModel createToolBarModel();
+	public abstract IToolBarViewModel createToolBarModel();
 
 	/**
 	 * @return ComboBoxModel<String>

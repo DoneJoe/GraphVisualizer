@@ -29,6 +29,8 @@ class AppModel implements IAppModel {
 	modeComboChanging;
 
 	private CalculationState calcState;
+	
+	private ToggleComboModel toggleComboModel;
 
 	private DefaultComboBoxModel<String> algoComboModel;
 
@@ -37,6 +39,9 @@ class AppModel implements IAppModel {
 
 	private ComboBoxModel<?> editModeComboModel = null;
 	// TODO in VisualPanel setzen,in ToolbarPanel abrufen, keine Ruekgabe von
+	
+	// TODO SpinnerModel
+	
 	// VisualPanel
 
 	private ButtonModel deleteEdgeButtonModel = null,
@@ -76,8 +81,8 @@ class AppModel implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#createStepModel()
 	 */
 	@Override
-	public IStepModel createStepModel() {
-		return new StepModel(this.progressBarModel.getValue(),
+	public IStepViewModel createStepModel() {
+		return new StepViewModel(this.progressBarModel.getValue(),
 				this.progressBarModel.getMaximum());
 	}
 
@@ -88,8 +93,8 @@ class AppModel implements IAppModel {
 	 * ch.bfh.ti.gravis.gui.model.IAppModel#createToolBarModel()
 	 */
 	@Override
-	public IToolBarModel createToolBarModel() {
-		return new ToolBarModel(
+	public IToolBarViewModel createToolBarModel() {
+		return new ToolBarViewModel(
 				this.algoComboModel,
 				!this.graph.isEmpty(),
 				this.graphItemsEdited

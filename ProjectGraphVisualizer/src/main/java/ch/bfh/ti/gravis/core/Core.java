@@ -123,7 +123,7 @@ class Core implements ICore {
 	public String getAlgorithmDescription(String algoName) throws CoreException {
 		try {
 			IAlgorithm algo = this.algorithmFactory.createAlgorithm(algoName);
-			return algo == null ? null : algo.getDescription();
+			return algo == null ? "" : algo.getDescription();
 		} catch (Exception e) {
 			throw new CoreException(e);
 		}

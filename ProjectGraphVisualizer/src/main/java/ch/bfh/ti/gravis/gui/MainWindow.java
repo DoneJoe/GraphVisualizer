@@ -2,7 +2,6 @@ package ch.bfh.ti.gravis.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
-import java.awt.Image;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -15,13 +14,9 @@ import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 import ch.bfh.ti.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.ti.gravis.gui.controller.IStepController;
-import ch.bfh.ti.gravis.gui.dialog.ConfirmDialogAdapter;
-import ch.bfh.ti.gravis.gui.dialog.FileChooserAdapter;
-import ch.bfh.ti.gravis.gui.dialog.GraphPropertyDialogFactory;
-import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 import ch.bfh.ti.gravis.gui.visualization.VisualizationPanel;
-import static ch.bfh.ti.gravis.core.util.GravisConstants.*;
+import static ch.bfh.ti.gravis.gui.GuiFactory.loadImage;
 import static ch.bfh.ti.gravis.gui.controller.IMenuToolbarController.EventSource;
 
 import javax.swing.ImageIcon;
@@ -154,27 +149,16 @@ public class MainWindow extends JFrame {
 		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model);
 		StepPanel stepPanel = new StepPanel(stepController, model);
 		ProtocolPanel protocolPanel = new ProtocolPanel();
-		JPanel footerPanel = new JPanel();
+		JPanel centerPanel = new JPanel();
 
 		// add panels
 		contentPane.add(toolBar, BorderLayout.PAGE_START);
-		contentPane.add(visualizationPanel, BorderLayout.CENTER);
-		contentPane.add(footerPanel, BorderLayout.SOUTH);
-		footerPanel.setLayout(new BorderLayout());
-		footerPanel.add(stepPanel, BorderLayout.NORTH);
-		footerPanel.add(protocolPanel, BorderLayout.CENTER);
-
-		// set dialog adapters
-		menuToolbarController
-				.setFileChooserAdapter(new FileChooserAdapter(this));
-		menuToolbarController.setMessageDialogAdapter(new MessageDialogAdapter(
-				this));
-		menuToolbarController.setConfirmDialogAdapter(new ConfirmDialogAdapter(
-				this));
-		menuToolbarController
-				.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
-						this));
-
+		contentPane.add(centerPanel, BorderLayout.CENTER);
+		contentPane.add(protocolPanel, BorderLayout.SOUTH);	
+		centerPanel.setLayout(new BorderLayout());
+		centerPanel.add(visualizationPanel, BorderLayout.CENTER);
+		centerPanel.add(stepPanel, BorderLayout.SOUTH);
+		
 		// add Observers
 		menuToolbarController.addObserver(toolBar);
 		menuToolbarController.addObserver(stepPanel);
@@ -187,7 +171,8 @@ public class MainWindow extends JFrame {
 		stepController.addObserver(stepPanel);
 		stepController.addObserver(protocolPanel);
 
-		this.createMenus(menuToolbarController, model);
+		// prepare main window
+		this.createMenus(menuToolbarController);
 		this.addWindowListener(menuToolbarController);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
@@ -200,34 +185,33 @@ public class MainWindow extends JFrame {
 	/**
 	 * 
 	 * @param menuToolbarController
-	 * @param model
 	 * @throws IOException
 	 */
-	private void createMenus(IMenuToolbarController menuToolbarController,
-			IAppModel model) throws IOException {
+	private void createMenus(IMenuToolbarController menuToolbarController) 
+			throws IOException {
 		// create menu items
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menuFile = new JMenu(FILE);
 		JMenuItem menuItemNewDirGraph = new JMenuItem(NEW_DIR_GRAPH,
-				new ImageIcon(this.loadImage(NEW_ICON)));
+				new ImageIcon(loadImage(NEW_ICON)));
 		JMenuItem menuItemNewUndirGraph = new JMenuItem(NEW_UNDIR_GRAPH,
-				new ImageIcon(this.loadImage(NEW_ICON)));
+				new ImageIcon(loadImage(NEW_ICON)));
 		JMenuItem menuItemOpenGraph = new JMenuItem(OPEN, new ImageIcon(
-				this.loadImage(OPEN_ICON)));
+				loadImage(OPEN_ICON)));
 		JMenuItem menuItemSaveGraphAs = new JMenuItem(SAVE_AS, new ImageIcon(
-				this.loadImage(SAVE_AS_ICON)));
+				loadImage(SAVE_AS_ICON)));
 		JMenuItem menuItemSaveGraph = new JMenuItem(SAVE, new ImageIcon(
-				this.loadImage(SAVE_ICON)));
+				loadImage(SAVE_ICON)));
 		JMenuItem menuItemGraphProperties = new JMenuItem(PROPERTIES,
-				new ImageIcon(this.loadImage(PROPERTIES_ICON)));
+				new ImageIcon(loadImage(PROPERTIES_ICON)));
 		JMenuItem menuItemExit = new JMenuItem(EXIT);
 		JMenu menuHelp = new JMenu(HELP_MENU);
 		JMenuItem menuItemHelp = new JMenuItem(HELP_ITEM, new ImageIcon(
-				this.loadImage(HELP_ICON)));
+				loadImage(HELP_ICON)));
 		JMenuItem menuItemShortcuts = new JMenuItem(SHORTCUTS, new ImageIcon(
-				this.loadImage(HELP_ICON)));
+				loadImage(HELP_ICON)));
 		JMenuItem menuItemInfo = new JMenuItem(INFO, new ImageIcon(
-				this.loadImage(INFO_ICON)));
+				loadImage(INFO_ICON)));
 
 		// set mnemonics and menu shortcuts
 		menuFile.setMnemonic(KeyEvent.VK_D);
@@ -286,18 +270,6 @@ public class MainWindow extends JFrame {
 		menuHelp.add(menuItemHelp);
 		menuHelp.add(menuItemShortcuts);
 		menuHelp.add(menuItemInfo);
-	}
-
-	/**
-	 * Loads an icon ressource with the given name.
-	 * 
-	 * @param iconName
-	 * @return Image
-	 * @throws IOException
-	 */
-	private Image loadImage(String iconName) throws IOException {
-		return ImageIO.read(this.getClass().getResourceAsStream(
-				IMAGES_DIR + iconName));
 	}
 
 	/**

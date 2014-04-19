@@ -1,19 +1,17 @@
 package ch.bfh.ti.gravis.gui;
 
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 
 import ch.bfh.ti.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
-import ch.bfh.ti.gravis.gui.model.IToolBarModel;
-import static ch.bfh.ti.gravis.core.util.GravisConstants.*;
+import ch.bfh.ti.gravis.gui.model.IToolBarViewModel;
+import static ch.bfh.ti.gravis.gui.GuiFactory.loadImage;
 import static ch.bfh.ti.gravis.gui.controller.IMenuToolbarController.EventSource;
 
 import javax.swing.ButtonGroup;
@@ -79,32 +77,32 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		this.setLayout(layout);
 
 		JButton btnNewDirGraph = new JButton(NEW_DIR_LABEL);
-		btnNewDirGraph.setIcon(new ImageIcon(this.loadImage(NEW_ICON)));
+		btnNewDirGraph.setIcon(new ImageIcon(loadImage(NEW_ICON)));
 		btnNewDirGraph.setToolTipText(NEW_DIR_TOOLTIP);
 		this.add(btnNewDirGraph);
 
 		JButton btnNewUndirGraph = new JButton(NEW_UNDIR_LABEL);
-		btnNewUndirGraph.setIcon(new ImageIcon(this.loadImage(NEW_ICON)));
+		btnNewUndirGraph.setIcon(new ImageIcon(loadImage(NEW_ICON)));
 		btnNewUndirGraph.setToolTipText(NEW_UNDIR_TOOLTIP);
 		this.add(btnNewUndirGraph);
 
 		JButton btnOpenGraph = new JButton();
-		btnOpenGraph.setIcon(new ImageIcon(this.loadImage(OPEN_ICON)));
+		btnOpenGraph.setIcon(new ImageIcon(loadImage(OPEN_ICON)));
 		btnOpenGraph.setToolTipText(OPEN_TOOLTIP);
 		this.add(btnOpenGraph);
 
 		JButton btnSaveGraph = new JButton();
-		btnSaveGraph.setIcon(new ImageIcon(this.loadImage(SAVE_ICON)));
+		btnSaveGraph.setIcon(new ImageIcon(loadImage(SAVE_ICON)));
 		btnSaveGraph.setToolTipText(SAVE_TOOLTIP);
 		this.add(btnSaveGraph);
 
 		JButton btnSaveGraphAs = new JButton();
-		btnSaveGraphAs.setIcon(new ImageIcon(this.loadImage(SAVE_AS_ICON)));
+		btnSaveGraphAs.setIcon(new ImageIcon(loadImage(SAVE_AS_ICON)));
 		btnSaveGraphAs.setToolTipText(SAVE_AS_TOOLTIP);
 		this.add(btnSaveGraphAs);
 
 		JButton btnGraphProp = new JButton();
-		btnGraphProp.setIcon(new ImageIcon(this.loadImage(PROPERTIES_ICON)));
+		btnGraphProp.setIcon(new ImageIcon(loadImage(PROPERTIES_ICON)));
 		btnGraphProp.setToolTipText(PROPERTIES_TOOLTIP);
 		this.add(btnGraphProp);
 
@@ -113,20 +111,19 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		// this.add(lblEditMode);
 
 		JToggleButton tglbtnPicking = new JToggleButton();
-		tglbtnPicking.setIcon(new ImageIcon(this.loadImage(PICKING_ICON)));
+		tglbtnPicking.setIcon(new ImageIcon(loadImage(PICKING_ICON)));
 		tglbtnPicking.setToolTipText(PICKING_TOOLTIP);
 		tglbtnPicking.setModel(model.getPickingToggleModel());
 		this.add(tglbtnPicking);
 
 		JToggleButton tglbtnEditing = new JToggleButton();
-		tglbtnEditing.setIcon(new ImageIcon(this.loadImage(EDITING_ICON)));
+		tglbtnEditing.setIcon(new ImageIcon(loadImage(EDITING_ICON)));
 		tglbtnEditing.setToolTipText(EDITING_TOOLTIP);
 		tglbtnEditing.setModel(model.getEditingToggleModel());
 		this.add(tglbtnEditing);
 
 		JToggleButton tglbtnTransforming = new JToggleButton();
-		tglbtnTransforming.setIcon(new ImageIcon(this
-				.loadImage(TRANSFORMING_ICON)));
+		tglbtnTransforming.setIcon(new ImageIcon(loadImage(TRANSFORMING_ICON)));
 		tglbtnTransforming.setToolTipText(TRANSFORMING_TOOLTIP);
 		tglbtnTransforming.setModel(model.getTransformingToggleModel());
 		this.add(tglbtnTransforming);
@@ -190,6 +187,8 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		btnGroupEditMode.add(tglbtnEditing);
 		btnGroupEditMode.add(tglbtnTransforming);
 		btnGroupEditMode.setSelected(tglbtnEditing.getModel(), true);
+		
+		// TODO gewählter Toggle-Button aus model auslesen
 	}
 
 	/*
@@ -199,8 +198,8 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof IToolBarModel) {
-			IToolBarModel model = (IToolBarModel) arg;
+		if (arg instanceof IToolBarViewModel) {
+			IToolBarViewModel model = (IToolBarViewModel) arg;
 
 			this.comboBoxAlgorithm.setModel(model.getAlgorithmComboBoxModel());
 			this.comboBoxAlgorithm.setEnabled(model.isAlgoComboEnabled());
@@ -210,16 +209,5 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		}
 	}
 
-	/**
-	 * Loads an icon ressource with the given name.
-	 * 
-	 * @param iconName
-	 * @return Image
-	 * @throws IOException
-	 */
-	private Image loadImage(String iconName) throws IOException {
-		return ImageIO.read(this.getClass().getResourceAsStream(
-				IMAGES_DIR + iconName));
-	}
 
 }
