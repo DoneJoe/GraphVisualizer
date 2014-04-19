@@ -11,6 +11,7 @@ import ch.bfh.ti.gravis.core.step.IStepRecorder;
 import edu.uci.ics.jung.algorithms.util.MapBinaryHeap;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import static ch.bfh.ti.gravis.core.graph.item.ItemState.*;
+import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
 
 /**
  * comments end with a new line (except algorithm name)
@@ -21,9 +22,9 @@ import static ch.bfh.ti.gravis.core.graph.item.ItemState.*;
 class Dijkstra extends AbstractAlgorithm {
 
 	private final static String NEG_WEIGHT = "Dijkstra algorithm: "
-			+ "negative weights are not allowed!" + System.lineSeparator();
+			+ "negative weights are not allowed!" + LN;
 	private final static String NO_START_VERTEX = "Dijkstra algorithm: no start vertex "
-			+ "found in graph %s!" + System.lineSeparator();
+			+ "found in graph %s!" + LN;
 
 	private final static String ALGO_NAME = "Dijkstra";
 	private final static String ALGO_DESCRIPTION = "Der Dijkstra-Algorithmus findet den "
@@ -33,19 +34,19 @@ class Dijkstra extends AbstractAlgorithm {
 			+ "funktioniert mit gerichteten oder ungerichteten Kanten. Negative "
 			+ "Kantengewichte und Mehrfachkanten sind nicht erlaubt.";
 	private final static String START_VERTEX = "%s ist der Startknoten."
-			+ System.lineSeparator();
+			+ LN;
 	private final static String SHORTEST_PATH_OK = "Der kürzeste Weg von %s nach "
-			+ "%s wurde gefunden: %.1f" + System.lineSeparator();
+			+ "%s wurde gefunden: %.1f" + LN;
 	private final static String SHORTEST_PATH_UPDATE = "Der neue kürzeste Weg vom "
-			+ " Startknoten zum Knoten %s ist: %.1f" + System.lineSeparator();
+			+ " Startknoten zum Knoten %s ist: %.1f" + LN;
 	private final static String RESULT_INIT = "Der Knoten %s wurde mit folgendem Wert "
-			+ "initialisiert: %.1f" + System.lineSeparator();
+			+ "initialisiert: %.1f" + LN;
 	private final static String SUCCESSOR_MSG = "Der Knoten %s hat die folgenden "
-			+ "Nachfolger: %s" + System.lineSeparator();
+			+ "Nachfolger: %s" + LN;
 	private final static String MIN_MSG = "Der Knoten %s hat die folgende minimale "
-			+ "Distanz: %.1f" + System.lineSeparator();
+			+ "Distanz: %.1f" + LN;
 	private final static String END_MSG = "Die Berechnung der kürzesten Wege wurde "
-			+ "erfolgreich abgeschlossen." + System.lineSeparator();
+			+ "erfolgreich abgeschlossen." + LN;
 
 	private final CurrentResultComparator vertexResultComparator;
 
@@ -61,6 +62,11 @@ class Dijkstra extends AbstractAlgorithm {
 	public void execute(final IRestrictedGraph graph, final IStepRecorder rec)
 			throws AlgorithmException {
 
+		if (graph.isEmpty()) {
+			// nothing to compute
+			return;
+		}
+		
 		// TODO implementation anpassen, Exception handling
 
 		this.checkPositiveWeights(graph.getEdges());
@@ -68,9 +74,9 @@ class Dijkstra extends AbstractAlgorithm {
 		Collection<? extends IRestrictedVertex> vertices = graph.getVertices();
 		IRestrictedVertex startVertex = graph.getStartVertex();
 
-		if (startVertex == null) {
-			throw new AlgorithmException(String.format(NO_START_VERTEX, graph));
-		}
+//		if (startVertex == null) {
+//			throw new AlgorithmException(String.format(NO_START_VERTEX, graph));
+//		}
 
 		for (IRestrictedVertex vertex : vertices) {
 			if (vertex == startVertex) {
@@ -87,7 +93,7 @@ class Dijkstra extends AbstractAlgorithm {
 		}
 
 		this.calculateDistances(graph, vertices, startVertex, rec);
-		rec.item(startVertex).notVisib().cmt(END_MSG).tag().add();
+		rec.item(startVertex).visib().cmt(END_MSG).tag().add();
 		this.updateUnreachableVertices(vertices, rec);
 		rec.save();
 	}
@@ -115,12 +121,11 @@ class Dijkstra extends AbstractAlgorithm {
 				double res = selectedVertex.getNewResult();
 				String cmt = String.format(MIN_MSG, selectedVertex.getName(),
 						res);
-				//selectedVertex.appendComment(cmt);
-				rec.item(selectedVertex).cmt(cmt).state(ACTIVATION).cmtOk()
+				rec.item(selectedVertex).app(cmt).state(ACTIVATION).cmtOk()
 						.res(res).tag().add();
 			} else {
 				
-				double res = selectedVertex.getCurrentResult();
+				double res = selectedVertex.getNewResult();
 				String cmt = String
 						.format(MIN_MSG, selectedVertex.getName(), res);
 				rec.item(selectedVertex).state(ACTIVATION).cmtOk().cmt(cmt)
@@ -141,7 +146,7 @@ class Dijkstra extends AbstractAlgorithm {
 			}
 			
 			rec.item(selectedVertex).state(SOLUTION).cmtOk().tag().add();
-			this.setSuccessorMessage(graph, selectedVertex);
+			this.setSuccessorMessage(graph, selectedVertex);			
 			rec.save();
 
 			rec.item(selectedVertex).state(SOLUTION).notCmt().notTag().add();
@@ -161,13 +166,11 @@ class Dijkstra extends AbstractAlgorithm {
 			final IRestrictedVertex vertex,
 			final MapBinaryHeap<IRestrictedVertex> prioQueue,
 			final IStepRecorder rec) {
-		double newDistance = 0.0;
-		double oldDistance = 0.0;
-
+		
 		for (IRestrictedVertex adjacentVertex : graph.getSuccessors(vertex)) {
 			IRestrictedEdge edge = graph.findEdge(vertex, adjacentVertex);
-			newDistance = vertex.getCurrentResult() + edge.getWeight();
-			oldDistance = adjacentVertex.getCurrentResult();
+			double newDistance = vertex.getCurrentResult() + edge.getWeight();
+			double oldDistance = adjacentVertex.getCurrentResult();
 
 			if (adjacentVertex.getCurrentState() == ItemState.SOLUTION) {
 				if (edge.getCurrentState() != ItemState.SOLUTION
@@ -180,7 +183,7 @@ class Dijkstra extends AbstractAlgorithm {
 				if (newDistance < oldDistance) {
 					rec.item(edge).state(VISIT).cmtOk().tag().add();
 					
-					// set new predecessor for shortest path
+					// update shortest path for adjacentVertex
 					String cmt = String.format(SHORTEST_PATH_UPDATE,
 							adjacentVertex.getName(), newDistance);
 					rec.item(adjacentVertex).state(VISIT).cmtOk().cmt(cmt).tag().
@@ -189,10 +192,10 @@ class Dijkstra extends AbstractAlgorithm {
 					this.updatePredecessors(graph, vertex, rec, adjacentVertex);
 				} else {
 					rec.item(edge).state(ELIMINATION).cmtOk().tag().dash().add();
-					rec.item(edge).state(VISIT).cmtOk().tag().add();
+					rec.item(adjacentVertex).state(VISIT).cmtOk().tag().add();
 				}
 				rec.save();
-
+				
 				rec.item(adjacentVertex).notCmt().notTag().add();
 				if (Double.compare(newDistance, oldDistance) != 0) {
 					// adjust the position of adjacentVertex in the proirity
@@ -296,14 +299,14 @@ class Dijkstra extends AbstractAlgorithm {
 			IRestrictedVertex selectedVertex, final IStepRecorder rec) {
 
 		for (IRestrictedEdge edge : graph.getEdges()) {
-			rec.item(edge).state(INITIAL).notVisib().notCmt();
+			rec.item(edge).state(INITIAL).notVisib().notCmt().add();
 		}
 
 		for (IRestrictedVertex vertex : graph.getVertices()) {
-			rec.item(vertex).state(INITIAL).notVisib().notCmt();
+			rec.item(vertex).state(INITIAL).notVisib().notCmt().add();
 		}
 
-		rec.item(selectedVertex).state(SOLUTION).notVisib().notCmt();
+		rec.item(selectedVertex).state(SOLUTION).visib().notCmt().add();
 		
 		IRestrictedVertex currentVertex = null;
 		while (selectedVertex.getValue() != null) {
@@ -311,8 +314,8 @@ class Dijkstra extends AbstractAlgorithm {
 			IRestrictedEdge edge = graph
 					.findEdge(currentVertex, selectedVertex);
 			
-			rec.item(edge).state(SOLUTION).visib().notCmt();
-			rec.item(currentVertex).state(SOLUTION).notVisib().notCmt();
+			rec.item(edge).state(SOLUTION).visib().notCmt().add();
+			rec.item(currentVertex).state(SOLUTION).visib().notCmt().add();
 			
 			selectedVertex = currentVertex;
 		}

@@ -67,7 +67,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	public void appendComment(String comment) {
 		// TODO Exception handling bei null values
 		Objects.requireNonNull(comment);
-		this.newComment += comment.trim();
+		this.newComment += comment;
 	}
 
 	/*
@@ -123,7 +123,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	 */
 	@Override
 	public double getNewResult() {
-		return this.newResult == Double.NaN ? this.getCurrentResult()
+		return Double.compare(this.newResult, Double.NaN) == 0 ? this.getCurrentResult()
 				: this.newResult;
 	}
 

@@ -19,10 +19,10 @@ public class VertexLabelTransformer implements Transformer<IVertex, String> {
 	 */
 	@Override
 	public String transform(IVertex vertex) {
-		return vertex.getName()
+		return vertex.isCurrentVisible() ? (vertex.getName()
 				+ (Double.isNaN(vertex.getCurrentResult()) ? "" : ": "
 						+ ValueTransformer.round2Decimals(vertex
-								.getCurrentResult()));
+								.getCurrentResult()))) : "";
 	}
 
 }

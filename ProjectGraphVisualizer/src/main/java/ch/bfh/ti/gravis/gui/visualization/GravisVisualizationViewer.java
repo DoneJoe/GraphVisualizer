@@ -52,6 +52,8 @@ public class GravisVisualizationViewer extends
 				new VertexFillColorTransformer());
 		
 		// TODO setVertexDrawPaintTransformer 
+		this.getRenderContext().setVertexDrawPaintTransformer(
+				new VertexFillColorTransformer());
 //		this.getRenderContext().setVertexDrawPaintTransformer(
 //				new Transformer<IVertex, Paint>() {					
 //					@Override

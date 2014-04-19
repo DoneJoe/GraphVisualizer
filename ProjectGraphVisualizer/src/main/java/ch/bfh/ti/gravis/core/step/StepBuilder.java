@@ -1,7 +1,9 @@
 package ch.bfh.ti.gravis.core.step;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -35,10 +37,22 @@ public class StepBuilder {
 	/**
 	 * @param currentItems
 	 */
-	public void addStep(IGraphItem ... currentItems) {
+	public void addStep(IGraphItem... currentItems) {
+		// TODO Exception handling bei null
+
+		List<IGraphItem> tempList = new ArrayList<>();
+		Set<IGraphItem> lookup = new HashSet<>();
 		Step step = new Step();
 
+		// eliminates duplicates and preserves order
 		for (IGraphItem item : currentItems) {
+			if (item != null && lookup.add(item)) {
+				// Set.add returns false if item is already in the set
+				tempList.add(item);
+			}
+		}
+
+		for (IGraphItem item : tempList) {
 			IStep command = this.stepTransformer.transform(item);
 			step.add(command);
 		}

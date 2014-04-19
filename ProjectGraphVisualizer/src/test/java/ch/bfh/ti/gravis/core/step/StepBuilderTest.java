@@ -1,10 +1,10 @@
 package ch.bfh.ti.gravis.core.step;
 
 import static org.junit.Assert.*;
-import static ch.bfh.ti.gravis.core.graph.item.ItemState.ACTIVATION;
-import static ch.bfh.ti.gravis.core.util.ValueTransformer.toArray;
+import static ch.bfh.ti.gravis.core.graph.item.ItemState.*;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,11 +16,15 @@ import org.junit.Test;
 
 import ch.bfh.ti.gravis.core.graph.GraphFactory;
 import ch.bfh.ti.gravis.core.graph.GraphIOManager;
+import ch.bfh.ti.gravis.core.graph.GravisGraphIOException;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.graph.IRestrictedGraph;
+import ch.bfh.ti.gravis.core.graph.comparator.ItemNameComparator;
 import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
+import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex;
+import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.step.IStep;
 import ch.bfh.ti.gravis.core.step.IStepRecorder;
 import ch.bfh.ti.gravis.core.step.IStepResult;
@@ -92,43 +96,64 @@ public class StepBuilderTest {
 
 	/**
 	 * Test method for
-	 * {@link ch.bfh.ti.gravis.core.step.StepBuilder#createStepList()}
-	 * .
+	 * {@link ch.bfh.ti.gravis.core.step.StepBuilder#createStepList()} .
+	 * 
+	 * @throws GravisGraphIOException
 	 */
 	@Test
-	public void testCreateStepList() {
-		try {
-			GraphIOManager gm = new GraphIOManager();
-			IGravisGraph g = gm.loadGraph(new File(
-					GravisConstants.TEMPLATES_DIR
-							+ "/DijkstraSampleGraph1.graphml"));
-			StepBuilder sb = new StepBuilder();
-			IRestrictedGraph rg = GraphFactory.createRestrictedGraph(g, sb);
-			IStepRecorder rec = StepBuilder.createStepRecorder(rg);
-			Collection<? extends IRestrictedVertex> vColl = rg.getVertices();
-			IRestrictedVertex[] vertices = vColl
-					.toArray(new IRestrictedVertex[vColl.size()]);
-			Collection<? extends IRestrictedEdge> eColl = rg.getEdges();
-			IRestrictedEdge[] edges = eColl.toArray(new IRestrictedEdge[eColl
-					.size()]);
+	public void testCreateStepList() throws GravisGraphIOException {
+		GraphIOManager gm = new GraphIOManager();
+		IGravisGraph g = gm.loadGraph(new File(GravisConstants.TEMPLATES_DIR
+				+ "/DijkstraSampleGraph1.graphml"));
+		StepBuilder sb = new StepBuilder();
+		IRestrictedGraph rg = GraphFactory.createRestrictedGraph(g, sb);
+		IStepRecorder rec = StepBuilder.createStepRecorder(rg);
+		
+		Collection<? extends IRestrictedVertex> rvColl = rg.getVertices();
+		IRestrictedVertex[] rVertices = rvColl
+				.toArray(new IRestrictedVertex[rvColl.size()]);
+		Collection<? extends IRestrictedEdge> reColl = rg.getEdges();
+		IRestrictedEdge[] rEdges = reColl.toArray(new IRestrictedEdge[reColl
+				.size()]);
+		
+		Collection<? extends IVertex> vColl = g.getVertices();
+		IVertex[] vertices = vColl.toArray(new IVertex[vColl.size()]);		
+		Arrays.sort(vertices, new ItemNameComparator());
+		Collection<? extends IEdge> eColl = g.getEdges();
+		IEdge[] edges = eColl.toArray(new IEdge[eColl.size()]);
+		Arrays.sort(edges, new ItemNameComparator());
 
-			// rec.item(startVertex).cmt(cmt).res(0.0).add();
-			// rec.item(vertex).cmt(cmt).res(Double.POSITIVE_INFINITY).add();
-			// selectedVertex.appendComment(cmt);
-			// rec.item(selectedVertex).cmt(cmt).state(ACTIVATION).cmtOk()
-			// .res(res).tag().add();
+		assertEquals("", rVertices[0].getNewComment());
+		assertEquals(Double.NaN, rVertices[0].getCurrentResult(), 0.01);
+		assertEquals(INITIAL, rVertices[0].getCurrentState());		
+		
+		rec.item(rVertices[0]).cmt("cmt1").res(0.0).add();
+		rec.item(rVertices[1]).cmt("cmt2").res(Double.POSITIVE_INFINITY).add();
+		rec.item(rVertices[0]).app("app").state(ACTIVATION).tag().cmtOk().add();
+		rec.save();
+		rec.item(rEdges[0]).state(VISIT).cmtOk().tag().add();
+		rec.item(rVertices[1]).state(VISIT).cmtOk().cmt("visit e1").tag().
+			res(10.0).value(rVertices[0]).add();
+		rec.save();
 
-			rec.item(vertices[0]).cmt("cmt1").res(5.0).add();
-			rec.save();
+		List<IStep> stepList = sb.createStepList();
+		IStepResult res1 = stepList.get(0).execute();
+		IStepResult res2 = stepList.get(1).execute();
 
-			List<IStep> stepList = sb.createStepList();
-			IStepResult res = stepList.get(0).execute();
+		assertEquals(ACTIVATION.getDoMessage(vertices[0]) + "cmt1appcmt2", res1.getComment());
+		assertEquals("", rVertices[0].getNewComment());
+		assertEquals(0.0, rVertices[0].getCurrentResult(), 0.01);
+		assertEquals(ACTIVATION, rVertices[0].getCurrentState());
 
-			assertEquals("cmt1", res.getComment());
-			assertEquals(5.0, vertices[0].getCurrentResult(), 0.01);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+		assertEquals(VISIT.getDoMessage(edges[0]) + VISIT.getDoMessage(vertices[1]) +
+				"visit e1",	res2.getComment());
+		assertEquals(true, edges[0].isCurrentTagged());
+		assertEquals(VISIT, edges[0].getCurrentState());
+		assertEquals(false, edges[0].isCurrentDashed());
+		assertEquals(VISIT.getFillColor(edges[0]), edges[0].getCurrentColor());
+		assertEquals(VISIT, vertices[1].getCurrentState());
+		assertEquals(10.0, vertices[1].getCurrentResult(), 0.01);
+
 
 	}
 

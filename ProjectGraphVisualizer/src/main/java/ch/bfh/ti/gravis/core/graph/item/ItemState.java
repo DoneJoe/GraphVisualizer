@@ -6,6 +6,8 @@ import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 
+import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
+
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -18,8 +20,8 @@ public enum ItemState {
 	// DO default state messages
 	private final static String V_INITIAL_MSG = "Der Knoten %s wurde in den Anfangszustand versetzt.%s";
 	private final static String E_INITIAL_MSG = "Die Kante %s wurde in den Anfangszustand versetzt.%s";
-	private final static String V_ACTIVATION_MSG = "Der Knoten %s wurde aktiviert.%s";
-	private final static String E_ACTIVATION_MSG = "Die Kante %s wurde aktiviert.%s";
+	private final static String V_ACTIVATION_MSG = "Der Knoten %s wurde ausgewählt.%s";
+	private final static String E_ACTIVATION_MSG = "Die Kante %s wurde ausgewählt.%s";
 	private final static String V_VISIT_MSG = "Der Knoten %s wurde besucht.%s";
 	private final static String E_VISIT_MSG = "Die Kante %s wurde besucht.%s";
 	private final static String V_SOLUTION_MSG = "Der Knoten %s wurde zur Lösung hinzugefügt.%s";
@@ -32,8 +34,6 @@ public enum ItemState {
 	private final static String V_UNDO_MSG = "Einen Schritt zurück für den Knoten %s.%s";
 	private final static String E_UNDO_MSG = "Einen Schritt zurück für die Kante %s.%s";
 	
-	private final static String LN = System.lineSeparator();
-
 	/**
 	 * 
 	 * @param item

@@ -57,8 +57,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#addStep(ch.bfh
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#addStep(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem[])
 	 */
 	@Override
@@ -69,8 +68,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#containsEdge(
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#containsEdge(
 	 * ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
 	@Override
@@ -81,8 +79,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#containsVertex
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#containsVertex
 	 * (ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -93,8 +90,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#degree(ch.bfh
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#degree(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -105,8 +101,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#findEdge(ch.bfh
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#findEdge(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex,
 	 * ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
@@ -119,8 +114,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#findEdgeSet(ch
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#findEdgeSet(ch
 	 * .bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex,
 	 * ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
@@ -135,9 +129,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getDefaultEdgeType
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getDefaultEdgeType ()
 	 */
 	@Override
 	public EdgeType getDefaultEdgeType() {
@@ -147,8 +139,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getDest(ch.bfh
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getDest(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
 	@Override
@@ -160,8 +151,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdgeCount()
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdgeCount()
 	 */
 	@Override
 	public int getEdgeCount() {
@@ -171,8 +161,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdgeCount(
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdgeCount(
 	 * edu.uci.ics.jung.graph.util.EdgeType)
 	 */
 	@Override
@@ -193,8 +182,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdges(edu.
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdges(edu.
 	 * uci.ics.jung.graph.util.EdgeType)
 	 */
 	@Override
@@ -206,8 +194,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdgeType()
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdgeType()
 	 */
 	@Override
 	public EdgeType getEdgeType() {
@@ -217,8 +204,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdgeType(ch
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEdgeType(ch
 	 * .bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
 	@Override
@@ -229,8 +215,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEndpoints(
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getEndpoints(
 	 * ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
 	@Override
@@ -246,8 +231,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getIncidentCount
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getIncidentCount
 	 * (ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
 	@Override
@@ -258,8 +242,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getIncidentEdges
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getIncidentEdges
 	 * (ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -272,8 +255,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getIncidentVertices
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getIncidentVertices
 	 * (ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
 	@Override
@@ -286,8 +268,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getInEdges(ch
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getInEdges(ch
 	 * .bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -300,8 +281,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getNeighborCount
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getNeighborCount
 	 * (ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -313,8 +293,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getNeighbors(
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getNeighbors(
 	 * ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -327,8 +306,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getOpposite(ch
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getOpposite(ch
 	 * .bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex,
 	 * ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
@@ -342,8 +320,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getOutEdges(ch
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getOutEdges(ch
 	 * .bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -356,8 +333,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getPredecessorCount
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getPredecessorCount
 	 * (ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -369,8 +345,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getPredecessors
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getPredecessors
 	 * (ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -383,8 +358,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getSource(ch.
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getSource(ch.
 	 * bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
 	@Override
@@ -410,8 +384,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getSuccessorCount
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getSuccessorCount
 	 * (ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -423,8 +396,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getSuccessors
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getSuccessors
 	 * (ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -437,8 +409,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getVertexCount()
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getVertexCount()
 	 */
 	@Override
 	public int getVertexCount() {
@@ -448,8 +419,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getVertices()
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#getVertices()
 	 */
 	@Override
 	public Collection<? extends IRestrictedVertex> getVertices() {
@@ -459,8 +429,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#inDegree(ch.bfh
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#inDegree(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -471,8 +440,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isDest(ch.bfh
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isDest(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex,
 	 * ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
@@ -495,8 +463,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isIncident(ch
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isIncident(ch
 	 * .bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex,
 	 * ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
@@ -509,8 +476,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isNeighbor(ch
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isNeighbor(ch
 	 * .bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex,
 	 * ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
@@ -523,8 +489,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isPredecessor
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isPredecessor
 	 * (ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex,
 	 * ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
@@ -537,8 +502,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isSource(ch.bfh
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isSource(ch.bfh
 	 * .bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex,
 	 * ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
@@ -551,8 +515,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isSuccessor(ch
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#isSuccessor(ch
 	 * .bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex,
 	 * ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
@@ -565,8 +528,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.IRestrictedGraph#outDegree(ch.
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#outDegree(ch.
 	 * bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex)
 	 */
 	@Override
@@ -589,21 +551,21 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 * @return IGraphItem[]
 	 */
 	private IGraphItem[] getIGraphItems(
-			final IRestrictedGraphItem ... restrictedItems) {
-		
-		List<IGraphItem> iGraphItems = new ArrayList<>();
+			final IRestrictedGraphItem... restrictedItems) {
+
+		List<IGraphItem> items = new ArrayList<>();
 
 		for (IRestrictedGraphItem item : restrictedItems) {
 			if (item instanceof IRestrictedVertex) {
-				iGraphItems.add(this.verticesMap.getKey(item));
+				items.add(this.verticesMap.getKey(item));
 			}
 
 			if (item instanceof IRestrictedEdge) {
-				iGraphItems.add(this.edgesMap.getKey(item));
+				items.add(this.edgesMap.getKey(item));
 			}
 		}
 
-		return iGraphItems.toArray(new IGraphItem[iGraphItems.size()]);
+		return items.toArray(new IGraphItem[items.size()]);
 	}
 
 	/**

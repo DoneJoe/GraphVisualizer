@@ -11,6 +11,7 @@ import java.awt.Color;
  */
 public final class GravisConstants {
 
+	public static final String LN = System.lineSeparator();
 	public static final String TEMPLATES_DIR = "graph-templates";
 	public static final String IMAGES_DIR = "/META-INF/images/";
 	
@@ -69,10 +70,10 @@ public final class GravisConstants {
 	public final static Color V_DRAW_ELIMINATION_COLOR = GravisColor.BLACK;
 	
 	public final static Color E_INITIAL_COLOR = GravisColor.BLACK;
-	public final static Color E_ACTIVATION_COLOR = GravisColor.BLACK;
-	public final static Color E_VISIT_COLOR = GravisColor.BLACK;
-	public final static Color E_SOLUTION_COLOR = GravisColor.BLACK;
-	public final static Color E_ELIMINATION_COLOR = GravisColor.BLACK;
+	public final static Color E_ACTIVATION_COLOR = GravisColor.BLUE;
+	public final static Color E_VISIT_COLOR = GravisColor.YELLOW;
+	public final static Color E_SOLUTION_COLOR = GravisColor.GREEN;
+	public final static Color E_ELIMINATION_COLOR = GravisColor.RED;
 	
 	// some visualisation default values:
 	

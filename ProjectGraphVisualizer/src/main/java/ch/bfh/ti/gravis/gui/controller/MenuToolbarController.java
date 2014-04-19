@@ -23,6 +23,7 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import static ch.bfh.ti.gravis.gui.controller.IMenuToolbarController.EventSource.*;
+import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;;
 
 /**
  * This class controls all MenuBar and ToolBar events.
@@ -33,8 +34,6 @@ import static ch.bfh.ti.gravis.gui.controller.IMenuToolbarController.EventSource
 class MenuToolbarController extends Observable implements
 		IMenuToolbarController {
 
-	private final static String LN = System.lineSeparator();
-	
 	private final static String FILE_ERR_TITLE = "Öffnen";
 	private final static String FILE_ERR_MSG = "Datei nicht gefunden: %s";
 	private final static String EXIT_TITLE = "Beenden";
@@ -49,7 +48,7 @@ class MenuToolbarController extends Observable implements
 	private final static String SAVE_GRAPH_MSG = "%sFolgender Graph wurde gespeichert:%s"
 			+ "Datei: %s%sName: %s%sBeschreibung: %s%s%s";
 	private final static String SELECT_ALGO_MSG = "Folgender Algorithmus wurde ausgewählt:%s"
-			+ "Name: %s%sBeschreibung: %s%s"
+			+ "Name: %s%sBeschreibung: %s%s%s"
 			+ "Der Algorithmus wurde ausgeführt und die einzelnen Schritte vorgemerkt.%s%s";
 
 	private final ICore core;
@@ -324,7 +323,7 @@ class MenuToolbarController extends Observable implements
 			this.notifyObservers(this.model.createStepModel());
 			this.setChanged();
 			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, item,
-					LN, this.core.getAlgorithmDescription(item), LN, LN, LN));
+					LN, this.core.getAlgorithmDescription(item), LN, LN, LN, LN));
 		}
 	}
 
@@ -409,6 +408,9 @@ class MenuToolbarController extends Observable implements
 	 */
 	private void handleNewGraphEvent(final EdgeType edgeType) throws CoreException,
 			GravisGraphIOException {
+		
+		// TODO clear protocol panel
+		
 		// handle unsaved graph
 		if (this.model.isGraphUnsaved() && this.confirmDialogAdapter != null) {
 			int dialogResult = this.confirmDialogAdapter.showConfirmDialog(
@@ -445,6 +447,9 @@ class MenuToolbarController extends Observable implements
 	 */
 	private void handleOpenGraphEvent() throws CoreException,
 			GravisGraphIOException {
+		
+		// TODO clear protocol panel
+		
 		if (this.fileChooserAdapter != null
 				&& this.messageDialogAdapter != null) {
 			// handle unsaved graph
