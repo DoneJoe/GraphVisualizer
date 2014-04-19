@@ -17,14 +17,12 @@ public interface IEditGraphEventListener extends IGravisObservable {
 	 * 
 	 * @param source
 	 * @param type
-	 * @throws GraphException
 	 */
 	public abstract void handleGraphItemsChangedEvent(IGraphItem source, Type type);
 	
 	/**
 	 * 
 	 * @param source
-	 * @throws GraphException
 	 */
 	public abstract void handleGraphPropertiesChangedEvent(IGravisGraph source);
 }

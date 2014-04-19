@@ -19,34 +19,34 @@ class StepTransformer implements Transformer<IGraphItem, IStep> {
 	 */
 	@Override
 	public IStep transform(IGraphItem currentItem) {		
-		Step complexStep = new Step();
+		Step complexStep = new Step(currentItem.getNewComment());
 		
 		IStep command = new StateCommand(currentItem, currentItem.getCurrentState(), 
-				currentItem.getNewState(), currentItem.getNewComment());		
+				currentItem.getNewState());		
 		command.execute();
 		complexStep.add(command);
 		
 		command = new ResultCommand(currentItem, currentItem.getCurrentResult(), 
-				currentItem.getNewResult(), currentItem.getNewComment());		
+				currentItem.getNewResult());		
 		command.execute();
 		complexStep.add(command);
 		
 		command = new VisibleCommand(currentItem, currentItem.isCurrentVisible(), 
-				currentItem.isNewVisible(), currentItem.getNewComment());		
+				currentItem.isNewVisible());		
 		command.execute();
 		complexStep.add(command);
 		
 		command = new TaggedCommand(currentItem, currentItem.isCurrentTagged(), 
-				currentItem.isNewTagged(), currentItem.getNewComment());		
+				currentItem.isNewTagged());		
 		command.execute();
 		complexStep.add(command);
 		
 		command = new DashCommand(currentItem, currentItem.isCurrentDashed(), 
-				currentItem.isNewDashed(), currentItem.getNewComment());		
+				currentItem.isNewDashed());		
 		command.execute();
 		complexStep.add(command);
 		
-		currentItem.resetNewValues();
+		currentItem.resetNewVariables();
 		return complexStep;
 	}
 

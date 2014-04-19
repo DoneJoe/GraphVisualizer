@@ -34,6 +34,7 @@ class MenuToolbarController extends Observable implements
 		IMenuToolbarController {
 
 	private final static String LN = System.lineSeparator();
+	
 	private final static String FILE_ERR_TITLE = "Öffnen";
 	private final static String FILE_ERR_MSG = "Datei nicht gefunden: %s";
 	private final static String EXIT_TITLE = "Beenden";
@@ -43,13 +44,13 @@ class MenuToolbarController extends Observable implements
 	private final static String APP_ERR_TITLE = "Fehler";
 	// TODO stackTrace angeben
 	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten:%s%s%s";
-	private final static String OPEN_GRAPH_MSG = "%sFolgender Graph wurde geöffnet:%s"
-			+ "Datei: %s%sName: %s%sBeschreibung: %s%s";
+	private final static String OPEN_GRAPH_MSG = "Folgender Graph wurde geöffnet:%s"
+			+ "Datei: %s%sName: %s%sBeschreibung: %s%s%s";
 	private final static String SAVE_GRAPH_MSG = "%sFolgender Graph wurde gespeichert:%s"
-			+ "Datei: %s%sName: %s%sBeschreibung: %s%s";
-	private final static String SELECT_ALGO_MSG = "%sFolgender Algorithmus wurde ausgewählt:%s"
+			+ "Datei: %s%sName: %s%sBeschreibung: %s%s%s";
+	private final static String SELECT_ALGO_MSG = "Folgender Algorithmus wurde ausgewählt:%s"
 			+ "Name: %s%sBeschreibung: %s%s"
-			+ "Der Algorithmus wurde ausgeführt und die einzelnen Schritte vorgemerkt.%s";
+			+ "Der Algorithmus wurde ausgeführt und die einzelnen Schritte vorgemerkt.%s%s";
 
 	private final ICore core;
 
@@ -144,31 +145,15 @@ class MenuToolbarController extends Observable implements
 				}
 			}
 		} catch (Exception ex) {
+			// TODO stackTrace angeben ex.getStackTrace() ist array!
+			
 			if (this.messageDialogAdapter != null) {
 				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, LN, LN, ex.getMessage()),
+						String.format(APP_ERR_MSG
+								, LN, LN, ex.getMessage()),
 						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
 			}
 		}
-	}
-
-	/**
-	 * @param tglBtn
-	 */
-	private void handleToggleEvent(final JToggleButton tglBtn) {
-		this.model.setModeToggleChanging(true);
-
-		if (tglBtn.getActionCommand().equals(TOGGLE_PICKING.toString())) {
-			this.model.getEditModeComboModel().setSelectedItem(Mode.PICKING);
-		} else if (tglBtn.getActionCommand().equals(TOGGLE_EDITING.toString())) {
-			this.model.getEditModeComboModel().setSelectedItem(Mode.EDITING);
-		} else if (tglBtn.getActionCommand().equals(
-				TOGGLE_TRANSFORMING.toString())) {
-			this.model.getEditModeComboModel().setSelectedItem(
-					Mode.TRANSFORMING);
-		}
-		
-		this.model.setModeToggleChanging(false);
 	}
 
 	/*
@@ -315,6 +300,9 @@ class MenuToolbarController extends Observable implements
 	 * 
 	 */
 	private void handleAlgorithmEvent(final String item) throws CoreException {
+		
+		// TODO algo auswahl-message vor Berechnung anzeigen
+		
 		// ignore title entry
 		if (item.equals(IAppModel.DEFAULT_ALGO_ENTRY)) {
 			this.model.resetStepEnabledState();
@@ -335,8 +323,8 @@ class MenuToolbarController extends Observable implements
 			this.setChanged();
 			this.notifyObservers(this.model.createStepModel());
 			this.setChanged();
-			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, LN, item,
-					LN, this.core.getAlgorithmDescription(item), LN, LN));
+			this.notifyObservers(String.format(SELECT_ALGO_MSG, LN, item,
+					LN, this.core.getAlgorithmDescription(item), LN, LN, LN));
 		}
 	}
 
@@ -510,7 +498,7 @@ class MenuToolbarController extends Observable implements
 				this.notifyObservers(String.format(SAVE_GRAPH_MSG, LN, LN, file
 						.getAbsolutePath(), LN,
 						this.model.getGraph().getName(), LN, this.model
-								.getGraph().getDescription(), LN));
+								.getGraph().getDescription(), LN, LN));
 			}
 		}
 
@@ -525,6 +513,25 @@ class MenuToolbarController extends Observable implements
 		// TODO Auto-generated method stub
 		this.messageDialogAdapter.showMessageDialog("handleSaveGraphEvent", "",
 				JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	/**
+	 * @param tglBtn
+	 */
+	private void handleToggleEvent(final JToggleButton tglBtn) {
+		this.model.setModeToggleChanging(true);
+
+		if (tglBtn.getActionCommand().equals(TOGGLE_PICKING.toString())) {
+			this.model.getEditModeComboModel().setSelectedItem(Mode.PICKING);
+		} else if (tglBtn.getActionCommand().equals(TOGGLE_EDITING.toString())) {
+			this.model.getEditModeComboModel().setSelectedItem(Mode.EDITING);
+		} else if (tglBtn.getActionCommand().equals(
+				TOGGLE_TRANSFORMING.toString())) {
+			this.model.getEditModeComboModel().setSelectedItem(
+					Mode.TRANSFORMING);
+		}
+		
+		this.model.setModeToggleChanging(false);
 	}
 
 	/**
@@ -553,10 +560,10 @@ class MenuToolbarController extends Observable implements
 				this.setChanged();
 				this.notifyObservers(this.model.createStepModel());
 				this.setChanged();
-				this.notifyObservers(String.format(OPEN_GRAPH_MSG, LN, LN, file
+				this.notifyObservers(String.format(OPEN_GRAPH_MSG, LN, file
 						.getAbsolutePath(), LN,
 						this.model.getGraph().getName(), LN, this.model
-								.getGraph().getDescription(), LN));
+								.getGraph().getDescription(), LN, LN));
 
 				break;
 			} else {

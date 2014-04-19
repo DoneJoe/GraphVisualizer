@@ -17,12 +17,9 @@ public class TaggedCommand extends EmptyStep {
 	 * @param currentItem
 	 * @param oldTagged
 	 * @param newTagged
-	 * @param comment
 	 */
 	public TaggedCommand(IGraphItem currentItem, boolean oldTagged, 
-			boolean newTagged, String comment) {
-		super(comment);
-		
+			boolean newTagged) {
 		this.item = currentItem;
 		this.oldTagged = oldTagged;
 		this.newTagged = newTagged;
@@ -34,7 +31,7 @@ public class TaggedCommand extends EmptyStep {
 	@Override
 	public IStepResult execute() {
 		this.item.setCurrentTagged(this.newTagged);
-		return new StepResult(this.comment);
+		return new StepResult();
 	}
 
 	/* (non-Javadoc)
@@ -43,6 +40,6 @@ public class TaggedCommand extends EmptyStep {
 	@Override
 	public IStepResult unExecute() {
 		this.item.setCurrentTagged(this.oldTagged);
-		return new StepResult(this.comment);
+		return new StepResult();
 	}
 }

@@ -32,7 +32,7 @@ public interface IGraphItem extends IRestrictedGraphItem, IEditItemObservable {
 	 */
 	public abstract boolean isCurrentVisible();
 
-	public abstract void resetNewValues();
+	public abstract void resetNewVariables();
 	
 	/**
 	 * 

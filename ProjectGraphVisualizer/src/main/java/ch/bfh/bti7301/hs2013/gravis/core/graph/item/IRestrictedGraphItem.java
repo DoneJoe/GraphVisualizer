@@ -85,6 +85,8 @@ public interface IRestrictedGraphItem {
 	 */
 	public abstract boolean isStateCommentEnabled();
 	
+	public abstract void resetHelperVariables();
+
 	/**
 	 * 
 	 * @param value
@@ -101,14 +103,6 @@ public interface IRestrictedGraphItem {
 	 * @param value
 	 */
 	public abstract void setNewDashed(Boolean value);
-	
-	/**
-	 * 
-	 * Replaces the default comment defined in ItemState enum.
-	 * 
-	 * @param comment
-	 */
-	public abstract void setNewDefaultComment(String comment);
 	
 	/**
 	 * 

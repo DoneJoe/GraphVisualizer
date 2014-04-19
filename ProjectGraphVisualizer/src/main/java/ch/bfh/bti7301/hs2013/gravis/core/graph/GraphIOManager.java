@@ -33,9 +33,7 @@ import edu.uci.ics.jung.io.graphml.GraphMLReader2;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class GraphIOManager implements IGraphIOManager {
-	// TODO Exception handling verbessern
-
+public class GraphIOManager {
 	private static final String GRAPH_IO_EXCEPTION_LOAD = "I/O Exception in GraphML-file %s!";
 	private static final String FILE_NOT_FOUND_EXCEPTION_LOAD = "GraphML-file not found: %s!";
 	private static final String EXCEPTION_LOAD = "Exception while loading data from "
@@ -49,21 +47,19 @@ class GraphIOManager implements IGraphIOManager {
 	private final EdgeTransformer edgeTransformer;
 	private final HyperEdgeTransformer hyperEdgeTransformer;
 
-	protected GraphIOManager() {
+	public GraphIOManager() {
 		this.graphTransformer = new GraphTransformer();
 		this.vertexTransformer = new VertexTransformer();
 		this.edgeTransformer = new EdgeTransformer();
 		this.hyperEdgeTransformer = new HyperEdgeTransformer();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphIOManager#loadGraph(java
-	 * .io.File)
+	 * @param file
+	 * @return IGravisGraph
+	 * @throws GravisGraphIOException
 	 */
-	@Override
 	public IGravisGraph loadGraph(final File file) throws GravisGraphIOException {
 		try {
 			GraphMLReader2<IGravisGraph, IVertex, IEdge> graphReader = new GraphMLReader2<>(
@@ -77,6 +73,9 @@ class GraphIOManager implements IGraphIOManager {
 
 			return newGraph;
 		} catch (GraphIOException e) {
+			
+			// TODO Exception handling verbessern
+			
 			throw new GravisGraphIOException(String.format(
 					GRAPH_IO_EXCEPTION_LOAD, file.getName()), e);
 		} catch (FileNotFoundException e) {
@@ -88,14 +87,12 @@ class GraphIOManager implements IGraphIOManager {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphIOManager#saveGraph(ch.bfh
-	 * .bti7301.hs2013.gravis.core.graph.IGravisGraph, java.io.File)
+	 * @param graph
+	 * @param file
+	 * @throws GravisGraphIOException
 	 */
-	@Override
 	public void saveGraph(final IGravisGraph graph, final File file)
 			throws GravisGraphIOException {
 		try {
@@ -149,6 +146,9 @@ class GraphIOManager implements IGraphIOManager {
 
 			writer.close();
 		} catch (FileNotFoundException e) {
+			
+			// TODO Exception handling verbessern
+			
 			throw new GravisGraphIOException(String.format(
 					FILE_NOT_FOUND_EXCEPTION_SAVE, file.getName()), e);
 		} catch (IOException e) {

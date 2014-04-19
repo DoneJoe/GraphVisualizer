@@ -17,6 +17,7 @@ import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IRestrictedVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.VertexFactory;
+import ch.bfh.bti7301.hs2013.gravis.core.step.StepBuilder;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
 
@@ -26,7 +27,9 @@ import edu.uci.ics.jung.graph.util.Pair;
  */
 final class RestrictedGraph implements IRestrictedGraph {
 
-	private final IObservableGravisGraph observableGraph;
+	private final IGravisGraph gravisGraph;
+
+	private final StepBuilder stepBuilder;
 
 	private final List<IRestrictedVertex> verticesList;
 	private final List<IRestrictedEdge> edgesList;
@@ -38,9 +41,11 @@ final class RestrictedGraph implements IRestrictedGraph {
 
 	/**
 	 * @param graph
+	 * @param stepBuilder
 	 */
-	RestrictedGraph(final IObservableGravisGraph graph) {
-		this.observableGraph = graph;
+	RestrictedGraph(final IGravisGraph graph, final StepBuilder stepBuilder) {
+		this.gravisGraph = graph;
+		this.stepBuilder = stepBuilder;
 		this.verticesMap = new DualHashBidiMap<>();
 		this.edgesMap = new DualHashBidiMap<>();
 		this.itemComparator = new ItemNameComparator();
@@ -53,12 +58,24 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph#addStep(ch.bfh
+	 * .bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem[])
+	 */
+	@Override
+	public void addStep(IRestrictedGraphItem... restrictedItems) {
+		this.stepBuilder.addStep(this.getIGraphItems(restrictedItems));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph#containsEdge(
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IRestrictedEdge)
 	 */
 	@Override
 	public boolean containsEdge(IRestrictedEdge edge) {
-		return this.observableGraph.containsEdge(this.edgesMap.getKey(edge));
+		return this.gravisGraph.containsEdge(this.edgesMap.getKey(edge));
 	}
 
 	/*
@@ -70,8 +87,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public boolean containsVertex(IRestrictedVertex vertex) {
-		return this.observableGraph.containsVertex(this.verticesMap
-				.getKey(vertex));
+		return this.gravisGraph.containsVertex(this.verticesMap.getKey(vertex));
 	}
 
 	/*
@@ -83,7 +99,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int degree(IRestrictedVertex vertex) {
-		return this.observableGraph.degree(this.verticesMap.getKey(vertex));
+		return this.gravisGraph.degree(this.verticesMap.getKey(vertex));
 	}
 
 	/*
@@ -96,7 +112,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public IRestrictedEdge findEdge(IRestrictedVertex v1, IRestrictedVertex v2) {
-		return this.edgesMap.get(this.observableGraph.findEdge(
+		return this.edgesMap.get(this.gravisGraph.findEdge(
 				this.verticesMap.getKey(v1), this.verticesMap.getKey(v2)));
 	}
 
@@ -112,9 +128,8 @@ final class RestrictedGraph implements IRestrictedGraph {
 	public Collection<? extends IRestrictedEdge> findEdgeSet(
 			IRestrictedVertex v1, IRestrictedVertex v2) {
 
-		return this.getRestrictedSortedEdgesList(this.observableGraph
-				.findEdgeSet(this.verticesMap.getKey(v1),
-						this.verticesMap.getKey(v2)));
+		return this.getRestrictedSortedEdgesList(this.gravisGraph.findEdgeSet(
+				this.verticesMap.getKey(v1), this.verticesMap.getKey(v2)));
 	}
 
 	/*
@@ -126,7 +141,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public EdgeType getDefaultEdgeType() {
-		return this.observableGraph.getDefaultEdgeType();
+		return this.gravisGraph.getDefaultEdgeType();
 	}
 
 	/*
@@ -138,7 +153,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public IRestrictedVertex getDest(IRestrictedEdge directed_edge) {
-		return this.verticesMap.get(this.observableGraph.getDest(this.edgesMap
+		return this.verticesMap.get(this.gravisGraph.getDest(this.edgesMap
 				.getKey(directed_edge)));
 	}
 
@@ -150,7 +165,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int getEdgeCount() {
-		return this.observableGraph.getEdgeCount();
+		return this.gravisGraph.getEdgeCount();
 	}
 
 	/*
@@ -162,7 +177,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int getEdgeCount(EdgeType edge_type) {
-		return this.observableGraph.getEdgeCount(edge_type);
+		return this.gravisGraph.getEdgeCount(edge_type);
 	}
 
 	/*
@@ -184,7 +199,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public Collection<? extends IRestrictedEdge> getEdges(EdgeType edge_type) {
-		return this.getRestrictedSortedEdgesList(this.observableGraph
+		return this.getRestrictedSortedEdgesList(this.gravisGraph
 				.getEdges(edge_type));
 	}
 
@@ -196,7 +211,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public EdgeType getEdgeType() {
-		return this.observableGraph.getEdgeType();
+		return this.gravisGraph.getEdgeType();
 	}
 
 	/*
@@ -208,7 +223,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public EdgeType getEdgeType(IRestrictedEdge edge) {
-		return this.observableGraph.getEdgeType(this.edgesMap.getKey(edge));
+		return this.gravisGraph.getEdgeType(this.edgesMap.getKey(edge));
 	}
 
 	/*
@@ -220,7 +235,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public Pair<? extends IRestrictedVertex> getEndpoints(IRestrictedEdge edge) {
-		Pair<IVertex> pair = this.observableGraph.getEndpoints(this.edgesMap
+		Pair<IVertex> pair = this.gravisGraph.getEndpoints(this.edgesMap
 				.getKey(edge));
 
 		return new Pair<IRestrictedVertex>(
@@ -237,8 +252,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int getIncidentCount(IRestrictedEdge edge) {
-		return this.observableGraph
-				.getIncidentCount(this.edgesMap.getKey(edge));
+		return this.gravisGraph.getIncidentCount(this.edgesMap.getKey(edge));
 	}
 
 	/*
@@ -251,7 +265,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	@Override
 	public Collection<? extends IRestrictedEdge> getIncidentEdges(
 			IRestrictedVertex vertex) {
-		return this.getRestrictedSortedEdgesList(this.observableGraph
+		return this.getRestrictedSortedEdgesList(this.gravisGraph
 				.getIncidentEdges(this.verticesMap.getKey(vertex)));
 	}
 
@@ -265,7 +279,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	@Override
 	public Collection<? extends IRestrictedVertex> getIncidentVertices(
 			IRestrictedEdge edge) {
-		return this.getRestrictedSortedVerticesList(this.observableGraph
+		return this.getRestrictedSortedVerticesList(this.gravisGraph
 				.getIncidentVertices(this.edgesMap.getKey(edge)));
 	}
 
@@ -279,7 +293,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	@Override
 	public Collection<? extends IRestrictedEdge> getInEdges(
 			IRestrictedVertex vertex) {
-		return this.getRestrictedSortedEdgesList(this.observableGraph
+		return this.getRestrictedSortedEdgesList(this.gravisGraph
 				.getInEdges(this.verticesMap.getKey(vertex)));
 	}
 
@@ -292,7 +306,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int getNeighborCount(IRestrictedVertex vertex) {
-		return this.observableGraph.getNeighborCount(this.verticesMap
+		return this.gravisGraph.getNeighborCount(this.verticesMap
 				.getKey(vertex));
 	}
 
@@ -306,7 +320,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	@Override
 	public Collection<? extends IRestrictedVertex> getNeighbors(
 			IRestrictedVertex vertex) {
-		return this.getRestrictedSortedVerticesList(this.observableGraph
+		return this.getRestrictedSortedVerticesList(this.gravisGraph
 				.getNeighbors(this.verticesMap.getKey(vertex)));
 	}
 
@@ -321,7 +335,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	@Override
 	public IRestrictedVertex getOpposite(IRestrictedVertex vertex,
 			IRestrictedEdge edge) {
-		return this.verticesMap.get(this.observableGraph.getOpposite(
+		return this.verticesMap.get(this.gravisGraph.getOpposite(
 				this.verticesMap.getKey(vertex), this.edgesMap.getKey(edge)));
 	}
 
@@ -335,7 +349,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	@Override
 	public Collection<? extends IRestrictedEdge> getOutEdges(
 			IRestrictedVertex vertex) {
-		return this.getRestrictedSortedEdgesList(this.observableGraph
+		return this.getRestrictedSortedEdgesList(this.gravisGraph
 				.getOutEdges(this.verticesMap.getKey(vertex)));
 	}
 
@@ -348,7 +362,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int getPredecessorCount(IRestrictedVertex vertex) {
-		return this.observableGraph.getPredecessorCount(this.verticesMap
+		return this.gravisGraph.getPredecessorCount(this.verticesMap
 				.getKey(vertex));
 	}
 
@@ -362,7 +376,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	@Override
 	public Collection<? extends IRestrictedVertex> getPredecessors(
 			IRestrictedVertex vertex) {
-		return this.getRestrictedSortedVerticesList(this.observableGraph
+		return this.getRestrictedSortedVerticesList(this.gravisGraph
 				.getPredecessors(this.verticesMap.getKey(vertex)));
 	}
 
@@ -375,8 +389,8 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public IRestrictedVertex getSource(IRestrictedEdge directed_edge) {
-		return this.verticesMap.get(this.observableGraph
-				.getSource(this.edgesMap.getKey(directed_edge)));
+		return this.verticesMap.get(this.gravisGraph.getSource(this.edgesMap
+				.getKey(directed_edge)));
 	}
 
 	/*
@@ -402,7 +416,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int getSuccessorCount(IRestrictedVertex vertex) {
-		return this.observableGraph.getSuccessorCount(this.verticesMap
+		return this.gravisGraph.getSuccessorCount(this.verticesMap
 				.getKey(vertex));
 	}
 
@@ -416,7 +430,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	@Override
 	public Collection<? extends IRestrictedVertex> getSuccessors(
 			IRestrictedVertex vertex) {
-		return this.getRestrictedSortedVerticesList(this.observableGraph
+		return this.getRestrictedSortedVerticesList(this.gravisGraph
 				.getSuccessors(this.verticesMap.getKey(vertex)));
 	}
 
@@ -428,7 +442,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int getVertexCount() {
-		return this.observableGraph.getVertexCount();
+		return this.gravisGraph.getVertexCount();
 	}
 
 	/*
@@ -451,7 +465,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int inDegree(IRestrictedVertex vertex) {
-		return this.observableGraph.inDegree(this.verticesMap.getKey(vertex));
+		return this.gravisGraph.inDegree(this.verticesMap.getKey(vertex));
 	}
 
 	/*
@@ -464,7 +478,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public boolean isDest(IRestrictedVertex vertex, IRestrictedEdge edge) {
-		return this.observableGraph.isDest(this.verticesMap.getKey(vertex),
+		return this.gravisGraph.isDest(this.verticesMap.getKey(vertex),
 				this.edgesMap.getKey(edge));
 	}
 
@@ -475,7 +489,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public boolean isEmpty() {
-		return this.observableGraph.isEmpty();
+		return this.gravisGraph.isEmpty();
 	}
 
 	/*
@@ -488,7 +502,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public boolean isIncident(IRestrictedVertex vertex, IRestrictedEdge edge) {
-		return this.observableGraph.isIncident(this.verticesMap.getKey(vertex),
+		return this.gravisGraph.isIncident(this.verticesMap.getKey(vertex),
 				this.edgesMap.getKey(edge));
 	}
 
@@ -502,7 +516,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public boolean isNeighbor(IRestrictedVertex v1, IRestrictedVertex v2) {
-		return this.observableGraph.isNeighbor(this.verticesMap.getKey(v1),
+		return this.gravisGraph.isNeighbor(this.verticesMap.getKey(v1),
 				this.verticesMap.getKey(v2));
 	}
 
@@ -516,7 +530,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public boolean isPredecessor(IRestrictedVertex v1, IRestrictedVertex v2) {
-		return this.observableGraph.isPredecessor(this.verticesMap.getKey(v1),
+		return this.gravisGraph.isPredecessor(this.verticesMap.getKey(v1),
 				this.verticesMap.getKey(v2));
 	}
 
@@ -530,7 +544,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public boolean isSource(IRestrictedVertex vertex, IRestrictedEdge edge) {
-		return this.observableGraph.isSource(this.verticesMap.getKey(vertex),
+		return this.gravisGraph.isSource(this.verticesMap.getKey(vertex),
 				this.edgesMap.getKey(edge));
 	}
 
@@ -544,7 +558,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public boolean isSuccessor(IRestrictedVertex v1, IRestrictedVertex v2) {
-		return this.observableGraph.isSuccessor(this.verticesMap.getKey(v1),
+		return this.gravisGraph.isSuccessor(this.verticesMap.getKey(v1),
 				this.verticesMap.getKey(v2));
 	}
 
@@ -557,48 +571,39 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public int outDegree(IRestrictedVertex vertex) {
-		return this.observableGraph.outDegree(this.verticesMap.getKey(vertex));
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return this.observableGraph.getName();
+		return this.gravisGraph.outDegree(this.verticesMap.getKey(vertex));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphItemUpdate#updateState(
-	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem[])
+	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public void updateState(IRestrictedGraphItem... restrictedItems) {
-		this.observableGraph
-				.updateState(this.getOriginalItems(restrictedItems));
+	public String toString() {
+		return this.gravisGraph.toString();
 	}
 
 	/**
 	 * @param restrictedItems
 	 * @return IGraphItem[]
-	 */ 
-	private IGraphItem[] getOriginalItems(final IRestrictedGraphItem[] restrictedItems) {
-		List<IGraphItem> originalItems = new ArrayList<>();
+	 */
+	private IGraphItem[] getIGraphItems(
+			final IRestrictedGraphItem ... restrictedItems) {
+		
+		List<IGraphItem> iGraphItems = new ArrayList<>();
 
 		for (IRestrictedGraphItem item : restrictedItems) {
 			if (item instanceof IRestrictedVertex) {
-				originalItems.add(this.verticesMap.getKey(item));
+				iGraphItems.add(this.verticesMap.getKey(item));
 			}
 
 			if (item instanceof IRestrictedEdge) {
-				originalItems.add(this.edgesMap.getKey(item));
+				iGraphItems.add(this.edgesMap.getKey(item));
 			}
 		}
 
-		return originalItems.toArray(new IGraphItem[originalItems.size()]);
+		return iGraphItems.toArray(new IGraphItem[iGraphItems.size()]);
 	}
 
 	/**
@@ -607,7 +612,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	private List<IRestrictedEdge> getRestrictedSortedEdgesList(
 			final Collection<? extends IEdge> coll) {
-		
+
 		List<IRestrictedEdge> edgesList = new ArrayList<>(coll.size());
 
 		// Adds restricted edge instances to the edges list
@@ -618,6 +623,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 				} else {
 					IRestrictedEdge restrictedEdge = EdgeFactory
 							.createRestrictedEdge(edge);
+
 					this.edgesMap.put(edge, restrictedEdge);
 					edgesList.add(restrictedEdge);
 				}
@@ -636,7 +642,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	private List<IRestrictedVertex> getRestrictedSortedVerticesList(
 			final Collection<? extends IVertex> coll) {
-		
+
 		List<IRestrictedVertex> verticesList = new ArrayList<>(coll.size());
 
 		// Adds restricted vertex instances to the vertices list
@@ -647,6 +653,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 				} else {
 					IRestrictedVertex restrictedVertex = VertexFactory
 							.createRestrictedVertex(vertex);
+
 					this.verticesMap.put(vertex, restrictedVertex);
 					verticesList.add(restrictedVertex);
 				}

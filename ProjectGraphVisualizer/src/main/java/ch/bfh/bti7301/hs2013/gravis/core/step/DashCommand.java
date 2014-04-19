@@ -17,12 +17,9 @@ public class DashCommand extends EmptyStep {
 	 * @param currentItem
 	 * @param oldDashed
 	 * @param newDashed
-	 * @param comment
 	 */
 	public DashCommand(IGraphItem currentItem, boolean oldDashed, 
-			boolean newDashed, String comment) {
-		super(comment);
-		
+			boolean newDashed) {
 		this.item = currentItem;
 		this.oldDashed = oldDashed;
 		this.newDashed = newDashed;
@@ -34,7 +31,7 @@ public class DashCommand extends EmptyStep {
 	@Override
 	public IStepResult execute() {
 		this.item.setCurrentDashed(this.newDashed);
-		return new StepResult(this.comment);
+		return new StepResult();
 	}
 
 	/* (non-Javadoc)
@@ -43,7 +40,7 @@ public class DashCommand extends EmptyStep {
 	@Override
 	public IStepResult unExecute() {
 		this.item.setCurrentDashed(this.oldDashed);
-		return new StepResult(this.comment);
+		return new StepResult();
 	}
 	
 }

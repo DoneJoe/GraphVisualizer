@@ -19,9 +19,14 @@ import edu.uci.ics.jung.graph.util.Pair;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public interface IRestrictedGraph extends
-		IGraphItemUpdate<IRestrictedGraphItem> {
+public interface IRestrictedGraph {
 
+	/**
+	 * 
+	 * @param restrictedItems
+	 */
+	public void addStep(IRestrictedGraphItem... restrictedItems);
+	
 	/**
      * Returns true if this graph's edge collection contains <code>edge</code>.
      * Equivalent to <code>getEdges().contains(edge)</code>.
@@ -423,5 +428,6 @@ public interface IRestrictedGraph extends
      * @return  the number of outgoing edges incident to <code>vertex</code>
      */
 	public int outDegree(IRestrictedVertex vertex);
+
 
 }

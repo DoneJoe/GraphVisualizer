@@ -346,5 +346,13 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return this.gravisGraph.toString();
+	}
+
 
 }

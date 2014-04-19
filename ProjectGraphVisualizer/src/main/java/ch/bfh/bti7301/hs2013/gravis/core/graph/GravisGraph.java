@@ -192,4 +192,13 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 		this.graphName = graphName.trim();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+
+	
 }

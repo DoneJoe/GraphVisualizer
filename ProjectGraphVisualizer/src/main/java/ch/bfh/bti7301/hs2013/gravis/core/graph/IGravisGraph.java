@@ -18,56 +18,6 @@ public interface IGravisGraph extends Graph<IVertex, IEdge> {
 	public abstract void clear();
 
 	/**
-	 * 
-	 * @return true, if this graph contains no edges and vertices, false
-	 *         otherwise.
-	 */
-	public abstract boolean isEmpty();
-
-	/**
-	 * 
-	 * @return String
-	 */
-	public abstract String getDescription();
-
-	/**
-	 * 
-	 * @param graphDescription
-	 */
-	public abstract void setDescription(String graphDescription);
-
-	/**
-	 * 
-	 * @return graphName
-	 */
-	public abstract String getName();
-
-	/**
-	 * 
-	 * @param graphName
-	 */
-	public abstract void setName(String graphName);
-
-	/**
-	 * Returns the edge type of this graph (directed or undirected).
-	 * 
-	 * @return EdgeType
-	 */
-	public abstract EdgeType getEdgeType();
-	
-	/**
-	 * 
-	 * @param edgeType
-	 */
-	public abstract void setEdgeType(EdgeType edgeType);
-
-	/**
-	 * @param vertexName
-	 * @return boolean
-	 */
-	public abstract boolean containsVertexName(String vertexName);
-	
-	/**
 	 * @param edgeName
 	 * @return boolean
 	 */
@@ -78,6 +28,58 @@ public interface IGravisGraph extends Graph<IVertex, IEdge> {
 	 * @return boolean
 	 */
 	public abstract boolean containsItemName(String itemName);
+
+	/**
+	 * @param vertexName
+	 * @return boolean
+	 */
+	public abstract boolean containsVertexName(String vertexName);
+
+	/**
+	 * 
+	 * @return String
+	 */
+	public abstract String getDescription();
+
+	/**
+	 * Returns the edge type of this graph (directed or undirected).
+	 * 
+	 * @return EdgeType
+	 */
+	public abstract EdgeType getEdgeType();
+
+	/**
+	 * 
+	 * @return graphName
+	 */
+	public abstract String getName();
+	
+	/**
+	 * 
+	 * @return true, if this graph contains no edges and vertices, false
+	 *         otherwise.
+	 */
+	public abstract boolean isEmpty();
+
+	/**
+	 * string: trim() applied
+	 * 
+	 * @param graphDescription
+	 */
+	public abstract void setDescription(String graphDescription);
+	
+	/**
+	 * 
+	 * @param edgeType
+	 */
+	public abstract void setEdgeType(EdgeType edgeType);
+
+	/**
+	 * string: trim() applied
+	 * 
+	 * @param graphName
+	 */
+	public abstract void setName(String graphName);
 
 
 }

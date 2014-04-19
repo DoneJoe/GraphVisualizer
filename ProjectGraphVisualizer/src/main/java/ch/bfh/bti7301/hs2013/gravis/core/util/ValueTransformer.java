@@ -3,7 +3,7 @@ package ch.bfh.bti7301.hs2013.gravis.core.util;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.util.List;
+import java.util.Collection;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem;
 
@@ -28,9 +28,10 @@ public final class ValueTransformer {
 	 * @param itemList
 	 * @return IRestrictedGraphItem[]
 	 */
-	public static IRestrictedGraphItem[] toArray(List<IRestrictedGraphItem> itemList) {
-		return itemList == null ? new IRestrictedGraphItem[0] : 
-			itemList.toArray(new IRestrictedGraphItem[itemList.size()]);
+	public static IRestrictedGraphItem[] toArray(
+			Collection<? extends IRestrictedGraphItem> itemList) {
+		return itemList == null ? new IRestrictedGraphItem[0] : itemList
+				.toArray(new IRestrictedGraphItem[itemList.size()]);
 	}
 
 	/**
@@ -53,7 +54,7 @@ public final class ValueTransformer {
 		if (color == null) {
 			return GravisConstants.ANTIQUE;
 		}
-		
+
 		if (color.equals(GravisColor.GREEN)) {
 			return GravisConstants.GREEN;
 		} else if (color.equals(GravisColor.YELLOW)) {
@@ -74,7 +75,7 @@ public final class ValueTransformer {
 			return GravisConstants.ANTIQUE;
 		}
 	}
-	
+
 	/**
 	 * @param stringValue
 	 * @return a transformed double value
@@ -101,18 +102,19 @@ public final class ValueTransformer {
 	}
 
 	/**
-	 * Transforms a double value to a string-representation: 
-	 * If the double value is a whole number, the value is first converted to a int.
-	 * If the double value has fractional parts, the value is rounded with round2Decimals().
+	 * Transforms a double value to a string-representation: If the double value
+	 * is a whole number, the value is first converted to a int. If the double
+	 * value has fractional parts, the value is rounded with round2Decimals().
 	 * 
 	 * @param value
 	 * @return String
 	 */
 	public static String transformDoubleToString(double value) {
-		return Double.compare(round2Decimals(value), (int) Math.round(value)) == 0 ? 
-				String.valueOf((int) Math.round(value)) : String.valueOf(round2Decimals(value));
+		return Double.compare(round2Decimals(value), (int) Math.round(value)) == 0 ? String
+				.valueOf((int) Math.round(value)) : String
+				.valueOf(round2Decimals(value));
 	}
-	
+
 	/**
 	 * @param stringValue
 	 * @return Color
@@ -121,7 +123,7 @@ public final class ValueTransformer {
 		if (stringValue == null) {
 			return GravisColor.ANTIQUE;
 		}
-		
+
 		switch (stringValue) {
 		case GravisConstants.GREEN:
 			return GravisColor.GREEN;
@@ -143,7 +145,7 @@ public final class ValueTransformer {
 			return GravisColor.ANTIQUE;
 		}
 	}
-	
+
 	/**
 	 * A main (no-)constructor.
 	 */

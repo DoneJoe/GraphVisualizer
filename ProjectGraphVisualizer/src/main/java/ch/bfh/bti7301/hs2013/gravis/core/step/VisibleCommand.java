@@ -17,12 +17,9 @@ public class VisibleCommand extends EmptyStep {
 	 * @param currentItem
 	 * @param oldVisible
 	 * @param newVisible
-	 * @param comment
 	 */
 	public VisibleCommand(IGraphItem currentItem, boolean oldVisible, 
-			boolean newVisible, String comment) {
-		super(comment);
-		
+			boolean newVisible) {
 		this.item = currentItem;
 		this.oldVisible = oldVisible;
 		this.newVisible = newVisible;
@@ -34,7 +31,7 @@ public class VisibleCommand extends EmptyStep {
 	@Override
 	public IStepResult execute() {
 		this.item.setCurrentVisible(this.newVisible);
-		return new StepResult(this.comment);
+		return new StepResult();
 	}
 
 	/* (non-Javadoc)
@@ -43,6 +40,6 @@ public class VisibleCommand extends EmptyStep {
 	@Override
 	public IStepResult unExecute() {
 		this.item.setCurrentVisible(this.oldVisible);
-		return new StepResult(this.comment);
+		return new StepResult();
 	}
 }

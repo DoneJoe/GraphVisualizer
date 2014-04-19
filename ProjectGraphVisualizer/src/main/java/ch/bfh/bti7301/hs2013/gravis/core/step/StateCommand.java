@@ -18,12 +18,8 @@ public class StateCommand extends EmptyStep {
 	 * @param currentItem
 	 * @param oldState
 	 * @param newState
-	 * @param comment
 	 */
-	public StateCommand(IGraphItem currentItem, ItemState oldState, ItemState newState,
-			String comment) {
-		super(comment);
-		
+	public StateCommand(IGraphItem currentItem, ItemState oldState, ItemState newState) {
 		this.item = currentItem;
 		this.oldState = oldState;
 		this.newState = newState;
@@ -32,13 +28,13 @@ public class StateCommand extends EmptyStep {
 	@Override
 	public IStepResult execute() {
 		this.item.setCurrentState(this.newState);
-		return new StepResult(this.comment);
+		return new StepResult();
 	}
 
 	@Override
 	public IStepResult unExecute() {
 		this.item.setCurrentState(this.oldState);
-		return new StepResult(this.comment);
+		return new StepResult();
 	}
 
 	

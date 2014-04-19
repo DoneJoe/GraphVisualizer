@@ -15,7 +15,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	/**
 	 * A field for a graph iterator.
 	 */
-	private IGravisListIterator<IStep> graphIterator;
+	private IGravisListIterator<IStep> iterator;
 
 	/**
 	 * A field for a current command.
@@ -29,7 +29,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	 * 
 	 */
 	public StepIterator(IGravisListIterator<IStep> graphIterator) {
-		this.graphIterator = graphIterator;
+		this.iterator = graphIterator;
 		this.currentCommand = null;
 
 	}
@@ -51,7 +51,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public boolean hasNext() {
-		return this.graphIterator.hasNext();
+		return this.iterator.hasNext();
 	}
 
 	/*
@@ -61,8 +61,8 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public String next() {
-		if (this.graphIterator.hasNext()) {
-			this.currentCommand = this.graphIterator.next();
+		if (this.iterator.hasNext()) {
+			this.currentCommand = this.iterator.next();
 			return this.currentCommand.execute().getComment();
 		}
 		return "";
@@ -85,7 +85,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public boolean isEmpty() {
-		return this.graphIterator.isEmpty();
+		return this.iterator.isEmpty();
 	}
 
 	/*
@@ -95,8 +95,8 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public String previous() {
-		if (this.graphIterator.hasPrevious()) {
-			this.currentCommand = this.graphIterator.previous();
+		if (this.iterator.hasPrevious()) {
+			this.currentCommand = this.iterator.previous();
 			return this.currentCommand.unExecute().getComment();
 		}
 		return "";
@@ -109,7 +109,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public boolean hasPrevious() {
-		return this.graphIterator.hasPrevious();
+		return this.iterator.hasPrevious();
 	}
 
 	/*
@@ -119,7 +119,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public int size() {
-		return this.graphIterator.size();
+		return this.iterator.size();
 	}
 
 	/*
@@ -129,7 +129,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public int nextIndex() {
-		return this.graphIterator.nextIndex();
+		return this.iterator.nextIndex();
 	}
 
 	/*
@@ -140,7 +140,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public int previousIndex() {
-		return this.graphIterator.previousIndex();
+		return this.iterator.previousIndex();
 	}
 
 	/*
@@ -152,7 +152,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	public String first() {
 		String stepString = "";
 
-		while (this.graphIterator.hasPrevious()) {
+		while (this.iterator.hasPrevious()) {
 			stepString = this.previous();
 		}
 
@@ -168,7 +168,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	public String last() {
 		String stepString = "";
 
-		while (this.graphIterator.hasNext()) {
+		while (this.iterator.hasNext()) {
 			stepString = this.next();
 		}
 

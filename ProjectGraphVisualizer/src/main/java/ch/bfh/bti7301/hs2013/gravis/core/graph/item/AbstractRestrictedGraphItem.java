@@ -1,6 +1,5 @@
 package ch.bfh.bti7301.hs2013.gravis.core.graph.item;
 
-
 /**
  * An restricted item.
  * 
@@ -177,6 +176,17 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#
+	 * resetHelperVariables()
+	 */
+	@Override
+	public void resetHelperVariables() {
+		this.item.resetHelperVariables();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#setDone
 	 * (boolean)
@@ -206,17 +216,6 @@ public abstract class AbstractRestrictedGraphItem implements
 	@Override
 	public void setNewDashed(Boolean value) {
 		this.item.setNewDashed(value);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.bti7301.hs2013.gravis.core.graph.item.IRestrictedGraphItem#
-	 * setNewDefaultComment(java.lang.String)
-	 */
-	@Override
-	public void setNewDefaultComment(String comment) {
-		this.item.setNewDefaultComment(comment);
 	}
 
 	/*

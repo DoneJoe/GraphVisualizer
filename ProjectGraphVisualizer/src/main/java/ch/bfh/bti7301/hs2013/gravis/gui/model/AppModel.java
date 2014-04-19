@@ -57,7 +57,7 @@ class AppModel implements IAppModel {
 	 */
 	protected AppModel(final ICore core) throws CoreException {
 		// creates an empty undirected graph
-		this.graph = GraphFactory.createEditGraphDecorator(EdgeType.UNDIRECTED);
+		this.graph = GraphFactory.createEditGraphObservable(EdgeType.UNDIRECTED);
 		this.graphUnsaved = this.graphItemsEdited = false;
 		// TODO set calcState
 		this.calcState = CalculationState.NOT_CALCULABLE;
@@ -369,7 +369,7 @@ class AppModel implements IAppModel {
 	 */
 	@Override
 	public void setNewGraphState(EdgeType edgeType) {
-		this.graph = GraphFactory.createEditGraphDecorator(edgeType,
+		this.graph = GraphFactory.createEditGraphObservable(edgeType,
 				this.graph.getEditGraphEventListeners());
 		this.graphUnsaved = this.graphItemsEdited = false;
 		this.resetStepEnabledState();
@@ -384,7 +384,7 @@ class AppModel implements IAppModel {
 	 */
 	@Override
 	public void setOpenGraphState(IGravisGraph graph) {
-		this.graph = GraphFactory.createEditGraphDecorator(graph,
+		this.graph = GraphFactory.createEditGraphObservable(graph,
 				this.graph.getEditGraphEventListeners());
 		this.graphUnsaved = this.graphItemsEdited = false;
 		this.resetStepEnabledState();

@@ -1,25 +1,19 @@
 package ch.bfh.bti7301.hs2013.gravis.core;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import ch.bfh.bti7301.hs2013.gravis.core.algorithm.AlgorithmException;
 import ch.bfh.bti7301.hs2013.gravis.core.algorithm.AlgorithmFactory;
 import ch.bfh.bti7301.hs2013.gravis.core.algorithm.IAlgorithm;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphFactory;
+import ch.bfh.bti7301.hs2013.gravis.core.graph.GraphIOManager;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.GravisGraphIOException;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IGraphIOManager;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IGravisGraph;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.IObservableGravisGraph;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
-import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.bti7301.hs2013.gravis.core.step.IStep;
+import ch.bfh.bti7301.hs2013.gravis.core.step.StepBuilder;
 import ch.bfh.bti7301.hs2013.gravis.core.util.IGravisListIterator;
 import ch.bfh.bti7301.hs2013.gravis.core.util.StepIterator;
 import ch.bfh.bti7301.hs2013.gravis.core.util.GravisListIterator;
-import edu.uci.ics.jung.graph.event.GraphEventListener;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
@@ -33,14 +27,14 @@ class Core implements ICore {
 
 	private final static String UNKNOWN_ALGO = "This is not a valid algorithm name: %s";
 
-	private IGraphIOManager graphIOManager;
+	private GraphIOManager graphIOManager;
 	private AlgorithmFactory algorithmFactory;
 
 	/**
 	 * @param graphIOManager
 	 * @param algorithmFactory
 	 */
-	protected Core(IGraphIOManager graphManager,
+	protected Core(GraphIOManager graphManager,
 			AlgorithmFactory algorithmFactory) {
 		this.graphIOManager = graphManager;
 		this.algorithmFactory = algorithmFactory;
@@ -53,7 +47,7 @@ class Core implements ICore {
 	 */
 	@Override
 	public IGravisGraph loadGraph(File source) throws GravisGraphIOException {
-			return this.graphIOManager.loadGraph(source);
+		return this.graphIOManager.loadGraph(source);
 	}
 
 	/*
@@ -64,8 +58,9 @@ class Core implements ICore {
 	 * .gravis.core.graph.IGravisGraph, java.io.File)
 	 */
 	@Override
-	public void saveGraph(IGravisGraph graph, File file) throws GravisGraphIOException {
-			this.graphIOManager.saveGraph(graph, file);
+	public void saveGraph(IGravisGraph graph, File file)
+			throws GravisGraphIOException {
+		this.graphIOManager.saveGraph(graph, file);
 	}
 
 	/*
@@ -76,8 +71,12 @@ class Core implements ICore {
 	 * .jung.graph.util.EdgeType)
 	 */
 	@Override
-	public String[] getAlgorithmNames(EdgeType edgeType) {
+	public String[] getAlgorithmNames(EdgeType edgeType) throws CoreException {
+		try {
 			return this.algorithmFactory.getAlgorithmNames(edgeType);
+		} catch (Exception e) {
+			throw new CoreException(e);
+		}
 	}
 
 	/*
@@ -91,27 +90,20 @@ class Core implements ICore {
 	public IGravisListIterator<String> calculateSteps(final IGravisGraph graph,
 			final String algorithmName) throws CoreException {
 		try {
-			List<IStep> commandList = new ArrayList<>();
-			GraphEventListener<IVertex, IEdge> graphEventListener = GraphFactory
-					.createGraphStepListener(commandList);
-			IObservableGravisGraph observableGraph = GraphFactory
-					.createObservableGraph(graph);
-			observableGraph.addGraphEventListener(graphEventListener);
+			StepBuilder stepBuilder = new StepBuilder();
 			IRestrictedGraph restrictedGraph = GraphFactory
-					.createRestrictedGraph(observableGraph);
+					.createRestrictedGraph(graph, stepBuilder);
 			IAlgorithm algorithm = this.algorithmFactory
-					.getAlgorithm(algorithmName);
+					.createAlgorithm(algorithmName);
 
 			if (algorithm != null) {
-				algorithm.execute(restrictedGraph);
-				// undo for all commands in the list in reverse order
-				for (int i = commandList.size() - 1; i >= 0; i--) {
-					commandList.get(i).unExecute();
-				}
-				
+				algorithm.execute(restrictedGraph,
+						StepBuilder.createStepRecorder(restrictedGraph));
+
 				return new StepIterator(new GravisListIterator<IStep>(
-						commandList));
+						stepBuilder.createStepList()));
 			} else {
+				// TODO Exception handling (unbekannter algo)
 				throw new CoreException(String.format(UNKNOWN_ALGO,
 						algorithmName));
 			}
@@ -129,12 +121,12 @@ class Core implements ICore {
 	 */
 	@Override
 	public String getAlgorithmDescription(String algoName) throws CoreException {
-			try {
-				IAlgorithm algo = this.algorithmFactory.getAlgorithm(algoName);
-				return algo == null ? null : algo.getDescription();
-			} catch (AlgorithmException e) {
-				throw new CoreException(e);
-			}
+		try {
+			IAlgorithm algo = this.algorithmFactory.createAlgorithm(algoName);
+			return algo == null ? null : algo.getDescription();
+		} catch (Exception e) {
+			throw new CoreException(e);
+		}
 	}
 
 }

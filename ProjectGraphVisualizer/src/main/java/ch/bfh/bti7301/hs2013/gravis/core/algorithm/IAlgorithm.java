@@ -1,6 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.core.algorithm;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.IRestrictedGraph;
+import ch.bfh.bti7301.hs2013.gravis.core.step.IStepRecorder;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
@@ -30,15 +31,15 @@ public interface IAlgorithm {
 	 * 
 	 * @param edgeType
 	 * @return boolean
-	 * @throws AlgorithmException
 	 */
-	public abstract boolean hasEdgeType(EdgeType edgeType) throws AlgorithmException;
+	public abstract boolean hasEdgeType(EdgeType edgeType);
 
 	/**
 	 * @param graph
+	 * @param rec 
 	 * @throws AlgorithmException
 	 */
-	public abstract void execute(IRestrictedGraph graph)
+	public abstract void execute(IRestrictedGraph graph, IStepRecorder rec)
 			throws AlgorithmException;
 
 }

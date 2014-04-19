@@ -3,6 +3,7 @@ package ch.bfh.bti7301.hs2013.gravis.core.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -17,11 +18,7 @@ public class AlgorithmFactory {
 	
 	private List<String> directedAlgoNames, undirectedAlgoNames;
 
-	/**
-	 * 
-	 * @throws AlgorithmException
-	 */
-	public AlgorithmFactory() throws AlgorithmException {
+	public AlgorithmFactory() {
 		this.algorithmMap = new TreeMap<>();
 		this.directedAlgoNames = new ArrayList<>();
 		this.undirectedAlgoNames = new ArrayList<>();
@@ -54,15 +51,12 @@ public class AlgorithmFactory {
 	 * 
 	 * @param algorithmName
 	 * @return IAlgorithm
-	 * @throws AlgorithmException 
 	 */
-	public IAlgorithm getAlgorithm(String algorithmName) throws AlgorithmException {
-		if (algorithmName == null) {
-			throw new AlgorithmException();
-			// TODO Exception message
-		}
+	public IAlgorithm createAlgorithm(String algorithmName) {
+		// TODO Exception handling
+		Objects.requireNonNull(algorithmName);
 		
-		return this.algorithmMap.get(algorithmName);
+		return this.algorithmMap.get(algorithmName.trim());
 	}
 
 	/**

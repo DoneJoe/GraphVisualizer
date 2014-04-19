@@ -1,14 +1,11 @@
 package ch.bfh.bti7301.hs2013.gravis.core.graph;
 
-import java.util.List;
 
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.bti7301.hs2013.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.bti7301.hs2013.gravis.core.step.StepTransformerFactory;
-import ch.bfh.bti7301.hs2013.gravis.core.step.IStep;
+import ch.bfh.bti7301.hs2013.gravis.core.step.StepBuilder;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseGraph;
-import edu.uci.ics.jung.graph.event.GraphEventListener;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
@@ -57,7 +54,7 @@ public final class GraphFactory {
 	/**
 	 * @return a new directed graph instance of type IEditGraphObservable
 	 */
-	public static IEditGraphObservable createDirectedEditGraphDecorator() {
+	public static IEditGraphObservable createDirectedEditGraphObservable() {
 		return new EditGraphDecorator(createDirectedGravisGraph());
 	}
 	
@@ -67,7 +64,7 @@ public final class GraphFactory {
 	 * @param listeners 
 	 * @return a new graph instance of type IEditGraphObservable
 	 */
-	public static IEditGraphObservable createEditGraphDecorator(EdgeType edgeType, 
+	public static IEditGraphObservable createEditGraphObservable(EdgeType edgeType, 
 			IEditGraphEventListener ... listeners) {
 		EditGraphDecorator graph = new EditGraphDecorator(createGravisGraph(edgeType));
 		
@@ -83,63 +80,24 @@ public final class GraphFactory {
 	 * @param listeners
 	 * @return a new graph instance of type IEditGraphObservable
 	 */
-	public static IEditGraphObservable createEditGraphDecorator(IGravisGraph graph, 
+	public static IEditGraphObservable createEditGraphObservable(IGravisGraph graph, 
 			IEditGraphEventListener ... listeners) {
-		EditGraphDecorator editingGraph = new EditGraphDecorator(graph);
+		EditGraphDecorator editGraph = new EditGraphDecorator(graph);
 		
 		for (IEditGraphEventListener listener : listeners) {
-			editingGraph.addEditGraphEventListener(listener);
+			editGraph.addEditGraphEventListener(listener);
 		}
-		return editingGraph;
+		return editGraph;
 	}
 	
 	/**
-	 * 
 	 * @param graph
-	 * @return a new instance of type IObservableGravisGraph
-	 */
-	public static IObservableGravisGraph createObservableGraph(
-			IGravisGraph graph) {
-		return new ObservableGravisGraph(graph);
-	}
-
-	/**
-	 * @param graph
+	 * @param stepBuilder 
 	 * @return a new instance of type IRestrictedGraph
 	 */
 	public static IRestrictedGraph createRestrictedGraph(
-			IObservableGravisGraph graph) {
-		return new RestrictedGraph(graph);
-	}
-
-	/**
-	 * 
-	 * @param commandList
-	 * @return a new instance of type GraphEventListener<IVertex, IEdge> listen to 
-	 * graph step updates
-	 */
-	public static GraphEventListener<IVertex, IEdge> createGraphStepListener(
-			List<IStep> commandList) {
-		return new GraphStepEventListener(commandList,
-				StepTransformerFactory.createStepTransformer());
-	}
-
-	/**
-	 * @param restricted graph
-	 * @return a new instance of type IGraphUpdateHandler
-	 */
-	public static IGraphUpdateHandler createGraphUpdateHandler(
-			IRestrictedGraph graph) {
-		return new GraphUpdateHandler(graph);
-	}
-
-	/**
-	 * Creates a graph manager.
-	 * 
-	 * @return a new instance of type IGraphIOManager
-	 */
-	public static IGraphIOManager createGraphManager() {
-		return new GraphIOManager();
+			IGravisGraph graph, StepBuilder stepBuilder) {
+		return new RestrictedGraph(graph, stepBuilder);
 	}
 
 }

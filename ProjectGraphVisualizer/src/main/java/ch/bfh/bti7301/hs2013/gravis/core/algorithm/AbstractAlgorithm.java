@@ -1,6 +1,7 @@
 package ch.bfh.bti7301.hs2013.gravis.core.algorithm;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -55,7 +56,7 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 */
 	@Override
 	public final String getDescription() {
-		return this.description;
+		return this.description.trim();
 	}
 
 	/*
@@ -65,7 +66,7 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 */
 	@Override
 	public final String getName() {
-		return this.name;
+		return this.name.trim();
 	}
 
 	/*
@@ -77,7 +78,9 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 */
 	@Override
 	public final boolean hasEdgeType(EdgeType edgeType) {
-		// TODO Verhalten bei edgeType == null?
+		// TODO Exception handling
+		Objects.requireNonNull(edgeType);
+				
 		return this.edgeTypes.contains(edgeType);
 	}
 

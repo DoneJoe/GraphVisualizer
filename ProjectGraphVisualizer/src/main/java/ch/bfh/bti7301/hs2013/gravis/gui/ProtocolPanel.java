@@ -51,7 +51,7 @@ public class ProtocolPanel extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
-			this.textArea.append((String) arg + System.lineSeparator());
+			this.textArea.append((String) arg);
 		}
 	}
 

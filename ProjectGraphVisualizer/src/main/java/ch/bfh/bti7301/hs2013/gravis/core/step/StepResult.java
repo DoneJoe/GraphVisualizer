@@ -13,7 +13,7 @@ public class StepResult implements IStepResult {
 	 * @param comment
 	 */
 	public StepResult(String comment) {
-		this.stepComment = comment.trim();
+		this.stepComment = comment;
 	}
 
 	public StepResult() {
@@ -25,7 +25,7 @@ public class StepResult implements IStepResult {
 	 */
 	@Override
 	public boolean hasComment() {
-		return !this.stepComment.isEmpty();
+		return !this.stepComment.trim().isEmpty();
 	}
 
 	/* (non-Javadoc)
