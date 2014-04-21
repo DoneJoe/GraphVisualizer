@@ -17,6 +17,7 @@ import ch.bfh.ti.gravis.core.graph.transformer.EdgeColorTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.EdgeLabelTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.EdgeStrokeTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.ShapeTransformer;
+import ch.bfh.ti.gravis.core.graph.transformer.VertexDrawColorTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.VertexFillColorTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.VertexLabelTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.VertexStrokeTransformer;
@@ -53,7 +54,7 @@ public class GravisVisualizationViewer extends
 		
 		// TODO setVertexDrawPaintTransformer 
 		this.getRenderContext().setVertexDrawPaintTransformer(
-				new VertexFillColorTransformer());
+				new VertexDrawColorTransformer());
 //		this.getRenderContext().setVertexDrawPaintTransformer(
 //				new Transformer<IVertex, Paint>() {					
 //					@Override

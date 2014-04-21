@@ -11,7 +11,7 @@ import org.apache.commons.collections15.Factory;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.ti.gravis.gui.visualization.popup.IGraphItemMenuListener;
+import ch.bfh.ti.gravis.gui.popup.IGraphItemMenuListener;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingPopupGraphMousePlugin;

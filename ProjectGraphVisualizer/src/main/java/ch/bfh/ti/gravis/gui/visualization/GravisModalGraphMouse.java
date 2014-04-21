@@ -10,7 +10,7 @@ import org.apache.commons.collections15.Factory;
 
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.ti.gravis.gui.visualization.popup.VertexCreateMenu;
+import ch.bfh.ti.gravis.gui.popup.VertexCreateMenu;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.annotations.AnnotatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.AnimatedPickingGraphMousePlugin;
@@ -26,7 +26,7 @@ import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge> {
+public class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge> {
 
 	/**
 	 * 

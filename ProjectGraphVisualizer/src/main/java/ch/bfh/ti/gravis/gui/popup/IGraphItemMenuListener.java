@@ -1,4 +1,4 @@
-package ch.bfh.ti.gravis.gui.visualization.popup;
+package ch.bfh.ti.gravis.gui.popup;
 
 import java.awt.geom.Point2D;
 

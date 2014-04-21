@@ -1,4 +1,4 @@
-package ch.bfh.ti.gravis.gui;
+package ch.bfh.ti.gravis.gui.component;
 
 import javax.swing.JPanel;
 
@@ -16,7 +16,7 @@ import javax.swing.JButton;
 import ch.bfh.ti.gravis.gui.controller.IStepController;
 import ch.bfh.ti.gravis.gui.controller.IStepController.EventSource;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
-import ch.bfh.ti.gravis.gui.model.IStepViewModel;
+import ch.bfh.ti.gravis.gui.model.IStepModel;
 import static ch.bfh.ti.gravis.gui.GuiFactory.loadImage;
 
 import javax.swing.ImageIcon;
@@ -194,8 +194,8 @@ public class StepPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof IStepViewModel) {
-			IStepViewModel model = (IStepViewModel) arg;
+		if (arg instanceof IStepModel) {
+			IStepModel model = (IStepModel) arg;
 			String labelText = String.format(PROGRESS_LABEL, model.getStepValue(), 
 					model.getStepMaximum());
 			

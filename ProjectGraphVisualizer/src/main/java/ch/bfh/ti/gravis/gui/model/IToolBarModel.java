@@ -6,7 +6,7 @@ import javax.swing.ComboBoxModel;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public interface IToolBarViewModel {
+public interface IToolBarModel {
 
 	/**
 	 * 

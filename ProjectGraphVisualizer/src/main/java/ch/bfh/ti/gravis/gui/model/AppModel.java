@@ -42,8 +42,6 @@ class AppModel implements IAppModel {
 	
 	// TODO SpinnerModel
 	
-	// VisualPanel
-
 	private ButtonModel deleteEdgeButtonModel = null,
 			vertexCreateButtonModel = null, deleteVertexButtonModel = null,
 			beginningButtonModel = null, endButtonModel = null,
@@ -61,6 +59,9 @@ class AppModel implements IAppModel {
 	 * @throws CoreException
 	 */
 	protected AppModel(final ICore core) throws CoreException {
+		
+		// TODO edit mode combo model hier instanzieren moeglich? -> dann REihenfolge aendern in MainWindow
+		
 		// creates an empty undirected graph
 		this.graph = GraphFactory.createEditGraphObservable(EdgeType.UNDIRECTED);
 		this.graphUnsaved = this.graphItemsEdited = false;
@@ -81,8 +82,8 @@ class AppModel implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#createStepModel()
 	 */
 	@Override
-	public IStepViewModel createStepModel() {
-		return new StepViewModel(this.progressBarModel.getValue(),
+	public IStepModel createStepModel() {
+		return new StepModel(this.progressBarModel.getValue(),
 				this.progressBarModel.getMaximum());
 	}
 
@@ -93,8 +94,8 @@ class AppModel implements IAppModel {
 	 * ch.bfh.ti.gravis.gui.model.IAppModel#createToolBarModel()
 	 */
 	@Override
-	public IToolBarViewModel createToolBarModel() {
-		return new ToolBarViewModel(
+	public IToolBarModel createToolBarModel() {
+		return new ToolBarModel(
 				this.algoComboModel,
 				!this.graph.isEmpty(),
 				this.graphItemsEdited

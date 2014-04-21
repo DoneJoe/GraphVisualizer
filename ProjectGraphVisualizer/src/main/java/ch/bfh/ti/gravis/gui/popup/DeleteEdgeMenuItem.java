@@ -1,4 +1,4 @@
-package ch.bfh.ti.gravis.gui.visualization.popup;
+package ch.bfh.ti.gravis.gui.popup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,26 +15,25 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class DeleteVertexMenuItem extends JMenuItem implements
+class DeleteEdgeMenuItem extends JMenuItem implements
 		IGraphItemMenuListener {
 
-	private static final long serialVersionUID = -4699986300655692795L;
+	private static final long serialVersionUID = -8344732316212412105L;
 	
-	private final static String TITLE = "Knoten löschen";
-	private final static String DELETE_VERTEX_LABEL = "Knoten %s löschen";
+	private final static String TITLE = "Kante löschen";
+	private final static String DELETE_EDGE_LABEL = "Kante %s löschen";
 
-	private IVertex vertex;
+	private IEdge edge = null;
 
 	/**
-	 * 
 	 * @param vViewer
 	 */
-	protected DeleteVertexMenuItem(final VisualizationViewer<IVertex, IEdge> vViewer) {
+	protected DeleteEdgeMenuItem(final VisualizationViewer<IVertex, IEdge> vViewer) {
 		super(TITLE);
 
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DeleteVertexMenuItem.this.deleteVertex(vViewer);
+				DeleteEdgeMenuItem.this.deleteEdge(vViewer);
 			}
 		});
 	}
@@ -43,12 +42,10 @@ class DeleteVertexMenuItem extends JMenuItem implements
 	 * 
 	 * @param vViewer
 	 */
-	private void deleteVertex(final VisualizationViewer<IVertex, IEdge> vViewer) {
-		if (this.vertex != null) {
-			vViewer.getPickedVertexState().pick(this.vertex, false);
-			vViewer.getGraphLayout().getGraph().removeVertex(this.vertex);
-			vViewer.repaint();
-		}
+	private void deleteEdge(final VisualizationViewer<IVertex, IEdge> vViewer) {
+		vViewer.getPickedEdgeState().pick(this.edge, false);
+		vViewer.getGraphLayout().getGraph().removeEdge(this.edge);
+		vViewer.repaint();
 	}
 
 	/*
@@ -61,9 +58,9 @@ class DeleteVertexMenuItem extends JMenuItem implements
 	 */
 	@Override
 	public void setGraphItemAndView(final IGraphItem item) {
-		if (item instanceof IVertex) {
-			this.vertex = (IVertex) item;
-			this.setText(String.format(DELETE_VERTEX_LABEL, this.vertex.getName()));
+		if (item instanceof IEdge) {
+			this.edge = (IEdge) item;
+			this.setText(String.format(DELETE_EDGE_LABEL, this.edge.getName()));
 		}
 	}
 
@@ -78,5 +75,4 @@ class DeleteVertexMenuItem extends JMenuItem implements
 	public void setGraphItemLocation(Point2D point) {
 		// does nothing
 	}
-
 }

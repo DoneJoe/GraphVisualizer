@@ -1,4 +1,4 @@
-package ch.bfh.ti.gravis.gui;
+package ch.bfh.ti.gravis.gui.component;
 
 import java.util.Observable;
 import java.util.Observer;

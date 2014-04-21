@@ -6,7 +6,7 @@ import javax.swing.ComboBoxModel;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-class ToolBarViewModel implements IToolBarViewModel {
+class ToolBarModel implements IToolBarModel {
 
 	private final boolean algoComboEnabled;
 	
@@ -20,7 +20,7 @@ class ToolBarViewModel implements IToolBarViewModel {
 	 * @param algoComboEnabled
 	 * @param newCalcButtonVisible
 	 */
-	protected ToolBarViewModel(ComboBoxModel<String> comboBoxModel, boolean algoComboEnabled, 
+	protected ToolBarModel(ComboBoxModel<String> comboBoxModel, boolean algoComboEnabled, 
 			boolean newCalcButtonVisible) {
 		this.comboBoxModel = comboBoxModel;
 		this.algoComboEnabled = algoComboEnabled;
@@ -28,7 +28,7 @@ class ToolBarViewModel implements IToolBarViewModel {
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IToolBarViewModel#isAlgoComboVisible()
+	 * @see ch.bfh.ti.gravis.gui.model.IToolBarModel#isAlgoComboVisible()
 	 */
 	@Override
 	public boolean isAlgoComboEnabled() {
@@ -36,7 +36,7 @@ class ToolBarViewModel implements IToolBarViewModel {
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IToolBarViewModel#isNewCalcButtonVisible()
+	 * @see ch.bfh.ti.gravis.gui.model.IToolBarModel#isNewCalcButtonVisible()
 	 */
 	@Override
 	public boolean isNewCalcButtonVisible() {
@@ -44,7 +44,7 @@ class ToolBarViewModel implements IToolBarViewModel {
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IToolBarViewModel#getAlgorithmComboBoxModel()
+	 * @see ch.bfh.ti.gravis.gui.model.IToolBarModel#getAlgorithmComboBoxModel()
 	 */
 	@Override
 	public ComboBoxModel<String> getAlgorithmComboBoxModel() {

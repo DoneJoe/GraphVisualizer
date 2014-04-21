@@ -1,4 +1,4 @@
-package ch.bfh.ti.gravis.gui.visualization.popup;
+package ch.bfh.ti.gravis.gui.popup;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,48 +10,50 @@ import javax.swing.JMenuItem;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.ti.gravis.gui.dialog.VertexPropertyDialog;
+import ch.bfh.ti.gravis.gui.dialog.EdgePropertyDialog;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class VertexPropertyMenuItem extends JMenuItem implements
-		IGraphItemMenuListener {
+class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 
-	private static final long serialVersionUID = 3448304253580836407L;
+	private static final long serialVersionUID = -1894264493446725645L;
 
-	private final static String TITLE = "Knoten bearbeiten...";
+	private final static String TITLE = "Kante bearbeiten...";
 
-	private IVertex vertex = null;
+	private IEdge edge = null;
 
 	private Point2D point = null;
 
 	/**
 	 * @param vViewer
 	 * @param owner
+	 * 
 	 */
-	protected VertexPropertyMenuItem(
-			final VisualizationViewer<IVertex, IEdge> vViewer, final JFrame owner) {
+	protected EdgePropertyMenuItem(
+			final VisualizationViewer<IVertex, IEdge> vViewer,
+			final JFrame owner) {
 		super(TITLE);
 
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VertexPropertyMenuItem.this.showDialog(vViewer, owner);
+				EdgePropertyMenuItem.this.showDialog(vViewer, owner);
 			}
 		});
 	}
 
 	/**
 	 * 
-	 * @param vViewer 
+	 * @param vViewer
 	 * @param owner
 	 */
-	private void showDialog(final VisualizationViewer<IVertex, IEdge> vViewer, 
+	protected void showDialog(
+			final VisualizationViewer<IVertex, IEdge> vViewer,
 			final JFrame owner) {
-		if (this.point != null && this.vertex != null) {
-			VertexPropertyDialog dialog = new VertexPropertyDialog(this.vertex,
+		if (this.point != null && this.edge != null) {
+			EdgePropertyDialog dialog = new EdgePropertyDialog(this.edge,
 					owner, vViewer);
 			dialog.setLocation((int) this.point.getX() + owner.getX(),
 					(int) this.point.getY() + owner.getY());
@@ -69,8 +71,8 @@ class VertexPropertyMenuItem extends JMenuItem implements
 	 */
 	@Override
 	public void setGraphItemAndView(final IGraphItem item) {
-		if (item instanceof IVertex) {
-			this.vertex = (IVertex) item;
+		if (item instanceof IEdge) {
+			this.edge = (IEdge) item;
 		}
 	}
 
