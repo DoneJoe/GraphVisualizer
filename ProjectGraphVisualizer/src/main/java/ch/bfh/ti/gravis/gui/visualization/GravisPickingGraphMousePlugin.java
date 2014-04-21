@@ -50,7 +50,8 @@ public class GravisPickingGraphMousePlugin extends
 					Point2D vp = layout.transform(v);
 					vp.setLocation(vp.getX() + dx, vp.getY() + dy);
 					layout.setLocation(v, vp);
-					// update the vertex location
+					
+					// updates the vertex location
 					v.setLocation(vp);
 				}
 				this.down = p;

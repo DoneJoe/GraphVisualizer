@@ -22,7 +22,6 @@ import ch.bfh.ti.gravis.gui.visualization.GravisModalGraphMouse;
 import ch.bfh.ti.gravis.gui.visualization.GravisVisualizationViewer;
 import edu.uci.ics.jung.visualization.GraphZoomScrollPane;
 import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
-import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 
 /**
  * A visualization panel.
@@ -40,10 +39,12 @@ public class VisualizationPanel extends JPanel implements Observer {
 	private GravisVisualizationViewer viewer;
 
 	/**
+	 * mode combo box listener is registered
 	 * 
 	 * @param mainWindow
 	 * @param model
 	 */
+	@SuppressWarnings("unchecked")
 	public VisualizationPanel(final JFrame mainWindow, final IAppModel model) {
 		
 		// create components:
@@ -61,15 +62,14 @@ public class VisualizationPanel extends JPanel implements Observer {
 
 		// prepare VisualizationPanel:
 		
-		model.setPopupEditMode(Mode.PICKING);
-		model.setEditModeComboModel(graphMouse.getModeComboBox().getModel());
-		graphMouse.setMode(Mode.PICKING);
+		graphMouse.getModeComboBox().setModel(model.getToggleComboModel().getModeModel());
+		graphMouse.setMode(model.getToggleComboModel().getDefaultMode());
+		this.viewer.setGraphMouse(graphMouse);
+		this.viewer.addKeyListener(graphMouse.getModeKeyListener());
 		this.setBorder(BorderFactory.createTitledBorder(model.getGraph()
 				.getName()));
 		this.setLayout(new BorderLayout());
 		this.add(pane, BorderLayout.CENTER);
-		this.viewer.setGraphMouse(graphMouse);
-		this.viewer.addKeyListener(graphMouse.getModeKeyListener());
 	}
 
 	/*

@@ -71,13 +71,13 @@ public class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge
 		this.scalingPlugin = new ScalingGraphMousePlugin(
 				new CrossoverScalingControl(), 0, this.in, this.out);
 		this.rotatingPlugin = new RotatingGraphMousePlugin();
-		this.shearingPlugin = new ShearingGraphMousePlugin();
+		this.shearingPlugin = new ShearingGraphMousePlugin();		
 		// GravisEditingGraphMousePlugin class used
 		this.editingPlugin = new GravisEditingGraphMousePlugin(
 				this.vertexFactory, this.edgeFactory);
 		this.labelEditingPlugin = new LabelEditingGraphMousePlugin<IVertex, IEdge>();
 		this.annotatingPlugin = new AnnotatingGraphMousePlugin<IVertex, IEdge>(
-				rc);
+				rc);		
 		// GravisPopupGraphMousePlugin class used
 		this.popupEditingPlugin = new GravisPopupGraphMousePlugin(
 				this.vertexFactory, this.edgeFactory);
@@ -87,49 +87,51 @@ public class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge
 
 	@Override
 	protected void setPickingMode() {
-		remove(this.translatingPlugin);
-		remove(this.rotatingPlugin);
-		remove(this.shearingPlugin);
-		remove(this.editingPlugin);
-		remove(this.annotatingPlugin);
-		add(this.pickingPlugin);
-		add(this.animatedPickingPlugin);
-		add(this.popupEditingPlugin);
+		this.remove(this.translatingPlugin);
+		this.remove(this.rotatingPlugin);
+		this.remove(this.shearingPlugin);
+		this.remove(this.editingPlugin);
+		this.remove(this.annotatingPlugin);
+		this.add(this.pickingPlugin);
+		this.add(this.animatedPickingPlugin);
+		this.add(this.popupEditingPlugin);
 	}
 
 	@Override
 	protected void setTransformingMode() {
-		remove(this.pickingPlugin);
-		remove(this.animatedPickingPlugin);
-		remove(this.editingPlugin);
-		remove(this.annotatingPlugin);
-		add(this.translatingPlugin);
-		add(this.rotatingPlugin);
-		add(this.shearingPlugin);
-		add(this.popupEditingPlugin);
+		this.remove(this.pickingPlugin);
+		this.remove(this.animatedPickingPlugin);
+		this.remove(this.editingPlugin);
+		this.remove(this.annotatingPlugin);
+		this.add(this.translatingPlugin);
+		this.add(this.rotatingPlugin);
+		this.add(this.shearingPlugin);
+		this.add(this.popupEditingPlugin);
 	}
 
+	@Override
 	protected void setEditingMode() {
-		remove(this.pickingPlugin);
-		remove(this.animatedPickingPlugin);
-		remove(this.translatingPlugin);
-		remove(this.rotatingPlugin);
-		remove(this.shearingPlugin);
-		remove(this.labelEditingPlugin);
-		remove(this.annotatingPlugin);
-		add(this.editingPlugin);
-		add(this.popupEditingPlugin);
+		this.remove(this.pickingPlugin);
+		this.remove(this.animatedPickingPlugin);
+		this.remove(this.translatingPlugin);
+		this.remove(this.rotatingPlugin);
+		this.remove(this.shearingPlugin);
+		this.remove(this.labelEditingPlugin);
+		this.remove(this.annotatingPlugin);
+		this.add(this.editingPlugin);
+		this.add(this.popupEditingPlugin);
 	}
 
+	@Override
 	protected void setAnnotatingMode() {
-		remove(this.pickingPlugin);
-		remove(this.animatedPickingPlugin);
-		remove(this.translatingPlugin);
-		remove(this.rotatingPlugin);
-		remove(this.shearingPlugin);
-		remove(this.labelEditingPlugin);
-		remove(this.editingPlugin);
-		remove(this.popupEditingPlugin);
+		this.remove(this.pickingPlugin);
+		this.remove(this.animatedPickingPlugin);
+		this.remove(this.translatingPlugin);
+		this.remove(this.rotatingPlugin);
+		this.remove(this.shearingPlugin);
+		this.remove(this.labelEditingPlugin);
+		this.remove(this.editingPlugin);
+		this.remove(this.popupEditingPlugin);
 	}
 
 	/*

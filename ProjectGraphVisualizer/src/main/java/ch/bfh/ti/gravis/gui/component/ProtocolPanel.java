@@ -50,6 +50,9 @@ public class ProtocolPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
+		
+		// TODO model anpassen
+		
 		if (arg instanceof String) {
 			this.textArea.append((String) arg);
 		}

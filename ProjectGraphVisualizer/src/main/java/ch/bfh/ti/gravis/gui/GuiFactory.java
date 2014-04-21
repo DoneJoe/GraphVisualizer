@@ -54,6 +54,7 @@ public final class GuiFactory {
 				.createVisualizationController(model);
 		IStepController stepController = ControllerFactory
 				.createStepController(model);
+		
 		// add EditGraphEventListener to graph
 		model.getGraph().addEditGraphEventListener(visualizationController);
 

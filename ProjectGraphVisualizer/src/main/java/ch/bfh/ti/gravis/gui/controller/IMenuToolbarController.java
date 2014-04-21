@@ -26,8 +26,7 @@ public interface IMenuToolbarController extends ActionListener, WindowListener,
 	 */
 	public static enum EventSource {
 		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, SAVE_GRAPH_AS, 
-		GRAPH_PROPERTY, EXIT, NEW_CALC, MODE, ALGORITHM, TOGGLE_PICKING, 
-		TOGGLE_EDITING, TOGGLE_TRANSFORMING
+		GRAPH_PROPERTY, EXIT, NEW_CALC, MODE, ALGORITHM
 	}
 
 	/**

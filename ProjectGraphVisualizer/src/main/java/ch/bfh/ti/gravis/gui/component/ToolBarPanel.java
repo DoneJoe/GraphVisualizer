@@ -10,11 +10,11 @@ import javax.swing.JButton;
 
 import ch.bfh.ti.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
-import ch.bfh.ti.gravis.gui.model.IToolBarModel;
+import ch.bfh.ti.gravis.gui.model.ToggleComboModel;
+import ch.bfh.ti.gravis.gui.model.ToolBarModel;
 import static ch.bfh.ti.gravis.gui.GuiFactory.loadImage;
 import static ch.bfh.ti.gravis.gui.controller.IMenuToolbarController.EventSource;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
@@ -70,16 +70,18 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	 */
 	public ToolBarPanel(final IMenuToolbarController menuToolbarController,
 			final IAppModel model) throws IOException {
-		this.setFloatable(false);
+
+		ToggleComboModel tglCmbModel = model.getToggleComboModel();
 
 		// set layout:
-		
+
 		FlowLayout layout = new FlowLayout();
 		layout.setAlignment(FlowLayout.LEADING);
 		this.setLayout(layout);
+		this.setFloatable(false);
 
 		// add new, IO and property buttons:
-		
+
 		JButton btnNewDirGraph = new JButton(NEW_DIR_LABEL);
 		btnNewDirGraph.setIcon(new ImageIcon(loadImage(NEW_ICON)));
 		btnNewDirGraph.setToolTipText(NEW_DIR_TOOLTIP);
@@ -111,43 +113,38 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		this.add(btnGraphProp);
 
 		this.addSeparator();
-		
-		// add edit mode buttons and edit mode combo:
-		
+
+		// add edit mode toggle buttons and edit mode combo box:
+
 		// JLabel lblEditMode = new JLabel(EDIT_MODE_LABEL);
 		// this.add(lblEditMode);
-		
+
 		JToggleButton tglbtnPicking = new JToggleButton();
 		tglbtnPicking.setIcon(new ImageIcon(loadImage(PICKING_ICON)));
 		tglbtnPicking.setToolTipText(PICKING_TOOLTIP);
-		tglbtnPicking.setModel(model.getPickingToggleModel());
+		tglCmbModel.add(tglbtnPicking, Mode.PICKING);
 		this.add(tglbtnPicking);
 
 		JToggleButton tglbtnEditing = new JToggleButton();
 		tglbtnEditing.setIcon(new ImageIcon(loadImage(EDITING_ICON)));
 		tglbtnEditing.setToolTipText(EDITING_TOOLTIP);
-		tglbtnEditing.setModel(model.getEditingToggleModel());
+		tglCmbModel.add(tglbtnEditing, Mode.EDITING);
 		this.add(tglbtnEditing);
 
 		JToggleButton tglbtnTransforming = new JToggleButton();
 		tglbtnTransforming.setIcon(new ImageIcon(loadImage(TRANSFORMING_ICON)));
 		tglbtnTransforming.setToolTipText(TRANSFORMING_TOOLTIP);
-		tglbtnTransforming.setModel(model.getTransformingToggleModel());
+		tglCmbModel.add(tglbtnTransforming, Mode.TRANSFORMING);
 		this.add(tglbtnTransforming);
 
-		JComboBox<?> comboBoxMode;
-		if (model.getEditModeComboModel() == null) {
-			comboBoxMode = new JComboBox<>();
-		} else {
-			comboBoxMode = new JComboBox<>(model.getEditModeComboModel());
-		}
+		JComboBox<?> comboBoxMode = new JComboBox<>(tglCmbModel.getModeModel());
 		comboBoxMode.setToolTipText(MODE_TOOLTIP);
 		this.add(comboBoxMode);
 
 		this.addSeparator();
 
-		// add algorithm combo and new calc button:
-		
+		// add algorithm combo box and new calc button:
+
 		this.comboBoxAlgorithm = new JComboBox<>();
 		this.comboBoxAlgorithm.setToolTipText(ALGO_TOOLTIP);
 		this.comboBoxAlgorithm.setEnabled(false);
@@ -160,7 +157,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		this.add(this.btnNewCalculation);
 
 		// add listeners:
-		
+
 		btnOpenGraph.setActionCommand(EventSource.OPEN_GRAPH.toString());
 		btnOpenGraph.addActionListener(menuToolbarController);
 		btnSaveGraph.setActionCommand(EventSource.SAVE_GRAPH.toString());
@@ -174,31 +171,15 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		btnNewUndirGraph.addActionListener(menuToolbarController);
 		btnGraphProp.setActionCommand(EventSource.GRAPH_PROPERTY.toString());
 		btnGraphProp.addActionListener(menuToolbarController);
-		
-		tglbtnPicking.setActionCommand(EventSource.TOGGLE_PICKING.toString());
-		tglbtnPicking.addItemListener(menuToolbarController);
-		tglbtnEditing.setActionCommand(EventSource.TOGGLE_EDITING.toString());
-		tglbtnEditing.addItemListener(menuToolbarController);
-		tglbtnTransforming.setActionCommand(EventSource.TOGGLE_TRANSFORMING
-				.toString());
-		tglbtnTransforming.addItemListener(menuToolbarController);
 		comboBoxMode.setActionCommand(EventSource.MODE.toString());
 		comboBoxMode.addItemListener(menuToolbarController);
-		
+
 		this.comboBoxAlgorithm.setActionCommand(EventSource.ALGORITHM
 				.toString());
 		this.comboBoxAlgorithm.addItemListener(menuToolbarController);
 		this.btnNewCalculation
 				.setActionCommand(EventSource.NEW_CALC.toString());
 		this.btnNewCalculation.addActionListener(menuToolbarController);
-		
-		// TODO gewählter Toggle-Button aus model auslesen
-		
-		ButtonGroup btnGroupEditMode = new ButtonGroup();
-		btnGroupEditMode.add(tglbtnPicking);
-		btnGroupEditMode.add(tglbtnEditing);
-		btnGroupEditMode.add(tglbtnTransforming);
-		btnGroupEditMode.setSelected(tglbtnEditing.getModel(), true);
 	}
 
 	/*
@@ -208,16 +189,18 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof IToolBarModel) {
-			IToolBarModel model = (IToolBarModel) arg;
+		
+		// TODO model anpassen
+		
+		if (arg instanceof ToolBarModel) {
+			ToolBarModel model = (ToolBarModel) arg;
 
 			this.comboBoxAlgorithm.setModel(model.getAlgorithmComboBoxModel());
 			this.comboBoxAlgorithm.setEnabled(model.isAlgoComboEnabled());
 			this.btnNewCalculation.setVisible(model.isNewCalcButtonVisible());
 		} else if (arg instanceof Mode) {
-			
+
 		}
 	}
-
 
 }

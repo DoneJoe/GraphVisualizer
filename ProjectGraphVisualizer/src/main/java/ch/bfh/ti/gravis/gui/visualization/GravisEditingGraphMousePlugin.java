@@ -173,8 +173,8 @@ public class GravisEditingGraphMousePlugin extends
 			this.down = null;
 			// set default edge type
 			this.edgeIsDirected = EdgeType.DIRECTED;
-			vv.removePostRenderPaintable(edgePaintable);
-			vv.removePostRenderPaintable(arrowPaintable);
+			vv.removePostRenderPaintable(this.edgePaintable);
+			vv.removePostRenderPaintable(this.arrowPaintable);
 		}
 	}
 

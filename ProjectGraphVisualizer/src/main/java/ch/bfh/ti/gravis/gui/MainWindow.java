@@ -53,9 +53,9 @@ public class MainWindow extends JFrame {
 
 		// create panels:	
 		
-		VisualizationPanel visualizationPanel = new VisualizationPanel(this, model);
 		MenuBarPanel menuBar = new MenuBarPanel(this, menuToolbarController, model);
 		ToolBarPanel toolBar = new ToolBarPanel(menuToolbarController, model);
+		VisualizationPanel visualizationPanel = new VisualizationPanel(this, model);
 		StepPanel stepPanel = new StepPanel(stepController, model);
 		ProtocolPanel protocolPanel = new ProtocolPanel();
 		JPanel centerPanel = new JPanel();

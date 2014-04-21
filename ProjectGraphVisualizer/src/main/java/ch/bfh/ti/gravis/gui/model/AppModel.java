@@ -25,8 +25,7 @@ class AppModel implements IAppModel {
 
 	private IEditGraphObservable graph;
 
-	private boolean graphItemsEdited, graphUnsaved, playing, modeToggleChanging,
-	modeComboChanging;
+	private boolean graphItemsEdited, graphUnsaved, playing;
 
 	private CalculationState calcState;
 	
@@ -34,12 +33,6 @@ class AppModel implements IAppModel {
 
 	private DefaultComboBoxModel<String> algoComboModel;
 
-	private JToggleButton.ToggleButtonModel pickingToggleModel,
-			editingToggleModel, transformingToggleModel;
-
-	private ComboBoxModel<?> editModeComboModel = null;
-	// TODO in VisualPanel setzen,in ToolbarPanel abrufen, keine Ruekgabe von
-	
 	// TODO SpinnerModel
 	
 	private ButtonModel deleteEdgeButtonModel = null,
@@ -60,20 +53,19 @@ class AppModel implements IAppModel {
 	 */
 	protected AppModel(final ICore core) throws CoreException {
 		
-		// TODO edit mode combo model hier instanzieren moeglich? -> dann REihenfolge aendern in MainWindow
-		
 		// creates an empty undirected graph
 		this.graph = GraphFactory.createEditGraphObservable(EdgeType.UNDIRECTED);
 		this.graphUnsaved = this.graphItemsEdited = false;
+		
 		// TODO set calcState
+		
 		this.calcState = CalculationState.NOT_CALCULABLE;
 		this.setAlgorithmComboModel(core.getAlgorithmNames(this.graph
 				.getEdgeType()));
 		
-		this.modeToggleChanging = this.modeComboChanging = false;
-		this.pickingToggleModel = new JToggleButton.ToggleButtonModel();
-		this.editingToggleModel = new JToggleButton.ToggleButtonModel();
-		this.transformingToggleModel = new JToggleButton.ToggleButtonModel();
+		this.toggleComboModel = new ToggleComboModel();
+		
+		
 	}
 
 	/*
@@ -82,7 +74,7 @@ class AppModel implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#createStepModel()
 	 */
 	@Override
-	public IStepModel createStepModel() {
+	public StepModel createStepModel() {
 		return new StepModel(this.progressBarModel.getValue(),
 				this.progressBarModel.getMaximum());
 	}
@@ -94,7 +86,7 @@ class AppModel implements IAppModel {
 	 * ch.bfh.ti.gravis.gui.model.IAppModel#createToolBarModel()
 	 */
 	@Override
-	public IToolBarModel createToolBarModel() {
+	public ToolBarModel createToolBarModel() {
 		return new ToolBarModel(
 				this.algoComboModel,
 				!this.graph.isEmpty(),
@@ -134,17 +126,6 @@ class AppModel implements IAppModel {
 	@Override
 	public ButtonModel getBeginningButtonModel() {
 		return this.beginningButtonModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.model.IAppModel#getEditModeComboModel()
-	 */
-	@Override
-	public ComboBoxModel<?> getEditModeComboModel() {
-		return this.editModeComboModel;
 	}
 
 	/*
@@ -312,18 +293,6 @@ class AppModel implements IAppModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.ti.gravis.gui.model.IAppModel#setEditModeComboModel
-	 * (javax.swing.ComboBoxModel)
-	 */
-	@Override
-	public void setEditModeComboModel(ComboBoxModel<?> comboModel) {
-		this.editModeComboModel = comboModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * ch.bfh.ti.gravis.gui.model.IAppModel#setEndButtonModel(javax
 	 * .swing.ButtonModel)
 	 */
@@ -406,6 +375,9 @@ class AppModel implements IAppModel {
 	@Override
 	public void setPopupEditMode(Mode mode) {
 		// TODO not playing precond
+		
+		this.toggleComboModel.setSelectedItem(mode);
+		
 		if (this.deleteEdgeButtonModel != null) {
 			this.deleteEdgeButtonModel.setEnabled(mode == Mode.EDITING);
 		}
@@ -494,70 +466,13 @@ class AppModel implements IAppModel {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.model.IAppModel#getPickingToggleModel()
-	 */
-	@Override
-	public ButtonModel getPickingToggleModel() {
-		return this.pickingToggleModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.model.IAppModel#getEditingToggleModel()
-	 */
-	@Override
-	public ButtonModel getEditingToggleModel() {
-		return this.editingToggleModel;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.model.IAppModel#getTransformingToggleModel
-	 * ()
-	 */
-	@Override
-	public ButtonModel getTransformingToggleModel() {
-		return this.transformingToggleModel;
-	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#isModeToggleChanging()
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#getToggleComboModel()
 	 */
 	@Override
-	public boolean isModeToggleChanging() {
-		return this.modeToggleChanging;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setModeToggleChanging(boolean)
-	 */
-	@Override
-	public void setModeToggleChanging(boolean modeChanging) {
-		this.modeToggleChanging = modeChanging;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#isModeComboChanging()
-	 */
-	@Override
-	public boolean isModeComboChanging() {
-		return this.modeComboChanging;
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setModeComboChanging(boolean)
-	 */
-	@Override
-	public void setModeComboChanging(boolean modeChanging) {
-		this.modeComboChanging = modeChanging;
+	public ToggleComboModel getToggleComboModel() {
+		return this.toggleComboModel;
 	}
 
 	

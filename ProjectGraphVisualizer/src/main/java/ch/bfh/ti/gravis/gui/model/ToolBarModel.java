@@ -6,7 +6,7 @@ import javax.swing.ComboBoxModel;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-class ToolBarModel implements IToolBarModel {
+public class ToolBarModel  {
 
 	private final boolean algoComboEnabled;
 	
@@ -27,26 +27,23 @@ class ToolBarModel implements IToolBarModel {
 		this.newCalcButtonVisible = newCalcButtonVisible;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IToolBarModel#isAlgoComboVisible()
+	/**
+	 * 
+	 * @return boolean
 	 */
-	@Override
 	public boolean isAlgoComboEnabled() {
 		return this.algoComboEnabled;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IToolBarModel#isNewCalcButtonVisible()
+	/**
+	 * 
+	 * @return boolean
 	 */
-	@Override
 	public boolean isNewCalcButtonVisible() {
 		return this.newCalcButtonVisible;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IToolBarModel#getAlgorithmComboBoxModel()
-	 */
-	@Override
+	
 	public ComboBoxModel<String> getAlgorithmComboBoxModel() {
 		return this.comboBoxModel;
 	}

@@ -4,7 +4,6 @@ import javax.swing.BoundedRangeModel;
 import javax.swing.ButtonModel;
 import javax.swing.ComboBoxModel;
 
-import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.ti.gravis.core.graph.IEditGraphObservable;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
@@ -24,15 +23,21 @@ public interface IAppModel {
 	public static final String DEFAULT_ALGO_ENTRY = "Algorithmus wählen:";
 	
 	/**
-	 * @return IStepModel
+	 * 
+	 * @return ToggleComboModel
 	 */
-	public abstract IStepModel createStepModel();
+	public ToggleComboModel getToggleComboModel();
+	
+	/**
+	 * @return StepModel
+	 */
+	public abstract StepModel createStepModel();
 
 	/**
 	 * 
-	 * @return IToolBarModel
+	 * @return ToolBarModel
 	 */
-	public abstract IToolBarModel createToolBarModel();
+	public abstract ToolBarModel createToolBarModel();
 
 	/**
 	 * @return ComboBoxModel<String>
@@ -51,12 +56,6 @@ public interface IAppModel {
 	 */
 	public abstract ButtonModel getBeginningButtonModel();
 	
-	/**
-	 * 
-	 * @return ComboBoxModel<?>
-	 */
-	public abstract ComboBoxModel<?> getEditModeComboModel();
-
 	/**
 	 * 
 	 * @return ButtonModel
@@ -125,12 +124,6 @@ public interface IAppModel {
 	public abstract void setDeleteVertexButtonModel(ButtonModel model);
 
 	/**
-	 * 
-	 * @param comboModel
-	 */
-	public abstract void setEditModeComboModel(ComboBoxModel<?> comboModel);
-	
-	/**
 	 * @param model
 	 */
 	public abstract void setEndButtonModel(ButtonModel model);
@@ -193,43 +186,5 @@ public interface IAppModel {
 	public abstract void updateStepButtonModels(boolean beginning, boolean back,
 			boolean forward, boolean end);
 
-	/**
-	 * @return ButtonModel
-	 */
-	public abstract ButtonModel getPickingToggleModel();
-
-	/**
-	 * @return ButtonModel
-	 */
-	public abstract ButtonModel getEditingToggleModel();
-
-	/**
-	 * @return ButtonModel
-	 */
-	public abstract ButtonModel getTransformingToggleModel();
-
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public boolean isModeToggleChanging();
-	
-	/**
-	 * 
-	 * @param modeChanging
-	 */
-	public void setModeToggleChanging(boolean modeChanging);
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public boolean isModeComboChanging();
-	
-	/**
-	 * 
-	 * @param modeChanging
-	 */
-	public void setModeComboChanging(boolean modeChanging);
 	
 }
