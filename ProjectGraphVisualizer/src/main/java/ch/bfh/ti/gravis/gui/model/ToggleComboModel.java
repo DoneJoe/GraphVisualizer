@@ -27,7 +27,7 @@ public class ToggleComboModel {
 	
 	private final ButtonGroup btnGroupEditMode;
 	
-	private boolean modeToggleChanging, modeComboChanging;
+	private boolean locked;
 
 	protected ToggleComboModel() {
 		this.defaultMode = Mode.EDITING;
@@ -37,7 +37,7 @@ public class ToggleComboModel {
 		this.editModeComboModel = new DefaultComboBoxModel<>(new Mode[] { Mode.PICKING,
 				Mode.EDITING, Mode.TRANSFORMING });		
 		this.btnGroupEditMode = new ButtonGroup();
-		this.modeToggleChanging = this.modeComboChanging = false;
+		this.locked = false;
 		
 		// add listeners:
 		
@@ -47,17 +47,18 @@ public class ToggleComboModel {
 				ToggleComboModel.this.setSelectedComboItem(e, Mode.PICKING);
 			}
 		});
+		
 		this.editingToggleModel.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				ToggleComboModel.this.setSelectedComboItem(e, Mode.EDITING);
 			}
 		});
+		
 		this.transformingToggleModel.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				ToggleComboModel.this.setSelectedComboItem(e, Mode.TRANSFORMING);
-
 			}
 		});		
 	}
@@ -140,8 +141,8 @@ public class ToggleComboModel {
 		
 		// TODO NullPointer Exception-handling
 		
-		if (!this.modeComboChanging) {
-			this.modeComboChanging = true;
+		if (!this.locked) {
+			this.locked = true;
 			
 			if (mode == Mode.PICKING) {
 				this.getPickingToggleModel().setSelected(true);
@@ -151,7 +152,7 @@ public class ToggleComboModel {
 				this.getTransformingToggleModel().setSelected(true);;
 				}
 			
-			this.modeComboChanging = false;
+			this.locked = false;
 		}
 	}
 
@@ -161,10 +162,10 @@ public class ToggleComboModel {
 	 * @param mode
 	 */
 	private void setSelectedComboItem(ItemEvent event, Mode mode) {
-		if (!this.modeToggleChanging && event.getStateChange() == ItemEvent.SELECTED) {
-			this.modeToggleChanging = true;
+		if (!this.locked && event.getStateChange() == ItemEvent.SELECTED) {
+			this.locked = true;
 			this.editModeComboModel.setSelectedItem(mode);
-			this.modeToggleChanging = false;
+			this.locked = false;
 		}
 	}
 

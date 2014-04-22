@@ -13,6 +13,8 @@ import ch.bfh.ti.gravis.core.ICore;
 import ch.bfh.ti.gravis.core.graph.GraphFactory;
 import ch.bfh.ti.gravis.core.graph.IEditGraphObservable;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
+import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.ti.gravis.core.graph.item.vertex.VertexFactory;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
@@ -75,8 +77,12 @@ class AppModel implements IAppModel {
 	 */
 	@Override
 	public StepModel createStepModel() {
-		return new StepModel(this.progressBarModel.getValue(),
-				this.progressBarModel.getMaximum());
+		
+		// TODO to implement
+		
+		return new StepModel(0, 1);
+//		return new StepModel(this.progressBarModel.getValue(),
+//				this.progressBarModel.getMaximum());
 	}
 
 	/*
@@ -369,11 +375,11 @@ class AppModel implements IAppModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.ti.gravis.gui.model.IAppModel#setPopupEditMode(edu
+	 * ch.bfh.ti.gravis.gui.model.IAppModel#setEditMode(edu
 	 * .uci. ics.jung.visualization.control.ModalGraphMouse.Mode)
 	 */
 	@Override
-	public void setPopupEditMode(Mode mode) {
+	public void setEditMode(Mode mode) {
 		// TODO not playing precond
 		
 		this.toggleComboModel.setSelectedItem(mode);

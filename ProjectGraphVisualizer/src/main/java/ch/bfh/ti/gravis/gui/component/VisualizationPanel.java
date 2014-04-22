@@ -70,7 +70,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 				.getName()));
 		this.setLayout(new BorderLayout());
 		this.add(pane, BorderLayout.CENTER);
-	}
+		}
 
 	/*
 	 * (non-Javadoc)

@@ -368,8 +368,8 @@ class MenuToolbarController extends Observable implements
 	 * 
 	 */
 	private void handleModeEvent(final Mode mode) {
-		this.model.setPopupEditMode(mode);
-
+		this.model.setEditMode(mode);
+		
 		if (this.model.getStepIterator() != null && mode == Mode.EDITING) {
 			// update model
 			// TODO besser lösen: ev. Methode initStepEnableState

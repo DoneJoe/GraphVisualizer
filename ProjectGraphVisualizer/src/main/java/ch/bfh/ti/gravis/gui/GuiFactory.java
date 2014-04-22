@@ -24,7 +24,6 @@ import ch.bfh.ti.gravis.gui.model.AppModelFactory;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.StaticLayout;
-
 import static ch.bfh.ti.gravis.core.util.GravisConstants.*;
 
 /**

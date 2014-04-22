@@ -159,7 +159,7 @@ public interface IAppModel {
 	 * 
 	 * @param mode
 	 */
-	public void setPopupEditMode(Mode mode);
+	public void setEditMode(Mode mode);
 	
 	/**
 	 * @param model

@@ -151,6 +151,9 @@ public class GravisVisualizationViewer extends
 	 */
 	@Override
 	public void update(final Observable o, final Object arg) {
+		
+		// TODO VisualizationModel verwenden
+		
 		if (arg instanceof IGravisGraph) {
 			this.getGraphLayout().setGraph((IGravisGraph) arg);
 			this.repaint();
