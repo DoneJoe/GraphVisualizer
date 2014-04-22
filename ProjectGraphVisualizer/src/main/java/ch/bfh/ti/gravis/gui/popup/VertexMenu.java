@@ -28,14 +28,27 @@ public class VertexMenu extends JPopupMenu {
 			final JFrame owner, final IAppModel model) {
 		super(TITLE);
 
+		// create menu items
+		
+		StartVertexCheckBox startVertexMenuItem = new StartVertexCheckBox(vViewer);
+		EndVertexCheckBox endVertexMenuItem = new EndVertexCheckBox(vViewer);
+		VertexPropertyMenuItem propertyMenuItem = new VertexPropertyMenuItem(vViewer, owner);		
 		DeleteVertexMenuItem deleteVertexMenuItem = new DeleteVertexMenuItem(
 				vViewer);
-		model.setDeleteVertexButtonModel(deleteVertexMenuItem.getModel());
+		
+		// set models
+		
+		startVertexMenuItem.setModel(model.getStartVertexButtonModel());
+		endVertexMenuItem.setModel(model.getEndVertexButtonModel());
+		propertyMenuItem.setModel(model.getVertexPropertiesButtonModel());
+		deleteVertexMenuItem.setModel(model.getDeleteVertexButtonModel());
 
-		this.add(new StartVertexCheckBox(vViewer));
-		this.add(new EndVertexCheckBox(vViewer));
+		// add menu items
+		
+		this.add(startVertexMenuItem);
+		this.add(endVertexMenuItem);
 		this.addSeparator();
-		this.add(new VertexPropertyMenuItem(vViewer, owner));
+		this.add(propertyMenuItem);
 		this.addSeparator();
 		this.add(deleteVertexMenuItem);
 	}

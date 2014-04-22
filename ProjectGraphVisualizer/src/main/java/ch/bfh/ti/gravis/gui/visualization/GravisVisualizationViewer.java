@@ -22,6 +22,7 @@ import ch.bfh.ti.gravis.core.graph.transformer.VertexFillColorTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.VertexLabelTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.VertexStrokeTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.VertexToolTipTransformer;
+import ch.bfh.ti.gravis.gui.model.VisualizationViewModel;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.decorators.ConstantDirectionalEdgeValueTransformer;
@@ -43,6 +44,7 @@ public class GravisVisualizationViewer extends
 	 */
 	public GravisVisualizationViewer(final Layout<IVertex, IEdge> layout) {
 		super(layout);
+		
 		this.setBackground(Color.white);
 
 		// vertex visualization:
@@ -151,15 +153,15 @@ public class GravisVisualizationViewer extends
 	 */
 	@Override
 	public void update(final Observable o, final Object arg) {
-		
-		// TODO VisualizationModel verwenden
-		
-		if (arg instanceof IGravisGraph) {
-			this.getGraphLayout().setGraph((IGravisGraph) arg);
+		if (arg instanceof VisualizationViewModel) {			
+			VisualizationViewModel model = (VisualizationViewModel) arg;
+			
+			if (model.isGraphChanged()) {
+				this.getGraphLayout().setGraph(model.getGraph());
+			}
+			
 			this.repaint();
-		} else if (arg == null) {
-			this.repaint();
-		}
+		} 
 	}
 
 }

@@ -71,19 +71,16 @@ public class MainWindow extends JFrame {
 		
 		// add Observers:
 		
-		menuToolbarController.addObserver(menuBar);
 		menuToolbarController.addObserver(toolBar);
 		menuToolbarController.addObserver(visualizationPanel);
 		menuToolbarController.addObserver(stepPanel);
 		menuToolbarController.addObserver(protocolPanel);
 		
-		visualizationController.addObserver(menuBar);
 		visualizationController.addObserver(toolBar);
 		visualizationController.addObserver(visualizationPanel);
 		visualizationController.addObserver(stepPanel);
 		visualizationController.addObserver(protocolPanel);
 		
-		stepController.addObserver(menuBar);
 		stepController.addObserver(toolBar);
 		stepController.addObserver(visualizationPanel);
 		stepController.addObserver(stepPanel);

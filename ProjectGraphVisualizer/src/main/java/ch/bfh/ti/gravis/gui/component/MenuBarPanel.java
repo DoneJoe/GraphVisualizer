@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
@@ -29,7 +27,7 @@ import static ch.bfh.ti.gravis.gui.GuiFactory.loadImage;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class MenuBarPanel extends JMenuBar implements Observer {
+public class MenuBarPanel extends JMenuBar {
 
 	private static final long serialVersionUID = 8070798287573948533L;
 
@@ -129,17 +127,6 @@ public class MenuBarPanel extends JMenuBar implements Observer {
 		this.createMenus(menuToolbarController, model);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
-	@Override
-	public void update(Observable source, Object arg) {
-		// TODO menubar update observer
-
-	}
-
 	/**
 	 * @param helpText
 	 * @return JEditorPane
@@ -165,6 +152,7 @@ public class MenuBarPanel extends JMenuBar implements Observer {
 					}
 				} catch (Exception ex) {
 					// TODO Exception stack trace
+					
 					JOptionPane.showMessageDialog(MenuBarPanel.this.mainWindow,
 							String.format(APP_ERR_MSG, ex.getMessage()),
 							APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -186,8 +174,6 @@ public class MenuBarPanel extends JMenuBar implements Observer {
 	private void createMenus(
 			final IMenuToolbarController menuToolbarController,
 			final IAppModel model) throws IOException {
-
-		// TODO add models
 
 		// create menu items:
 
@@ -213,12 +199,23 @@ public class MenuBarPanel extends JMenuBar implements Observer {
 		JMenuItem menuItemInfo = new JMenuItem(INFO, new ImageIcon(
 				loadImage(INFO_ICON)));
 
+		// set models:
+		
+		menuFile.setModel(model.getFileMenuModel());
+		menuHelp.setModel(model.getHelpMenuModel());
+		menuItemNewDirGraph.setModel(model.getNewDirGraphButtonModel());
+		menuItemNewUndirGraph.setModel(model.getNewUndirGraphButtonModel());
+		menuItemOpenGraph.setModel(model.getOpenGraphButtonModel());
+		menuItemSaveGraph.setModel(model.getSaveGraphButtonModel());
+		menuItemSaveGraphAs.setModel(model.getSaveGraphAsButtonModel());
+		menuItemGraphProperties.setModel(model.getGraphPropertiesButtonModel());
+		
 		// set mnemonics:
 
 		menuFile.setMnemonic(KeyEvent.VK_D);
 		menuHelp.setMnemonic(KeyEvent.VK_H);
 
-		// menu shortcuts:
+		// set menu shortcuts:
 
 		menuItemNewDirGraph.setAccelerator(KeyStroke.getKeyStroke(
 				KeyEvent.VK_N, ActionEvent.CTRL_MASK));

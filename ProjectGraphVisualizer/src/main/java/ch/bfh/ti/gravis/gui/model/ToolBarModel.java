@@ -1,7 +1,5 @@
 package ch.bfh.ti.gravis.gui.model;
 
-import javax.swing.ComboBoxModel;
-
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
@@ -12,17 +10,12 @@ public class ToolBarModel  {
 	
 	private final boolean newCalcButtonVisible;
 	
-	private final ComboBoxModel<String> comboBoxModel;
-	
 	/**
 	 * 
-	 * @param comboBoxModel 
 	 * @param algoComboEnabled
 	 * @param newCalcButtonVisible
 	 */
-	protected ToolBarModel(ComboBoxModel<String> comboBoxModel, boolean algoComboEnabled, 
-			boolean newCalcButtonVisible) {
-		this.comboBoxModel = comboBoxModel;
+	protected ToolBarModel(boolean algoComboEnabled, boolean newCalcButtonVisible) {
 		this.algoComboEnabled = algoComboEnabled;
 		this.newCalcButtonVisible = newCalcButtonVisible;
 	}
@@ -42,11 +35,5 @@ public class ToolBarModel  {
 	public boolean isNewCalcButtonVisible() {
 		return this.newCalcButtonVisible;
 	}
-
-	
-	public ComboBoxModel<String> getAlgorithmComboBoxModel() {
-		return this.comboBoxModel;
-	}
-
 
 }

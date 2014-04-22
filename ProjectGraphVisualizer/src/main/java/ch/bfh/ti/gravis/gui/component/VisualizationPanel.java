@@ -8,15 +8,15 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.graph.item.edge.EdgeFactory;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.graph.item.vertex.VertexFactory;
 import ch.bfh.ti.gravis.gui.GuiFactory;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
+import ch.bfh.ti.gravis.gui.model.VisualizationViewModel;
 import ch.bfh.ti.gravis.gui.popup.EdgeMenu;
-import ch.bfh.ti.gravis.gui.popup.VertexCreateMenu;
+import ch.bfh.ti.gravis.gui.popup.CreateVertexMenu;
 import ch.bfh.ti.gravis.gui.popup.VertexMenu;
 import ch.bfh.ti.gravis.gui.visualization.GravisModalGraphMouse;
 import ch.bfh.ti.gravis.gui.visualization.GravisVisualizationViewer;
@@ -52,7 +52,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 		this.viewer = new GravisVisualizationViewer(
 				GuiFactory.createLayout(model.getGraph()));
 		VertexMenu vertexMenu = new VertexMenu(this.viewer, mainWindow, model);
-		VertexCreateMenu vertexCreateMenu = new VertexCreateMenu(this.viewer,
+		CreateVertexMenu vertexCreateMenu = new CreateVertexMenu(this.viewer,
 				model);
 		EdgeMenu edgeMenu = new EdgeMenu(this.viewer, mainWindow, model);
 		GraphZoomScrollPane pane = new GraphZoomScrollPane(this.viewer);
@@ -79,13 +79,11 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		
-		// TODO VisualizationModel verwenden
-		
-		if (arg instanceof IGravisGraph) {
+		if (arg instanceof VisualizationViewModel) {			
 			this.setBorder(BorderFactory
-					.createTitledBorder(((IGravisGraph) arg).getName()));
+					.createTitledBorder(((VisualizationViewModel) arg).getGraph().getName()));
 		}
+		
 		this.viewer.update(o, arg);
 	}
 

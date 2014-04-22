@@ -10,7 +10,7 @@ import org.apache.commons.collections15.Factory;
 
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.ti.gravis.gui.popup.VertexCreateMenu;
+import ch.bfh.ti.gravis.gui.popup.CreateVertexMenu;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.annotations.AnnotatingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.AnimatedPickingGraphMousePlugin;
@@ -26,7 +26,8 @@ import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge> {
+public class GravisModalGraphMouse extends
+		EditingModalGraphMouse<IVertex, IEdge> {
 
 	/**
 	 * 
@@ -38,9 +39,10 @@ public class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge
 	 * @param vertexCreatePopup
 	 */
 	public GravisModalGraphMouse(final RenderContext<IVertex, IEdge> rc,
-			final Factory<IVertex> vertexFactory, final Factory<IEdge> edgeFactory,
-			final JPopupMenu edgePopup, final JPopupMenu vertexPopup,
-			final VertexCreateMenu vertexCreatePopup) {
+			final Factory<IVertex> vertexFactory,
+			final Factory<IEdge> edgeFactory, final JPopupMenu edgePopup,
+			final JPopupMenu vertexPopup,
+			final CreateVertexMenu vertexCreatePopup) {
 
 		super(rc, vertexFactory, edgeFactory);
 
@@ -50,7 +52,7 @@ public class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge
 			((GravisPopupGraphMousePlugin) this.popupEditingPlugin)
 					.setVertexPopup(vertexPopup);
 			((GravisPopupGraphMousePlugin) this.popupEditingPlugin)
-			.setVertexCreatePopup(vertexCreatePopup);
+					.setVertexCreatePopup(vertexCreatePopup);
 		}
 	}
 
@@ -71,13 +73,13 @@ public class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge
 		this.scalingPlugin = new ScalingGraphMousePlugin(
 				new CrossoverScalingControl(), 0, this.in, this.out);
 		this.rotatingPlugin = new RotatingGraphMousePlugin();
-		this.shearingPlugin = new ShearingGraphMousePlugin();		
+		this.shearingPlugin = new ShearingGraphMousePlugin();
 		// GravisEditingGraphMousePlugin class used
 		this.editingPlugin = new GravisEditingGraphMousePlugin(
 				this.vertexFactory, this.edgeFactory);
 		this.labelEditingPlugin = new LabelEditingGraphMousePlugin<IVertex, IEdge>();
 		this.annotatingPlugin = new AnnotatingGraphMousePlugin<IVertex, IEdge>(
-				rc);		
+				rc);
 		// GravisPopupGraphMousePlugin class used
 		this.popupEditingPlugin = new GravisPopupGraphMousePlugin(
 				this.vertexFactory, this.edgeFactory);
@@ -177,13 +179,19 @@ public class GravisModalGraphMouse extends EditingModalGraphMouse<IVertex, IEdge
 	@SuppressWarnings("unchecked")
 	public JComboBox<Mode> getModeComboBox() {
 		if (this.modeBox == null) {
-			this.modeBox = new JComboBox<>(new Mode[] { Mode.PICKING,
-					Mode.EDITING, Mode.TRANSFORMING });
+			this.modeBox = new JComboBox<>(getModes());
 			this.modeBox.addItemListener(this.getModeListener());
 		}
 		this.modeBox.setSelectedItem(this.mode);
 
 		return this.modeBox;
+	}
+
+	/**
+	 * @return Mode[]
+	 */
+	public static Mode[] getModes() {
+		return new Mode[] { Mode.PICKING, Mode.EDITING, Mode.TRANSFORMING };
 	}
 
 }

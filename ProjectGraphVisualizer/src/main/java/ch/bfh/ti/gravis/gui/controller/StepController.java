@@ -162,11 +162,11 @@ class StepController extends Observable implements IStepController {
 	 */
 	private void updateView(String stepMessage) {
 		this.setChanged();
-		this.notifyObservers();
+		this.notifyObservers(this.model.createVisualizationModel(false));
 		this.setChanged();
 		this.notifyObservers(this.model.createStepModel());
 		this.setChanged();
-		this.notifyObservers(stepMessage);
+		this.notifyObservers(this.model.createProtocolModel(stepMessage));
 	}
 	
 }

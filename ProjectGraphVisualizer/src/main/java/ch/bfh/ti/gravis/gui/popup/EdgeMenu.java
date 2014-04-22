@@ -28,10 +28,13 @@ public class EdgeMenu extends JPopupMenu {
 			final JFrame owner, final IAppModel model) {
 		super(TITLE);
 
+		EdgePropertyMenuItem edgePropertyMenuItem =new EdgePropertyMenuItem(vViewer, owner);
 		DeleteEdgeMenuItem deleteEdgeMenuItem = new DeleteEdgeMenuItem(vViewer);
-		model.setDeleteEdgeButtonModel(deleteEdgeMenuItem.getModel());
+				
+		edgePropertyMenuItem.setModel(model.getEdgePropertiesButtonModel());
+		deleteEdgeMenuItem.setModel(model.getDeleteEdgeButtonModel());
 
-		this.add(new EdgePropertyMenuItem(vViewer, owner));
+		this.add(edgePropertyMenuItem);
 		this.addSeparator();
 		this.add(deleteEdgeMenuItem);
 	}

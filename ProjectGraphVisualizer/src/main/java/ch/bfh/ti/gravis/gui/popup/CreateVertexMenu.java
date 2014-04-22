@@ -19,35 +19,36 @@ import edu.uci.ics.jung.algorithms.layout.Layout;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class VertexCreateMenu extends JPopupMenu implements
+public class CreateVertexMenu extends JPopupMenu implements
 		IGraphItemMenuListener {
 
 	private static final long serialVersionUID = 6897658442329318591L;
 
 	private final static String TITLE = "Neuer Knoten";
 	private final static String NEW_VERTEX_LABEL = "Neuer Knoten";
-	
+
 	private final VertexFactory vertexFactory;
 
 	private Point2D point = null;
 
 	/**
 	 * @param viewer
-	 * @param model 
+	 * @param model
 	 */
-	public VertexCreateMenu(final GravisVisualizationViewer viewer, IAppModel model) {
+	public CreateVertexMenu(final GravisVisualizationViewer viewer,
+			IAppModel model) {
+		
 		super(TITLE);
 
 		this.vertexFactory = new VertexFactory();
-
 		JMenuItem newVertexMenuItem = new JMenuItem(NEW_VERTEX_LABEL);
+		newVertexMenuItem.setModel(model.getNewVertexButtonModel());
 		this.add(newVertexMenuItem);
-		model.setVertexCreateButtonModel(newVertexMenuItem.getModel());
-		
+
 		newVertexMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VertexCreateMenu.this.createVertex(viewer);
+				CreateVertexMenu.this.createVertex(viewer);
 			}
 		});
 	}
@@ -61,8 +62,8 @@ public class VertexCreateMenu extends JPopupMenu implements
 			IVertex newVertex = this.vertexFactory.create();
 			Layout<IVertex, IEdge> layout = viewer.getGraphLayout();
 			Point2D newPoint = viewer.getRenderContext()
-			. getMultiLayerTransformer().inverseTransform(this.point);
-			
+					.getMultiLayerTransformer().inverseTransform(this.point);
+
 			newVertex.setLocation(newPoint);
 			layout.getGraph().addVertex(newVertex);
 			layout.setLocation(newVertex, newPoint);
@@ -73,10 +74,8 @@ public class VertexCreateMenu extends JPopupMenu implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.visualization.GraphItemMenuListener#
-	 * setGraphItemAndView
-	 * (ch.bfh.ti.gravis.core.graph.item.IGraphItem)
+	 * @see ch.bfh.ti.gravis.gui.visualization.GraphItemMenuListener#
+	 * setGraphItemAndView (ch.bfh.ti.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
 	public void setGraphItemAndView(IGraphItem item) {
@@ -86,8 +85,7 @@ public class VertexCreateMenu extends JPopupMenu implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.visualization.GraphItemMenuListener#
+	 * @see ch.bfh.ti.gravis.gui.visualization.GraphItemMenuListener#
 	 * setGraphItemLocation(java.awt.geom.Point2D)
 	 */
 	@Override

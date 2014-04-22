@@ -12,6 +12,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.DropMode;
 
+import ch.bfh.ti.gravis.gui.model.ProtocolModel;
+
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -50,11 +52,14 @@ public class ProtocolPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		
-		// TODO model anpassen
-		
-		if (arg instanceof String) {
-			this.textArea.append((String) arg);
+		if (arg instanceof ProtocolModel) {
+			ProtocolModel model = (ProtocolModel) arg;
+			
+			if (model.isProtocolCleared()) {
+				this.textArea.setText(model.getMessage());
+			} else {
+				this.textArea.append(model.getMessage());
+			}			
 		}
 	}
 

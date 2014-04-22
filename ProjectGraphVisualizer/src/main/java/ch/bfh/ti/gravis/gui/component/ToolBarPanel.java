@@ -147,14 +147,24 @@ public class ToolBarPanel extends JToolBar implements Observer {
 
 		this.comboBoxAlgorithm = new JComboBox<>();
 		this.comboBoxAlgorithm.setToolTipText(ALGO_TOOLTIP);
-		this.comboBoxAlgorithm.setEnabled(false);
 		this.comboBoxAlgorithm.setModel(model.getAlgorithmComboModel());
+		this.comboBoxAlgorithm.setEnabled(false);
 		this.add(this.comboBoxAlgorithm);
 
 		this.btnNewCalculation = new JButton(CALC_LABEL);
 		this.btnNewCalculation.setToolTipText(CALC_TOOLTIP);
 		this.btnNewCalculation.setVisible(false);
 		this.add(this.btnNewCalculation);
+
+		// set other models:
+
+		btnNewDirGraph.setModel(model.getNewDirGraphButtonModel());
+		btnNewUndirGraph.setModel(model.getNewUndirGraphButtonModel());
+		btnOpenGraph.setModel(model.getOpenGraphButtonModel());
+		btnSaveGraph.setModel(model.getSaveGraphButtonModel());
+		btnSaveGraphAs.setModel(model.getSaveGraphAsButtonModel());
+		btnGraphProp.setModel(model.getGraphPropertiesButtonModel());
+		this.btnNewCalculation.setModel(model.getNewCalcButtonModel());
 
 		// add listeners:
 
@@ -189,17 +199,11 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		
-		// TODO model anpassen
-		
 		if (arg instanceof ToolBarModel) {
 			ToolBarModel model = (ToolBarModel) arg;
 
-			this.comboBoxAlgorithm.setModel(model.getAlgorithmComboBoxModel());
 			this.comboBoxAlgorithm.setEnabled(model.isAlgoComboEnabled());
 			this.btnNewCalculation.setVisible(model.isNewCalcButtonVisible());
-		} else if (arg instanceof Mode) {
-
 		}
 	}
 

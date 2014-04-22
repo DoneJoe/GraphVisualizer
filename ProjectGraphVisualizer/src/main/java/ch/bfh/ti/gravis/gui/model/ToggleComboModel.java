@@ -10,6 +10,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JToggleButton;
 
+import ch.bfh.ti.gravis.gui.visualization.GravisModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 
 /**
@@ -18,7 +19,7 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
  */
 public class ToggleComboModel {
 
-	private final Mode defaultMode;
+	private final static Mode DEFAULT_MODE = Mode.EDITING;
 	
 	private final JToggleButton.ToggleButtonModel pickingToggleModel,
 			editingToggleModel, transformingToggleModel;
@@ -30,12 +31,10 @@ public class ToggleComboModel {
 	private boolean locked;
 
 	protected ToggleComboModel() {
-		this.defaultMode = Mode.EDITING;
 		this.pickingToggleModel = new JToggleButton.ToggleButtonModel();
 		this.editingToggleModel = new JToggleButton.ToggleButtonModel();
 		this.transformingToggleModel = new JToggleButton.ToggleButtonModel();		
-		this.editModeComboModel = new DefaultComboBoxModel<>(new Mode[] { Mode.PICKING,
-				Mode.EDITING, Mode.TRANSFORMING });		
+		this.editModeComboModel = new DefaultComboBoxModel<>(GravisModalGraphMouse.getModes());		
 		this.btnGroupEditMode = new ButtonGroup();
 		this.locked = false;
 		
@@ -89,7 +88,7 @@ public class ToggleComboModel {
 	 * @return default mode
 	 */
 	public Mode getDefaultMode() {
-		return this.defaultMode;
+		return DEFAULT_MODE;
 	}
 	
 	/**

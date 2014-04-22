@@ -42,7 +42,7 @@ class MenuToolbarController extends Observable implements
 	private final static String EXIT_MSG = "Programm wirklich beenden?";
 	private final static String SAVE_DIALOG_MSG = "Änderungen speichern?";
 	private final static String APP_ERR_TITLE = "Fehler";
-	// TODO stackTrace angeben
+	
 	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten:%s%s%s";
 	private final static String OPEN_GRAPH_MSG = "Folgender Graph wurde geöffnet:%s"
 			+ "Datei: %s%sName: %s%sBeschreibung: %s%s%s";
@@ -107,7 +107,9 @@ class MenuToolbarController extends Observable implements
 			}
 		} catch (Exception ex) {
 			if (this.messageDialogAdapter != null) {
+				
 				// TODO stackTrace angeben
+				
 				this.messageDialogAdapter.showMessageDialog(
 						String.format(APP_ERR_MSG, ex.getMessage(), LN, LN),
 						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -236,6 +238,9 @@ class MenuToolbarController extends Observable implements
 		try {
 			this.handleExitEvent();
 		} catch (CoreException | GravisGraphIOException ex) {
+			
+			// TODO stackTrace angeben
+			
 			if (this.messageDialogAdapter != null) {
 				this.messageDialogAdapter.showMessageDialog(
 						String.format(APP_ERR_MSG, LN, LN, ex.getMessage()),
@@ -392,8 +397,6 @@ class MenuToolbarController extends Observable implements
 	private void handleNewGraphEvent(final EdgeType edgeType)
 			throws CoreException, GravisGraphIOException {
 
-		// TODO clear protocol panel
-
 		// handle unsaved graph
 		if (this.model.isGraphUnsaved() && this.confirmDialogAdapter != null) {
 			int dialogResult = this.confirmDialogAdapter.showConfirmDialog(
@@ -411,16 +414,16 @@ class MenuToolbarController extends Observable implements
 
 		// update model
 		this.model.setNewGraphState(edgeType);
-		this.model.setAlgorithmComboModel(this.core
-				.getAlgorithmNames(this.model.getGraph().getEdgeType()));
 
 		// update view
 		this.setChanged();
 		this.notifyObservers(this.model.createToolBarModel());
 		this.setChanged();
-		this.notifyObservers(this.model.getGraph());
+		this.notifyObservers(this.model.createVisualizationModel(true));
 		this.setChanged();
 		this.notifyObservers(this.model.createStepModel());
+		this.setChanged();
+		this.notifyObservers(this.model.createProtocolModel(true));
 	}
 
 	/**
@@ -517,7 +520,7 @@ class MenuToolbarController extends Observable implements
 				// update model
 				this.model.setOpenGraphState(this.core.loadGraph(file));
 				this.model
-						.setAlgorithmComboModel(this.core
+						.initAlgorithmComboModel(this.core
 								.getAlgorithmNames(this.model.getGraph()
 										.getEdgeType()));
 
