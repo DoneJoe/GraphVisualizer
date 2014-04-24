@@ -1,41 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
-     http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-	
-	<key id="edgeColor" for="edge" attr.name="edgeColor" attr.type="string">
-		<default>black</default>
-	</key>
-	<key id="weight" for="edge" attr.name="weight" attr.type="double">
-		<default>1.0</default>
-	</key>
-
-	<key id="vertexColor" for="node" attr.name="vertexColor" attr.type="string">
-		<default>antique</default>
-	</key>
-	<key id="startVertex" for="node" attr.name="startVertex" attr.type="boolean">
-		<default>false</default>
-	</key>
-	<key id="endVertex" for="node" attr.name="endVertex" attr.type="boolean">
-		<default>false</default>
-	</key>
-	<key id="vertexLocation.x" for="node" attr.name="vertexLocation.x" attr.type="integer">
-		<default>0</default>
-	</key>
-	<key id="vertexLocation.y" for="node" attr.name="vertexLocation.y" attr.type="integer">
-		<default>0</default>
-	</key>
-	<key id="vertexWidth" for="node" attr.name="vertexWidth" attr.type="double ">
-		<default>60.0</default>
-	</key>
-	<key id="vertexHeight" for="node" attr.name="vertexHeight" attr.type="double ">
-		<default>40.0</default>
-	</key>
-
-	<key id="description" for="graph" attr.name="description" attr.type="string">
-		<default></default>
-	</key> 
-	
-	<graph id="Empty Graph" edgedefault="directed">
-		 
-	</graph>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+<key id="description" for="graph">
+<desc></desc>
+<default></default>
+</key>
+<key id="vertexLocation.y" for="node">
+<desc></desc>
+<default>50</default>
+</key>
+<key id="vertexWidth" for="node">
+<desc></desc>
+<default>60.0</default>
+</key>
+<key id="endVertex" for="node">
+<desc></desc>
+<default>false</default>
+</key>
+<key id="vertexColor" for="node">
+<desc></desc>
+<default>antique</default>
+</key>
+<key id="vertexLocation.x" for="node">
+<desc></desc>
+<default>50</default>
+</key>
+<key id="startVertex" for="node">
+<desc></desc>
+<default>false</default>
+</key>
+<key id="vertexHeight" for="node">
+<desc></desc>
+<default>40.0</default>
+</key>
+<key id="weight" for="edge">
+<desc></desc>
+<default>1.0</default>
+</key>
+<key id="edgeColor" for="edge">
+<desc></desc>
+<default>black</default>
+</key>
+<graph id="gerichteter Graph 3" edgedefault="directed">
+<data key="description">gerichteter Graph 3</data>
+</graph>
 </graphml>

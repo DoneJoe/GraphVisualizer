@@ -56,7 +56,7 @@ public class StepPanel extends JPanel implements Observer {
 	private JLabel lblProgress;
 
 	private JProgressBar progressBar;
-	
+
 	private JSpinner spinnerDelay;
 
 	/**
@@ -103,9 +103,7 @@ public class StepPanel extends JPanel implements Observer {
 
 		this.progressBar = new JProgressBar();
 		this.progressBar.setToolTipText(String.format(PROGRESS_LABEL, 0, 0));
-		this.progressBar.setMinimum(0);
-		this.progressBar.setMaximum(0);
-		this.progressBar.setValue(0);
+		this.progressBar.setEnabled(false);
 		panelProgress.add(this.progressBar);
 
 		// play button panel:
@@ -115,6 +113,12 @@ public class StepPanel extends JPanel implements Observer {
 
 		this.spinnerDelay = new JSpinner();
 		this.spinnerDelay.setToolTipText(DELAY_TOOLTIP);
+
+		// TODO set spinner formatting
+		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(
+				this.spinnerDelay, "# ms   ");
+		this.spinnerDelay.setEditor(editor);
+		this.spinnerDelay.setEnabled(false);
 		panelPlayButtons.add(this.spinnerDelay);
 
 		JButton btnPlay = new JButton();
@@ -185,6 +189,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnStop.addActionListener(stepController);
 		btnStop.setActionCommand(EventSource.STOP.toString());
 		this.spinnerDelay.addChangeListener(stepController);
+
 	}
 
 	/*

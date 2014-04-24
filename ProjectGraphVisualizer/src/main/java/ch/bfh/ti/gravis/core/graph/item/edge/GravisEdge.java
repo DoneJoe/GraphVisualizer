@@ -2,6 +2,7 @@ package ch.bfh.ti.gravis.core.graph.item.edge;
 
 import java.util.Objects;
 
+import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type;
 import ch.bfh.ti.gravis.core.graph.item.AbstractGraphItem;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 
@@ -46,7 +47,7 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 		this.weight = weight;
 		
 		if (!equal) {
-			this.fireGraphItemsChangedEvent(this);
+			this.fireGraphItemsChangedEvent(this, Type.EDITED);
 		}
 	}
 
@@ -56,12 +57,13 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 	@Override
 	public void setName(String name) {
 		// TODO Exception handling bei null values
+		
 		Objects.requireNonNull(name);
 		boolean equal = this.getName() == null ? false : this.getName().equals(name.trim());
 		this.edgeName = name.trim();
 
 		if (!equal) {
-			this.fireGraphItemsChangedEvent(this);
+			this.fireGraphItemsChangedEvent(this, Type.EDITED);
 		}		
 	}
 

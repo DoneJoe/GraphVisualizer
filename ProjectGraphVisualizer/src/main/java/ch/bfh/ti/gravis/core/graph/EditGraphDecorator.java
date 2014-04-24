@@ -287,7 +287,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 		
 		this.gravisGraph.setDescription(graphDescription);
 		if (!equal) {
-			this.fireGraphPropertiesChangedEvent(this);
+			this.fireGraphPropertiesChangedEvent(this, Type.VISUAL_EDITED);
 		}
 	}
 
@@ -304,7 +304,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 		
 		this.gravisGraph.setEdgeType(edgeType);
 		if (!equal) {
-			this.fireGraphPropertiesChangedEvent(this);
+			this.fireGraphPropertiesChangedEvent(this, Type.EDITED);
 		}
 	}
 
@@ -321,18 +321,16 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 		
 		this.gravisGraph.setName(graphName);
 		if (!equal) {
-			this.fireGraphPropertiesChangedEvent(this);
+			this.fireGraphPropertiesChangedEvent(this, Type.VISUAL_EDITED);
 		}
 	}
 
-	/**
-	 * 
-	 * @param source
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
-	protected void fireGraphPropertiesChangedEvent(IGravisGraph source) {
-		for (IEditGraphEventListener listener : this.listeners) {
-			listener.handleGraphPropertiesChangedEvent(source);
-		}
+	@Override
+	public String toString() {
+		return this.gravisGraph.toString();
 	}
 	
 	/**
@@ -346,12 +344,15 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * 
+	 * @param source
+	 * @param type
 	 */
-	@Override
-	public String toString() {
-		return this.gravisGraph.toString();
+	protected void fireGraphPropertiesChangedEvent(IGravisGraph source, Type type) {
+		for (IEditGraphEventListener listener : this.listeners) {
+			listener.handleGraphPropertiesChangedEvent(source, type);
+		}
 	}
 
 

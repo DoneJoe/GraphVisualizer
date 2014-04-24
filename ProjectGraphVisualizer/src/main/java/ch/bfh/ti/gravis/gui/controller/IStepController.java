@@ -4,13 +4,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.event.ChangeListener;
 
-import ch.bfh.ti.gravis.core.IGravisObservable;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public interface IStepController extends ActionListener, ChangeListener,  IGravisObservable {
+public interface IStepController extends ActionListener, ChangeListener {
 
 	/**
 	 * This enum constants are usefull to distinguish between different kinds of

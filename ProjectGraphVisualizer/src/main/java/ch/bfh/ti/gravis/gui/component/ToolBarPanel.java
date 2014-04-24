@@ -59,6 +59,8 @@ public class ToolBarPanel extends JToolBar implements Observer {
 
 	private final JComboBox<String> comboBoxAlgorithm;
 
+	private final JComboBox<?> comboBoxMode;
+
 	private final JButton btnNewCalculation;
 
 	/**
@@ -137,9 +139,9 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		tglCmbModel.add(tglbtnTransforming, Mode.TRANSFORMING);
 		this.add(tglbtnTransforming);
 
-		JComboBox<?> comboBoxMode = new JComboBox<>(tglCmbModel.getModeModel());
-		comboBoxMode.setToolTipText(MODE_TOOLTIP);
-		this.add(comboBoxMode);
+		this.comboBoxMode = new JComboBox<>(tglCmbModel.getModeModel());
+		this.comboBoxMode.setToolTipText(MODE_TOOLTIP);
+		this.add(this.comboBoxMode);
 
 		this.addSeparator();
 
@@ -166,24 +168,10 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		btnGraphProp.setModel(model.getGraphPropertiesButtonModel());
 		this.btnNewCalculation.setModel(model.getNewCalcButtonModel());
 
-		// add listeners:
+		// add other listeners:
 
-		btnOpenGraph.setActionCommand(EventSource.OPEN_GRAPH.toString());
-		btnOpenGraph.addActionListener(menuToolbarController);
-		btnSaveGraph.setActionCommand(EventSource.SAVE_GRAPH.toString());
-		btnSaveGraph.addActionListener(menuToolbarController);
-		btnSaveGraphAs.setActionCommand(EventSource.SAVE_GRAPH_AS.toString());
-		btnSaveGraphAs.addActionListener(menuToolbarController);
-		btnNewDirGraph.setActionCommand(EventSource.NEW_DIR_GRAPH.toString());
-		btnNewDirGraph.addActionListener(menuToolbarController);
-		btnNewUndirGraph.setActionCommand(EventSource.NEW_UNDIR_GRAPH
-				.toString());
-		btnNewUndirGraph.addActionListener(menuToolbarController);
-		btnGraphProp.setActionCommand(EventSource.GRAPH_PROPERTY.toString());
-		btnGraphProp.addActionListener(menuToolbarController);
-		comboBoxMode.setActionCommand(EventSource.MODE.toString());
-		comboBoxMode.addItemListener(menuToolbarController);
-
+		this.comboBoxMode.setActionCommand(EventSource.MODE.toString());
+		this.comboBoxMode.addItemListener(menuToolbarController);
 		this.comboBoxAlgorithm.setActionCommand(EventSource.ALGORITHM
 				.toString());
 		this.comboBoxAlgorithm.addItemListener(menuToolbarController);
@@ -204,6 +192,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 
 			this.comboBoxAlgorithm.setEnabled(model.isAlgoComboEnabled());
 			this.btnNewCalculation.setVisible(model.isNewCalcButtonVisible());
+			this.comboBoxMode.setEnabled(model.isModeComboEnabled());
 		}
 	}
 

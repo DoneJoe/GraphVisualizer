@@ -1,7 +1,5 @@
 package ch.bfh.ti.gravis.gui.controller;
 
-import java.util.Observable;
-
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
@@ -11,8 +9,7 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class VisualizationController extends Observable implements
-		IEditGraphEventListener {
+class VisualizationController implements IEditGraphEventListener {
 
 	private final IAppModel model;
 
@@ -33,17 +30,10 @@ class VisualizationController extends Observable implements
 	 * ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type)
 	 */
 	@Override
-	public void handleGraphItemsChangedEvent(final IGraphItem source, final Type type) {
-		// update model
-		this.model.resetStepEnabledState();
-		this.model.setGraphChanged(true);
-		this.model.setGraphUnsaved(true);
+	public void handleGraphItemsChangedEvent(final IGraphItem source,
+			final Type type) {
 
-		// update view
-		this.setChanged();
-		this.notifyObservers(this.model.createToolBarModel());
-		this.setChanged();
-		this.notifyObservers(this.model.createStepModel());
+		this.updateModelAndView(type);
 	}
 
 	/*
@@ -51,16 +41,31 @@ class VisualizationController extends Observable implements
 	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.IEditGraphEventListener#
 	 * handleGraphPropertiesChangedEvent
-	 * (ch.bfh.ti.gravis.core.graph.IGravisGraph)
+	 * (ch.bfh.ti.gravis.core.graph.IGravisGraph,
+	 * ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type)
 	 */
 	@Override
-	public void handleGraphPropertiesChangedEvent(final IGravisGraph source) {
-		// update model
-		this.model.setGraphUnsaved(true);
+	public void handleGraphPropertiesChangedEvent(final IGravisGraph source, 
+			final Type type) {
+		
+		this.updateModelAndView(type);
+	}
 
-		// update view
-		this.setChanged();
-		this.notifyObservers(this.model.getGraph());
+	/**
+	 * @param type
+	 */
+	private void updateModelAndView(final Type type) {
+		if (!this.model.isPlaying()) {
+			// update model
+			if (type == Type.VISUAL_EDITED) {
+				this.model.setEditGraphState(true);
+			} else {
+				this.model.setEditGraphState(false);
+			}
+			
+			// update view
+			this.model.notifyObservers(false, false);
+		}
 	}
 
 }

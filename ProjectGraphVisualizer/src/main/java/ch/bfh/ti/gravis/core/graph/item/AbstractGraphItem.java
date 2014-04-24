@@ -320,6 +320,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	@Override
 	public void setCurrentState(ItemState currentState) {
 		// TODO Exception handling bei null values
+		
 		this.currentState = Objects.requireNonNull(currentState);
 		this.setCurrentColor(currentState.getFillColor(this));
 	}

@@ -15,7 +15,7 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class StepController extends Observable implements IStepController {
+class StepController implements IStepController {
 
 	private final IAppModel model;
 
@@ -161,12 +161,15 @@ class StepController extends Observable implements IStepController {
 	 * @param stepMessage
 	 */
 	private void updateView(String stepMessage) {
-		this.setChanged();
-		this.notifyObservers(this.model.createVisualizationModel(false));
-		this.setChanged();
-		this.notifyObservers(this.model.createStepModel());
-		this.setChanged();
-		this.notifyObservers(this.model.createProtocolModel(stepMessage));
+		
+		// TODO refactor
+		
+//		this.setChanged();
+//		this.notifyObservers(this.model.createVisualizationModel(false));
+//		this.setChanged();
+//		this.notifyObservers(this.model.createStepModel());
+//		this.setChanged();
+//		this.notifyObservers(this.model.createProtocolModel(stepMessage));
 	}
 	
 }

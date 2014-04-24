@@ -1,6 +1,7 @@
 package ch.bfh.ti.gravis.gui.model;
 
 import java.io.File;
+import java.util.Observable;
 
 import javax.swing.BoundedRangeModel;
 import javax.swing.ButtonModel;
@@ -14,8 +15,8 @@ import javax.swing.SpinnerNumberModel;
 import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
 import ch.bfh.ti.gravis.core.graph.GraphFactory;
+import ch.bfh.ti.gravis.core.graph.GravisGraphIOException;
 import ch.bfh.ti.gravis.core.graph.IEditGraphObservable;
-import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
@@ -25,11 +26,11 @@ import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.*;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class AppModel implements IAppModel {
+class AppModel extends Observable implements IAppModel {
 
 	private static final String DEFAULT_ALGO_ENTRY = "Algorithmus wählen:";
 
-	private final static EdgeType DEFAULT_E_TYPE = EdgeType.UNDIRECTED;
+	private static final EdgeType DEFAULT_E_TYPE = EdgeType.UNDIRECTED;
 
 	private final ICore core;
 
@@ -72,7 +73,7 @@ class AppModel implements IAppModel {
 		this.graphUnsaved = this.playing = false;
 		this.calcState = NOT_CALCULABLE;
 
-		// create component button models:
+		// create button models:
 
 		this.deleteEdgeButtonModel = new DefaultButtonModel();
 		this.edgePropertiesButtonModel = new DefaultButtonModel();
@@ -105,64 +106,31 @@ class AppModel implements IAppModel {
 		this.delaySpinnerModel = new SpinnerNumberModel();
 		this.progressBarModel = new DefaultBoundedRangeModel(0, 0, 0, 0);
 
-		// TODO init SpinnerModel, progressBarModel -> anpassung disableStepPanel
+		// TODO init SpinnerModel (int, editor) , progressBarModel -> anpassung
+		// disableStepPanel
 
 		this.setNewGraphState(DEFAULT_E_TYPE);
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#createProtocolModel(boolean)
-	 */
-	@Override
-	public ProtocolModel createProtocolModel(boolean protocolCleared) {
-		return new ProtocolModel("", protocolCleared);
-	}
-
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.model.IAppModel#createProtocolModel(java.lang.String
-	 * )
+	 * @return StepModel
 	 */
-	@Override
-	public ProtocolModel createProtocolModel(String message) {
-		return new ProtocolModel(message);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#createStepModel()
-	 */
-	@Override
-	public StepModel createStepModel() {
+	private StepModel createStepModel() {
 		boolean enabled = this.calcState == CALCULATED;
-		
+
 		return new StepModel(this.progressBarModel.getValue(),
 				this.progressBarModel.getMaximum(), enabled, enabled);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#createToolBarModel()
+	 * @return ToolBarModel
 	 */
-	@Override
-	public ToolBarModel createToolBarModel() {
-		return new ToolBarModel(this.calcState != NOT_CALCULABLE,
-				this.calcState == EDITED_CALCULABLE);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.model.IAppModel#createVisualizationModel(boolean)
-	 */
-	@Override
-	public VisualizationViewModel createVisualizationModel(boolean graphChanged) {
-		return new VisualizationViewModel(this.graph, graphChanged);
+	private ToolBarModel createToolBarModel() {
+		return new ToolBarModel(this.calcState != NOT_CALCULABLE
+				&& !this.playing, this.calcState == EDITED_CALCULABLE
+				&& !this.playing, !this.playing);
 	}
 
 	/*
@@ -502,9 +470,21 @@ class AppModel implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setEditGraphState(boolean)
 	 */
 	@Override
-	public void setEditGraphState(boolean graphItemEditied) {
-		// TODO Auto-generated method stub
+	public void setEditGraphState(boolean visualEditied) {
+		if (!this.playing) {
+			this.graphUnsaved = true;
+			this.calcState = visualEditied ? this.calcState :
+					(this.graph.isEmpty() ? NOT_CALCULABLE
+					: (this.calcState == CALCULATED ? EDITED_CALCULABLE
+							: CALCULABLE));
 
+			this.setMenuAndToolbarEnabled(true);
+			this.setPopupsEnabled(true);
+			
+			if (!visualEditied) {
+				this.setStepPanelEnabled(false);
+			}
+		}
 	}
 
 	/*
@@ -516,18 +496,12 @@ class AppModel implements IAppModel {
 	@Override
 	public void setEditMode(final Mode mode) {
 		if (!this.playing) {
-			boolean enabled = mode == Mode.EDITING;
+			if (this.stepIterator != null && mode == Mode.EDITING) {
+				this.stepIterator.first();
+			}
 
 			this.toggleComboModel.setSelectedItem(mode);
-
-			this.edgePropertiesButtonModel.setEnabled(enabled);
-			this.deleteEdgeButtonModel.setEnabled(enabled);
-
-			this.newVertexButtonModel.setEnabled(enabled);
-			this.startVertexButtonModel.setEnabled(enabled);
-			this.endVertexButtonModel.setEnabled(enabled);
-			this.vertexPropertiesButtonModel.setEnabled(enabled);
-			this.deleteVertexButtonModel.setEnabled(enabled);
+			this.setPopupsEnabled(true);
 		}
 	}
 
@@ -540,28 +514,49 @@ class AppModel implements IAppModel {
 	 */
 	@Override
 	public void setNewGraphState(EdgeType edgeType) throws CoreException {
-		if (!this.graphUnsaved && !this.playing) {
-			this.graph = GraphFactory.createEditGraphObservable(edgeType);
-			this.graphUnsaved = true;
+		if (!this.playing) {
+			if (this.graph == null) {
+				this.graph = GraphFactory.createEditGraphObservable(edgeType);
+			} else {
+				this.graph = GraphFactory.createEditGraphObservable(edgeType, 
+						this.graph.getEditGraphEventListeners());
+			}
+			
 			this.calcState = NOT_CALCULABLE;
+			this.graphUnsaved = false;
 			this.graphFile = null;
 
 			this.initAlgorithmComboModel(this.core.getAlgorithmNames(edgeType));
-			this.disableStepPanel();
+			this.setMenuAndToolbarEnabled(true);
+			this.setPopupsEnabled(true);
+			this.setStepPanelEnabled(false);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.model.IAppModel#setOpenGraphState(ch.bfh.ti.gravis
-	 * .core.graph.IGravisGraph, java.io.File)
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setOpenGraphState(java.io.File)
 	 */
 	@Override
-	public void setOpenGraphState(IGravisGraph graph, File graphFile) {
-		// TODO Auto-generated method stub
+	public void setOpenGraphState(File graphFile)
+			throws GravisGraphIOException, CoreException {
+		// TODO Exception if null
 
+		if (!this.playing) {
+			this.graph = GraphFactory.createEditGraphObservable(
+					this.core.loadGraph(graphFile),
+					this.graph.getEditGraphEventListeners());
+			this.calcState = this.graph.isEmpty() ? NOT_CALCULABLE : CALCULABLE;
+			this.graphUnsaved = false;
+			this.graphFile = graphFile;
+
+			this.initAlgorithmComboModel(this.core.getAlgorithmNames(this.graph
+					.getEdgeType()));
+			this.setMenuAndToolbarEnabled(true);
+			this.setPopupsEnabled(true);
+			this.setStepPanelEnabled(false);
+		}
 	}
 
 	/*
@@ -572,7 +567,6 @@ class AppModel implements IAppModel {
 	@Override
 	public void setPausedState() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -583,7 +577,6 @@ class AppModel implements IAppModel {
 	@Override
 	public void setPlayingState() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -592,9 +585,15 @@ class AppModel implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setSaveGraphState()
 	 */
 	@Override
-	public void setSaveGraphState() {
-		// TODO Auto-generated method stub
+	public void setSaveGraphState() throws GravisGraphIOException {
+		if (!this.playing && this.graphFile != null) {
+			this.graphUnsaved = false;
 
+			this.setMenuAndToolbarEnabled(true);
+			this.setStepPanelEnabled(true);
+
+			this.core.saveGraph(this.graph, this.graphFile);
+		}
 	}
 
 	/*
@@ -603,9 +602,13 @@ class AppModel implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setSaveGraphState(java.io.File)
 	 */
 	@Override
-	public void setSaveGraphState(File graphFile) {
-		// TODO Auto-generated method stub
+	public void setSaveGraphState(File graphFile) throws GravisGraphIOException {
+		// TODO Exception if null
 
+		if (!this.playing) {
+			this.graphFile = graphFile;
+			this.setSaveGraphState();
+		}
 	}
 
 	/*
@@ -618,7 +621,6 @@ class AppModel implements IAppModel {
 	@Override
 	public void setStepEnabledState(IGravisListIterator<String> stepIterator) {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -629,7 +631,6 @@ class AppModel implements IAppModel {
 	@Override
 	public void setStoppedState() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -650,23 +651,8 @@ class AppModel implements IAppModel {
 		}
 	}
 
-	private void disableStepPanel() {
-		if (this.stepIterator != null && !this.playing) {
-			this.stepIterator.first();
-			this.stepIterator = null;
-
-			this.progressBarModel.setMinimum(0);
-			this.progressBarModel.setMaximum(0);
-			this.progressBarModel.setValue(0);
-			this.playButtonModel.setEnabled(false);
-			this.pauseButtonModel.setEnabled(false);
-			this.stopButtonModel.setEnabled(false);
-			
-			this.updateStepButtonModels(false, false, false, false);
-		}
-	}
-
 	/**
+	 * Initializes algorithm combo model with new values and removes old values.
 	 * 
 	 * @param algoNames
 	 */
@@ -679,6 +665,150 @@ class AppModel implements IAppModel {
 		}
 
 		this.algoComboModel.setSelectedItem(DEFAULT_ALGO_ENTRY);
+	}
+
+	/**
+	 * All buttons models are only enabled when playing is false. <br />
+	 * The save graph button model is only enabled when: <br />
+	 * there is no existing graphFile or the graph is unsaved. <br />
+	 * The newCalcButtonModel is only enabled when edited calculation is
+	 * possible.
+	 * 
+	 * @param enabled
+	 */
+	private void setMenuAndToolbarEnabled(final boolean enabled) {
+		this.fileMenuModel.setEnabled(enabled && !this.playing);
+		this.helpMenuModel.setEnabled(enabled && !this.playing);
+
+		this.newDirGraphButtonModel.setEnabled(enabled && !this.playing);
+		this.newUndirGraphButtonModel.setEnabled(enabled && !this.playing);
+		this.openGraphButtonModel.setEnabled(enabled && !this.playing);
+		this.saveGraphButtonModel.setEnabled(enabled && !this.playing
+				&& (this.graphFile == null || this.graphUnsaved));
+		this.saveGraphAsButtonModel.setEnabled(enabled && !this.playing);
+		this.graphPropertiesButtonModel.setEnabled(enabled && !this.playing);
+
+		this.toggleComboModel.setToggleModelsEnabled(enabled && !this.playing);
+		this.newCalcButtonModel.setEnabled(enabled && !this.playing
+				&& this.calcState == EDITED_CALCULABLE);
+	}
+
+	/**
+	 * Popups are enabed only when there is not editing mode selected and not
+	 * playing.
+	 * 
+	 * @param enabled
+	 */
+	private void setPopupsEnabled(final boolean enabled) {
+		boolean ok = Mode.EDITING == this.toggleComboModel.getMode() && enabled
+				&& !this.playing;
+
+		this.edgePropertiesButtonModel.setEnabled(ok);
+		this.deleteEdgeButtonModel.setEnabled(ok);
+
+		this.newVertexButtonModel.setEnabled(ok);
+		this.startVertexButtonModel.setEnabled(ok);
+		this.endVertexButtonModel.setEnabled(ok);
+		this.vertexPropertiesButtonModel.setEnabled(ok);
+		this.deleteVertexButtonModel.setEnabled(ok);
+	}
+
+	/**
+	 * Precondition: not playing and (disabled or step iterator is not null) <br />
+	 * 
+	 * Two states can be set by parameter "enabled": <br />
+	 * true: enables step panel to initial state and sets the step iterator to
+	 * first element <br />
+	 * false: disables step panel (all button models) and clears step iterator
+	 * 
+	 * @param enabled
+	 */
+	private void setStepPanelEnabled(final boolean enabled) {
+		if (!this.playing && (!enabled || this.stepIterator != null)) {
+			if (this.stepIterator != null) {
+				this.stepIterator.first();
+
+				if (!enabled) {
+					this.stepIterator = null;
+				}
+			}
+
+			this.progressBarModel.setMinimum(0);
+			this.progressBarModel.setMaximum(0);
+			this.progressBarModel.setValue(0);
+			this.playButtonModel.setEnabled(enabled);
+			this.pauseButtonModel.setEnabled(false);
+			this.stopButtonModel.setEnabled(false);
+
+			this.updateStepButtonModels(enabled, enabled, false, false);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.Observable#notifyObservers()
+	 */
+	@Override
+	public void notifyObservers() {
+		this.setChanged();
+		super.notifyObservers();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.Observable#notifyObservers(java.lang.Object)
+	 */
+	@Override
+	public void notifyObservers(Object arg) {
+		this.setChanged();
+		super.notifyObservers(arg);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#notifyObservers(boolean,
+	 * boolean)
+	 */
+	@Override
+	public void notifyObservers(boolean graphChanged, boolean protocolCleared) {
+		this.notifyObservers(graphChanged, protocolCleared, "");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#notifyObservers(boolean,
+	 * boolean, java.lang.String)
+	 */
+	@Override
+	public void notifyObservers(boolean graphChanged, boolean protocolCleared,
+			String protocolMessage) {
+
+		this.notifyObservers(this.createMainWindowModel());
+		this.notifyObservers(this.createToolBarModel());
+		this.notifyObservers(new VisualizationViewModel(this.graph,
+				graphChanged));
+		this.notifyObservers(this.createStepModel());
+		this.notifyObservers(new ProtocolModel(protocolMessage, protocolCleared));
+	}
+
+	/**
+	 * @return MainWindowModel
+	 */
+	private MainWindowModel createMainWindowModel() {
+		return new MainWindowModel(this.hasGraphFile() ? this.graphFile.getAbsolutePath() : "", 
+				this.hasGraphFile(), this.graphUnsaved);
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#hasGraphFile()
+	 */
+	@Override
+	public boolean hasGraphFile() {
+		return this.graphFile != null;
 	}
 
 }

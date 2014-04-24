@@ -152,7 +152,7 @@ public class MenuBarPanel extends JMenuBar {
 					}
 				} catch (Exception ex) {
 					// TODO Exception stack trace
-					
+
 					JOptionPane.showMessageDialog(MenuBarPanel.this.mainWindow,
 							String.format(APP_ERR_MSG, ex.getMessage()),
 							APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
@@ -199,17 +199,6 @@ public class MenuBarPanel extends JMenuBar {
 		JMenuItem menuItemInfo = new JMenuItem(INFO, new ImageIcon(
 				loadImage(INFO_ICON)));
 
-		// set models:
-		
-		menuFile.setModel(model.getFileMenuModel());
-		menuHelp.setModel(model.getHelpMenuModel());
-		menuItemNewDirGraph.setModel(model.getNewDirGraphButtonModel());
-		menuItemNewUndirGraph.setModel(model.getNewUndirGraphButtonModel());
-		menuItemOpenGraph.setModel(model.getOpenGraphButtonModel());
-		menuItemSaveGraph.setModel(model.getSaveGraphButtonModel());
-		menuItemSaveGraphAs.setModel(model.getSaveGraphAsButtonModel());
-		menuItemGraphProperties.setModel(model.getGraphPropertiesButtonModel());
-		
 		// set mnemonics:
 
 		menuFile.setMnemonic(KeyEvent.VK_D);
@@ -236,24 +225,19 @@ public class MenuBarPanel extends JMenuBar {
 				0));
 		menuItemInfo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 
-		// add listeners:
+		// set models:
 
-		menuItemNewDirGraph.setActionCommand(EventSource.NEW_DIR_GRAPH
-				.toString());
-		menuItemNewDirGraph.addActionListener(menuToolbarController);
-		menuItemNewUndirGraph.setActionCommand(EventSource.NEW_UNDIR_GRAPH
-				.toString());
-		menuItemNewUndirGraph.addActionListener(menuToolbarController);
-		menuItemOpenGraph.setActionCommand(EventSource.OPEN_GRAPH.toString());
-		menuItemOpenGraph.addActionListener(menuToolbarController);
-		menuItemSaveGraph.setActionCommand(EventSource.SAVE_GRAPH.toString());
-		menuItemSaveGraph.addActionListener(menuToolbarController);
-		menuItemSaveGraphAs.setActionCommand(EventSource.SAVE_GRAPH_AS
-				.toString());
-		menuItemSaveGraphAs.addActionListener(menuToolbarController);
-		menuItemGraphProperties.setActionCommand(EventSource.GRAPH_PROPERTY
-				.toString());
-		menuItemGraphProperties.addActionListener(menuToolbarController);
+		menuFile.setModel(model.getFileMenuModel());
+		menuHelp.setModel(model.getHelpMenuModel());
+		menuItemNewDirGraph.setModel(model.getNewDirGraphButtonModel());
+		menuItemNewUndirGraph.setModel(model.getNewUndirGraphButtonModel());
+		menuItemOpenGraph.setModel(model.getOpenGraphButtonModel());
+		menuItemSaveGraph.setModel(model.getSaveGraphButtonModel());
+		menuItemSaveGraphAs.setModel(model.getSaveGraphAsButtonModel());
+		menuItemGraphProperties.setModel(model.getGraphPropertiesButtonModel());
+
+		// add other listeners:
+
 		menuItemExit.setActionCommand(EventSource.EXIT.toString());
 		menuItemExit.addActionListener(menuToolbarController);
 		this.setHelpListeners(menuItemHelp, menuItemShortcuts, menuItemInfo);

@@ -16,6 +16,7 @@ import ch.bfh.ti.gravis.core.graph.transformer.PointTransformer;
 import ch.bfh.ti.gravis.gui.controller.ControllerFactory;
 import ch.bfh.ti.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.ti.gravis.gui.controller.IStepController;
+import ch.bfh.ti.gravis.gui.controller.IMenuToolbarController.EventSource;
 import ch.bfh.ti.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.ti.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.ti.gravis.gui.dialog.GraphPropertyDialogFactory;
@@ -43,23 +44,21 @@ public final class GuiFactory {
 	 */
 	public static JFrame createGUI(ICore core) throws CoreException,
 			IOException {
+
 		// model
 		IAppModel model = AppModelFactory.createAppModel(core);
 
 		// controllers
 		IMenuToolbarController menuToolbarController = ControllerFactory
-				.createMenuToolbarController(core, model);
+				.createMenuToolbarController(model);
 		IEditGraphEventListener visualizationController = ControllerFactory
 				.createVisualizationController(model);
 		IStepController stepController = ControllerFactory
 				.createStepController(model);
-		
-		// add EditGraphEventListener to graph
-		model.getGraph().addEditGraphEventListener(visualizationController);
 
 		// view
 		JFrame mainWindow = new MainWindow(menuToolbarController,
-				visualizationController, stepController, model);
+				stepController, model);
 
 		// set dialog adapters to controllers
 		menuToolbarController.setFileChooserAdapter(new FileChooserAdapter(
@@ -72,6 +71,35 @@ public final class GuiFactory {
 				.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
 						mainWindow));
 
+		// add EditGraphEventListener to graph
+		model.getGraph().addEditGraphEventListener(visualizationController);
+
+		// add button model listeners
+		model.getNewDirGraphButtonModel().setActionCommand(
+				EventSource.NEW_DIR_GRAPH.toString());
+		model.getNewDirGraphButtonModel().addActionListener(
+				menuToolbarController);
+		model.getNewUndirGraphButtonModel().setActionCommand(
+				EventSource.NEW_UNDIR_GRAPH.toString());
+		model.getNewUndirGraphButtonModel().addActionListener(
+				menuToolbarController);
+		model.getOpenGraphButtonModel().setActionCommand(
+				EventSource.OPEN_GRAPH.toString());
+		model.getOpenGraphButtonModel()
+				.addActionListener(menuToolbarController);
+		model.getSaveGraphButtonModel().setActionCommand(
+				EventSource.SAVE_GRAPH.toString());
+		model.getSaveGraphButtonModel()
+				.addActionListener(menuToolbarController);
+		model.getSaveGraphAsButtonModel().setActionCommand(
+				EventSource.SAVE_GRAPH_AS.toString());
+		model.getSaveGraphAsButtonModel().addActionListener(
+				menuToolbarController);
+		model.getGraphPropertiesButtonModel().setActionCommand(
+				EventSource.GRAPH_PROPERTY.toString());
+		model.getGraphPropertiesButtonModel().addActionListener(
+				menuToolbarController);
+
 		return mainWindow;
 	}
 
@@ -82,7 +110,7 @@ public final class GuiFactory {
 	public static Layout<IVertex, IEdge> createLayout(IGravisGraph graph) {
 		return new StaticLayout<>(graph, new PointTransformer());
 	}
-	
+
 	/**
 	 * Loads an icon ressource with the given name.
 	 * 
@@ -91,8 +119,8 @@ public final class GuiFactory {
 	 * @throws IOException
 	 */
 	public static Image loadImage(String iconName) throws IOException {
-		return ImageIO.read(GuiFactory.class.getResourceAsStream(
-				IMAGES_DIR + iconName));
+		return ImageIO.read(GuiFactory.class.getResourceAsStream(IMAGES_DIR
+				+ iconName));
 	}
 
 }

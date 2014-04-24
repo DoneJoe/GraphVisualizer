@@ -99,6 +99,17 @@ public class ToggleComboModel {
 	}
 
 	/**
+	 * Returns the selected item in the mode combo box or null if there is no selected item.
+	 * 
+	 * @return Mode
+	 */
+	public Mode getMode() {
+		Object obj = this.getModeModel().getSelectedItem();
+
+		return obj == null ? null : (Mode) obj;
+	}
+
+	/**
 	 * @return ComboBoxModel
 	 */
 	public ComboBoxModel<Mode> getModeModel() {
@@ -153,6 +164,15 @@ public class ToggleComboModel {
 			
 			this.locked = false;
 		}
+	}
+
+	/**
+	 * @param enabled
+	 */
+	public void setToggleModelsEnabled(boolean enabled) {
+		this.getPickingToggleModel().setEnabled(enabled);
+		this.getEditingToggleModel().setEnabled(enabled);
+		this.getTransformingToggleModel().setEnabled(enabled);
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.Objects;
 
+import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type;
 import ch.bfh.ti.gravis.core.graph.item.AbstractGraphItem;
 import ch.bfh.ti.gravis.core.graph.item.ItemState;
 import ch.bfh.ti.gravis.core.util.GravisColor;
@@ -170,7 +171,7 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 		this.end = end;
 
 		if (!equal) {
-			this.fireGraphItemsChangedEvent(this);
+			this.fireGraphItemsChangedEvent(this, Type.EDITED);
 		}
 	}
 
@@ -183,7 +184,12 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 */
 	@Override
 	public void setHeight(double height) {
+		boolean equal = Double.compare(this.getHeight(), height) == 0;
 		this.height = height;
+		
+		if (!equal) {
+			this.fireGraphItemsChangedEvent(this, Type.VISUAL_EDITED);
+		}
 	}
 
 	/*
@@ -196,8 +202,14 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	@Override
 	public void setLocation(Point2D location) {
 		// TODO Exception handling bei null values
+		
 		Objects.requireNonNull(location);
+		boolean equal = location.equals(this.getLocation());
 		this.location = (Point2D) location.clone();
+		
+		if (!equal) {
+			this.fireGraphItemsChangedEvent(this, Type.VISUAL_EDITED);
+		}
 	}
 
 	/*
@@ -210,13 +222,13 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	@Override
 	public void setName(String name) {
 		// TODO Exception handling bei null values
+		
 		Objects.requireNonNull(name);
-		boolean equal = this.getName() == null ? false : this.getName().equals(
-				name.trim());
+		boolean equal = name.trim().equals(this.getName());
 		this.vertexName = name.trim();
 
 		if (!equal) {
-			this.fireGraphItemsChangedEvent(this);
+			this.fireGraphItemsChangedEvent(this, Type.EDITED);
 		}
 	}
 
@@ -226,7 +238,7 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 		this.start = start;
 
 		if (!equal) {
-			this.fireGraphItemsChangedEvent(this);
+			this.fireGraphItemsChangedEvent(this, Type.EDITED);
 		}
 	}
 
@@ -239,7 +251,12 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 */
 	@Override
 	public void setWidth(double width) {
+		boolean equal = Double.compare(this.getWidth(), width) == 0;
 		this.width = width;
+		
+		if (!equal) {
+			this.fireGraphItemsChangedEvent(this, Type.VISUAL_EDITED);
+		}
 	}
 
 }

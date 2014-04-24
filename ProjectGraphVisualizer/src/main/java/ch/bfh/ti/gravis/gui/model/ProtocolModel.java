@@ -16,6 +16,14 @@ public class ProtocolModel {
 	protected ProtocolModel(String message) {
 		this(message, false);
 	}
+	
+	/**
+	 * 
+	 * @param protocolCleared
+	 */
+	protected ProtocolModel(boolean protocolCleared) {
+		this("", protocolCleared);
+	}
 
 	/**
 	 * 

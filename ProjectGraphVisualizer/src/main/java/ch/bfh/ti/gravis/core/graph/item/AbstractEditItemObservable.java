@@ -44,13 +44,13 @@ public abstract class AbstractEditItemObservable implements IEditItemObservable 
 	}
 
 	/**
-	 * Only non visualisation fields should call this method.
 	 * 
 	 * @param source
+	 * @param type
 	 */
-	protected void fireGraphItemsChangedEvent(IGraphItem source) {
+	protected void fireGraphItemsChangedEvent(IGraphItem source, Type type) {
 		for (IEditGraphEventListener listener : this.listeners) {
-			listener.handleGraphItemsChangedEvent(source, Type.EDITED);
+			listener.handleGraphItemsChangedEvent(source, type);
 		}
 	}
 
