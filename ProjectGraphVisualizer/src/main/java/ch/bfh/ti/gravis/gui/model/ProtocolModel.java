@@ -13,7 +13,7 @@ public class ProtocolModel {
 	/**
 	 * @param message
 	 */
-	protected ProtocolModel(String message) {
+	public ProtocolModel(String message) {
 		this(message, false);
 	}
 	

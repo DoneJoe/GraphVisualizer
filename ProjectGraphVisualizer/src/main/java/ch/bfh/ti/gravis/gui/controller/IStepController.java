@@ -19,7 +19,7 @@ public interface IStepController extends ActionListener, ChangeListener {
 	 * 
 	 */
 	public static enum EventSource {
-		PLAY, PAUSE, STOP, BEGINNING, BACK, FORWARD, END
+		PLAY, PAUSE, STOP, BEGINNING, BACK, FORWARD, END, TIMER_EVENT
 	}
 
 }

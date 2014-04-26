@@ -14,52 +14,32 @@ import ch.bfh.ti.gravis.gui.visualization.GravisModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 
 /**
+ * Toggle model changes are propagated to the mode combo model. Selection changes in mode combo
+ * model are not propagated automatically to the toggle models. A seperate listener is required.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
 public class ToggleComboModel {
 
-	private final static Mode DEFAULT_MODE = Mode.EDITING;
-	
+	private final static Mode DEFAULT_MODE = Mode.PICKING;
+
 	private final JToggleButton.ToggleButtonModel pickingToggleModel,
 			editingToggleModel, transformingToggleModel;
 
 	private final ComboBoxModel<Mode> editModeComboModel;
-	
+
 	private final ButtonGroup btnGroupEditMode;
-	
-	private boolean locked;
 
 	protected ToggleComboModel() {
 		this.pickingToggleModel = new JToggleButton.ToggleButtonModel();
 		this.editingToggleModel = new JToggleButton.ToggleButtonModel();
-		this.transformingToggleModel = new JToggleButton.ToggleButtonModel();		
-		this.editModeComboModel = new DefaultComboBoxModel<>(GravisModalGraphMouse.getModes());		
+		this.transformingToggleModel = new JToggleButton.ToggleButtonModel();
+		this.editModeComboModel = new DefaultComboBoxModel<>(
+				GravisModalGraphMouse.getModes());
 		this.btnGroupEditMode = new ButtonGroup();
-		this.locked = false;
-		
-		// add listeners:
-		
-		this.pickingToggleModel.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				ToggleComboModel.this.setSelectedComboItem(e, Mode.PICKING);
-			}
-		});
-		
-		this.editingToggleModel.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				ToggleComboModel.this.setSelectedComboItem(e, Mode.EDITING);
-			}
-		});
-		
-		this.transformingToggleModel.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				ToggleComboModel.this.setSelectedComboItem(e, Mode.TRANSFORMING);
-			}
-		});		
+
+		this.addListeners();
 	}
 
 	/**
@@ -69,9 +49,9 @@ public class ToggleComboModel {
 	 * @param mode
 	 */
 	public void add(AbstractButton button, Mode mode) {
-		
+
 		// TODO NullPointer Exception-handling
-		
+
 		if (mode == Mode.PICKING) {
 			button.setModel(this.getPickingToggleModel());
 		} else if (mode == Mode.EDITING) {
@@ -90,7 +70,7 @@ public class ToggleComboModel {
 	public Mode getDefaultMode() {
 		return DEFAULT_MODE;
 	}
-	
+
 	/**
 	 * @return ButtonModel
 	 */
@@ -99,7 +79,8 @@ public class ToggleComboModel {
 	}
 
 	/**
-	 * Returns the selected item in the mode combo box or null if there is no selected item.
+	 * Returns the selected item in the mode combo box or null if there is no
+	 * selected item.
 	 * 
 	 * @return Mode
 	 */
@@ -133,7 +114,7 @@ public class ToggleComboModel {
 		} else if (mode == Mode.TRANSFORMING) {
 			return this.getTransformingToggleModel();
 		}
-		
+
 		return this.getPickingToggleModel();
 	}
 
@@ -148,21 +129,14 @@ public class ToggleComboModel {
 	 * @param mode
 	 */
 	public void setSelectedItem(Mode mode) {
-		
 		// TODO NullPointer Exception-handling
-		
-		if (!this.locked) {
-			this.locked = true;
-			
-			if (mode == Mode.PICKING) {
-				this.getPickingToggleModel().setSelected(true);
-			} else if (mode == Mode.EDITING) {
-				this.getEditingToggleModel().setSelected(true);
-			} else if (mode == Mode.TRANSFORMING) {
-				this.getTransformingToggleModel().setSelected(true);;
-				}
-			
-			this.locked = false;
+
+		if (mode == Mode.PICKING) {
+			this.getPickingToggleModel().setSelected(true);
+		} else if (mode == Mode.EDITING) {
+			this.getEditingToggleModel().setSelected(true);
+		} else if (mode == Mode.TRANSFORMING) {
+			this.getTransformingToggleModel().setSelected(true);
 		}
 	}
 
@@ -175,16 +149,45 @@ public class ToggleComboModel {
 		this.getTransformingToggleModel().setEnabled(enabled);
 	}
 
+	private void addListeners() {
+		this.pickingToggleModel.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				ToggleComboModel.this.setSelectedComboItem(e, Mode.PICKING);
+			}
+		});
+
+		this.editingToggleModel.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				ToggleComboModel.this.setSelectedComboItem(e, Mode.EDITING);
+			}
+		});
+
+		this.transformingToggleModel.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				ToggleComboModel.this
+						.setSelectedComboItem(e, Mode.TRANSFORMING);
+			}
+		});
+	}
+
 	/**
 	 * 
 	 * @param event
-	 * @param mode
+	 * @param newMode
 	 */
-	private void setSelectedComboItem(ItemEvent event, Mode mode) {
-		if (!this.locked && event.getStateChange() == ItemEvent.SELECTED) {
-			this.locked = true;
-			this.editModeComboModel.setSelectedItem(mode);
-			this.locked = false;
+	private void setSelectedComboItem(ItemEvent event, Mode newMode) {
+		Object item = this.editModeComboModel.getSelectedItem();
+
+		if (event.getStateChange() == ItemEvent.SELECTED
+				&& item instanceof Mode) {
+			Mode currentMode = (Mode) item;
+
+			if (currentMode != newMode) {
+				this.editModeComboModel.setSelectedItem(newMode);
+			}
 		}
 	}
 

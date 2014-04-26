@@ -50,7 +50,7 @@ public final class GuiFactory {
 
 		// controllers
 		IMenuToolbarController menuToolbarController = ControllerFactory
-				.createMenuToolbarController(model);
+				.createMenuToolbarController(model, core);
 		IEditGraphEventListener visualizationController = ControllerFactory
 				.createVisualizationController(model);
 		IStepController stepController = ControllerFactory

@@ -16,7 +16,7 @@ public class VisualizationViewModel {
 	 * @param graph
 	 * @param graphChanged
 	 */
-	protected VisualizationViewModel(IGravisGraph graph, boolean graphChanged) {
+	public VisualizationViewModel(IGravisGraph graph, boolean graphChanged) {
 		this.graph = graph;
 		this.graphChanged = graphChanged;
 	}

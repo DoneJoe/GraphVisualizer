@@ -3,13 +3,14 @@ package ch.bfh.ti.gravis.gui.controller;
 import static ch.bfh.ti.gravis.gui.controller.IStepController.EventSource.*;
 
 import java.awt.event.ActionEvent;
-import java.util.Observable;
 
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 
-import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
+import ch.bfh.ti.gravis.gui.model.ProtocolModel;
+import ch.bfh.ti.gravis.gui.model.VisualizationViewModel;
+import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.*;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -17,6 +18,8 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
  */
 class StepController implements IStepController {
 
+	private static final double FACTOR = 1000.0;
+	
 	private final IAppModel model;
 
 	/**
@@ -24,6 +27,10 @@ class StepController implements IStepController {
 	 */
 	protected StepController(IAppModel model) {
 		this.model = model;
+
+		// add timer listener
+		this.model.getTimer().setActionCommand(TIMER_EVENT.toString());
+		this.model.getTimer().addActionListener(this);
 	}
 
 	/*
@@ -34,142 +41,198 @@ class StepController implements IStepController {
 	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		// TODO Exception handling
-		
-		if (e.getActionCommand().equals(BEGINNING.toString())) {
-			this.handleBeginningEvent();
-		} else if (e.getActionCommand().equals(BACK.toString())) {
-			this.handleBackEvent();
-		} else if (e.getActionCommand().equals(FORWARD.toString())) {
-			this.handleForwardEvent();
-		} else if (e.getActionCommand().equals(END.toString())) {
-			this.handleEndEvent();
-		} else if(e.getActionCommand().equals(PLAY.toString())) {
-			this.handlePlayEvent();
-		} else if(e.getActionCommand().equals(PAUSE.toString())) {
-			this.handlePauseEvent();
-		} else if(e.getActionCommand().equals(STOP.toString())) {
-			this.handleStopEvent();
+		try {
+			if (e.getActionCommand().equals(BEGINNING.toString())) {
+				this.handleBeginningEvent();
+			} else if (e.getActionCommand().equals(BACK.toString())) {
+				this.handleBackEvent();
+			} else if (e.getActionCommand().equals(FORWARD.toString())) {
+				this.handleForwardEvent();
+			} else if (e.getActionCommand().equals(END.toString())) {
+				this.handleEndEvent();
+			} else if (e.getActionCommand().equals(PLAY.toString())) {
+				this.handlePlayEvent();
+			} else if (e.getActionCommand().equals(PAUSE.toString())) {
+				this.handlePauseEvent();
+			} else if (e.getActionCommand().equals(STOP.toString())) {
+				this.handleStopEvent();
+			} else if (e.getActionCommand().equals(TIMER_EVENT.toString())) {
+				this.handleTimerEvent();
+			}
+		} catch (Exception ex) {
+			// TODO Exception handling
+			ex.printStackTrace();
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent
+	 * )
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		// TODO implement
-		
-		if (e.getSource() instanceof JSpinner) {
-			System.out.println("spinner state changed");
+		if (e.getSource() instanceof JSpinner && !this.model.isPlaying() &&
+				this.model.getCalculationState() == CALCULATED) {
+			
+			Object value = ((JSpinner) e.getSource()).getValue();
+			
+			if (value instanceof Double) {
+				int delay = (int) (((Double) value) * FACTOR); 
+				
+				this.model.getTimer().setInitialDelay(delay);
+				this.model.getTimer().setDelay(delay);
+			}
 		}
-		
+
 	}
 
 	private void handleBackEvent() {
-		IGravisListIterator<String> stepIterator = this.model.getStepIterator();
+		if (!this.model.isPlaying() && this.model.hasStepIterator()
+				&& this.model.getStepIterator().hasPrevious() &&
+				this.model.getCalculationState() == CALCULATED) {
 
-		if (stepIterator != null && stepIterator.hasPrevious()) {
+			String stepMessage = this.model.getStepIterator().previous();
+
 			// update model
-			String stepMessage = stepIterator.previous();
-			this.model.updateStepButtonModels(stepIterator.hasPrevious(),
-					stepIterator.hasPrevious(), stepIterator.hasNext(),
-					stepIterator.hasNext());
-			if (this.model.getProgressBarModel() != null) {
-				this.model.getProgressBarModel().setValue(
-						this.model.getProgressBarModel().getValue() - 1);
-			}
+			this.model.updateStepPanelModels();
+			this.model.getProgressBarModel().setValue(
+					this.model.getProgressBarModel().getValue() - 1);
 
-			this.updateView(stepMessage);
+			// update view
+			this.model.notifyObservers(false, false, stepMessage);
 		}
 	}
 
 	private void handleBeginningEvent() {
-		IGravisListIterator<String> stepIterator = this.model.getStepIterator();
+		if (!this.model.isPlaying() && this.model.hasStepIterator()
+				&& this.model.getStepIterator().hasPrevious() &&
+				this.model.getCalculationState() == CALCULATED) {
 
-		if (stepIterator != null && stepIterator.hasPrevious()) {
+			String stepMessage = this.model.getStepIterator().first();
+
 			// update model
-			String stepMessage = stepIterator.first();
-			this.model.updateStepButtonModels(stepIterator.hasPrevious(),
-					stepIterator.hasPrevious(), stepIterator.hasNext(),
-					stepIterator.hasNext());
-			if (this.model.getProgressBarModel() != null) {
-				this.model.getProgressBarModel().setValue(0);
-			}
+			this.model.updateStepPanelModels();
+			this.model.getProgressBarModel().setValue(0);
 
-			this.updateView(stepMessage);
+			// update view
+			this.model.notifyObservers(false, false, stepMessage);
 		}
 	}
 
 	private void handleEndEvent() {
-		IGravisListIterator<String> stepIterator = this.model.getStepIterator();
+		if (!this.model.isPlaying() && this.model.hasStepIterator()
+				&& this.model.getStepIterator().hasNext() &&
+				this.model.getCalculationState() == CALCULATED) {
 
-		if (stepIterator != null && stepIterator.hasNext()) {
+			String stepMessage = this.model.getStepIterator().last();
+
 			// update model
-			String stepMessage = stepIterator.last();
-			this.model.updateStepButtonModels(stepIterator.hasPrevious(),
-					stepIterator.hasPrevious(), stepIterator.hasNext(),
-					stepIterator.hasNext());
-			// TODO nicht auf null pruefen
-			if (this.model.getProgressBarModel() != null) {
-				this.model.getProgressBarModel().setValue(stepIterator.size());
-			}
-			
-			this.updateView(stepMessage);
+			this.model.updateStepPanelModels();
+			this.model.getProgressBarModel().setValue(
+					this.model.getStepIterator().size());
+
+			// update view
+			this.model.notifyObservers(false, false, stepMessage);
 		}
 	}
 
 	private void handleForwardEvent() {
-		IGravisListIterator<String> stepIterator = this.model.getStepIterator();
+		if (!this.model.isPlaying() && this.model.hasStepIterator()
+				&& this.model.getStepIterator().hasNext()
+				&& this.model.getCalculationState() == CALCULATED) {
 
-		if (stepIterator != null && stepIterator.hasNext()) {
+			String stepMessage = this.model.getStepIterator().next();
+
 			// update model
-			String stepMessage = stepIterator.next();
-			this.model.updateStepButtonModels(stepIterator.hasPrevious(),
-					stepIterator.hasPrevious(), stepIterator.hasNext(),
-					stepIterator.hasNext());
-			if (this.model.getProgressBarModel() != null) {
-				this.model.getProgressBarModel().setValue(
-						this.model.getProgressBarModel().getValue() + 1);
-			}
-			
-			this.updateView(stepMessage);
+			this.model.updateStepPanelModels();
+			this.model.getProgressBarModel().setValue(
+					this.model.getProgressBarModel().getValue() + 1);
+
+			// update view
+			this.model.notifyObservers(false, false, stepMessage);
 		}
 	}
 
 	private void handlePauseEvent() {
-		// TODO implement
-		
-		System.out.println("handlePauseEvent");
+		if (this.model.isPlaying()
+				&& this.model.getCalculationState() == CALCULATED) {
+
+			// update model
+			this.model.setPausedState();
+
+			// update view
+			this.model.notifyObservers(false, false);
+		}
 	}
 
 	private void handlePlayEvent() {
-		// TODO implement
-		
-		System.out.println("handlePlayEvent");
+		if (!this.model.isPlaying()
+				&& this.model.getCalculationState() == CALCULATED) {
+
+			// update model
+			this.model.setPlayingState();
+
+			// update view
+			this.model.notifyObservers(false, false);
+
+			// start timer
+			if (!this.model.getTimer().isRunning()) {
+				this.model.getTimer().start();
+			}
+		}
 	}
 
 	private void handleStopEvent() {
-		// TODO implement
-		
-		System.out.println("handleStopEvent");
+		if (!this.model.isStopped()
+				&& this.model.getCalculationState() == CALCULATED) {
+
+			// stop timer
+			if (this.model.getTimer().isRunning()) {
+				this.model.getTimer().stop();
+			}
+
+			// update model
+			this.model.setStoppedState();
+
+			// update view
+			this.model.notifyObservers(false, false);
+		}
 	}
 
-	/**
-	 * Updates all observers.
-	 * 
-	 * @param stepMessage
-	 */
-	private void updateView(String stepMessage) {
-		
-		// TODO refactor
-		
-//		this.setChanged();
-//		this.notifyObservers(this.model.createVisualizationModel(false));
-//		this.setChanged();
-//		this.notifyObservers(this.model.createStepModel());
-//		this.setChanged();
-//		this.notifyObservers(this.model.createProtocolModel(stepMessage));
+	private void handleTimerEvent() {
+		if (this.model.isPlaying() && this.model.hasStepIterator()
+				&& this.model.getStepIterator().hasNext()
+				&& this.model.getCalculationState() == CALCULATED) {
+
+			String stepMessage = this.model.getStepIterator().next();
+
+			// update model
+			this.model.updateStepPanelModels();
+			this.model.getProgressBarModel().setValue(
+					this.model.getProgressBarModel().getValue() + 1);
+
+			// update view
+			this.model.notifyObservers(new VisualizationViewModel(this.model
+					.getGraph(), false));
+			this.model.notifyObservers(new ProtocolModel(stepMessage));
+
+			// check, if last step is done
+			if (!this.model.getStepIterator().hasNext()) {
+				// stop timer
+				if (this.model.getTimer().isRunning()) {
+					this.model.getTimer().stop();
+				}
+
+				// update model
+				this.model.setEndAnimationState();
+
+				// update view
+				this.model.notifyObservers(false, false);
+			}
+		}
 	}
-	
+
 }

@@ -7,10 +7,11 @@ import javax.swing.BoundedRangeModel;
 import javax.swing.ButtonModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.SpinnerModel;
+import javax.swing.Timer;
 
 import ch.bfh.ti.gravis.core.CoreException;
-import ch.bfh.ti.gravis.core.graph.GravisGraphIOException;
 import ch.bfh.ti.gravis.core.graph.IEditGraphObservable;
+import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
@@ -24,7 +25,13 @@ public interface IAppModel {
 	public static enum CalculationState {
 		NOT_CALCULABLE, CALCULABLE, CALCULATED, EDITED_CALCULABLE
 	}
+	
+	public static enum PlayerState {
+		PLAYING, PAUSED, STOPPED
+	}
 
+	public static final String DEFAULT_ALGO_ENTRY = "Algorithmus wählen:";
+	
 	/**
 	 * 
 	 * @param observer
@@ -70,7 +77,13 @@ public interface IAppModel {
 	 * @return CalculationState
 	 */
 	public CalculationState getCalculationState();
-
+	
+	/**
+	 * 
+	 * @return playerState
+	 */
+	public PlayerState getPlayerState();	
+	
 	/**
 	 * @return delay spinner model
 	 */
@@ -203,6 +216,12 @@ public interface IAppModel {
 
 	/**
 	 * 
+	 * @return timer
+	 */
+	public Timer getTimer();
+	
+	/**
+	 * 
 	 * @return ToggleComboModel
 	 */
 	public ToggleComboModel getToggleComboModel();
@@ -223,17 +242,32 @@ public interface IAppModel {
 	/**
 	 * @return boolean
 	 */
-	public abstract boolean isGraphUnsaved();
+	public abstract boolean hasGraphFile();
 	
 	/**
 	 * @return boolean
 	 */
-	public abstract boolean hasGraphFile();
+	public abstract boolean hasStepIterator();
+	
+	/**
+	 * @return boolean
+	 */
+	public abstract boolean isGraphUnsaved();
 
 	/**
 	 * @return boolean
 	 */
 	public abstract boolean isPlaying();
+	
+	/**
+	 * @return boolean
+	 */
+	public abstract boolean isPaused();
+	
+	/**
+	 * @return boolean
+	 */
+	public abstract boolean isStopped();
 
 	/**
 	 * If this object has changed, as indicated by the hasChanged method, then
@@ -278,56 +312,60 @@ public interface IAppModel {
 	 */
 	public void setEditMode(Mode mode);
 
+	public abstract void setEndAnimationState();
+
 	/**
 	 * @param edgeType
-	 * @throws CoreException
+	 * @throws CoreException 
 	 */
-	public abstract void setNewGraphState(EdgeType edgeType)
-			throws CoreException;
+	public abstract void setNewGraphState(EdgeType edgeType) throws CoreException;
+
+	/**
+	 * No valid algorithm has been selected in the combo box. 
+	 */
+	public abstract void setNoAlgoSelectedState();
 
 	/**
 	 * 
-	 * @param graphFile
-	 * @throws GravisGraphIOException
-	 * @throws CoreException
+	 * @param graph
+	 * @param file 
+	 * @throws CoreException 
 	 */
-	public abstract void setOpenGraphState(File graphFile)
-			throws GravisGraphIOException, CoreException;
+	public abstract void setOpenGraphState(IGravisGraph graph, File file) throws CoreException;
 
 	public abstract void setPausedState();
 
 	public abstract void setPlayingState();
 
-	/**
-	 * 
-	 * @throws GravisGraphIOException
-	 */
-	public abstract void setSaveGraphState() throws GravisGraphIOException;
+	public abstract void setSaveGraphState();
 
 	/**
 	 * @param graphFile
-	 * @throws GravisGraphIOException
 	 */
-	public abstract void setSaveGraphState(File graphFile)
-			throws GravisGraphIOException;
+	public abstract void setSaveGraphState(File graphFile);
 
 	/**
 	 * 
 	 * @param stepIterator
 	 */
-	public abstract void setStepEnabledState(
-			IGravisListIterator<String> stepIterator);
+	public abstract void setCalcDoneState(IGravisListIterator<String> stepIterator);
 
 	public abstract void setStoppedState();
 
 	/**
+	 * Two states can be set by parameter "enabled": <br />
+	 * true: sets step panel to initial state and sets step iterator to first
+	 * element <br />
+	 * false: disables step panel (all button models) and clears step iterator
 	 * 
-	 * @param beginning
-	 * @param back
-	 * @param forward
-	 * @param end
+	 * @param enabled
 	 */
-	public abstract void updateStepButtonModels(boolean beginning,
-			boolean back, boolean forward, boolean end);
+	public abstract  void setStepPanelEnabled(boolean enabled);
+	
+	/**
+	 * Precondition: stepIterator not null <br />
+	 * Updates the step panel models with the current stepIterator values.
+	 */
+	public abstract void updateStepPanelModels();
 
 }

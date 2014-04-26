@@ -45,21 +45,21 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 </key>
 <graph id="Dijkstra Sample Graph 1" edgedefault="directed">
 <data key="description">This directed sample graph can be used with the Dijkstra shortest path algorithm.</data>
-<node id="V1">
-<data key="vertexLocation.y">87</data>
+<node id="V4">
+<data key="vertexLocation.y">268</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">antique</data>
 <data key="vertexLocation.x">307</data>
-<data key="startVertex">true</data>
+<data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="V2">
-<data key="vertexLocation.y">276</data>
+<node id="V3">
+<data key="vertexLocation.y">420</data>
 <data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
+<data key="endVertex">true</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">61</data>
+<data key="vertexLocation.x">303</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
@@ -72,30 +72,38 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="V4">
-<data key="vertexLocation.y">268</data>
+<node id="V2">
+<data key="vertexLocation.y">276</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">306</data>
+<data key="vertexLocation.x">61</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="V3">
-<data key="vertexLocation.y">420</data>
+<node id="V1">
+<data key="vertexLocation.y">87</data>
 <data key="vertexWidth">60.0</data>
-<data key="endVertex">true</data>
+<data key="endVertex">false</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">309</data>
-<data key="startVertex">false</data>
+<data key="vertexLocation.x">311</data>
+<data key="startVertex">true</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<edge id="e45" source="V4" target="V5">
-<data key="weight">60.0</data>
+<edge id="e15" source="V1" target="V5">
+<data key="weight">100.0</data>
 <data key="edgeColor">black</data>
 </edge>
 <edge id="e14" source="V1" target="V4">
 <data key="weight">30.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e43" source="V4" target="V3">
+<data key="weight">20.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e23" source="V2" target="V3">
+<data key="weight">50.0</data>
 <data key="edgeColor">black</data>
 </edge>
 <edge id="e35" source="V3" target="V5">
@@ -106,16 +114,8 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="weight">10.0</data>
 <data key="edgeColor">black</data>
 </edge>
-<edge id="e15" source="V1" target="V5">
-<data key="weight">100.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="e43" source="V4" target="V3">
-<data key="weight">20.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="e23" source="V2" target="V3">
-<data key="weight">50.0</data>
+<edge id="e45" source="V4" target="V5">
+<data key="weight">60.0</data>
 <data key="edgeColor">black</data>
 </edge>
 </graph>

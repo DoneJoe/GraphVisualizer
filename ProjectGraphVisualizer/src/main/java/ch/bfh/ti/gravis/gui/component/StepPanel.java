@@ -48,10 +48,12 @@ public class StepPanel extends JPanel implements Observer {
 	private static final String FORWARD_TOOLTIP = "Einen Schritt vorwärts";
 	private static final String END_TOOLTIP = "Zum Ende";
 
-	private static final String DELAY_TOOLTIP = "Zeitintervall festlegen";
+	private static final String DELAY_TOOLTIP = "Zeitintervall festlegen (Sekunden)";
 	private static final String PLAY_TOOLTIP = "Animation abspielen";
 	private static final String PAUSE_TOOLTIP = "Animation anhalten";
 	private static final String STOP_TOOLTIP = "Animation stoppen";
+
+	private static final String SPINNER_FORMAT = "#.## s";
 
 	private JLabel lblProgress;
 
@@ -111,14 +113,13 @@ public class StepPanel extends JPanel implements Observer {
 		JLabel lblDelay = new JLabel(DELAY_LABEL);
 		panelPlayButtons.add(lblDelay);
 
-		this.spinnerDelay = new JSpinner();
-		this.spinnerDelay.setToolTipText(DELAY_TOOLTIP);
-
-		// TODO set spinner formatting
+		this.spinnerDelay = new JSpinner(model.getDelaySpinnerModel());
 		JSpinner.NumberEditor editor = new JSpinner.NumberEditor(
-				this.spinnerDelay, "# ms   ");
+				this.spinnerDelay, SPINNER_FORMAT);
+		editor.getTextField().setEditable(false);
 		this.spinnerDelay.setEditor(editor);
 		this.spinnerDelay.setEnabled(false);
+		this.spinnerDelay.setToolTipText(DELAY_TOOLTIP);
 		panelPlayButtons.add(this.spinnerDelay);
 
 		JButton btnPlay = new JButton();
@@ -161,7 +162,6 @@ public class StepPanel extends JPanel implements Observer {
 		// set models:
 
 		this.progressBar.setModel(model.getProgressBarModel());
-		this.spinnerDelay.setModel(model.getDelaySpinnerModel());
 		btnPlay.setModel(model.getPlayButtonModel());
 		btnPause.setModel(model.getPauseButtonModel());
 		btnStop.setModel(model.getStopButtonModel());

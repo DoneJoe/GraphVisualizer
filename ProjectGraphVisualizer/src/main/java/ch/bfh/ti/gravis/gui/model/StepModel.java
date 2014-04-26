@@ -17,7 +17,7 @@ public class StepModel {
 	 * @param spinnerEnabled
 	 * @param progressBarEnabled
 	 */
-	protected StepModel(int stepValue, int stepMaximum, boolean spinnerEnabled, 
+	public StepModel(int stepValue, int stepMaximum, boolean spinnerEnabled, 
 			boolean progressBarEnabled) {
 		
 		this.stepValue = stepValue;

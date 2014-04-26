@@ -1,5 +1,6 @@
 package ch.bfh.ti.gravis.gui.controller;
 
+import ch.bfh.ti.gravis.core.ICore;
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 
@@ -14,10 +15,11 @@ public final class ControllerFactory {
 
 	/**
 	 * @param model
+	 * @param core 
 	 * @return IMenuToolbarController
 	 */
-	public static IMenuToolbarController createMenuToolbarController(IAppModel model) {
-		return new MenuToolbarController(model);
+	public static IMenuToolbarController createMenuToolbarController(IAppModel model, ICore core) {
+		return new MenuToolbarController(model, core);
 	}
 
 	/**

@@ -18,7 +18,7 @@ public class ToolBarModel  {
 	 * @param newCalcButtonVisible
 	 * @param modeComboEnabled
 	 */
-	protected ToolBarModel(boolean algoComboEnabled, boolean newCalcButtonVisible, 
+	public ToolBarModel(boolean algoComboEnabled, boolean newCalcButtonVisible, 
 			boolean modeComboEnabled) {
 		
 		this.algoComboEnabled = algoComboEnabled;

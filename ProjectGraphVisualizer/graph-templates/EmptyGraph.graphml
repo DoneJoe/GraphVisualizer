@@ -43,7 +43,7 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <desc></desc>
 <default>black</default>
 </key>
-<graph id="gerichteter Graph 3" edgedefault="directed">
-<data key="description">gerichteter Graph 3</data>
+<graph id="ungerichteter Graph 1" edgedefault="undirected">
+<data key="description">ungerichteter Graph 1</data>
 </graph>
 </graphml>

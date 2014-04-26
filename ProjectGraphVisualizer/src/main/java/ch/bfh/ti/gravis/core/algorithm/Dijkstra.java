@@ -67,6 +67,7 @@ class Dijkstra extends AbstractAlgorithm {
 			return;
 		}
 		
+		// TODO erster Step: Farbe auf Initial, Message für algo start
 		// TODO implementation anpassen, Exception handling
 
 		this.checkPositiveWeights(graph.getEdges());
