@@ -32,18 +32,19 @@ import static ch.bfh.ti.gravis.gui.model.IAppModel.PlayerState.*;
 class AppModel extends Observable implements IAppModel {
 
 	// static final fields:
-	
+
 	private static final EdgeType DEFAULT_EDGE_TYPE = EdgeType.UNDIRECTED;
-	
-	// double values in seconds 
-	private static final double INIT = 1.0, MIN = 0.25, MAX = 10.0, STEP_SIZE = 0.25;
+
+	// double values in seconds
+	private static final double INIT = 1.0, MIN = 0.25, MAX = 10.0,
+			STEP_SIZE = 0.25;
 	private static final double FACTOR = 1000.0;
-			
+
 	// non final fields:
 
 	private IEditGraphObservable graph;
 
-	private boolean graphUnsaved;
+	private boolean graphUnsaved, working;
 
 	private CalculationState calcState;
 
@@ -89,7 +90,7 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	protected AppModel(final ICore core) throws CoreException {
 		this.core = core;
-		this.graphUnsaved = false;
+		this.working = this.graphUnsaved = false;
 		this.calcState = NOT_CALCULABLE;
 		this.playerState = STOPPED;
 
@@ -126,7 +127,8 @@ class AppModel extends Observable implements IAppModel {
 
 		this.toggleComboModel = new ToggleComboModel();
 		this.algoComboModel = new DefaultComboBoxModel<>();
-		this.delaySpinnerModel = new SpinnerNumberModel(INIT, MIN, MAX, STEP_SIZE);
+		this.delaySpinnerModel = new SpinnerNumberModel(INIT, MIN, MAX,
+				STEP_SIZE);
 		this.progressBarModel = new DefaultBoundedRangeModel(0, 0, 0, 0);
 
 		// init timer
@@ -530,6 +532,16 @@ class AppModel extends Observable implements IAppModel {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#isWorking()
+	 */
+	@Override
+	public boolean isWorking() {
+		return this.working;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Observable#notifyObservers()
 	 */
 	@Override
@@ -592,9 +604,9 @@ class AppModel extends Observable implements IAppModel {
 		this.calcState = CALCULATED;
 		this.stepIterator = stepIterator;
 
-		this.setMenuAndToolbarEnabled(true);
-		this.setPopupsEnabled(true);
-		this.setStepPanelEnabled(true);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
+		this.setStepPanelState(true);
 		this.setEditMode(Mode.PICKING);
 	}
 
@@ -614,11 +626,11 @@ class AppModel extends Observable implements IAppModel {
 								|| this.calcState == EDITED_CALCULABLE ? EDITED_CALCULABLE
 								: CALCULABLE));
 
-		this.setMenuAndToolbarEnabled(true);
-		this.setPopupsEnabled(true);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
 
 		if (!visualEditied) {
-			this.setStepPanelEnabled(false);
+			this.setStepPanelState(false);
 		} else {
 			this.updateStepPanelModels();
 		}
@@ -633,11 +645,11 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setEditMode(final Mode mode) {
 		this.toggleComboModel.setSelectedItem(mode);
-		this.setMenuAndToolbarEnabled(true);
-		this.setPopupsEnabled(true);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
 
 		if (mode == Mode.EDITING) {
-			this.setStepPanelEnabled(true);
+			this.setStepPanelState(true);
 		} else {
 			this.updateStepPanelModels();
 		}
@@ -651,8 +663,8 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setEndAnimationState() {
 		this.playerState = STOPPED;
-		this.setMenuAndToolbarEnabled(true);
-		this.setPopupsEnabled(true);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
 		this.updateStepPanelModels();
 	}
 
@@ -677,9 +689,9 @@ class AppModel extends Observable implements IAppModel {
 		this.graphFile = null;
 
 		this.initAlgorithmComboModel(this.core.getAlgorithmNames(edgeType));
-		this.setMenuAndToolbarEnabled(true);
-		this.setPopupsEnabled(true);
-		this.setStepPanelEnabled(false);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
+		this.setStepPanelState(false);
 		this.setEditMode(Mode.EDITING);
 	}
 
@@ -691,9 +703,9 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setNoAlgoSelectedState() {
 		this.calcState = this.graph.isEmpty() ? NOT_CALCULABLE : CALCULABLE;
-		this.setMenuAndToolbarEnabled(true);
-		this.setPopupsEnabled(true);
-		this.setStepPanelEnabled(false);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
+		this.setStepPanelState(false);
 	}
 
 	/*
@@ -716,9 +728,9 @@ class AppModel extends Observable implements IAppModel {
 
 		this.initAlgorithmComboModel(this.core.getAlgorithmNames(this.graph
 				.getEdgeType()));
-		this.setMenuAndToolbarEnabled(true);
-		this.setPopupsEnabled(true);
-		this.setStepPanelEnabled(false);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
+		this.setStepPanelState(false);
 		this.setEditMode(Mode.PICKING);
 	}
 
@@ -731,8 +743,8 @@ class AppModel extends Observable implements IAppModel {
 	public void setPausedState() {
 		this.playerState = PAUSED;
 
-		this.setMenuAndToolbarEnabled(false);
-		this.setPopupsEnabled(false);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
 		this.updateStepPanelModels();
 	}
 
@@ -745,8 +757,8 @@ class AppModel extends Observable implements IAppModel {
 	public void setPlayingState() {
 		this.playerState = PLAYING;
 
-		this.setMenuAndToolbarEnabled(false);
-		this.setPopupsEnabled(false);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
 		this.updateStepPanelModels();
 	}
 
@@ -760,8 +772,8 @@ class AppModel extends Observable implements IAppModel {
 		if (this.hasGraphFile()) {
 			this.graphUnsaved = false;
 
-			this.setMenuAndToolbarEnabled(true);
-			this.setStepPanelEnabled(true);
+			this.updateMenuToolbarModels();
+			this.updatePopupModels();
 			this.updateStepPanelModels();
 		}
 	}
@@ -780,7 +792,7 @@ class AppModel extends Observable implements IAppModel {
 	}
 
 	@Override
-	public void setStepPanelEnabled(final boolean enabled) {
+	public void setStepPanelState(final boolean enabled) {
 		if (this.hasStepIterator()) {
 			this.stepIterator.first();
 
@@ -799,13 +811,14 @@ class AppModel extends Observable implements IAppModel {
 
 		this.progressBarModel.setMinimum(0);
 		this.progressBarModel.setValue(0);
-		this.playButtonModel.setEnabled(enabled && this.hasStepIterator());
+		this.playButtonModel.setEnabled(enabled && this.hasStepIterator()
+				&& !this.working);
 		this.pauseButtonModel.setEnabled(false);
 		this.stopButtonModel.setEnabled(false);
 
 		this.updateStepButtonModels(false, false,
-				enabled && this.hasStepIterator(),
-				enabled && this.hasStepIterator());
+				enabled && this.hasStepIterator() && !this.working, enabled
+						&& this.hasStepIterator() && !this.working);
 	}
 
 	/*
@@ -816,9 +829,22 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setStoppedState() {
 		this.playerState = STOPPED;
-		this.setMenuAndToolbarEnabled(true);
-		this.setPopupsEnabled(true);
-		this.setStepPanelEnabled(true);
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
+		this.setStepPanelState(true);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setWorkingState(boolean)
+	 */
+	@Override
+	public void setWorkingState(boolean enabled) {
+		this.working = enabled;
+		this.updateMenuToolbarModels();
+		this.updatePopupModels();
+		this.setStepPanelState(!enabled);
 	}
 
 	/*
@@ -829,16 +855,17 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void updateStepPanelModels() {
 		if (this.hasStepIterator()) {
-			this.updateStepButtonModels(this.stepIterator.hasPrevious(),
-					this.stepIterator.hasPrevious(),
-					this.stepIterator.hasNext(), this.stepIterator.hasNext());
+			boolean previous = this.stepIterator.hasPrevious() && !this.working;
+			boolean next = this.stepIterator.hasNext() && !this.working;
+
+			this.updateStepButtonModels(previous, previous, next, next);
 
 			this.playButtonModel.setEnabled(this.stepIterator.hasNext()
-					&& !this.isPlaying());
+					&& !this.isPlaying() && !this.working);
 			this.pauseButtonModel.setEnabled(this.stepIterator.hasNext()
-					&& this.isPlaying());
+					&& this.isPlaying() && !this.working);
 			this.stopButtonModel.setEnabled(this.stepIterator.hasNext()
-					&& !this.isStopped());
+					&& !this.isStopped() && !this.working);
 		}
 	}
 
@@ -858,9 +885,8 @@ class AppModel extends Observable implements IAppModel {
 	private StepModel createStepModel() {
 		boolean calculated = this.calcState == CALCULATED;
 
-		return new StepModel(this.progressBarModel.getValue(),
-				this.progressBarModel.getMaximum(), calculated
-						&& !this.isPlaying(), calculated);
+		return new StepModel(calculated && !this.isPlaying() && !this.working,
+				calculated, this.working);
 	}
 
 	/**
@@ -869,10 +895,10 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	private ToolBarModel createToolBarModel() {
 		return new ToolBarModel(this.calcState != NOT_CALCULABLE
-				&& this.playerState == STOPPED,
+				&& this.playerState == STOPPED && !this.working,
 				this.calcState == EDITED_CALCULABLE
-						&& this.playerState == STOPPED,
-				this.playerState == STOPPED);
+						&& this.playerState == STOPPED && !this.working,
+				this.playerState == STOPPED && !this.working);
 	}
 
 	/**
@@ -897,35 +923,36 @@ class AppModel extends Observable implements IAppModel {
 	 * The newCalcButtonModel is only enabled when edited calculation is
 	 * possible.
 	 * 
-	 * @param enabled
 	 */
-	private void setMenuAndToolbarEnabled(final boolean enabled) {
-		this.fileMenuModel.setEnabled(enabled && this.isStopped());
-		this.helpMenuModel.setEnabled(enabled && this.isStopped());
+	private void updateMenuToolbarModels() {
+		this.fileMenuModel.setEnabled(!this.working && this.isStopped());
+		this.helpMenuModel.setEnabled(!this.working && this.isStopped());
 
-		this.newDirGraphButtonModel.setEnabled(enabled && this.isStopped());
-		this.newUndirGraphButtonModel.setEnabled(enabled && this.isStopped());
-		this.openGraphButtonModel.setEnabled(enabled && this.isStopped());
-		this.saveGraphButtonModel.setEnabled(enabled && this.isStopped()
-				&& (!this.hasGraphFile() || this.graphUnsaved));
-		this.saveGraphAsButtonModel.setEnabled(enabled && this.isStopped());
-		this.graphPropertiesButtonModel
-				.setEnabled(enabled && this.isStopped());
-
-		this.toggleComboModel.setToggleModelsEnabled(enabled
+		this.newDirGraphButtonModel.setEnabled(!this.working
 				&& this.isStopped());
-		this.newCalcButtonModel.setEnabled(enabled && this.isStopped()
+		this.newUndirGraphButtonModel.setEnabled(!this.working
+				&& this.isStopped());
+		this.openGraphButtonModel.setEnabled(!this.working && this.isStopped());
+		this.saveGraphButtonModel.setEnabled(!this.working && this.isStopped()
+				&& (!this.hasGraphFile() || this.graphUnsaved));
+		this.saveGraphAsButtonModel.setEnabled(!this.working
+				&& this.isStopped());
+		this.graphPropertiesButtonModel.setEnabled(!this.working
+				&& this.isStopped());
+
+		this.toggleComboModel.setToggleModelsEnabled(!this.working
+				&& this.isStopped());
+		this.newCalcButtonModel.setEnabled(!this.working && this.isStopped()
 				&& this.calcState == EDITED_CALCULABLE);
 	}
 
 	/**
 	 * Popups are enabed only when there is not editing mode selected.
 	 * 
-	 * @param enabled
 	 */
-	private void setPopupsEnabled(final boolean enabled) {
-		boolean ok = Mode.EDITING == this.toggleComboModel.getMode() && enabled
-				&& this.isStopped();
+	private void updatePopupModels() {
+		boolean ok = Mode.EDITING == this.toggleComboModel.getMode()
+				&& !this.working && this.isStopped();
 
 		this.edgePropertiesButtonModel.setEnabled(ok);
 		this.deleteEdgeButtonModel.setEnabled(ok);
@@ -947,10 +974,14 @@ class AppModel extends Observable implements IAppModel {
 	private void updateStepButtonModels(boolean beginning, boolean back,
 			boolean forward, boolean end) {
 
-		this.beginningButtonModel.setEnabled(beginning && !this.isPlaying());
-		this.backButtonModel.setEnabled(back && !this.isPlaying());
-		this.forwardButtonModel.setEnabled(forward && !this.isPlaying());
-		this.endButtonModel.setEnabled(end && !this.isPlaying());
+		this.beginningButtonModel.setEnabled(beginning && !this.isPlaying()
+				&& !this.working);
+		this.backButtonModel.setEnabled(back && !this.isPlaying()
+				&& !this.working);
+		this.forwardButtonModel.setEnabled(forward && !this.isPlaying()
+				&& !this.working);
+		this.endButtonModel.setEnabled(end && !this.isPlaying()
+				&& !this.working);
 	}
 
 }

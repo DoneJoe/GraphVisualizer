@@ -103,7 +103,7 @@ public class StepPanel extends JPanel implements Observer {
 		this.lblProgress.setHorizontalAlignment(SwingConstants.LEFT);
 		panelProgress.add(this.lblProgress);
 
-		this.progressBar = new JProgressBar();
+		this.progressBar = new JProgressBar(model.getProgressBarModel());
 		this.progressBar.setToolTipText(String.format(PROGRESS_LABEL, 0, 0));
 		this.progressBar.setEnabled(false);
 		panelProgress.add(this.progressBar);
@@ -159,9 +159,8 @@ public class StepPanel extends JPanel implements Observer {
 		btnEnd.setToolTipText(END_TOOLTIP);
 		panelStepButtons.add(btnEnd);
 
-		// set models:
+		// set button models:
 
-		this.progressBar.setModel(model.getProgressBarModel());
 		btnPlay.setModel(model.getPlayButtonModel());
 		btnPause.setModel(model.getPauseButtonModel());
 		btnStop.setModel(model.getStopButtonModel());
@@ -202,12 +201,13 @@ public class StepPanel extends JPanel implements Observer {
 		if (arg instanceof StepModel) {
 			StepModel model = (StepModel) arg;
 			String labelText = String.format(PROGRESS_LABEL,
-					model.getStepValue(), model.getStepMaximum());
+					this.progressBar.getValue(), this.progressBar.getMaximum());
 
-			// update progress labels with current step values
+			// updates progressBar and spinner
 			this.lblProgress.setText(labelText);
 			this.progressBar.setToolTipText(labelText);
 			this.progressBar.setEnabled(model.isProgressBarEnabled());
+			this.progressBar.setIndeterminate(model.isProgressIndeterminate());
 			this.spinnerDelay.setEnabled(model.isSpinnerEnabled());
 		}
 	}

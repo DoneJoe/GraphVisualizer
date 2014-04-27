@@ -268,6 +268,11 @@ public interface IAppModel {
 	 * @return boolean
 	 */
 	public abstract boolean isStopped();
+	
+	/**
+	 * @return boolean
+	 */
+	public abstract boolean isWorking();
 
 	/**
 	 * If this object has changed, as indicated by the hasChanged method, then
@@ -355,17 +360,22 @@ public interface IAppModel {
 	/**
 	 * Two states can be set by parameter "enabled": <br />
 	 * true: sets step panel to initial state and sets step iterator to first
-	 * element <br />
+	 * element (if step iterator is not null) <br />
 	 * false: disables step panel (all button models) and clears step iterator
 	 * 
 	 * @param enabled
 	 */
-	public abstract  void setStepPanelEnabled(boolean enabled);
+	public abstract  void setStepPanelState(boolean enabled);
 	
 	/**
 	 * Precondition: stepIterator not null <br />
 	 * Updates the step panel models with the current stepIterator values.
 	 */
 	public abstract void updateStepPanelModels();
+
+	/**
+	 * @param enabled
+	 */
+	public abstract void setWorkingState(boolean enabled);
 
 }

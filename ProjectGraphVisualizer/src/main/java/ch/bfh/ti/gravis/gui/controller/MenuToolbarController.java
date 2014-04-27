@@ -10,17 +10,18 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
 import ch.bfh.ti.gravis.core.graph.GravisGraphIOException;
+import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import ch.bfh.ti.gravis.gui.dialog.ConfirmDialogAdapter;
 import ch.bfh.ti.gravis.gui.dialog.FileChooserAdapter;
 import ch.bfh.ti.gravis.gui.dialog.GraphPropertyDialogFactory;
 import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
-import ch.bfh.ti.gravis.gui.model.ProtocolModel;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import static ch.bfh.ti.gravis.gui.controller.IMenuToolbarController.EventSource.*;
@@ -52,15 +53,15 @@ class MenuToolbarController extends WindowAdapter implements
 
 	// protocol messages:
 
-	private final static String OPEN_GRAPH_MSG = "Ein Graph wurde geöffnet:%s"
+	private final static String OPEN_GRAPH_MSG = "Ein Graph wird geöffnet...";
+	private final static String OPEN_GRAPH_DONE_MSG = "erledigt!%s"
 			+ "Datei: %s%sName: %s%sBeschreibung: %s%s%s";
 	private final static String SAVE_GRAPH_MSG = "Der aktuelle Graph wurde gespeichert:%s"
 			+ "Datei: %s%sName: %s%sBeschreibung: %s%s%s";
 	private final static String SELECT_ALGO_MSG = "Folgender Algorithmus wurde ausgewählt:%s"
 			+ "Name: %s%sBeschreibung: %s%s%s"
 			+ "Die Animationsschritte werden jetzt berechnet...%s";
-	private final static String ALGO_DONE_MSG = 
-			"Die Berechnung der Animationsschritte wurde abgeschlossen.%s%s";
+	private final static String ALGO_DONE_MSG = "Die Berechnung der Animationsschritte wurde abgeschlossen.%s%s";
 
 	// final fields:
 
@@ -272,41 +273,81 @@ class MenuToolbarController extends WindowAdapter implements
 
 	/**
 	 * 
-	 * @param item
+	 * @param algoName
 	 * @throws CoreException
 	 */
-	private void handleAlgorithmEvent(final String item) throws CoreException {
+	private void handleAlgorithmEvent(final String algoName)
+			throws CoreException {
+
 		if (this.model.isStopped()
 				&& this.model.getCalculationState() != NOT_CALCULABLE) {
 
 			// ignores title entry
-			if (item.equals(IAppModel.DEFAULT_ALGO_ENTRY.toString())) {
+			if (algoName.equals(IAppModel.DEFAULT_ALGO_ENTRY.toString())) {
 				// update model
 				this.model.setNoAlgoSelectedState();
-				
+
 				// update view
 				this.model.notifyObservers(false, false);
 			} else {
-				// algorithm selection message
-				this.model.notifyObservers(new ProtocolModel(String.format(
-						SELECT_ALGO_MSG, LN, item, LN,
-						this.core.getAlgorithmDescription(item), LN, LN, LN)));
+				SwingWorker<IGravisListIterator<String>, Void> worker = this
+						.createCalcSwingWorker(algoName);
 
-				// sets steps to initial state
-				this.model.setStepPanelEnabled(true);
+				// sets step panel to initial state and disables GUI
+				this.model.setWorkingState(true);
 
-				// calculates steps
-				IGravisListIterator<String> stepIterator = this.core
-						.calculateSteps(this.model.getGraph(), item);
+				// update view with algorithm selection message
+				this.model.notifyObservers(false, true,
+						String.format(SELECT_ALGO_MSG, LN, algoName, LN,
+								this.core.getAlgorithmDescription(algoName),
+								LN, LN, LN));
 
-				// update model
-				this.model.setCalcDoneState(stepIterator);
-
-				// update view
-				this.model.notifyObservers(false, false,
-						String.format(ALGO_DONE_MSG, LN, LN));
+				worker.execute();
 			}
 		}
+	}
+
+	/**
+	 * @param algoName
+	 * @return SwingWorker<IGravisListIterator<String>, Void>
+	 */
+	private SwingWorker<IGravisListIterator<String>, Void> createCalcSwingWorker(
+			final String algoName) {
+
+		return new SwingWorker<IGravisListIterator<String>, Void>() {
+
+			@Override
+			protected IGravisListIterator<String> doInBackground()
+					throws Exception {
+				// calculates steps
+				return MenuToolbarController.this.core.calculateSteps(
+						MenuToolbarController.this.model.getGraph(), algoName);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see javax.swing.SwingWorker#done()
+			 */
+			@Override
+			protected void done() {
+				// enables GUI
+				MenuToolbarController.this.model.setWorkingState(false);
+
+				try {
+					// update model
+					MenuToolbarController.this.model.setCalcDoneState(this
+							.get());
+
+					// update view
+					MenuToolbarController.this.model.notifyObservers(false,
+							false, String.format(ALGO_DONE_MSG, LN, LN));
+				} catch (Exception e) {
+					// TODO: handle exception -> exits app
+					e.printStackTrace();
+				}
+			}
+		};
 	}
 
 	/**
@@ -389,16 +430,16 @@ class MenuToolbarController extends WindowAdapter implements
 				File file = this.fileChooserAdapter.getSelectedFile();
 
 				if (file.exists()) {
-					// update model
-					this.model.setOpenGraphState(this.core.loadGraph(file),
-							file);
+					SwingWorker<IGravisGraph, Void> worker = this
+							.createOpenGraphSwingWorker(file);
+					
+					// disables GUI
+					this.model.setWorkingState(true);
 
 					// update view
-					this.model.notifyObservers(true, true, String.format(
-							OPEN_GRAPH_MSG, LN, file.getAbsolutePath(), LN,
-							this.model.getGraph().getName(), LN, this.model
-									.getGraph().getDescription(), LN, LN));
+					this.model.notifyObservers(false, true, OPEN_GRAPH_MSG);
 
+					worker.execute();
 					return;
 				} else {
 					this.messageDialogAdapter.showMessageDialog(
@@ -408,6 +449,47 @@ class MenuToolbarController extends WindowAdapter implements
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param file
+	 * @return SwingWorker<IGravisGraph, Void>
+	 */
+	private SwingWorker<IGravisGraph, Void> createOpenGraphSwingWorker(final File file) {
+		return new SwingWorker<IGravisGraph, Void>() {
+
+			@Override
+			protected IGravisGraph doInBackground() throws Exception {
+				return MenuToolbarController.this.core.loadGraph(file);
+			}
+
+			/* (non-Javadoc)
+			 * @see javax.swing.SwingWorker#done()
+			 */
+			@Override
+			protected void done() {
+				// enables GUI
+				MenuToolbarController.this.model.setWorkingState(false);
+				
+				try {
+					// update model
+					MenuToolbarController.this.model.setOpenGraphState(
+							this.get(), file);
+					
+					// update view
+					MenuToolbarController.this.model.notifyObservers(true,
+							false, String.format(OPEN_GRAPH_DONE_MSG, LN, file
+									.getAbsolutePath(), LN,
+									MenuToolbarController.this.model.getGraph()
+											.getName(), LN,
+									MenuToolbarController.this.model.getGraph()
+											.getDescription(), LN, LN));
+				} catch (Exception e) {
+					// TODO: handle exception -> exits app
+					e.printStackTrace();
+				}
+			}
+		};
 	}
 
 	/**
@@ -437,9 +519,9 @@ class MenuToolbarController extends WindowAdapter implements
 										OVERWRITE_TITLE,
 										JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)) {
 
-					// sets steps to initial state
-					this.model.setStepPanelEnabled(true);
-					
+					// sets step panel to initial state
+					this.model.setStepPanelState(true);
+
 					// save graph
 					this.core.saveGraph(this.model.getGraph(), file);
 
@@ -475,9 +557,9 @@ class MenuToolbarController extends WindowAdapter implements
 				this.core.saveGraph(this.model.getGraph(),
 						this.model.getGraphFile());
 
-				// sets steps to initial state
-				this.model.setStepPanelEnabled(true);
-				
+				// sets step panel to initial state
+				this.model.setStepPanelState(true);
+
 				// update model
 				this.model.setSaveGraphState();
 

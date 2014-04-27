@@ -2,46 +2,36 @@ package ch.bfh.ti.gravis.gui.model;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- *
+ * 
  */
 public class StepModel {
 
-	private final int stepValue, stepMaximum;
-	
-	private final boolean progressBarEnabled, spinnerEnabled;
-	
+	private final boolean progressBarEnabled, spinnerEnabled,
+			progressIndeterminate;
+
 	/**
 	 * 
-	 * @param stepValue
-	 * @param stepMaximum
+	 * @param spinnerEnabled
+	 * @param progressBarEnabled
+	 * @param progressIndeterminate
+	 */
+	public StepModel(boolean spinnerEnabled, boolean progressBarEnabled,
+			boolean progressIndeterminate) {
+
+		this.progressBarEnabled = progressBarEnabled;
+		this.spinnerEnabled = spinnerEnabled;
+		this.progressIndeterminate = progressIndeterminate;
+	}
+
+	/**
+	 * 
 	 * @param spinnerEnabled
 	 * @param progressBarEnabled
 	 */
-	public StepModel(int stepValue, int stepMaximum, boolean spinnerEnabled, 
-			boolean progressBarEnabled) {
-		
-		this.stepValue = stepValue;
-		this.stepMaximum = stepMaximum;
-		this.progressBarEnabled = progressBarEnabled;
-		this.spinnerEnabled = spinnerEnabled;
+	public StepModel(boolean spinnerEnabled, boolean progressBarEnabled) {
+		this(spinnerEnabled, progressBarEnabled, false);
 	}
-
-	/**
-	 * 
-	 * @return int
-	 */
-	public int getStepValue() {
-		return this.stepValue;
-	}
-
-	/**
-	 * 
-	 * @return int
-	 */
-	public int getStepMaximum() {
-		return this.stepMaximum;
-	}
-
+	
 	/**
 	 * @return boolean
 	 */
@@ -54,6 +44,13 @@ public class StepModel {
 	 */
 	public boolean isProgressBarEnabled() {
 		return this.progressBarEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public boolean isProgressIndeterminate() {
+		return this.progressIndeterminate;
 	}
 
 }
