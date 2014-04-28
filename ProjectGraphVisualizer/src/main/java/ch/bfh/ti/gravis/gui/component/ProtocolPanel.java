@@ -8,10 +8,12 @@ import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.DropMode;
 
+import ch.bfh.ti.gravis.core.util.GravisColor;
 import ch.bfh.ti.gravis.gui.model.ProtocolModel;
 
 /**
@@ -22,7 +24,9 @@ public class ProtocolPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 4198819175596919745L;
 
-	private static final int ROW_NUMBER = 12;
+	private static final String BORDER_LABEL = "Protokoll";
+	
+	private static final int ROW_NUMBER = 8;
 	
 	private JTextArea textArea;
 
@@ -31,12 +35,15 @@ public class ProtocolPanel extends JPanel implements Observer {
 	 */
 	public ProtocolPanel() {
 		this.setLayout(new BorderLayout(0, 0));
+		this.setBorder(BorderFactory.createTitledBorder(BORDER_LABEL));
+		this.setBackground(GravisColor.ANTIQUE);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		this.add(scrollPane, BorderLayout.CENTER);
 
 		this.textArea = new JTextArea();
+		this.textArea.setBackground(GravisColor.WHITE_GRAY);
 		this.textArea.setDropMode(DropMode.INSERT);
 		this.textArea.setLineWrap(true);
 		this.textArea.setWrapStyleWord(true);

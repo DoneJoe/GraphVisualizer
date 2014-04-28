@@ -60,8 +60,8 @@ class MenuToolbarController extends WindowAdapter implements
 			+ "Datei: %s%sName: %s%sBeschreibung: %s%s%s";
 	private final static String SELECT_ALGO_MSG = "Folgender Algorithmus wurde ausgewählt:%s"
 			+ "Name: %s%sBeschreibung: %s%s%s"
-			+ "Die Animationsschritte werden jetzt berechnet...%s";
-	private final static String ALGO_DONE_MSG = "Die Berechnung der Animationsschritte wurde abgeschlossen.%s%s";
+			+ "Die Animationsschritte werden jetzt berechnet ... ";
+	private final static String ALGO_DONE_MSG = "die Berechnung der Animationsschritte wurde abgeschlossen.%s%s";
 
 	// final fields:
 
@@ -300,7 +300,7 @@ class MenuToolbarController extends WindowAdapter implements
 				this.model.notifyObservers(false, true,
 						String.format(SELECT_ALGO_MSG, LN, algoName, LN,
 								this.core.getAlgorithmDescription(algoName),
-								LN, LN, LN));
+								LN, LN));
 
 				worker.execute();
 			}

@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
 
 import ch.bfh.ti.gravis.gui.component.MenuBarPanel;
@@ -63,16 +64,18 @@ public class MainWindow extends JFrame implements Observer {
 				model);
 		StepPanel stepPanel = new StepPanel(stepController, model);
 		ProtocolPanel protocolPanel = new ProtocolPanel();
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		JPanel centerPanel = new JPanel();
 
 		// add panels:
 
-		contentPane.add(toolBar, BorderLayout.PAGE_START);
-		contentPane.add(centerPanel, BorderLayout.CENTER);
-		contentPane.add(protocolPanel, BorderLayout.SOUTH);
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(visualizationPanel, BorderLayout.CENTER);
 		centerPanel.add(stepPanel, BorderLayout.SOUTH);
+		splitPane.setTopComponent(centerPanel);
+		splitPane.setBottomComponent(protocolPanel);
+		contentPane.add(toolBar, BorderLayout.NORTH);
+		contentPane.add(splitPane, BorderLayout.CENTER);
 
 		// add Observers:
 

@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JProgressBar;
 import javax.swing.JButton;
 
+import ch.bfh.ti.gravis.core.util.GravisColor;
 import ch.bfh.ti.gravis.gui.controller.IStepController;
 import ch.bfh.ti.gravis.gui.controller.IStepController.EventSource;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
@@ -31,6 +33,8 @@ public class StepPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1543453026902655850L;
 
+	private static final String BORDER_LABEL = "Player";
+	
 	private static final String PROGRESS_LABEL = "Schritt %d/%d ";
 	private static final String DELAY_LABEL = "Zeitintervall: ";
 
@@ -54,7 +58,7 @@ public class StepPanel extends JPanel implements Observer {
 	private static final String STOP_TOOLTIP = "Animation stoppen";
 
 	private static final String SPINNER_FORMAT = "#.## s";
-
+	
 	private JLabel lblProgress;
 
 	private JProgressBar progressBar;
@@ -97,6 +101,15 @@ public class StepPanel extends JPanel implements Observer {
 		panelStep.add(panelPlayButtons);
 		panelStep.add(panelStepButtons);
 
+		// set border and background colors
+		
+		this.setBorder(BorderFactory.createTitledBorder(BORDER_LABEL));
+		this.setBackground(GravisColor.ANTIQUE);
+		panelProgress.setBackground(GravisColor.ANTIQUE);
+		panelStep.setBackground(GravisColor.ANTIQUE);
+		panelPlayButtons.setBackground(GravisColor.ANTIQUE);
+		panelStepButtons.setBackground(GravisColor.ANTIQUE);
+		
 		// progress panel:
 
 		this.lblProgress = new JLabel(String.format(PROGRESS_LABEL, 0, 0));
@@ -188,7 +201,6 @@ public class StepPanel extends JPanel implements Observer {
 		btnStop.addActionListener(stepController);
 		btnStop.setActionCommand(EventSource.STOP.toString());
 		this.spinnerDelay.addChangeListener(stepController);
-
 	}
 
 	/*

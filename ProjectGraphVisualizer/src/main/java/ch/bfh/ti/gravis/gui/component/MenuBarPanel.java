@@ -199,6 +199,17 @@ public class MenuBarPanel extends JMenuBar {
 		JMenuItem menuItemInfo = new JMenuItem(INFO, new ImageIcon(
 				loadImage(INFO_ICON)));
 
+		// set models:
+
+		menuFile.setModel(model.getFileMenuModel());
+		menuHelp.setModel(model.getHelpMenuModel());
+		menuItemNewDirGraph.setModel(model.getNewDirGraphButtonModel());
+		menuItemNewUndirGraph.setModel(model.getNewUndirGraphButtonModel());
+		menuItemOpenGraph.setModel(model.getOpenGraphButtonModel());
+		menuItemSaveGraph.setModel(model.getSaveGraphButtonModel());
+		menuItemSaveGraphAs.setModel(model.getSaveGraphAsButtonModel());
+		menuItemGraphProperties.setModel(model.getGraphPropertiesButtonModel());
+
 		// set mnemonics:
 
 		menuFile.setMnemonic(KeyEvent.VK_D);
@@ -224,17 +235,6 @@ public class MenuBarPanel extends JMenuBar {
 		menuItemShortcuts.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2,
 				0));
 		menuItemInfo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
-
-		// set models:
-
-		menuFile.setModel(model.getFileMenuModel());
-		menuHelp.setModel(model.getHelpMenuModel());
-		menuItemNewDirGraph.setModel(model.getNewDirGraphButtonModel());
-		menuItemNewUndirGraph.setModel(model.getNewUndirGraphButtonModel());
-		menuItemOpenGraph.setModel(model.getOpenGraphButtonModel());
-		menuItemSaveGraph.setModel(model.getSaveGraphButtonModel());
-		menuItemSaveGraphAs.setModel(model.getSaveGraphAsButtonModel());
-		menuItemGraphProperties.setModel(model.getGraphPropertiesButtonModel());
 
 		// add other listeners:
 

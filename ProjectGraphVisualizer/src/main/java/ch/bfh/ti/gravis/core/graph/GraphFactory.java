@@ -114,7 +114,7 @@ public final class GraphFactory {
 		
 		// sets graph name and description:
 		
-		newGraph.setName("Undirected Sample Graph");
+		newGraph.setName("Ungerichteter Sample-Graph");
 		newGraph.setDescription("Dieser ungerichtete Graph kann insbesondere zur "
 				+ "Visualisierung des Dijkstra-Algorithmus verwendet werden.");
 		

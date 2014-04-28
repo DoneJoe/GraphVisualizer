@@ -16,6 +16,7 @@ public class FileChooserAdapter extends AbstractDialogAdapter {
 
 	private final static String FILTER_DESCRIPTION = "*.graphml";
 	private final static String FILTER = "graphml";
+	private final static String DEFAULT_FILE_NAME = "Sample_Graph.graphml";
 	
 	private final JFileChooser fileChooser;
 
@@ -33,6 +34,7 @@ public class FileChooserAdapter extends AbstractDialogAdapter {
 		this.fileChooser.setAcceptAllFileFilterUsed(false);
 		this.fileChooser.addChoosableFileFilter(filter);
 		this.fileChooser.setCurrentDirectory(new File(GravisConstants.TEMPLATES_DIR));
+		this.fileChooser.setSelectedFile(new File(DEFAULT_FILE_NAME));
 	}
 
 	/**

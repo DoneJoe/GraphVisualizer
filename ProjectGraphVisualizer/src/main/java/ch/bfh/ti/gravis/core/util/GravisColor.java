@@ -11,8 +11,6 @@ import java.awt.Color;
  * 
  */
 public final class GravisColor {
-	// TODO default values anpassen
-	
     public final static Color ANTIQUE = new Color(235, 215, 200);
     
     public final static Color BLUE = new Color(210, 220, 255);
@@ -26,7 +24,9 @@ public final class GravisColor {
     public final static Color ORANGE = new Color(235, 215, 130);
     
     public final static Color GRAY = new Color(210, 210, 210);
-  
+    
+    public final static Color WHITE_GRAY = new Color(0xe8, 0xe8, 0xe8);
+    
     public final static Color WHITE = Color.WHITE;
    
     public final static Color BLACK = Color.BLACK;

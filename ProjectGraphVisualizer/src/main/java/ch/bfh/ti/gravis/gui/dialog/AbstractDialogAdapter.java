@@ -6,7 +6,7 @@ import java.awt.Component;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public class AbstractDialogAdapter {
+class AbstractDialogAdapter {
 
 	protected final Component parent;
 	
@@ -14,7 +14,7 @@ public class AbstractDialogAdapter {
 	 * 
 	 * @param parent
 	 */
-	public AbstractDialogAdapter(Component parent) {
+	protected AbstractDialogAdapter(Component parent) {
 		this.parent = parent;
 	}
 

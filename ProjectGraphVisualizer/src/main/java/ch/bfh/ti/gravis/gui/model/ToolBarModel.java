@@ -10,20 +10,15 @@ public class ToolBarModel  {
 	
 	private final boolean newCalcButtonVisible;
 	
-	private final boolean modeComboEnabled;
-	
 	/**
 	 * 
 	 * @param algoComboEnabled
 	 * @param newCalcButtonVisible
-	 * @param modeComboEnabled
 	 */
-	public ToolBarModel(boolean algoComboEnabled, boolean newCalcButtonVisible, 
-			boolean modeComboEnabled) {
+	public ToolBarModel(boolean algoComboEnabled, boolean newCalcButtonVisible) {
 		
 		this.algoComboEnabled = algoComboEnabled;
 		this.newCalcButtonVisible = newCalcButtonVisible;
-		this.modeComboEnabled = modeComboEnabled;
 	}
 
 	/**
@@ -40,13 +35,6 @@ public class ToolBarModel  {
 	 */
 	public boolean isNewCalcButtonVisible() {
 		return this.newCalcButtonVisible;
-	}
-
-	/**
-	 * @return modeComboEnabled
-	 */
-	public boolean isModeComboEnabled() {
-		return this.modeComboEnabled;
 	}
 
 	

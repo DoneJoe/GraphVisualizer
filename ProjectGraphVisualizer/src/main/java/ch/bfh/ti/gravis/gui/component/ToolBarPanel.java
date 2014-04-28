@@ -10,7 +10,7 @@ import javax.swing.JButton;
 
 import ch.bfh.ti.gravis.gui.controller.IMenuToolbarController;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
-import ch.bfh.ti.gravis.gui.model.ToggleComboModel;
+import ch.bfh.ti.gravis.gui.model.ToggleComboGroup;
 import ch.bfh.ti.gravis.gui.model.ToolBarModel;
 import static ch.bfh.ti.gravis.gui.GuiFactory.loadImage;
 import static ch.bfh.ti.gravis.gui.controller.IMenuToolbarController.EventSource;
@@ -73,7 +73,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	public ToolBarPanel(final IMenuToolbarController menuToolbarController,
 			final IAppModel model) throws IOException {
 
-		ToggleComboModel tglCmbModel = model.getToggleComboModel();
+		ToggleComboGroup tglCmbModel = model.getToggleComboGroup();
 
 		// set layout:
 
@@ -121,25 +121,22 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		// JLabel lblEditMode = new JLabel(EDIT_MODE_LABEL);
 		// this.add(lblEditMode);
 
-		JToggleButton tglbtnPicking = new JToggleButton();
+		JToggleButton tglbtnPicking = tglCmbModel.getModeToggleButton(Mode.PICKING);
 		tglbtnPicking.setIcon(new ImageIcon(loadImage(PICKING_ICON)));
 		tglbtnPicking.setToolTipText(PICKING_TOOLTIP);
-		tglCmbModel.add(tglbtnPicking, Mode.PICKING);
 		this.add(tglbtnPicking);
 
-		JToggleButton tglbtnEditing = new JToggleButton();
+		JToggleButton tglbtnEditing = tglCmbModel.getModeToggleButton(Mode.EDITING);
 		tglbtnEditing.setIcon(new ImageIcon(loadImage(EDITING_ICON)));
 		tglbtnEditing.setToolTipText(EDITING_TOOLTIP);
-		tglCmbModel.add(tglbtnEditing, Mode.EDITING);
 		this.add(tglbtnEditing);
 
-		JToggleButton tglbtnTransforming = new JToggleButton();
+		JToggleButton tglbtnTransforming = tglCmbModel.getModeToggleButton(Mode.TRANSFORMING);
 		tglbtnTransforming.setIcon(new ImageIcon(loadImage(TRANSFORMING_ICON)));
 		tglbtnTransforming.setToolTipText(TRANSFORMING_TOOLTIP);
-		tglCmbModel.add(tglbtnTransforming, Mode.TRANSFORMING);
 		this.add(tglbtnTransforming);
 
-		this.comboBoxMode = new JComboBox<>(tglCmbModel.getModeModel());
+		this.comboBoxMode = tglCmbModel.getModeComboBox();
 		this.comboBoxMode.setToolTipText(MODE_TOOLTIP);
 		this.add(this.comboBoxMode);
 
@@ -191,7 +188,6 @@ public class ToolBarPanel extends JToolBar implements Observer {
 
 			this.comboBoxAlgorithm.setEnabled(model.isAlgoComboEnabled());
 			this.btnNewCalculation.setVisible(model.isNewCalcButtonVisible());
-			this.comboBoxMode.setEnabled(model.isModeComboEnabled());
 		}
 	}
 

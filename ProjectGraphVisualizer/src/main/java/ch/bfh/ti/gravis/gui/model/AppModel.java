@@ -54,7 +54,7 @@ class AppModel extends Observable implements IAppModel {
 
 	private final ICore core;
 
-	private final ToggleComboModel toggleComboModel;
+	private final ToggleComboGroup toggleComboModel;
 
 	private final DefaultComboBoxModel<String> algoComboModel;
 
@@ -125,7 +125,7 @@ class AppModel extends Observable implements IAppModel {
 
 		// create other component models:
 
-		this.toggleComboModel = new ToggleComboModel();
+		this.toggleComboModel = new ToggleComboGroup();
 		this.algoComboModel = new DefaultComboBoxModel<>();
 		this.delaySpinnerModel = new SpinnerNumberModel(INIT, MIN, MAX,
 				STEP_SIZE);
@@ -134,8 +134,9 @@ class AppModel extends Observable implements IAppModel {
 		// init timer
 		this.timer = new Timer((int) (INIT * FACTOR), null);
 
-		// init graph
+		// init graph and edit mode
 		this.setNewGraphState(DEFAULT_EDGE_TYPE);
+		this.setEditMode(Mode.PICKING);
 	}
 
 	/*
@@ -451,10 +452,10 @@ class AppModel extends Observable implements IAppModel {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#getToggleComboModel()
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#getToggleComboGroup()
 	 */
 	@Override
-	public ToggleComboModel getToggleComboModel() {
+	public ToggleComboGroup getToggleComboGroup() {
 		return this.toggleComboModel;
 	}
 
@@ -570,7 +571,7 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void notifyObservers(boolean graphChanged, boolean protocolCleared,
 			String protocolMessage) {
-		
+
 		this.notifyObservers(this.createMainWindowModel());
 		this.notifyObservers(this.createToolBarModel());
 		this.notifyObservers(new VisualizationViewModel(this.graph,
@@ -630,10 +631,10 @@ class AppModel extends Observable implements IAppModel {
 				&& (!this.hasGraphFile() || this.graphUnsaved));
 		this.newCalcButtonModel.setEnabled(!this.working && this.isStopped()
 				&& this.calcState == EDITED_CALCULABLE);
-		
+
 		if (!visualEditied) {
 			this.setStepPanelState(false);
-		} 
+		}
 	}
 
 	/*
@@ -643,12 +644,15 @@ class AppModel extends Observable implements IAppModel {
 	 * visualization.control.ModalGraphMouse.Mode)
 	 */
 	@Override
-	public void setEditMode(final Mode mode) {
-		this.toggleComboModel.setSelectedItem(mode);
+	public void setEditMode(final Mode newMode) {
+		if (this.toggleComboModel.getMode() != newMode) {
+			this.toggleComboModel.getModeComboBox().setSelectedItem(newMode);
+		}
+
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 
-		if (mode == Mode.EDITING) {
+		if (newMode == Mode.EDITING) {
 			this.setStepPanelState(true);
 		} else {
 			this.updateStepPanelModels();
@@ -848,6 +852,7 @@ class AppModel extends Observable implements IAppModel {
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.setStepPanelState(!enabled);
+		this.setEditMode(Mode.PICKING);
 	}
 
 	/*
@@ -898,10 +903,9 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	private ToolBarModel createToolBarModel() {
 		return new ToolBarModel(this.calcState != NOT_CALCULABLE
-				&& this.playerState == STOPPED && !this.working,
-				this.calcState == EDITED_CALCULABLE
-						&& this.playerState == STOPPED && !this.working,
-				this.playerState == STOPPED && !this.working);
+				&& this.isStopped() && !this.working,
+				this.calcState == EDITED_CALCULABLE && this.isStopped()
+						&& !this.working);
 	}
 
 	/**

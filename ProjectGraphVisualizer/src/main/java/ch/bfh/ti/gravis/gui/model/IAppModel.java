@@ -222,9 +222,9 @@ public interface IAppModel {
 	
 	/**
 	 * 
-	 * @return ToggleComboModel
+	 * @return ToggleComboGroup
 	 */
-	public ToggleComboModel getToggleComboModel();
+	public ToggleComboGroup getToggleComboGroup();
 
 	/**
 	 * @return vertex properties button model
@@ -377,5 +377,6 @@ public interface IAppModel {
 	 * @param enabled
 	 */
 	public abstract void setWorkingState(boolean enabled);
+
 
 }

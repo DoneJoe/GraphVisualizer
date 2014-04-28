@@ -7,6 +7,7 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import ch.bfh.ti.gravis.core.graph.item.edge.EdgeFactory;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
@@ -36,7 +37,9 @@ public class VisualizationPanel extends JPanel implements Observer {
 	/**
 	 * A field for a visualization viewer.
 	 */
-	private GravisVisualizationViewer viewer;
+	private final GravisVisualizationViewer viewer;
+
+	private final TitledBorder border;
 
 	/**
 	 * mode combo box listener is registered
@@ -46,9 +49,11 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 */
 	@SuppressWarnings("unchecked")
 	public VisualizationPanel(final JFrame mainWindow, final IAppModel model) {
-		
+
 		// create components:
-		
+
+		this.border = BorderFactory.createTitledBorder(model.getGraph()
+				.getName());
 		this.viewer = new GravisVisualizationViewer(
 				GuiFactory.createLayout(model.getGraph()));
 		VertexMenu vertexMenu = new VertexMenu(this.viewer, mainWindow, model);
@@ -61,16 +66,16 @@ public class VisualizationPanel extends JPanel implements Observer {
 				new EdgeFactory(), edgeMenu, vertexMenu, vertexCreateMenu);
 
 		// prepare VisualizationPanel:
-		
-		graphMouse.getModeComboBox().setModel(model.getToggleComboModel().getModeModel());
-		graphMouse.setMode(model.getToggleComboModel().getDefaultMode());
+
+		graphMouse.getModeComboBox().setModel(
+				model.getToggleComboGroup().getModeComboBox().getModel());
+		graphMouse.setMode(model.getToggleComboGroup().getMode());
 		this.viewer.setGraphMouse(graphMouse);
 		this.viewer.addKeyListener(graphMouse.getModeKeyListener());
-		this.setBorder(BorderFactory.createTitledBorder(model.getGraph()
-				.getName()));
+		this.setBorder(this.border);
 		this.setLayout(new BorderLayout());
 		this.add(pane, BorderLayout.CENTER);
-		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -79,11 +84,13 @@ public class VisualizationPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof VisualizationViewModel) {			
-			this.setBorder(BorderFactory
-					.createTitledBorder(((VisualizationViewModel) arg).getGraph().getName()));
+		if (arg instanceof VisualizationViewModel) {
+			this.border.setTitle(((VisualizationViewModel) arg).getGraph()
+					.getName());
+			this.setBorder(this.border);
+			this.repaint();
 		}
-		
+
 		this.viewer.update(o, arg);
 	}
 
