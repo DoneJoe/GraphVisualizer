@@ -432,7 +432,7 @@ class MenuToolbarController extends WindowAdapter implements
 				if (file.exists()) {
 					SwingWorker<IGravisGraph, Void> worker = this
 							.createOpenGraphSwingWorker(file);
-					
+
 					// disables GUI
 					this.model.setWorkingState(true);
 
@@ -455,7 +455,8 @@ class MenuToolbarController extends WindowAdapter implements
 	 * @param file
 	 * @return SwingWorker<IGravisGraph, Void>
 	 */
-	private SwingWorker<IGravisGraph, Void> createOpenGraphSwingWorker(final File file) {
+	private SwingWorker<IGravisGraph, Void> createOpenGraphSwingWorker(
+			final File file) {
 		return new SwingWorker<IGravisGraph, Void>() {
 
 			@Override
@@ -463,19 +464,21 @@ class MenuToolbarController extends WindowAdapter implements
 				return MenuToolbarController.this.core.loadGraph(file);
 			}
 
-			/* (non-Javadoc)
+			/*
+			 * (non-Javadoc)
+			 * 
 			 * @see javax.swing.SwingWorker#done()
 			 */
 			@Override
 			protected void done() {
 				// enables GUI
 				MenuToolbarController.this.model.setWorkingState(false);
-				
+
 				try {
 					// update model
 					MenuToolbarController.this.model.setOpenGraphState(
 							this.get(), file);
-					
+
 					// update view
 					MenuToolbarController.this.model.notifyObservers(true,
 							false, String.format(OPEN_GRAPH_DONE_MSG, LN, file
@@ -495,9 +498,8 @@ class MenuToolbarController extends WindowAdapter implements
 	/**
 	 * The graph is saved in the selected file if: <br />
 	 * - the selected file is a new file <br />
-	 * - the selected file is equal to the graphFile <br />
-	 * - the selected file exists, is not equal to the graphFile and "overwrite"
-	 * is selected in the confirm dialog
+	 * - the selected file exists and "overwrite" is selected in the confirm
+	 * dialog
 	 * 
 	 * @return save result
 	 * @throws GravisGraphIOException
@@ -512,9 +514,7 @@ class MenuToolbarController extends WindowAdapter implements
 				File file = this.fileChooserAdapter.getSelectedFile();
 
 				if (!file.exists()
-						|| file.equals(this.model.getGraphFile())
-						|| (file.exists()
-								&& !file.equals(this.model.getGraphFile()) && this.confirmDialogAdapter
+						|| (file.exists() && this.confirmDialogAdapter
 								.showConfirmDialog(OVERWRITE_MSG,
 										OVERWRITE_TITLE,
 										JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)) {
@@ -529,7 +529,7 @@ class MenuToolbarController extends WindowAdapter implements
 					this.model.setSaveGraphState(file);
 
 					// update view
-					this.model.notifyObservers(false, false, String.format(
+					this.model.notifyObservers(false, true, String.format(
 							SAVE_GRAPH_MSG, LN, file.getAbsolutePath(), LN,
 							this.model.getGraph().getName(), LN, this.model
 									.getGraph().getDescription(), LN, LN));
@@ -544,7 +544,7 @@ class MenuToolbarController extends WindowAdapter implements
 
 	/**
 	 * If the graphFile is null, handleSaveGraphAsEvent is called. <br />
-	 * If the graphFile is not null, the graph is saved with this graphFile.
+	 * If the graphFile is not null, the graph is saved with the existing graphFile.
 	 * 
 	 * @return save result
 	 * @throws GravisGraphIOException
@@ -553,19 +553,19 @@ class MenuToolbarController extends WindowAdapter implements
 
 		if (this.model.isStopped()) {
 			if (this.model.hasGraphFile()) {
+				// sets step panel to initial state
+				this.model.setStepPanelState(true);
+
 				// save graph
 				this.core.saveGraph(this.model.getGraph(),
 						this.model.getGraphFile());
-
-				// sets step panel to initial state
-				this.model.setStepPanelState(true);
 
 				// update model
 				this.model.setSaveGraphState();
 
 				// update view
-				this.model.notifyObservers(false, false, String.format(
-						SAVE_GRAPH_MSG, LN, LN, this.model.getGraphFile()
+				this.model.notifyObservers(false, true, String.format(
+						SAVE_GRAPH_MSG, LN, this.model.getGraphFile()
 								.getAbsolutePath(), LN, this.model.getGraph()
 								.getName(), LN, this.model.getGraph()
 								.getDescription(), LN, LN));

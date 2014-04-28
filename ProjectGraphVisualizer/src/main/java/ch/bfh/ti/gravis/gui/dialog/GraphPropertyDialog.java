@@ -78,6 +78,8 @@ public class GraphPropertyDialog extends JDialog {
 		panelGraphDescription.add(lblGraphDescription, BorderLayout.NORTH);
 		
 		this.textAreaGraphDescription = new JTextArea();
+		this.textAreaGraphDescription.setLineWrap(true);
+		this.textAreaGraphDescription.setWrapStyleWord(true);
 		panelGraphDescription.add(this.textAreaGraphDescription, BorderLayout.CENTER);
 
 		JPanel buttonPane = new JPanel();

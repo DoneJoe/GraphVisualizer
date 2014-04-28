@@ -102,7 +102,8 @@ public class GraphIOManager {
 			graphWriter.setVertexIDs(new VertexNameTransformer());
 			graphWriter.setEdgeIDs(new EdgeNameTransformer());
 
-			graphWriter.addGraphData(GravisConstants.G_DESCRIPTION, "", "",
+			// graph name is default description
+			graphWriter.addGraphData(GravisConstants.G_DESCRIPTION, "", graph.getName(),
 					new GraphDescriptionTransformer());
 
 			graphWriter

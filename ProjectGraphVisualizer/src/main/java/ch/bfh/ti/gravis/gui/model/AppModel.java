@@ -570,7 +570,7 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void notifyObservers(boolean graphChanged, boolean protocolCleared,
 			String protocolMessage) {
-
+		
 		this.notifyObservers(this.createMainWindowModel());
 		this.notifyObservers(this.createToolBarModel());
 		this.notifyObservers(new VisualizationViewModel(this.graph,
@@ -626,14 +626,14 @@ class AppModel extends Observable implements IAppModel {
 								|| this.calcState == EDITED_CALCULABLE ? EDITED_CALCULABLE
 								: CALCULABLE));
 
-		this.updateMenuToolbarModels();
-		this.updatePopupModels();
-
+		this.saveGraphButtonModel.setEnabled(!this.working && this.isStopped()
+				&& (!this.hasGraphFile() || this.graphUnsaved));
+		this.newCalcButtonModel.setEnabled(!this.working && this.isStopped()
+				&& this.calcState == EDITED_CALCULABLE);
+		
 		if (!visualEditied) {
 			this.setStepPanelState(false);
-		} else {
-			this.updateStepPanelModels();
-		}
+		} 
 	}
 
 	/*
@@ -678,13 +678,14 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setNewGraphState(EdgeType edgeType) throws CoreException {
 		if (this.graph == null) {
-			this.graph = GraphFactory.createEditGraphObservable(edgeType);
+			this.graph = GraphFactory.createUndirectedSampleGraph();
+			this.calcState = CALCULABLE;
 		} else {
 			this.graph = GraphFactory.createEditGraphObservable(edgeType,
 					this.graph.getEditGraphEventListeners());
+			this.calcState = NOT_CALCULABLE;
 		}
 
-		this.calcState = NOT_CALCULABLE;
 		this.graphUnsaved = false;
 		this.graphFile = null;
 
@@ -746,6 +747,7 @@ class AppModel extends Observable implements IAppModel {
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.updateStepPanelModels();
+		this.setEditMode(Mode.PICKING);
 	}
 
 	/*
@@ -760,6 +762,7 @@ class AppModel extends Observable implements IAppModel {
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.updateStepPanelModels();
+		this.setEditMode(Mode.PICKING);
 	}
 
 	/*
@@ -864,8 +867,8 @@ class AppModel extends Observable implements IAppModel {
 					&& !this.isPlaying() && !this.working);
 			this.pauseButtonModel.setEnabled(this.stepIterator.hasNext()
 					&& this.isPlaying() && !this.working);
-			this.stopButtonModel.setEnabled(this.stepIterator.hasNext()
-					&& !this.isStopped() && !this.working);
+			// if not stopped -> enable stop button model
+			this.stopButtonModel.setEnabled(!this.isStopped() && !this.working);
 		}
 	}
 

@@ -10,6 +10,7 @@ import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import edu.uci.ics.jung.graph.Hypergraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import edu.uci.ics.jung.io.GraphMLMetadata;
 import edu.uci.ics.jung.io.GraphMLWriter;
 
 /**
@@ -94,6 +95,43 @@ class GravisGraphMLWriter extends GraphMLWriter<IVertex, IEdge> {
 		bw.flush();
 
 		bw.close();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.uci.ics.jung.io.GraphMLWriter#writeKeySpecification(java.lang.String,
+	 * java.lang.String, edu.uci.ics.jung.io.GraphMLMetadata,
+	 * java.io.BufferedWriter)
+	 */
+	@Override
+	protected void writeKeySpecification(String key, String type,
+			GraphMLMetadata<?> ds, BufferedWriter bw) throws IOException {
+		bw.write("<key id=\"" + key + "\" for=\"" + type + "\"");
+		boolean closed = false;
+		// write out description if any
+//		String desc = ds.description;
+//		if (desc != null) {
+//			if (!closed) {
+//				bw.write(">\n");
+//				closed = true;
+//			}
+//			bw.write("<desc>" + desc + "</desc>\n");
+//		}
+		// write out default if any
+		Object def = ds.default_value;
+		if (def != null) {
+			if (!closed) {
+				bw.write(">\n");
+				closed = true;
+			}
+			bw.write("<default>" + def.toString() + "</default>\n");
+		}
+		if (!closed)
+			bw.write("/>\n");
+		else
+			bw.write("</key>\n");
 	}
 
 }

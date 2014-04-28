@@ -55,7 +55,7 @@ class VisualizationController implements IEditGraphEventListener {
 	 * @param type
 	 */
 	private void updateModelAndView(final Type type) {
-		if (this.model.isStopped()) {
+		if (this.model.isStopped() && !this.model.isWorking()) {
 			// update model
 			if (type == Type.VISUAL_EDITED) {
 				this.model.setEditGraphState(true);

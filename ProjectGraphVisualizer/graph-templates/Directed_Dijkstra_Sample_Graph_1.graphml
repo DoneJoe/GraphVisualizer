@@ -4,47 +4,55 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
 http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="description" for="graph">
-<desc></desc>
-<default></default>
+<default>Directed Dijkstra Sample Graph 1</default>
 </key>
 <key id="vertexLocation.y" for="node">
-<desc></desc>
 <default>50</default>
 </key>
 <key id="vertexWidth" for="node">
-<desc></desc>
 <default>60.0</default>
 </key>
 <key id="endVertex" for="node">
-<desc></desc>
 <default>false</default>
 </key>
 <key id="vertexColor" for="node">
-<desc></desc>
 <default>antique</default>
 </key>
 <key id="vertexLocation.x" for="node">
-<desc></desc>
 <default>50</default>
 </key>
 <key id="startVertex" for="node">
-<desc></desc>
 <default>false</default>
 </key>
 <key id="vertexHeight" for="node">
-<desc></desc>
 <default>40.0</default>
 </key>
 <key id="weight" for="edge">
-<desc></desc>
 <default>1.0</default>
 </key>
 <key id="edgeColor" for="edge">
-<desc></desc>
 <default>black</default>
 </key>
-<graph id="Dijkstra Sample Graph 1" edgedefault="directed">
-<data key="description">This directed sample graph can be used with the Dijkstra shortest path algorithm.</data>
+<graph id="Directed Dijkstra Sample Graph 1" edgedefault="directed">
+<data key="description">Dieser gerichtete Graph kann insbesondere zur Visualisierung des Dijkstra-Algorithmus verwendet werden.</data>
+<node id="V1">
+<data key="vertexLocation.y">79</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">312</data>
+<data key="startVertex">true</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="V2">
+<data key="vertexLocation.y">276</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">61</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
 <node id="V4">
 <data key="vertexLocation.y">268</data>
 <data key="vertexWidth">60.0</data>
@@ -55,11 +63,11 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="vertexHeight">40.0</data>
 </node>
 <node id="V3">
-<data key="vertexLocation.y">420</data>
+<data key="vertexLocation.y">419</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">true</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">303</data>
+<data key="vertexLocation.x">306</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
@@ -72,30 +80,8 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="V2">
-<data key="vertexLocation.y">276</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">61</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="V1">
-<data key="vertexLocation.y">87</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">311</data>
-<data key="startVertex">true</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<edge id="e15" source="V1" target="V5">
-<data key="weight">100.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="e14" source="V1" target="V4">
-<data key="weight">30.0</data>
+<edge id="e45" source="V4" target="V5">
+<data key="weight">60.0</data>
 <data key="edgeColor">black</data>
 </edge>
 <edge id="e43" source="V4" target="V3">
@@ -110,12 +96,16 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="weight">10.0</data>
 <data key="edgeColor">black</data>
 </edge>
+<edge id="e15" source="V1" target="V5">
+<data key="weight">100.0</data>
+<data key="edgeColor">black</data>
+</edge>
 <edge id="e12" source="V1" target="V2">
 <data key="weight">10.0</data>
 <data key="edgeColor">black</data>
 </edge>
-<edge id="e45" source="V4" target="V5">
-<data key="weight">60.0</data>
+<edge id="e14" source="V1" target="V4">
+<data key="weight">30.0</data>
 <data key="edgeColor">black</data>
 </edge>
 </graph>

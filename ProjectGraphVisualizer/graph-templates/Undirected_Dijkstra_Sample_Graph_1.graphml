@@ -4,139 +4,124 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
 http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="description" for="graph">
-<desc></desc>
-<default></default>
+<default>Undirected Dijkstra Sample Graph 1</default>
 </key>
 <key id="vertexLocation.y" for="node">
-<desc></desc>
-<default>0</default>
+<default>50</default>
 </key>
 <key id="vertexWidth" for="node">
-<desc></desc>
 <default>60.0</default>
 </key>
 <key id="endVertex" for="node">
-<desc></desc>
 <default>false</default>
 </key>
 <key id="vertexColor" for="node">
-<desc></desc>
-<default>red</default>
+<default>antique</default>
 </key>
 <key id="vertexLocation.x" for="node">
-<desc></desc>
-<default>0</default>
+<default>50</default>
 </key>
 <key id="startVertex" for="node">
-<desc></desc>
 <default>false</default>
 </key>
 <key id="vertexHeight" for="node">
-<desc></desc>
 <default>40.0</default>
 </key>
 <key id="weight" for="edge">
-<desc></desc>
 <default>1.0</default>
 </key>
 <key id="edgeColor" for="edge">
-<desc></desc>
 <default>black</default>
 </key>
-<graph id="ungerichteter Graph 2" edgedefault="undirected">
-<data key="description">ungerichteter Graph 2</data>
-<node id="15">
-<data key="vertexLocation.y">262</data>
+<graph id="Undirected Dijkstra Sample Graph 1" edgedefault="undirected">
+<data key="description">Dieser ungerichtete Graph kann insbesondere zur Visualisierung des Dijkstra-Algorithmus verwendet werden.</data>
+<node id="F">
+<data key="vertexLocation.y">340</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">597</data>
+<data key="vertexLocation.x">495</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="20">
-<data key="vertexLocation.y">69</data>
+<node id="D">
+<data key="vertexLocation.y">200</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">286</data>
+<data key="vertexLocation.x">640</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="3">
-<data key="vertexLocation.y">284</data>
-<data key="vertexWidth">100.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">468</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">20.0</data>
-</node>
-<node id="21">
-<data key="vertexLocation.y">152</data>
+<node id="B">
+<data key="vertexLocation.y">200</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">265</data>
+<data key="vertexLocation.x">60</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="2">
-<data key="vertexLocation.y">56</data>
-<data key="vertexWidth">100.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">405</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">100.0</data>
-</node>
-<node id="1">
-<data key="vertexLocation.y">156</data>
-<data key="vertexWidth">30.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">705</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">30.0</data>
-</node>
-<node id="16">
-<data key="vertexLocation.y">151</data>
+<node id="C">
+<data key="vertexLocation.y">200</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">antique</data>
-<data key="vertexLocation.x">946</data>
+<data key="vertexLocation.x">350</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<edge id="4" source="2" target="3">
+<node id="E">
+<data key="vertexLocation.y">340</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">205</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="A">
+<data key="vertexLocation.y">60</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">350</data>
+<data key="startVertex">true</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<edge id="e6" source="B" target="E">
+<data key="weight">2.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e9" source="F" target="D">
+<data key="weight">5.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e3" source="B" target="C">
+<data key="weight">7.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e1" source="A" target="B">
+<data key="weight">8.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="e5" source="D" target="C">
 <data key="weight">1.0</data>
 <data key="edgeColor">black</data>
 </edge>
-<edge id="6" source="1" target="2">
-<data key="weight">1.0</data>
+<edge id="e4" source="A" target="D">
+<data key="weight">4.0</data>
 <data key="edgeColor">black</data>
 </edge>
-<edge id="5" source="3" target="1">
-<data key="weight">1.0</data>
+<edge id="e7" source="E" target="C">
+<data key="weight">3.0</data>
 <data key="edgeColor">black</data>
 </edge>
-<edge id="10" source="1" target="1">
-<data key="weight">1.0</data>
+<edge id="e8" source="C" target="F">
+<data key="weight">9.0</data>
 <data key="edgeColor">black</data>
 </edge>
-<edge id="7" source="3" target="3">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="12" source="2" target="2">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="19" source="16" target="16">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="17" source="2" target="15">
+<edge id="e2" source="A" target="C">
 <data key="weight">1.0</data>
 <data key="edgeColor">black</data>
 </edge>
