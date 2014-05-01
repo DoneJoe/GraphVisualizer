@@ -96,7 +96,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	@Override
 	public String previous() {
 		if (this.iterator.hasPrevious()) {
-			this.currentCommand = this.iterator.previous();
+			this.currentCommand = this.iterator.previous();			
 			return this.currentCommand.unExecute().getComment();
 		}
 		return "";
@@ -150,13 +150,13 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public String first() {
-		String stepString = "";
+		StringBuilder stepString = new StringBuilder();
 
 		while (this.iterator.hasPrevious()) {
-			stepString = this.previous();
+			stepString.insert(0, this.previous());
 		}
 
-		return stepString;
+		return stepString.toString();
 	}
 
 	/*
@@ -166,13 +166,13 @@ public class StepIterator implements IGravisListIterator<String> {
 	 */
 	@Override
 	public String last() {
-		String stepString = "";
+		StringBuilder stepString = new StringBuilder();
 
 		while (this.iterator.hasNext()) {
-			stepString = this.next();
+			stepString.append(this.next());
 		}
 
-		return stepString;
+		return stepString.toString();
 	}
 
 }

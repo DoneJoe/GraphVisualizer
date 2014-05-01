@@ -1,8 +1,5 @@
 package ch.bfh.ti.gravis.gui.component;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -12,15 +9,17 @@ import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.DropMode;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import ch.bfh.ti.gravis.core.util.GravisColor;
-import ch.bfh.ti.gravis.gui.model.ProtocolModel;
+import ch.bfh.ti.gravis.gui.model.IAppModel;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class ProtocolPanel extends JPanel implements Observer {
+public class ProtocolPanel extends JPanel implements DocumentListener {
 
 	private static final long serialVersionUID = 4198819175596919745L;
 
@@ -28,12 +27,13 @@ public class ProtocolPanel extends JPanel implements Observer {
 	
 	private static final int ROW_NUMBER = 8;
 	
-	private JTextArea textArea;
+	private JTextArea protocol;
 
 	/**
-	 * Create the panel.
+	 * 
+	 * @param model
 	 */
-	public ProtocolPanel() {
+	public ProtocolPanel(IAppModel model) {
 		this.setLayout(new BorderLayout(0, 0));
 		this.setBorder(BorderFactory.createTitledBorder(BORDER_LABEL));
 		this.setBackground(GravisColor.ANTIQUE);
@@ -42,32 +42,40 @@ public class ProtocolPanel extends JPanel implements Observer {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		this.add(scrollPane, BorderLayout.CENTER);
 
-		this.textArea = new JTextArea();
-		this.textArea.setBackground(GravisColor.WHITE_GRAY);
-		this.textArea.setDropMode(DropMode.INSERT);
-		this.textArea.setLineWrap(true);
-		this.textArea.setWrapStyleWord(true);
-		this.textArea.setEditable(false);
-		this.textArea.setRows(ROW_NUMBER);
-		scrollPane.setViewportView(this.textArea);
+		this.protocol = new JTextArea(model.getProtocolDocument());
+		this.protocol.setBackground(GravisColor.WHITE_GRAY);
+		this.protocol.setDropMode(DropMode.INSERT);
+		this.protocol.setLineWrap(true);
+		this.protocol.setWrapStyleWord(true);
+		this.protocol.setEditable(false);
+		this.protocol.setRows(ROW_NUMBER);		
+		scrollPane.setViewportView(this.protocol);
+		
+		model.getProtocolDocument().addDocumentListener(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
 	 */
 	@Override
-	public void update(Observable o, Object arg) {
-		if (arg instanceof ProtocolModel) {
-			ProtocolModel model = (ProtocolModel) arg;
-			
-			if (model.isProtocolCleared()) {
-				this.textArea.setText(model.getMessage());
-			} else {
-				this.textArea.append(model.getMessage());
-			}			
-		}
+	public void changedUpdate(DocumentEvent arg) {
+		// nothing to do
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
+	 */
+	@Override
+	public void insertUpdate(DocumentEvent arg) {
+		this.protocol.setCaretPosition(this.protocol.getDocument().getLength());
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
+	 */
+	@Override
+	public void removeUpdate(DocumentEvent arg) {
+		this.protocol.setCaretPosition(this.protocol.getDocument().getLength());
 	}
 
 }

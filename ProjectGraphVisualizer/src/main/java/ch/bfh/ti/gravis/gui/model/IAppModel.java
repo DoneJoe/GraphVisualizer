@@ -8,6 +8,7 @@ import javax.swing.ButtonModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.SpinnerModel;
 import javax.swing.Timer;
+import javax.swing.text.Document;
 
 import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.graph.IEditGraphObservable;
@@ -218,14 +219,20 @@ public interface IAppModel {
 	 * 
 	 * @return timer
 	 */
-	public Timer getTimer();
+	public abstract Timer getTimer();
 	
 	/**
 	 * 
 	 * @return ToggleComboGroup
 	 */
-	public ToggleComboGroup getToggleComboGroup();
+	public abstract ToggleComboGroup getToggleComboGroup();
 
+	/**
+	 * 
+	 * @return protocol document
+	 */
+	public abstract Document getProtocolDocument();
+	
 	/**
 	 * @return vertex properties button model
 	 */
@@ -285,19 +292,8 @@ public interface IAppModel {
 
 	/**
 	 * @param graphChanged
-	 * @param protocolCleared
 	 */
-	public abstract void notifyObservers(boolean graphChanged,
-			boolean protocolCleared);
-
-	/**
-	 * 
-	 * @param graphChanged
-	 * @param protocolCleared
-	 * @param protocolMessage
-	 */
-	public abstract void notifyObservers(boolean graphChanged,
-			boolean protocolCleared, String protocolMessage);
+	public abstract void notifyObservers(boolean graphChanged);
 
 	/**
 	 * 

@@ -592,7 +592,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 			}
 		}
 
-		// Sorts the vertices in lexicographical id order
+		// Sorts the vertices in lexicographical name order
 		Collections.sort(edgesList, this.itemComparator);
 
 		return edgesList;
@@ -622,7 +622,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 			}
 		}
 
-		// Sorts the vertices in lexicographical id order
+		// Sorts the vertices in lexicographical name order
 		Collections.sort(verticesList, this.itemComparator);
 
 		// moves the start vertex to the first position in the list

@@ -63,7 +63,7 @@ public class MainWindow extends JFrame implements Observer {
 		VisualizationPanel visualizationPanel = new VisualizationPanel(this,
 				model);
 		StepPanel stepPanel = new StepPanel(stepController, model);
-		ProtocolPanel protocolPanel = new ProtocolPanel();
+		ProtocolPanel protocolPanel = new ProtocolPanel(model);
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		JPanel centerPanel = new JPanel();
 
@@ -83,7 +83,6 @@ public class MainWindow extends JFrame implements Observer {
 		model.addObserver(toolBar);
 		model.addObserver(visualizationPanel);
 		model.addObserver(stepPanel);
-		model.addObserver(protocolPanel);
 
 		// prepare main window:
 

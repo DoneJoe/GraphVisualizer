@@ -4,12 +4,15 @@ import static ch.bfh.ti.gravis.gui.controller.IStepController.EventSource.*;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
 
+import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
-import ch.bfh.ti.gravis.gui.model.ProtocolModel;
-import ch.bfh.ti.gravis.gui.model.VisualizationViewModel;
 import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.*;
 
 /**
@@ -19,8 +22,10 @@ import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.*;
 class StepController implements IStepController {
 
 	private static final double FACTOR = 1000.0;
-	
+
 	private final IAppModel model;
+
+	private MessageDialogAdapter messageDialogAdapter;
 
 	/**
 	 * @param model
@@ -62,6 +67,11 @@ class StepController implements IStepController {
 		} catch (Exception ex) {
 			// TODO Exception handling
 			ex.printStackTrace();
+			if (this.messageDialogAdapter != null) {
+				this.messageDialogAdapter.showMessageDialog("err", "err",
+						JOptionPane.ERROR_MESSAGE);
+
+			}
 		}
 	}
 
@@ -74,86 +84,123 @@ class StepController implements IStepController {
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		if (e.getSource() instanceof JSpinner && !this.model.isPlaying() &&
-				this.model.getCalculationState() == CALCULATED) {
-			
-			Object value = ((JSpinner) e.getSource()).getValue();
-			
-			if (value instanceof Double) {
-				int delay = (int) (((Double) value) * FACTOR); 
-				
-				this.model.getTimer().setInitialDelay(delay);
-				this.model.getTimer().setDelay(delay);
-			}
-		}
+		try {
+			if (e.getSource() instanceof JSpinner && !this.model.isPlaying()
+					&& this.model.getCalculationState() == CALCULATED) {
 
+				Object value = ((JSpinner) e.getSource()).getValue();
+
+				if (value instanceof Double) {
+					int delay = (int) (((Double) value) * FACTOR);
+
+					this.model.getTimer().setInitialDelay(delay);
+					this.model.getTimer().setDelay(delay);
+				}
+			}
+		} catch (Exception ex) {
+			// TODO: handle exception
+			ex.printStackTrace();
+		}
 	}
 
-	private void handleBackEvent() {
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	private void handleBackEvent() throws BadLocationException {
 		if (!this.model.isPlaying() && this.model.hasStepIterator()
-				&& this.model.getStepIterator().hasPrevious() &&
-				this.model.getCalculationState() == CALCULATED) {
+				&& this.model.getStepIterator().hasPrevious()
+				&& this.model.getCalculationState() == CALCULATED) {
 
+			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().previous();
 
 			// update model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(
 					this.model.getProgressBarModel().getValue() - 1);
+			doc.remove(doc.getLength() - stepMessage.length(),
+					stepMessage.length());
 
 			// update view
-			this.model.notifyObservers(false, false, stepMessage);
+			this.model.notifyObservers(false);
 		}
 	}
 
-	private void handleBeginningEvent() {
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	private void handleBeginningEvent() throws BadLocationException {
 		if (!this.model.isPlaying() && this.model.hasStepIterator()
-				&& this.model.getStepIterator().hasPrevious() &&
-				this.model.getCalculationState() == CALCULATED) {
+				&& this.model.getStepIterator().hasPrevious()
+				&& this.model.getCalculationState() == CALCULATED) {
 
+			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().first();
 
 			// update model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(0);
+			doc.remove(doc.getLength() - stepMessage.length(),
+					stepMessage.length());
 
 			// update view
-			this.model.notifyObservers(false, false, stepMessage);
+			this.model.notifyObservers(false);
 		}
 	}
 
-	private void handleEndEvent() {
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	private void handleEndEvent() throws BadLocationException {
 		if (!this.model.isPlaying() && this.model.hasStepIterator()
-				&& this.model.getStepIterator().hasNext() &&
-				this.model.getCalculationState() == CALCULATED) {
+				&& this.model.getStepIterator().hasNext()
+				&& this.model.getCalculationState() == CALCULATED) {
 
+			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().last();
 
 			// update model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(
 					this.model.getStepIterator().size());
+			doc.insertString(doc.getLength(), stepMessage,
+					SimpleAttributeSet.EMPTY);
 
 			// update view
-			this.model.notifyObservers(false, false, stepMessage);
+			this.model.notifyObservers(false);
 		}
 	}
 
-	private void handleForwardEvent() {
-		if (!this.model.isPlaying() && this.model.hasStepIterator()
+	/**
+	 * 
+	 * @return forward step ok
+	 * @throws BadLocationException
+	 */
+	private boolean handleForwardEvent() throws BadLocationException {
+		if (this.model.hasStepIterator()
 				&& this.model.getStepIterator().hasNext()
 				&& this.model.getCalculationState() == CALCULATED) {
 
+			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().next();
 
 			// update model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(
 					this.model.getProgressBarModel().getValue() + 1);
+			doc.insertString(doc.getLength(), stepMessage,
+					SimpleAttributeSet.EMPTY);
 
 			// update view
-			this.model.notifyObservers(false, false, stepMessage);
+			this.model.notifyObservers(false);
+
+			return true;
 		}
+
+		return false;
 	}
 
 	private void handlePauseEvent() {
@@ -164,7 +211,7 @@ class StepController implements IStepController {
 			this.model.setPausedState();
 
 			// update view
-			this.model.notifyObservers(false, false);
+			this.model.notifyObservers(false);
 		}
 	}
 
@@ -176,7 +223,7 @@ class StepController implements IStepController {
 			this.model.setPlayingState();
 
 			// update view
-			this.model.notifyObservers(false, false);
+			this.model.notifyObservers(false);
 
 			// start timer
 			if (!this.model.getTimer().isRunning()) {
@@ -198,41 +245,44 @@ class StepController implements IStepController {
 			this.model.setStoppedState();
 
 			// update view
-			this.model.notifyObservers(false, false);
+			this.model.notifyObservers(false);
 		}
 	}
 
-	private void handleTimerEvent() {
-		if (this.model.isPlaying() && this.model.hasStepIterator()
-				&& this.model.getStepIterator().hasNext()
-				&& this.model.getCalculationState() == CALCULATED) {
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	private void handleTimerEvent() throws BadLocationException {
+		// check, if last step is done
+		if (this.handleForwardEvent()
+				&& !this.model.getStepIterator().hasNext()) {
 
-			String stepMessage = this.model.getStepIterator().next();
+			// stop timer
+			if (this.model.getTimer().isRunning()) {
+				this.model.getTimer().stop();
+			}
 
 			// update model
-			this.model.updateStepPanelModels();
-			this.model.getProgressBarModel().setValue(
-					this.model.getProgressBarModel().getValue() + 1);
+			this.model.setEndAnimationState();
 
 			// update view
-			this.model.notifyObservers(new VisualizationViewModel(this.model
-					.getGraph(), false));
-			this.model.notifyObservers(new ProtocolModel(stepMessage));
-
-			// check, if last step is done
-			if (!this.model.getStepIterator().hasNext()) {
-				// stop timer
-				if (this.model.getTimer().isRunning()) {
-					this.model.getTimer().stop();
-				}
-
-				// update model
-				this.model.setEndAnimationState();
-
-				// update view
-				this.model.notifyObservers(false, false);
-			}
+			this.model.notifyObservers(false);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.ti.gravis.gui.controller.IStepController#setMessageDialogAdapter
+	 * (ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter)
+	 */
+	@Override
+	public void setMessageDialogAdapter(
+			MessageDialogAdapter messageDialogAdapter) {
+
+		this.messageDialogAdapter = messageDialogAdapter;
 	}
 
 }

@@ -104,7 +104,7 @@ public class StepBuilderTest {
 	public void testCreateStepList() throws GravisGraphIOException {
 		GraphIOManager gm = new GraphIOManager();
 		IGravisGraph g = gm.loadGraph(new File(GravisConstants.TEMPLATES_DIR
-				+ "/DijkstraSampleGraph1.graphml"));
+				+ "/Directed_Dijkstra_Sample_Graph_1.graphml"));
 		StepBuilder sb = new StepBuilder();
 		IRestrictedGraph rg = GraphFactory.createRestrictedGraph(g, sb);
 		IStepRecorder rec = StepBuilder.createStepRecorder(rg);
@@ -154,7 +154,9 @@ public class StepBuilderTest {
 		assertEquals(VISIT, vertices[1].getCurrentState());
 		assertEquals(10.0, vertices[1].getCurrentResult(), 0.01);
 
-
+		res2 = stepList.get(1).unExecute();
+		assertEquals(VISIT.getDoMessage(edges[0]) + VISIT.getDoMessage(vertices[1]) +
+				"visit e1", res2.getComment());
 	}
 
 }

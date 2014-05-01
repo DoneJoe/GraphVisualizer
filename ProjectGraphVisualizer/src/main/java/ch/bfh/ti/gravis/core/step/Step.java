@@ -57,12 +57,12 @@ class Step extends EmptyStep {
 		for (int i = this.nestedCommands.size() - 1; i >= 0; i--) {
 			stepRes = this.nestedCommands.get(i).unExecute();
 
-			if (!stepRes.hasComment()) {
-				totalComment.append(stepRes.getComment());
+			if (stepRes.hasComment()) {
+				totalComment.insert(0, stepRes.getComment());
 			}
 		}
 
-		return new StepResult(this.comment + totalComment.toString());
+		return new StepResult(totalComment.toString() + this.comment);
 	}
 
 	/**

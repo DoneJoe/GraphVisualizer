@@ -2,6 +2,7 @@ package ch.bfh.ti.gravis.gui.controller;
 
 import ch.bfh.ti.gravis.core.ICore;
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
+import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 
 /**
@@ -25,11 +26,12 @@ public final class ControllerFactory {
 	/**
 	 * 
 	 * @param model
+	 * @param messageDialogAdapter 
 	 * @return IEditGraphEventListener
 	 */
 	public static IEditGraphEventListener createVisualizationController(
-			IAppModel model) {
-		return new VisualizationController(model);
+			IAppModel model, MessageDialogAdapter messageDialogAdapter) {
+		return new VisualizationController(model, messageDialogAdapter);
 	}
 
 	/**

@@ -17,9 +17,9 @@ public enum ItemState {
 	// state definition
 	INITIAL, ACTIVATION, VISIT, SOLUTION, ELIMINATION;
 
-	// DO default state messages
-	private final static String V_INITIAL_MSG = "Der Knoten %s wurde in den Anfangszustand versetzt.%s";
-	private final static String E_INITIAL_MSG = "Die Kante %s wurde in den Anfangszustand versetzt.%s";
+	// default state messages
+	private final static String V_INITIAL_MSG = "Der Knoten %s befindet sich im Anfangszustand.%s";
+	private final static String E_INITIAL_MSG = "Die Kante %s befindet sich im Anfangszustand.%s";
 	private final static String V_ACTIVATION_MSG = "Der Knoten %s wurde ausgewählt.%s";
 	private final static String E_ACTIVATION_MSG = "Die Kante %s wurde ausgewählt.%s";
 	private final static String V_VISIT_MSG = "Der Knoten %s wurde besucht.%s";
@@ -28,11 +28,6 @@ public enum ItemState {
 	private final static String E_SOLUTION_MSG = "Die Kante %s wurde zur Lösung hinzugefügt.%s";
 	private final static String V_ELIMINATION_MSG = "Der Knoten %s wurde aus der Lösung ausgeschlossen.%s";
 	private final static String E_ELIMINATION_MSG = "Die Kante %s wurde aus der Lösung ausgeschlossen.%s";
-	// TODO ev. Kommentare anpassen
-
-	// UNDO default state messages
-	private final static String V_UNDO_MSG = "Einen Schritt zurück für den Knoten %s.%s";
-	private final static String E_UNDO_MSG = "Einen Schritt zurück für die Kante %s.%s";
 	
 	/**
 	 * 
@@ -121,21 +116,6 @@ public enum ItemState {
 		}
 
 		return GravisConstants.V_FILL_COLOR_DEFAULT;
-	}
-
-	/**
-	 * 
-	 * @param item
-	 * @return default state undo message with new line at the end
-	 */
-	public String getUndoMessage(final IGraphItem item) {
-		if (item instanceof IVertex) {
-			return String.format(V_UNDO_MSG, item.getName(), LN);
-		} else if (item instanceof IEdge) {
-			return String.format(E_UNDO_MSG, item.getName(), LN);
-		}
-
-		return "";
 	}
 
 	/**

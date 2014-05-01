@@ -51,8 +51,6 @@ public final class GuiFactory {
 		// controllers
 		IMenuToolbarController menuToolbarController = ControllerFactory
 				.createMenuToolbarController(model, core);
-		IEditGraphEventListener visualizationController = ControllerFactory
-				.createVisualizationController(model);
 		IStepController stepController = ControllerFactory
 				.createStepController(model);
 
@@ -61,17 +59,21 @@ public final class GuiFactory {
 				stepController, model);
 
 		// set dialog adapters to controllers
+		MessageDialogAdapter messageDialogAdapter = new MessageDialogAdapter(
+				mainWindow);
 		menuToolbarController.setFileChooserAdapter(new FileChooserAdapter(
 				mainWindow));
-		menuToolbarController.setMessageDialogAdapter(new MessageDialogAdapter(
-				mainWindow));
+		menuToolbarController.setMessageDialogAdapter(messageDialogAdapter);
 		menuToolbarController.setConfirmDialogAdapter(new ConfirmDialogAdapter(
 				mainWindow));
 		menuToolbarController
 				.setGraphPropertyDialogFactory(new GraphPropertyDialogFactory(
 						mainWindow));
+		stepController.setMessageDialogAdapter(messageDialogAdapter);
 
-		// add EditGraphEventListener to graph
+		// VisualizationController
+		IEditGraphEventListener visualizationController = ControllerFactory
+				.createVisualizationController(model, messageDialogAdapter);
 		model.getGraph().addEditGraphEventListener(visualizationController);
 
 		// add button model listeners

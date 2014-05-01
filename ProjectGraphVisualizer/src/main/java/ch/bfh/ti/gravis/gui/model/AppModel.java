@@ -13,6 +13,8 @@ import javax.swing.JToggleButton;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
 
 import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
@@ -61,6 +63,8 @@ class AppModel extends Observable implements IAppModel {
 	private final SpinnerModel delaySpinnerModel;
 
 	private final BoundedRangeModel progressBarModel;
+	
+	private final PlainDocument protocolDocument;
 
 	private final ButtonModel deleteEdgeButtonModel, edgePropertiesButtonModel,
 			newVertexButtonModel, deleteVertexButtonModel,
@@ -130,6 +134,7 @@ class AppModel extends Observable implements IAppModel {
 		this.delaySpinnerModel = new SpinnerNumberModel(INIT, MIN, MAX,
 				STEP_SIZE);
 		this.progressBarModel = new DefaultBoundedRangeModel(0, 0, 0, 0);
+		this.protocolDocument = new PlainDocument();
 
 		// init timer
 		this.timer = new Timer((int) (INIT * FACTOR), null);
@@ -389,6 +394,14 @@ class AppModel extends Observable implements IAppModel {
 		return this.progressBarModel;
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#getProtocolDocument()
+	 */
+	@Override
+	public Document getProtocolDocument() {
+		return this.protocolDocument;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -555,29 +568,15 @@ class AppModel extends Observable implements IAppModel {
 	 * (non-Javadoc)
 	 * 
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#notifyObservers(boolean,
-	 * boolean)
-	 */
-	@Override
-	public void notifyObservers(boolean graphChanged, boolean protocolCleared) {
-		this.notifyObservers(graphChanged, protocolCleared, "");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#notifyObservers(boolean,
 	 * boolean, java.lang.String)
 	 */
 	@Override
-	public void notifyObservers(boolean graphChanged, boolean protocolCleared,
-			String protocolMessage) {
-
+	public void notifyObservers(boolean graphChanged) {
 		this.notifyObservers(this.createMainWindowModel());
 		this.notifyObservers(this.createToolBarModel());
 		this.notifyObservers(new VisualizationViewModel(this.graph,
 				graphChanged));
 		this.notifyObservers(this.createStepModel());
-		this.notifyObservers(new ProtocolModel(protocolMessage, protocolCleared));
 	}
 
 	/*
@@ -723,7 +722,7 @@ class AppModel extends Observable implements IAppModel {
 	public void setOpenGraphState(IGravisGraph graph, File file)
 			throws CoreException {
 		// TODO Exception if null
-
+		
 		this.graph = GraphFactory.createEditGraphObservable(graph,
 				this.graph.getEditGraphEventListeners());
 
@@ -914,7 +913,7 @@ class AppModel extends Observable implements IAppModel {
 	 * @param algoNames
 	 */
 	private void initAlgorithmComboModel(final String[] algoNames) {
-		this.algoComboModel.removeAllElements();
+		this.algoComboModel.removeAllElements();		
 		this.algoComboModel.addElement(DEFAULT_ALGO_ENTRY);
 
 		for (String algoName : algoNames) {

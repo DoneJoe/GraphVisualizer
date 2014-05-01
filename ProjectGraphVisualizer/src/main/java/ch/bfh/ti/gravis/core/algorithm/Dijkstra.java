@@ -39,14 +39,14 @@ class Dijkstra extends AbstractAlgorithm {
 			+ "%s wurde gefunden: %.1f" + LN;
 	private final static String SHORTEST_PATH_UPDATE = "Der neue kürzeste Weg vom "
 			+ " Startknoten zum Knoten %s ist: %.1f" + LN;
-	private final static String RESULT_INIT = "Der Knoten %s wurde mit folgendem Wert "
-			+ "initialisiert: %.1f" + LN;
+	private final static String RESULT_INIT = "Der Knoten %s wurde initialisiert: %.1f" + LN;
 	private final static String SUCCESSOR_MSG = "Der Knoten %s hat die folgenden "
 			+ "Nachfolger: %s" + LN;
 	private final static String MIN_MSG = "Der Knoten %s hat die folgende minimale "
 			+ "Distanz: %.1f" + LN;
-	private final static String END_MSG = "Die Berechnung der kürzesten Wege wurde "
-			+ "erfolgreich abgeschlossen." + LN;
+	
+	// TODO kuerzester Weg zeigen
+	private final static String END_MSG = "Der kürzeste Weg wurde gefunden." + LN;
 
 	private final CurrentResultComparator vertexResultComparator;
 

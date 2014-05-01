@@ -9,13 +9,14 @@ import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 public interface IEditGraphEventListener {
 
 	/**
-	 * VISUAL_EDITED: edited visual representation of Graph and elements.
+	 * VISUAL_EDITED: edited visual representation of Graph and elements (size, location, graph
+	 * name, graph description).
 	 * 
 	 * @author Patrick Kofmel (kofmp1@bfh.ch)
 	 *
 	 */
 	public static enum Type {
-		ADDED, REMOVED, EDITED, VISUAL_EDITED
+		ADDED, REMOVED, EDITED, VISUAL_EDITED, START_EDITED, END_EDITED
 	}
 	
 	/**

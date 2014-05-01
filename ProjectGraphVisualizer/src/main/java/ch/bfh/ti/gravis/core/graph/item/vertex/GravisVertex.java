@@ -171,7 +171,7 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 		this.end = end;
 
 		if (!equal) {
-			this.fireGraphItemsChangedEvent(this, Type.EDITED);
+			this.fireGraphItemsChangedEvent(this, Type.END_EDITED);
 		}
 	}
 
@@ -238,7 +238,7 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 		this.start = start;
 
 		if (!equal) {
-			this.fireGraphItemsChangedEvent(this, Type.EDITED);
+			this.fireGraphItemsChangedEvent(this, Type.START_EDITED);
 		}
 	}
 

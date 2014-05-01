@@ -1,8 +1,11 @@
 package ch.bfh.ti.gravis.gui.controller;
 
+import javax.swing.JOptionPane;
+
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
+import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 
 /**
@@ -12,13 +15,17 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
 class VisualizationController implements IEditGraphEventListener {
 
 	private final IAppModel model;
+	
+	private final MessageDialogAdapter messageDialogAdapter;
 
 	/**
 	 * 
 	 * @param model
+	 * @param messageDialogAdapter 
 	 */
-	protected VisualizationController(IAppModel model) {
+	protected VisualizationController(IAppModel model, MessageDialogAdapter messageDialogAdapter) {
 		this.model = model;
+		this.messageDialogAdapter = messageDialogAdapter;
 	}
 
 	/*
@@ -34,6 +41,10 @@ class VisualizationController implements IEditGraphEventListener {
 			final Type type) {
 
 		this.updateModelAndView(type);
+		
+		// TODO Exception Handling -> Message adapter in construktur uebergeben
+		this.messageDialogAdapter.showMessageDialog("handleGraphItemsChangedEvent error", 
+				"Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	/*
@@ -49,6 +60,8 @@ class VisualizationController implements IEditGraphEventListener {
 			final Type type) {
 		
 		this.updateModelAndView(type);
+		
+		// TODO Exception Handling -> Message adapter in construktur uebergeben
 	}
 
 	/**
@@ -64,7 +77,7 @@ class VisualizationController implements IEditGraphEventListener {
 			}
 			
 			// update view
-			this.model.notifyObservers(false, false);
+			this.model.notifyObservers(false);
 		}
 	}
 

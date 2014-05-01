@@ -11,6 +11,9 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
 
 import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
@@ -55,13 +58,13 @@ class MenuToolbarController extends WindowAdapter implements
 
 	private final static String OPEN_GRAPH_MSG = "Ein Graph wird geöffnet...";
 	private final static String OPEN_GRAPH_DONE_MSG = "erledigt!%s"
-			+ "Datei: %s%sName: %s%sBeschreibung: %s%s%s";
+			+ "Datei:\t%s%sName:\t%s%sBeschreibung:\t%s%s%s";
 	private final static String SAVE_GRAPH_MSG = "Der aktuelle Graph wurde gespeichert:%s"
-			+ "Datei: %s%sName: %s%sBeschreibung: %s%s%s";
+			+ "Datei:\t%s%sName:\t%s%sBeschreibung:\t%s%s%s";
 	private final static String SELECT_ALGO_MSG = "Folgender Algorithmus wurde ausgewählt:%s"
-			+ "Name: %s%sBeschreibung: %s%s%s"
+			+ "Name:\t%s%sBeschreibung:\t%s%s%s"
 			+ "Die Animationsschritte werden jetzt berechnet ... ";
-	private final static String ALGO_DONE_MSG = "die Berechnung der Animationsschritte wurde abgeschlossen.%s%s";
+	private final static String ALGO_DONE_MSG = "die Berechnung wurde abgeschlossen.%s%s";
 
 	// final fields:
 
@@ -230,8 +233,8 @@ class MenuToolbarController extends WindowAdapter implements
 	public void windowClosing(final WindowEvent e) {
 		try {
 			this.handleExitEvent();
-		} catch (CoreException | GravisGraphIOException ex) {
-			// TODO stackTrace angeben
+		} catch (CoreException | GravisGraphIOException | BadLocationException ex) {
+			// TODO stackTrace angeben, allg Excepiton abfangen
 
 			if (this.messageDialogAdapter != null) {
 				this.messageDialogAdapter.showMessageDialog(
@@ -249,8 +252,10 @@ class MenuToolbarController extends WindowAdapter implements
 	 * @return boolean
 	 * @throws CoreException
 	 * @throws GravisGraphIOException
+	 * @throws BadLocationException
 	 */
-	private boolean checkSave() throws GravisGraphIOException, CoreException {
+	private boolean checkSave() throws GravisGraphIOException, CoreException,
+			BadLocationException {
 		if (this.model.isStopped() && this.model.isGraphUnsaved()
 				&& this.confirmDialogAdapter != null) {
 
@@ -275,9 +280,10 @@ class MenuToolbarController extends WindowAdapter implements
 	 * 
 	 * @param algoName
 	 * @throws CoreException
+	 * @throws BadLocationException
 	 */
 	private void handleAlgorithmEvent(final String algoName)
-			throws CoreException {
+			throws CoreException, BadLocationException {
 
 		if (this.model.isStopped()
 				&& this.model.getCalculationState() != NOT_CALCULABLE) {
@@ -288,19 +294,24 @@ class MenuToolbarController extends WindowAdapter implements
 				this.model.setNoAlgoSelectedState();
 
 				// update view
-				this.model.notifyObservers(false, false);
+				this.model.notifyObservers(false);
 			} else {
 				SwingWorker<IGravisListIterator<String>, Void> worker = this
 						.createCalcSwingWorker(algoName);
+				Document doc = this.model.getProtocolDocument();
 
 				// sets step panel to initial state and disables GUI
 				this.model.setWorkingState(true);
 
-				// update view with algorithm selection message
-				this.model.notifyObservers(false, true,
-						String.format(SELECT_ALGO_MSG, LN, algoName, LN,
-								this.core.getAlgorithmDescription(algoName),
-								LN, LN));
+				// clear protocol document and insert algo selection message
+				doc.remove(0, doc.getLength());
+				doc.insertString(0, String.format(SELECT_ALGO_MSG, LN,
+						algoName, LN,
+						this.core.getAlgorithmDescription(algoName), LN, LN),
+						SimpleAttributeSet.EMPTY);
+
+				// update view
+				this.model.notifyObservers(false);
 
 				worker.execute();
 			}
@@ -331,6 +342,9 @@ class MenuToolbarController extends WindowAdapter implements
 			 */
 			@Override
 			protected void done() {
+				Document doc = MenuToolbarController.this.model
+						.getProtocolDocument();
+
 				// enables GUI
 				MenuToolbarController.this.model.setWorkingState(false);
 
@@ -338,10 +352,12 @@ class MenuToolbarController extends WindowAdapter implements
 					// update model
 					MenuToolbarController.this.model.setCalcDoneState(this
 							.get());
+					doc.insertString(doc.getLength(),
+							String.format(ALGO_DONE_MSG, LN, LN),
+							SimpleAttributeSet.EMPTY);
 
 					// update view
-					MenuToolbarController.this.model.notifyObservers(false,
-							false, String.format(ALGO_DONE_MSG, LN, LN));
+					MenuToolbarController.this.model.notifyObservers(false);
 				} catch (Exception e) {
 					// TODO: handle exception -> exits app
 					e.printStackTrace();
@@ -354,8 +370,11 @@ class MenuToolbarController extends WindowAdapter implements
 	 * 
 	 * @throws CoreException
 	 * @throws GravisGraphIOException
+	 * @throws BadLocationException
 	 */
-	private void handleExitEvent() throws CoreException, GravisGraphIOException {
+	private void handleExitEvent() throws CoreException,
+			GravisGraphIOException, BadLocationException {
+		
 		// handle unsaved graph
 		if (!this.checkSave()) {
 			return;
@@ -384,7 +403,7 @@ class MenuToolbarController extends WindowAdapter implements
 			this.model.setEditMode(mode);
 
 			// update view
-			this.model.notifyObservers(false, false);
+			this.model.notifyObservers(false);
 		}
 	}
 
@@ -393,9 +412,10 @@ class MenuToolbarController extends WindowAdapter implements
 	 * @param edgeType
 	 * @throws CoreException
 	 * @throws GravisGraphIOException
+	 * @throws BadLocationException
 	 */
 	private void handleNewGraphEvent(final EdgeType edgeType)
-			throws CoreException, GravisGraphIOException {
+			throws CoreException, GravisGraphIOException, BadLocationException {
 
 		if (this.model.isStopped()) {
 			// handle unsaved graph
@@ -405,9 +425,11 @@ class MenuToolbarController extends WindowAdapter implements
 
 			// update model
 			this.model.setNewGraphState(edgeType);
+			this.model.getProtocolDocument().remove(0,
+					this.model.getProtocolDocument().getLength());
 
 			// update view
-			this.model.notifyObservers(true, true);
+			this.model.notifyObservers(true);
 		}
 	}
 
@@ -416,9 +438,10 @@ class MenuToolbarController extends WindowAdapter implements
 	 * 
 	 * @throws CoreException
 	 * @throws GravisGraphIOException
+	 * @throws BadLocationException
 	 */
 	private void handleOpenGraphEvent() throws CoreException,
-			GravisGraphIOException {
+			GravisGraphIOException, BadLocationException {
 
 		if (this.model.isStopped()) {
 			// handle unsaved graph
@@ -432,12 +455,18 @@ class MenuToolbarController extends WindowAdapter implements
 				if (file.exists()) {
 					SwingWorker<IGravisGraph, Void> worker = this
 							.createOpenGraphSwingWorker(file);
+					Document doc = this.model.getProtocolDocument();
 
 					// disables GUI
 					this.model.setWorkingState(true);
 
+					// clears protocol document and inserts open graph message
+					doc.remove(0, doc.getLength());
+					doc.insertString(0, OPEN_GRAPH_MSG,
+							SimpleAttributeSet.EMPTY);
+
 					// update view
-					this.model.notifyObservers(false, true, OPEN_GRAPH_MSG);
+					this.model.notifyObservers(false);
 
 					worker.execute();
 					return;
@@ -457,6 +486,7 @@ class MenuToolbarController extends WindowAdapter implements
 	 */
 	private SwingWorker<IGravisGraph, Void> createOpenGraphSwingWorker(
 			final File file) {
+		
 		return new SwingWorker<IGravisGraph, Void>() {
 
 			@Override
@@ -471,6 +501,9 @@ class MenuToolbarController extends WindowAdapter implements
 			 */
 			@Override
 			protected void done() {
+				Document doc = MenuToolbarController.this.model
+						.getProtocolDocument();
+
 				// enables GUI
 				MenuToolbarController.this.model.setWorkingState(false);
 
@@ -478,15 +511,16 @@ class MenuToolbarController extends WindowAdapter implements
 					// update model
 					MenuToolbarController.this.model.setOpenGraphState(
 							this.get(), file);
+					doc.insertString(doc.getLength(), String.format(
+							OPEN_GRAPH_DONE_MSG, LN, file.getAbsolutePath(),
+							LN, MenuToolbarController.this.model.getGraph()
+									.getName(), LN,
+							MenuToolbarController.this.model.getGraph()
+									.getDescription(), LN, LN),
+							SimpleAttributeSet.EMPTY);
 
 					// update view
-					MenuToolbarController.this.model.notifyObservers(true,
-							false, String.format(OPEN_GRAPH_DONE_MSG, LN, file
-									.getAbsolutePath(), LN,
-									MenuToolbarController.this.model.getGraph()
-											.getName(), LN,
-									MenuToolbarController.this.model.getGraph()
-											.getDescription(), LN, LN));
+					MenuToolbarController.this.model.notifyObservers(true);
 				} catch (Exception e) {
 					// TODO: handle exception -> exits app
 					e.printStackTrace();
@@ -503,9 +537,11 @@ class MenuToolbarController extends WindowAdapter implements
 	 * 
 	 * @return save result
 	 * @throws GravisGraphIOException
+	 * @throws BadLocationException
 	 * 
 	 */
-	private int handleSaveGraphAsEvent() throws GravisGraphIOException {
+	private int handleSaveGraphAsEvent() throws GravisGraphIOException,
+			BadLocationException {
 
 		if (this.model.isStopped() && this.fileChooserAdapter != null
 				&& this.confirmDialogAdapter != null) {
@@ -519,6 +555,8 @@ class MenuToolbarController extends WindowAdapter implements
 										OVERWRITE_TITLE,
 										JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)) {
 
+					Document doc = this.model.getProtocolDocument();
+
 					// sets step panel to initial state
 					this.model.setStepPanelState(true);
 
@@ -527,12 +565,15 @@ class MenuToolbarController extends WindowAdapter implements
 
 					// update model
 					this.model.setSaveGraphState(file);
+					doc.remove(0, doc.getLength());
+					doc.insertString(0, String.format(SAVE_GRAPH_MSG, LN, file
+							.getAbsolutePath(), LN, this.model.getGraph()
+							.getName(), LN, this.model.getGraph()
+							.getDescription(), LN, LN),
+							SimpleAttributeSet.EMPTY);
 
 					// update view
-					this.model.notifyObservers(false, true, String.format(
-							SAVE_GRAPH_MSG, LN, file.getAbsolutePath(), LN,
-							this.model.getGraph().getName(), LN, this.model
-									.getGraph().getDescription(), LN, LN));
+					this.model.notifyObservers(false);
 
 					return JFileChooser.APPROVE_OPTION;
 				}
@@ -544,15 +585,20 @@ class MenuToolbarController extends WindowAdapter implements
 
 	/**
 	 * If the graphFile is null, handleSaveGraphAsEvent is called. <br />
-	 * If the graphFile is not null, the graph is saved with the existing graphFile.
+	 * If the graphFile is not null, the graph is saved with the existing
+	 * graphFile.
 	 * 
 	 * @return save result
 	 * @throws GravisGraphIOException
+	 * @throws BadLocationException
 	 */
-	private int handleSaveGraphEvent() throws GravisGraphIOException {
+	private int handleSaveGraphEvent() throws GravisGraphIOException,
+			BadLocationException {
 
 		if (this.model.isStopped()) {
 			if (this.model.hasGraphFile()) {
+				Document doc = this.model.getProtocolDocument();
+
 				// sets step panel to initial state
 				this.model.setStepPanelState(true);
 
@@ -562,13 +608,15 @@ class MenuToolbarController extends WindowAdapter implements
 
 				// update model
 				this.model.setSaveGraphState();
+				doc.remove(0, doc.getLength());
+				doc.insertString(0, String.format(SAVE_GRAPH_MSG, LN,
+						this.model.getGraphFile().getAbsolutePath(), LN,
+						this.model.getGraph().getName(), LN, this.model
+								.getGraph().getDescription(), LN, LN),
+						SimpleAttributeSet.EMPTY);
 
 				// update view
-				this.model.notifyObservers(false, true, String.format(
-						SAVE_GRAPH_MSG, LN, this.model.getGraphFile()
-								.getAbsolutePath(), LN, this.model.getGraph()
-								.getName(), LN, this.model.getGraph()
-								.getDescription(), LN, LN));
+				this.model.notifyObservers(false);
 
 				return JFileChooser.APPROVE_OPTION;
 			} else {
