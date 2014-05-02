@@ -35,22 +35,22 @@ public class GraphPropertyDialog extends JDialog {
 	private static final String GRAPH_DESCR_LABEL = "Beschreibung zum Graphen:";
 	private final static String OK = "OK";
 	private final static String CANCEL = "Cancel";
-	
+
 	private JTextField txtGraphName;
-	
+
 	private JTextArea textAreaGraphDescription;
 
 	/**
 	 * Create the dialog.
 	 * 
-	 * @param owner 
-	 * @param graph 
+	 * @param owner
+	 * @param graph
 	 */
 	public GraphPropertyDialog(final IGravisGraph graph, final JFrame owner) {
 		super(owner, true);
-		
+
 		this.setTitle(String.format(TITLE, graph.getName()));
-		
+
 		JPanel contentPanel = new JPanel();
 		this.setResizable(false);
 		this.setBounds(100, 100, 500, 220);
@@ -58,29 +58,30 @@ public class GraphPropertyDialog extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panelGraphName = new JPanel();
 		contentPanel.add(panelGraphName, BorderLayout.NORTH);
 		panelGraphName.setLayout(new GridLayout(0, 2, 0, 0));
-		
+
 		JLabel lblGraphName = new JLabel(GRAPH_NAME_LABEL);
 		panelGraphName.add(lblGraphName);
-		
+
 		this.txtGraphName = new JTextField();
 		panelGraphName.add(this.txtGraphName);
 		this.txtGraphName.setColumns(10);
-		
+
 		JPanel panelGraphDescription = new JPanel();
 		contentPanel.add(panelGraphDescription, BorderLayout.CENTER);
 		panelGraphDescription.setLayout(new BorderLayout(0, 0));
-		
+
 		JLabel lblGraphDescription = new JLabel(GRAPH_DESCR_LABEL);
 		panelGraphDescription.add(lblGraphDescription, BorderLayout.NORTH);
-		
+
 		this.textAreaGraphDescription = new JTextArea();
 		this.textAreaGraphDescription.setLineWrap(true);
 		this.textAreaGraphDescription.setWrapStyleWord(true);
-		panelGraphDescription.add(this.textAreaGraphDescription, BorderLayout.CENTER);
+		panelGraphDescription.add(this.textAreaGraphDescription,
+				BorderLayout.CENTER);
 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -89,12 +90,12 @@ public class GraphPropertyDialog extends JDialog {
 		JButton okButton = new JButton(OK);
 		okButton.setActionCommand(OK);
 		buttonPane.add(okButton);
-		this.getRootPane().setDefaultButton(okButton);
 
 		JButton cancelButton = new JButton(CANCEL);
 		cancelButton.setActionCommand(CANCEL);
 		buttonPane.add(cancelButton);
 
+		this.getRootPane().setDefaultButton(okButton);
 		this.setTextFieldValues(graph);
 		this.setListeners(graph, okButton, cancelButton);
 		this.centerDialog();
@@ -107,7 +108,7 @@ public class GraphPropertyDialog extends JDialog {
 	 */
 	private void setListeners(final IGravisGraph graph, final JButton okButton,
 			final JButton cancelButton) {
-		
+
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GraphPropertyDialog.this.updateTextFieldValues(graph);

@@ -13,8 +13,10 @@ import javax.swing.JToggleButton;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
+import javax.swing.text.SimpleAttributeSet;
 
 import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
@@ -24,6 +26,7 @@ import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
+import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
 import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.*;
 import static ch.bfh.ti.gravis.gui.model.IAppModel.PlayerState.*;
 
@@ -36,6 +39,9 @@ class AppModel extends Observable implements IAppModel {
 	// static final fields:
 
 	private static final EdgeType DEFAULT_EDGE_TYPE = EdgeType.UNDIRECTED;
+
+	private final static String ALGO_DONE_MSG = "Die Animation kann jetzt gestartet werden."
+			+ LN + LN;
 
 	// double values in seconds
 	private static final double INIT = 1.0, MIN = 0.25, MAX = 10.0,
@@ -63,8 +69,9 @@ class AppModel extends Observable implements IAppModel {
 	private final SpinnerModel delaySpinnerModel;
 
 	private final BoundedRangeModel progressBarModel;
-	
-	private final PlainDocument protocolDocument;
+
+	private final PlainDocument protocolDocument, graphDocument,
+			algorithmDocument;
 
 	private final ButtonModel deleteEdgeButtonModel, edgePropertiesButtonModel,
 			newVertexButtonModel, deleteVertexButtonModel,
@@ -91,8 +98,10 @@ class AppModel extends Observable implements IAppModel {
 	 * 
 	 * @param core
 	 * @throws CoreException
+	 * @throws BadLocationException
 	 */
-	protected AppModel(final ICore core) throws CoreException {
+	protected AppModel(final ICore core) throws CoreException,
+			BadLocationException {
 		this.core = core;
 		this.working = this.graphUnsaved = false;
 		this.calcState = NOT_CALCULABLE;
@@ -127,6 +136,12 @@ class AppModel extends Observable implements IAppModel {
 		this.startVertexButtonModel = new JToggleButton.ToggleButtonModel();
 		this.endVertexButtonModel = new JToggleButton.ToggleButtonModel();
 
+		// create document models:
+
+		this.graphDocument = new PlainDocument();
+		this.algorithmDocument = new PlainDocument();
+		this.protocolDocument = new PlainDocument();
+
 		// create other component models:
 
 		this.toggleComboModel = new ToggleComboGroup();
@@ -134,7 +149,6 @@ class AppModel extends Observable implements IAppModel {
 		this.delaySpinnerModel = new SpinnerNumberModel(INIT, MIN, MAX,
 				STEP_SIZE);
 		this.progressBarModel = new DefaultBoundedRangeModel(0, 0, 0, 0);
-		this.protocolDocument = new PlainDocument();
 
 		// init timer
 		this.timer = new Timer((int) (INIT * FACTOR), null);
@@ -152,6 +166,16 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public ComboBoxModel<String> getAlgorithmComboModel() {
 		return this.algoComboModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#getAlgorithmDocument()
+	 */
+	@Override
+	public Document getAlgorithmDocument() {
+		return this.algorithmDocument;
 	}
 
 	/*
@@ -277,6 +301,16 @@ class AppModel extends Observable implements IAppModel {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#getGraphDocument()
+	 */
+	@Override
+	public Document getGraphDocument() {
+		return this.graphDocument;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#getGraphFile()
 	 */
 	@Override
@@ -394,7 +428,9 @@ class AppModel extends Observable implements IAppModel {
 		return this.progressBarModel;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#getProtocolDocument()
 	 */
 	@Override
@@ -595,10 +631,12 @@ class AppModel extends Observable implements IAppModel {
 	 * 
 	 * @see
 	 * ch.bfh.ti.gravis.gui.model.IAppModel#setCalcDoneState(IGravisListIterator
-	 * <String>)
+	 * <String>, String)
 	 */
 	@Override
-	public void setCalcDoneState(final IGravisListIterator<String> stepIterator) {
+	public void setCalcDoneState(
+			final IGravisListIterator<String> stepIterator, final String algoName)
+			throws BadLocationException, CoreException {
 		// TODO Exception if null
 
 		this.calcState = CALCULATED;
@@ -608,6 +646,13 @@ class AppModel extends Observable implements IAppModel {
 		this.updatePopupModels();
 		this.setStepPanelState(true);
 		this.setEditMode(Mode.PICKING);
+
+		this.algorithmDocument.remove(0, this.algorithmDocument.getLength());
+		this.protocolDocument.remove(0, this.protocolDocument.getLength());
+		this.algorithmDocument.insertString(0, this.core.getAlgorithmDescription(algoName),
+				SimpleAttributeSet.EMPTY);
+		this.protocolDocument.insertString(0, ALGO_DONE_MSG,
+				SimpleAttributeSet.EMPTY);
 	}
 
 	/*
@@ -618,7 +663,8 @@ class AppModel extends Observable implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setEditGraphState(boolean)
 	 */
 	@Override
-	public void setEditGraphState(boolean visualEditied) {
+	public void setEditGraphState(boolean visualEditied)
+			throws BadLocationException {
 		this.graphUnsaved = true;
 		this.calcState = visualEditied ? this.calcState
 				: (this.graph.isEmpty() ? NOT_CALCULABLE
@@ -634,6 +680,10 @@ class AppModel extends Observable implements IAppModel {
 		if (!visualEditied) {
 			this.setStepPanelState(false);
 		}
+
+		if (this.calcState == EDITED_CALCULABLE && this.protocolDocument.getLength() != 0) {
+			this.protocolDocument.remove(0, this.protocolDocument.getLength());
+		}
 	}
 
 	/*
@@ -643,7 +693,7 @@ class AppModel extends Observable implements IAppModel {
 	 * visualization.control.ModalGraphMouse.Mode)
 	 */
 	@Override
-	public void setEditMode(final Mode newMode) {
+	public void setEditMode(final Mode newMode) throws BadLocationException {
 		if (this.toggleComboModel.getMode() != newMode) {
 			this.toggleComboModel.getModeComboBox().setSelectedItem(newMode);
 		}
@@ -679,7 +729,8 @@ class AppModel extends Observable implements IAppModel {
 	 * .graph.util.EdgeType)
 	 */
 	@Override
-	public void setNewGraphState(EdgeType edgeType) throws CoreException {
+	public void setNewGraphState(EdgeType edgeType) throws CoreException,
+			BadLocationException {
 		if (this.graph == null) {
 			this.graph = GraphFactory.createUndirectedSampleGraph();
 			this.calcState = CALCULABLE;
@@ -697,6 +748,10 @@ class AppModel extends Observable implements IAppModel {
 		this.updatePopupModels();
 		this.setStepPanelState(false);
 		this.setEditMode(Mode.EDITING);
+
+		this.graphDocument.remove(0, this.graphDocument.getLength());
+		this.algorithmDocument.remove(0, this.algorithmDocument.getLength());
+		this.protocolDocument.remove(0, this.protocolDocument.getLength());
 	}
 
 	/*
@@ -705,7 +760,7 @@ class AppModel extends Observable implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setNoAlgoSelectedState()
 	 */
 	@Override
-	public void setNoAlgoSelectedState() {
+	public void setNoAlgoSelectedState() throws BadLocationException {
 		this.calcState = this.graph.isEmpty() ? NOT_CALCULABLE : CALCULABLE;
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
@@ -720,9 +775,9 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	@Override
 	public void setOpenGraphState(IGravisGraph graph, File file)
-			throws CoreException {
+			throws CoreException, BadLocationException {
 		// TODO Exception if null
-		
+
 		this.graph = GraphFactory.createEditGraphObservable(graph,
 				this.graph.getEditGraphEventListeners());
 
@@ -736,6 +791,12 @@ class AppModel extends Observable implements IAppModel {
 		this.updatePopupModels();
 		this.setStepPanelState(false);
 		this.setEditMode(Mode.PICKING);
+
+		this.graphDocument.remove(0, this.graphDocument.getLength());
+		this.algorithmDocument.remove(0, this.algorithmDocument.getLength());
+		this.protocolDocument.remove(0, this.protocolDocument.getLength());
+		this.graphDocument.insertString(0, this.graph.getDescription(),
+				SimpleAttributeSet.EMPTY);
 	}
 
 	/*
@@ -744,7 +805,7 @@ class AppModel extends Observable implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setPausedState()
 	 */
 	@Override
-	public void setPausedState() {
+	public void setPausedState() throws BadLocationException {
 		this.playerState = PAUSED;
 
 		this.updateMenuToolbarModels();
@@ -759,7 +820,7 @@ class AppModel extends Observable implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setPlayingState()
 	 */
 	@Override
-	public void setPlayingState() {
+	public void setPlayingState() throws BadLocationException {
 		this.playerState = PLAYING;
 
 		this.updateMenuToolbarModels();
@@ -774,13 +835,17 @@ class AppModel extends Observable implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setSaveGraphState()
 	 */
 	@Override
-	public void setSaveGraphState() {
+	public void setSaveGraphState() throws BadLocationException {
 		if (this.hasGraphFile()) {
 			this.graphUnsaved = false;
 
 			this.updateMenuToolbarModels();
 			this.updatePopupModels();
 			this.updateStepPanelModels();
+			
+			this.graphDocument.remove(0, this.graphDocument.getLength());
+			this.graphDocument.insertString(0, this.graph.getDescription(),
+					SimpleAttributeSet.EMPTY);
 		}
 	}
 
@@ -790,7 +855,7 @@ class AppModel extends Observable implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setSaveGraphState(java.io.File)
 	 */
 	@Override
-	public void setSaveGraphState(File graphFile) {
+	public void setSaveGraphState(File graphFile) throws BadLocationException {
 		// TODO Exception if null
 
 		this.graphFile = graphFile;
@@ -798,9 +863,12 @@ class AppModel extends Observable implements IAppModel {
 	}
 
 	@Override
-	public void setStepPanelState(final boolean enabled) {
+	public void setStepPanelState(final boolean enabled)
+			throws BadLocationException {
 		if (this.hasStepIterator()) {
-			this.stepIterator.first();
+			String stepMessage = this.stepIterator.first();
+			this.protocolDocument.remove(this.protocolDocument.getLength()
+					- stepMessage.length(), stepMessage.length());
 
 			if (enabled) {
 				// enabled and step iterator
@@ -833,7 +901,7 @@ class AppModel extends Observable implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setStoppedState()
 	 */
 	@Override
-	public void setStoppedState() {
+	public void setStoppedState() throws BadLocationException {
 		this.playerState = STOPPED;
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
@@ -846,7 +914,7 @@ class AppModel extends Observable implements IAppModel {
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setWorkingState(boolean)
 	 */
 	@Override
-	public void setWorkingState(boolean enabled) {
+	public void setWorkingState(boolean enabled) throws BadLocationException {
 		this.working = enabled;
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
@@ -913,7 +981,7 @@ class AppModel extends Observable implements IAppModel {
 	 * @param algoNames
 	 */
 	private void initAlgorithmComboModel(final String[] algoNames) {
-		this.algoComboModel.removeAllElements();		
+		this.algoComboModel.removeAllElements();
 		this.algoComboModel.addElement(DEFAULT_ALGO_ENTRY);
 
 		for (String algoName : algoNames) {

@@ -4,7 +4,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
 http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="description" for="graph">
-<default>Ungerichteter Sample-Graph</default>
+<default>ungerichteter Graph 2</default>
 </key>
 <key id="vertexLocation.y" for="node">
 <default>50</default>
@@ -33,97 +33,7 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="edgeColor" for="edge">
 <default>black</default>
 </key>
-<graph id="Ungerichteter Sample-Graph" edgedefault="undirected">
-<data key="description">Dieser ungerichtete Graph kann insbesondere zur Visualisierung des Dijkstra-Algorithmus verwendet werden.</data>
-<node id="E">
-<data key="vertexLocation.y">340</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">205</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="C">
-<data key="vertexLocation.y">200</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">350</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="B">
-<data key="vertexLocation.y">200</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">60</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="A">
-<data key="vertexLocation.y">60</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">350</data>
-<data key="startVertex">true</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="F">
-<data key="vertexLocation.y">340</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">495</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="D">
-<data key="vertexLocation.y">200</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">640</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<edge id="eCF" source="C" target="F">
-<data key="weight">9.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="eAB" source="A" target="B">
-<data key="weight">8.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="eBC" source="B" target="C">
-<data key="weight">7.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="eCE" source="C" target="E">
-<data key="weight">3.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="eAC" source="A" target="C">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="eDC" source="D" target="C">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="eDF" source="D" target="F">
-<data key="weight">5.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="eAD" source="A" target="D">
-<data key="weight">4.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="eBE" source="B" target="E">
-<data key="weight">2.0</data>
-<data key="edgeColor">black</data>
-</edge>
+<graph id="ungerichteter Graph 2" edgedefault="undirected">
+<data key="description">ungerichteter Graph 2</data>
 </graph>
 </graphml>

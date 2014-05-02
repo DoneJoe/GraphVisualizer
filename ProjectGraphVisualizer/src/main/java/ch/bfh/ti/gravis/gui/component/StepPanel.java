@@ -161,7 +161,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnBack.setIcon(new ImageIcon(loadImage(BACK_ICON)));
 		btnBack.setToolTipText(BACK_TOOLTIP);
 		panelStepButtons.add(btnBack);
-
+		
 		JButton btnForward = new JButton();
 		btnForward.setIcon(new ImageIcon(loadImage(FORWARD_ICON)));
 		btnForward.setToolTipText(FORWARD_TOOLTIP);

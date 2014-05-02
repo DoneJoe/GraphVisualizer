@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.gui.controller;
 
+import javax.swing.text.BadLocationException;
+
 import ch.bfh.ti.gravis.core.ICore;
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
@@ -16,17 +18,19 @@ public final class ControllerFactory {
 
 	/**
 	 * @param model
-	 * @param core 
+	 * @param core
 	 * @return IMenuToolbarController
+	 * @throws BadLocationException
 	 */
-	public static IMenuToolbarController createMenuToolbarController(IAppModel model, ICore core) {
+	public static IMenuToolbarController createMenuToolbarController(
+			IAppModel model, ICore core) throws BadLocationException {
 		return new MenuToolbarController(model, core);
 	}
 
 	/**
 	 * 
 	 * @param model
-	 * @param messageDialogAdapter 
+	 * @param messageDialogAdapter
 	 * @return IEditGraphEventListener
 	 */
 	public static IEditGraphEventListener createVisualizationController(

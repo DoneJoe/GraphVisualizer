@@ -8,6 +8,7 @@ import javax.swing.ButtonModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.SpinnerModel;
 import javax.swing.Timer;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 import ch.bfh.ti.gravis.core.CoreException;
@@ -26,13 +27,13 @@ public interface IAppModel {
 	public static enum CalculationState {
 		NOT_CALCULABLE, CALCULABLE, CALCULATED, EDITED_CALCULABLE
 	}
-	
+
 	public static enum PlayerState {
 		PLAYING, PAUSED, STOPPED
 	}
 
 	public static final String DEFAULT_ALGO_ENTRY = "Algorithmus wählen:";
-	
+
 	/**
 	 * 
 	 * @param observer
@@ -78,13 +79,13 @@ public interface IAppModel {
 	 * @return CalculationState
 	 */
 	public CalculationState getCalculationState();
-	
+
 	/**
 	 * 
 	 * @return playerState
 	 */
-	public PlayerState getPlayerState();	
-	
+	public PlayerState getPlayerState();
+
 	/**
 	 * @return delay spinner model
 	 */
@@ -220,7 +221,7 @@ public interface IAppModel {
 	 * @return timer
 	 */
 	public abstract Timer getTimer();
-	
+
 	/**
 	 * 
 	 * @return ToggleComboGroup
@@ -229,10 +230,22 @@ public interface IAppModel {
 
 	/**
 	 * 
+	 * @return Graph document
+	 */
+	public abstract Document getGraphDocument();
+
+	/**
+	 * 
+	 * @return Algorithm document
+	 */
+	public abstract Document getAlgorithmDocument();
+
+	/**
+	 * 
 	 * @return protocol document
 	 */
 	public abstract Document getProtocolDocument();
-	
+
 	/**
 	 * @return vertex properties button model
 	 */
@@ -250,12 +263,12 @@ public interface IAppModel {
 	 * @return boolean
 	 */
 	public abstract boolean hasGraphFile();
-	
+
 	/**
 	 * @return boolean
 	 */
 	public abstract boolean hasStepIterator();
-	
+
 	/**
 	 * @return boolean
 	 */
@@ -265,17 +278,17 @@ public interface IAppModel {
 	 * @return boolean
 	 */
 	public abstract boolean isPlaying();
-	
+
 	/**
 	 * @return boolean
 	 */
 	public abstract boolean isPaused();
-	
+
 	/**
 	 * @return boolean
 	 */
 	public abstract boolean isStopped();
-	
+
 	/**
 	 * @return boolean
 	 */
@@ -304,54 +317,81 @@ public interface IAppModel {
 	/**
 	 * 
 	 * @param visualEditied
+	 * @throws BadLocationException
 	 */
-	public abstract void setEditGraphState(boolean visualEditied);
+	public abstract void setEditGraphState(boolean visualEditied)
+			throws BadLocationException;
 
 	/**
 	 * 
 	 * @param mode
+	 * @throws BadLocationException
 	 */
-	public void setEditMode(Mode mode);
+	public void setEditMode(Mode mode) throws BadLocationException;
 
 	public abstract void setEndAnimationState();
 
 	/**
 	 * @param edgeType
-	 * @throws CoreException 
+	 * @throws CoreException
+	 * @throws BadLocationException
 	 */
-	public abstract void setNewGraphState(EdgeType edgeType) throws CoreException;
+	public abstract void setNewGraphState(EdgeType edgeType)
+			throws CoreException, BadLocationException;
 
 	/**
-	 * No valid algorithm has been selected in the combo box. 
+	 * No valid algorithm has been selected in the combo box.
+	 * 
+	 * @throws BadLocationException
 	 */
-	public abstract void setNoAlgoSelectedState();
+	public abstract void setNoAlgoSelectedState() throws BadLocationException;
 
 	/**
 	 * 
 	 * @param graph
-	 * @param file 
-	 * @throws CoreException 
+	 * @param file
+	 * @throws CoreException
+	 * @throws BadLocationException
 	 */
-	public abstract void setOpenGraphState(IGravisGraph graph, File file) throws CoreException;
+	public abstract void setOpenGraphState(IGravisGraph graph, File file)
+			throws CoreException, BadLocationException;
 
-	public abstract void setPausedState();
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	public abstract void setPausedState() throws BadLocationException;
 
-	public abstract void setPlayingState();
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	public abstract void setPlayingState() throws BadLocationException;
 
-	public abstract void setSaveGraphState();
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	public abstract void setSaveGraphState() throws BadLocationException;
 
 	/**
 	 * @param graphFile
+	 * @throws BadLocationException 
 	 */
-	public abstract void setSaveGraphState(File graphFile);
+	public abstract void setSaveGraphState(File graphFile) throws BadLocationException;
 
 	/**
 	 * 
 	 * @param stepIterator
+	 * @param algoName 
+	 * @throws BadLocationException
+	 * @throws CoreException 
 	 */
-	public abstract void setCalcDoneState(IGravisListIterator<String> stepIterator);
+	public abstract void setCalcDoneState(
+			IGravisListIterator<String> stepIterator, String algoName)
+			throws BadLocationException, CoreException;
 
-	public abstract void setStoppedState();
+	public abstract void setStoppedState() throws BadLocationException;
 
 	/**
 	 * Two states can be set by parameter "enabled": <br />
@@ -360,9 +400,11 @@ public interface IAppModel {
 	 * false: disables step panel (all button models) and clears step iterator
 	 * 
 	 * @param enabled
+	 * @throws BadLocationException
 	 */
-	public abstract  void setStepPanelState(boolean enabled);
-	
+	public abstract void setStepPanelState(boolean enabled)
+			throws BadLocationException;
+
 	/**
 	 * Precondition: stepIterator not null <br />
 	 * Updates the step panel models with the current stepIterator values.
@@ -371,8 +413,9 @@ public interface IAppModel {
 
 	/**
 	 * @param enabled
+	 * @throws BadLocationException
 	 */
-	public abstract void setWorkingState(boolean enabled);
-
+	public abstract void setWorkingState(boolean enabled)
+			throws BadLocationException;
 
 }

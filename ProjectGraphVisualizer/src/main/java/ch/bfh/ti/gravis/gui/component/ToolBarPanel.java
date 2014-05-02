@@ -144,9 +144,8 @@ public class ToolBarPanel extends JToolBar implements Observer {
 
 		// add algorithm combo box and new calc button:
 
-		this.comboBoxAlgorithm = new JComboBox<>();
+		this.comboBoxAlgorithm = new JComboBox<>(model.getAlgorithmComboModel());
 		this.comboBoxAlgorithm.setToolTipText(ALGO_TOOLTIP);
-		this.comboBoxAlgorithm.setModel(model.getAlgorithmComboModel());
 		this.add(this.comboBoxAlgorithm);
 
 		this.btnNewCalculation = new JButton(CALC_LABEL);

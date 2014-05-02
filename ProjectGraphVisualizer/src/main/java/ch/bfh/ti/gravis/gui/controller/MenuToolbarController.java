@@ -56,15 +56,8 @@ class MenuToolbarController extends WindowAdapter implements
 
 	// protocol messages:
 
-	private final static String OPEN_GRAPH_MSG = "Ein Graph wird geöffnet...";
-	private final static String OPEN_GRAPH_DONE_MSG = "erledigt!%s"
-			+ "Datei:\t%s%sName:\t%s%sBeschreibung:\t%s%s%s";
-	private final static String SAVE_GRAPH_MSG = "Der aktuelle Graph wurde gespeichert:%s"
-			+ "Datei:\t%s%sName:\t%s%sBeschreibung:\t%s%s%s";
-	private final static String SELECT_ALGO_MSG = "Folgender Algorithmus wurde ausgewählt:%s"
-			+ "Name:\t%s%sBeschreibung:\t%s%s%s"
-			+ "Die Animationsschritte werden jetzt berechnet ... ";
-	private final static String ALGO_DONE_MSG = "die Berechnung wurde abgeschlossen.%s%s";
+	private final static String OPEN_GRAPH_MSG = "Graph wird geöffnet...";
+	private final static String ALGO_CALC_MSG = "Animation wird berechnet... ";
 
 	// final fields:
 
@@ -85,10 +78,14 @@ class MenuToolbarController extends WindowAdapter implements
 	/**
 	 * @param model
 	 * @param core
+	 * @throws BadLocationException 
 	 */
-	protected MenuToolbarController(IAppModel model, ICore core) {
+	protected MenuToolbarController(IAppModel model, ICore core) throws BadLocationException {
 		this.model = model;
 		this.core = core;
+		
+		this.model.getGraphDocument().insertString(0, this.model.getGraph().getDescription(), 
+				SimpleAttributeSet.EMPTY);
 	}
 
 	/*
@@ -287,27 +284,34 @@ class MenuToolbarController extends WindowAdapter implements
 
 		if (this.model.isStopped()
 				&& this.model.getCalculationState() != NOT_CALCULABLE) {
+			
+			Document algoDoc = this.model.getAlgorithmDocument();
+			Document protocolDoc = this.model.getProtocolDocument();
 
 			// ignores title entry
 			if (algoName.equals(IAppModel.DEFAULT_ALGO_ENTRY.toString())) {
-				// update model
+				
+				// updates model
 				this.model.setNoAlgoSelectedState();
+				algoDoc.remove(0, algoDoc.getLength());
+				protocolDoc.remove(0, protocolDoc.getLength());
 
-				// update view
+				// updates view
 				this.model.notifyObservers(false);
 			} else {
 				SwingWorker<IGravisListIterator<String>, Void> worker = this
 						.createCalcSwingWorker(algoName);
-				Document doc = this.model.getProtocolDocument();
 
 				// sets step panel to initial state and disables GUI
 				this.model.setWorkingState(true);
 
-				// clear protocol document and insert algo selection message
-				doc.remove(0, doc.getLength());
-				doc.insertString(0, String.format(SELECT_ALGO_MSG, LN,
-						algoName, LN,
-						this.core.getAlgorithmDescription(algoName), LN, LN),
+				// clears documents and inserts algo message
+				algoDoc.remove(0, algoDoc.getLength());
+				protocolDoc.remove(0, protocolDoc.getLength());
+				algoDoc.insertString(0,
+						this.core.getAlgorithmDescription(algoName),
+						SimpleAttributeSet.EMPTY);
+				protocolDoc.insertString(0, ALGO_CALC_MSG,
 						SimpleAttributeSet.EMPTY);
 
 				// update view
@@ -330,6 +334,7 @@ class MenuToolbarController extends WindowAdapter implements
 			@Override
 			protected IGravisListIterator<String> doInBackground()
 					throws Exception {
+				
 				// calculates steps
 				return MenuToolbarController.this.core.calculateSteps(
 						MenuToolbarController.this.model.getGraph(), algoName);
@@ -342,21 +347,15 @@ class MenuToolbarController extends WindowAdapter implements
 			 */
 			@Override
 			protected void done() {
-				Document doc = MenuToolbarController.this.model
-						.getProtocolDocument();
-
-				// enables GUI
-				MenuToolbarController.this.model.setWorkingState(false);
-
 				try {
-					// update model
+					// enables GUI
+					MenuToolbarController.this.model.setWorkingState(false);
+					
+					// updates model
 					MenuToolbarController.this.model.setCalcDoneState(this
-							.get());
-					doc.insertString(doc.getLength(),
-							String.format(ALGO_DONE_MSG, LN, LN),
-							SimpleAttributeSet.EMPTY);
+							.get(), algoName);
 
-					// update view
+					// updates view
 					MenuToolbarController.this.model.notifyObservers(false);
 				} catch (Exception e) {
 					// TODO: handle exception -> exits app
@@ -374,8 +373,8 @@ class MenuToolbarController extends WindowAdapter implements
 	 */
 	private void handleExitEvent() throws CoreException,
 			GravisGraphIOException, BadLocationException {
-		
-		// handle unsaved graph
+
+		// handles unsaved graph
 		if (!this.checkSave()) {
 			return;
 		}
@@ -395,9 +394,10 @@ class MenuToolbarController extends WindowAdapter implements
 
 	/**
 	 * @param mode
+	 * @throws BadLocationException 
 	 * 
 	 */
-	private void handleModeEvent(final Mode mode) {
+	private void handleModeEvent(final Mode mode) throws BadLocationException {
 		if (this.model.isStopped()) {
 			// update model
 			this.model.setEditMode(mode);
@@ -425,8 +425,6 @@ class MenuToolbarController extends WindowAdapter implements
 
 			// update model
 			this.model.setNewGraphState(edgeType);
-			this.model.getProtocolDocument().remove(0,
-					this.model.getProtocolDocument().getLength());
 
 			// update view
 			this.model.notifyObservers(true);
@@ -434,7 +432,7 @@ class MenuToolbarController extends WindowAdapter implements
 	}
 
 	/**
-	 * An existing file must be selected for open a graph.
+	 * An existing file must be selected for opening a graph.
 	 * 
 	 * @throws CoreException
 	 * @throws GravisGraphIOException
@@ -455,14 +453,18 @@ class MenuToolbarController extends WindowAdapter implements
 				if (file.exists()) {
 					SwingWorker<IGravisGraph, Void> worker = this
 							.createOpenGraphSwingWorker(file);
-					Document doc = this.model.getProtocolDocument();
+					Document graphDoc = this.model.getGraphDocument();
+					Document algoDoc = this.model.getAlgorithmDocument();
+					Document protocolDoc = this.model.getProtocolDocument();
 
 					// disables GUI
 					this.model.setWorkingState(true);
 
-					// clears protocol document and inserts open graph message
-					doc.remove(0, doc.getLength());
-					doc.insertString(0, OPEN_GRAPH_MSG,
+					// clears documents and inserts open graph message
+					graphDoc.remove(0, graphDoc.getLength());
+					algoDoc.remove(0, algoDoc.getLength());
+					protocolDoc.remove(0, protocolDoc.getLength());
+					graphDoc.insertString(0, OPEN_GRAPH_MSG,
 							SimpleAttributeSet.EMPTY);
 
 					// update view
@@ -486,7 +488,7 @@ class MenuToolbarController extends WindowAdapter implements
 	 */
 	private SwingWorker<IGravisGraph, Void> createOpenGraphSwingWorker(
 			final File file) {
-		
+
 		return new SwingWorker<IGravisGraph, Void>() {
 
 			@Override
@@ -501,27 +503,18 @@ class MenuToolbarController extends WindowAdapter implements
 			 */
 			@Override
 			protected void done() {
-				Document doc = MenuToolbarController.this.model
-						.getProtocolDocument();
-
-				// enables GUI
-				MenuToolbarController.this.model.setWorkingState(false);
-
 				try {
+					// enables GUI
+					MenuToolbarController.this.model.setWorkingState(false);
+					
 					// update model
 					MenuToolbarController.this.model.setOpenGraphState(
 							this.get(), file);
-					doc.insertString(doc.getLength(), String.format(
-							OPEN_GRAPH_DONE_MSG, LN, file.getAbsolutePath(),
-							LN, MenuToolbarController.this.model.getGraph()
-									.getName(), LN,
-							MenuToolbarController.this.model.getGraph()
-									.getDescription(), LN, LN),
-							SimpleAttributeSet.EMPTY);
 
 					// update view
 					MenuToolbarController.this.model.notifyObservers(true);
 				} catch (Exception e) {
+
 					// TODO: handle exception -> exits app
 					e.printStackTrace();
 				}
@@ -555,8 +548,6 @@ class MenuToolbarController extends WindowAdapter implements
 										OVERWRITE_TITLE,
 										JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)) {
 
-					Document doc = this.model.getProtocolDocument();
-
 					// sets step panel to initial state
 					this.model.setStepPanelState(true);
 
@@ -565,12 +556,6 @@ class MenuToolbarController extends WindowAdapter implements
 
 					// update model
 					this.model.setSaveGraphState(file);
-					doc.remove(0, doc.getLength());
-					doc.insertString(0, String.format(SAVE_GRAPH_MSG, LN, file
-							.getAbsolutePath(), LN, this.model.getGraph()
-							.getName(), LN, this.model.getGraph()
-							.getDescription(), LN, LN),
-							SimpleAttributeSet.EMPTY);
 
 					// update view
 					this.model.notifyObservers(false);
@@ -597,7 +582,6 @@ class MenuToolbarController extends WindowAdapter implements
 
 		if (this.model.isStopped()) {
 			if (this.model.hasGraphFile()) {
-				Document doc = this.model.getProtocolDocument();
 
 				// sets step panel to initial state
 				this.model.setStepPanelState(true);
@@ -608,12 +592,6 @@ class MenuToolbarController extends WindowAdapter implements
 
 				// update model
 				this.model.setSaveGraphState();
-				doc.remove(0, doc.getLength());
-				doc.insertString(0, String.format(SAVE_GRAPH_MSG, LN,
-						this.model.getGraphFile().getAbsolutePath(), LN,
-						this.model.getGraph().getName(), LN, this.model
-								.getGraph().getDescription(), LN, LN),
-						SimpleAttributeSet.EMPTY);
 
 				// update view
 				this.model.notifyObservers(false);

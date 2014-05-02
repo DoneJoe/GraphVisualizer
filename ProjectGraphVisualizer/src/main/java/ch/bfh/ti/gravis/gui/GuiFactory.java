@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.text.BadLocationException;
 
 import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
@@ -41,9 +42,10 @@ public final class GuiFactory {
 	 * @return JFrame
 	 * @throws CoreException
 	 * @throws IOException
+	 * @throws BadLocationException 
 	 */
 	public static JFrame createGUI(ICore core) throws CoreException,
-			IOException {
+			IOException, BadLocationException {
 
 		// model
 		IAppModel model = AppModelFactory.createAppModel(core);

@@ -4,56 +4,37 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
 http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="description" for="graph">
-<desc></desc>
-<default></default>
+<default>ungerichteter Graph 12</default>
 </key>
 <key id="vertexLocation.y" for="node">
-<desc></desc>
-<default>0</default>
+<default>50</default>
 </key>
 <key id="vertexWidth" for="node">
-<desc></desc>
 <default>60.0</default>
 </key>
 <key id="endVertex" for="node">
-<desc></desc>
 <default>false</default>
 </key>
 <key id="vertexColor" for="node">
-<desc></desc>
 <default>antique</default>
 </key>
 <key id="vertexLocation.x" for="node">
-<desc></desc>
-<default>0</default>
+<default>50</default>
 </key>
 <key id="startVertex" for="node">
-<desc></desc>
 <default>false</default>
 </key>
 <key id="vertexHeight" for="node">
-<desc></desc>
 <default>40.0</default>
 </key>
 <key id="weight" for="edge">
-<desc></desc>
 <default>1.0</default>
 </key>
 <key id="edgeColor" for="edge">
-<desc></desc>
 <default>black</default>
 </key>
-<graph id="gerichteter Graph 12" edgedefault="undirected">
-<data key="description">gerichteter Graph 12</data>
-<node id="20">
-<data key="vertexLocation.y">133</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">green</data>
-<data key="vertexLocation.x">871</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
+<graph id="ungerichteter Graph 12" edgedefault="undirected">
+<data key="description">ungerichteter Graph mit Farben</data>
 <node id="10">
 <data key="vertexLocation.y">505</data>
 <data key="vertexWidth">60.0</data>
@@ -63,12 +44,12 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="18">
-<data key="vertexLocation.y">527</data>
+<node id="20">
+<data key="vertexLocation.y">133</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">625</data>
+<data key="vertexColor">green</data>
+<data key="vertexLocation.x">871</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
@@ -81,11 +62,33 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="startVertex">true</data>
 <data key="vertexHeight">40.0</data>
 </node>
+<node id="18">
+<data key="vertexLocation.y">527</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">625</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="K">
+<data key="vertexLocation.y">270</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">antique</data>
+<data key="vertexLocation.x">1182</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
 <edge id="9" source="19" target="18">
 <data key="weight">1.0</data>
 <data key="edgeColor">black</data>
 </edge>
-<edge id="5" source="18" target="20">
+<edge id="e15" source="K" target="20">
+<data key="weight">1.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="11" source="10" target="18">
 <data key="weight">1.0</data>
 <data key="edgeColor">black</data>
 </edge>
@@ -93,7 +96,11 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="weight">1.0</data>
 <data key="edgeColor">red</data>
 </edge>
-<edge id="11" source="10" target="18">
+<edge id="e14" source="10" target="K">
+<data key="weight">1.0</data>
+<data key="edgeColor">black</data>
+</edge>
+<edge id="5" source="18" target="20">
 <data key="weight">1.0</data>
 <data key="edgeColor">black</data>
 </edge>

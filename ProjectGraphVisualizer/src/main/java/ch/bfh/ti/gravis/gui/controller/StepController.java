@@ -70,9 +70,22 @@ class StepController implements IStepController {
 			if (this.messageDialogAdapter != null) {
 				this.messageDialogAdapter.showMessageDialog("err", "err",
 						JOptionPane.ERROR_MESSAGE);
-
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.ti.gravis.gui.controller.IStepController#setMessageDialogAdapter
+	 * (ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter)
+	 */
+	@Override
+	public void setMessageDialogAdapter(
+			MessageDialogAdapter messageDialogAdapter) {
+
+		this.messageDialogAdapter = messageDialogAdapter;
 	}
 
 	/*
@@ -203,7 +216,11 @@ class StepController implements IStepController {
 		return false;
 	}
 
-	private void handlePauseEvent() {
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	private void handlePauseEvent() throws BadLocationException {
 		if (this.model.isPlaying()
 				&& this.model.getCalculationState() == CALCULATED) {
 
@@ -215,7 +232,11 @@ class StepController implements IStepController {
 		}
 	}
 
-	private void handlePlayEvent() {
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	private void handlePlayEvent() throws BadLocationException {
 		if (!this.model.isPlaying()
 				&& this.model.getCalculationState() == CALCULATED) {
 
@@ -232,7 +253,11 @@ class StepController implements IStepController {
 		}
 	}
 
-	private void handleStopEvent() {
+	/**
+	 * 
+	 * @throws BadLocationException
+	 */
+	private void handleStopEvent() throws BadLocationException {
 		if (!this.model.isStopped()
 				&& this.model.getCalculationState() == CALCULATED) {
 
@@ -254,35 +279,21 @@ class StepController implements IStepController {
 	 * @throws BadLocationException
 	 */
 	private void handleTimerEvent() throws BadLocationException {
-		// check, if last step is done
-		if (this.handleForwardEvent()
+		// checks if last step is done
+		if (this.model.isPlaying() && this.handleForwardEvent()
 				&& !this.model.getStepIterator().hasNext()) {
 
-			// stop timer
+			// stops timer
 			if (this.model.getTimer().isRunning()) {
 				this.model.getTimer().stop();
 			}
 
-			// update model
+			// updates model
 			this.model.setEndAnimationState();
 
-			// update view
+			// updates view
 			this.model.notifyObservers(false);
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.gui.controller.IStepController#setMessageDialogAdapter
-	 * (ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter)
-	 */
-	@Override
-	public void setMessageDialogAdapter(
-			MessageDialogAdapter messageDialogAdapter) {
-
-		this.messageDialogAdapter = messageDialogAdapter;
 	}
 
 }
