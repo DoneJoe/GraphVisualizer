@@ -26,9 +26,8 @@ abstract class AbstractGravisVerifier extends InputVerifier {
 	public boolean shouldYieldFocus(final JComponent input) {
 		if (input instanceof JTextComponent) {
 			JTextComponent textField = (JTextComponent) input;
-			boolean inputOK = this.verify(input);
 	
-			if (inputOK) {
+			if (this.verify(input)) {
 				this.lastGood = textField.getText();
 				return true;
 			} else {

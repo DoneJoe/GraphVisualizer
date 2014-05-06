@@ -163,7 +163,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 	/**
 	 * @param arg
 	 */
-	private void updateTextAreas(DocumentEvent arg) {
+	private void updateTextAreas(final DocumentEvent arg) {
 		this.graphDescription.setCaretPosition(this.graphDescription
 				.getDocument().getLength());
 		this.algorithmDescription.setCaretPosition(this.algorithmDescription

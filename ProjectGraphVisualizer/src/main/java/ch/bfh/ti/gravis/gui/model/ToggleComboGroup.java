@@ -22,11 +22,7 @@ public class ToggleComboGroup {
 
 	private final JComboBox<?> editModeComboBox;
 
-	private boolean locked;
-
 	protected ToggleComboGroup() {
-		this.locked = false;
-
 		// create elements:
 
 		this.pickingToggleButton = new JToggleButton();
@@ -126,12 +122,10 @@ public class ToggleComboGroup {
 	 * @param newMode
 	 */
 	private void setSelectedComboItem(ItemEvent event, Mode newMode) {
-		if (event.getStateChange() == ItemEvent.SELECTED && !this.locked
+		if (event.getStateChange() == ItemEvent.SELECTED
 				&& this.getMode() != newMode) {
 
-			this.locked = true;
 			this.editModeComboBox.setSelectedItem(newMode);
-			this.locked = false;
 		}
 	}
 
@@ -141,23 +135,26 @@ public class ToggleComboGroup {
 	@SuppressWarnings("incomplete-switch")
 	private void setSelectedToggleItem(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED
-				&& e.getItem() instanceof Mode && !this.locked) {
+				&& e.getItem() instanceof Mode) {
 
-			this.locked = true;
 			Mode mode = (Mode) e.getItem();
 
 			switch (mode) {
 			case PICKING:
-				this.pickingToggleButton.setSelected(true);
+				if (!this.pickingToggleButton.isSelected()) {
+					this.pickingToggleButton.setSelected(true);
+				}
 				break;
 			case EDITING:
-				this.editingToggleButton.setSelected(true);
+				if (!this.editingToggleButton.isSelected()) {
+					this.editingToggleButton.setSelected(true);
+				}
 				break;
 			case TRANSFORMING:
-				this.transformingToggleButton.setSelected(true);
+				if (!this.transformingToggleButton.isSelected()) {
+					this.transformingToggleButton.setSelected(true);
+				}
 			}
-
-			this.locked = false;
 		}
 	}
 

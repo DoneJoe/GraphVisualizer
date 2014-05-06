@@ -34,7 +34,7 @@ public class StepPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 1543453026902655850L;
 
 	private static final String BORDER_LABEL = "Player";
-	
+
 	private static final String PROGRESS_LABEL = "Schritt %d/%d ";
 	private static final String DELAY_LABEL = "Zeitintervall: ";
 
@@ -58,7 +58,7 @@ public class StepPanel extends JPanel implements Observer {
 	private static final String STOP_TOOLTIP = "Animation stoppen";
 
 	private static final String SPINNER_FORMAT = "#.## s";
-	
+
 	private JLabel lblProgress;
 
 	private JProgressBar progressBar;
@@ -102,14 +102,14 @@ public class StepPanel extends JPanel implements Observer {
 		panelStep.add(panelStepButtons);
 
 		// set border and background colors:
-		
+
 		this.setBorder(BorderFactory.createTitledBorder(BORDER_LABEL));
 		this.setBackground(GravisColor.ANTIQUE);
 		panelProgress.setBackground(GravisColor.ANTIQUE);
 		panelStep.setBackground(GravisColor.ANTIQUE);
 		panelPlayButtons.setBackground(GravisColor.ANTIQUE);
 		panelStepButtons.setBackground(GravisColor.ANTIQUE);
-		
+
 		// progress panel:
 
 		this.lblProgress = new JLabel(String.format(PROGRESS_LABEL, 0, 0));
@@ -161,7 +161,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnBack.setIcon(new ImageIcon(loadImage(BACK_ICON)));
 		btnBack.setToolTipText(BACK_TOOLTIP);
 		panelStepButtons.add(btnBack);
-		
+
 		JButton btnForward = new JButton();
 		btnForward.setIcon(new ImageIcon(loadImage(FORWARD_ICON)));
 		btnForward.setToolTipText(FORWARD_TOOLTIP);
@@ -177,7 +177,6 @@ public class StepPanel extends JPanel implements Observer {
 		btnPlay.setModel(model.getPlayButtonModel());
 		btnPause.setModel(model.getPauseButtonModel());
 		btnStop.setModel(model.getStopButtonModel());
-
 		btnBeginning.setModel(model.getBeginningButtonModel());
 		btnForward.setModel(model.getForwardButtonModel());
 		btnBack.setModel(model.getBackButtonModel());
@@ -185,22 +184,21 @@ public class StepPanel extends JPanel implements Observer {
 
 		// add listeners:
 
-		btnBeginning.setActionCommand(EventSource.BEGINNING.toString());
-		btnBeginning.addActionListener(stepController);
-		btnBack.setActionCommand(EventSource.BACK.toString());
-		btnBack.addActionListener(stepController);
-		btnForward.setActionCommand(EventSource.FORWARD.toString());
-		btnForward.addActionListener(stepController);
-		btnEnd.setActionCommand(EventSource.END.toString());
-		btnEnd.addActionListener(stepController);
-
+		this.spinnerDelay.addChangeListener(stepController);
 		btnPlay.addActionListener(stepController);
 		btnPlay.setActionCommand(EventSource.PLAY.toString());
 		btnPause.addActionListener(stepController);
 		btnPause.setActionCommand(EventSource.PAUSE.toString());
 		btnStop.addActionListener(stepController);
 		btnStop.setActionCommand(EventSource.STOP.toString());
-		this.spinnerDelay.addChangeListener(stepController);
+		btnForward.setActionCommand(EventSource.FORWARD.toString());
+		btnForward.addActionListener(stepController);
+		btnBack.setActionCommand(EventSource.BACK.toString());
+		btnBack.addActionListener(stepController);
+		btnBeginning.setActionCommand(EventSource.BEGINNING.toString());
+		btnBeginning.addActionListener(stepController);
+		btnEnd.setActionCommand(EventSource.END.toString());
+		btnEnd.addActionListener(stepController);
 	}
 
 	/*
