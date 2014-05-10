@@ -48,6 +48,8 @@ public class ToggleComboGroup {
 				.createToggleListener(Mode.TRANSFORMING));
 		this.editModeComboBox.addItemListener(this.createModeComboListener());
 
+		// select picking item:
+		
 		this.pickingToggleButton.setSelected(true);
 	}
 
@@ -85,7 +87,7 @@ public class ToggleComboGroup {
 	/**
 	 * @param enabled
 	 */
-	public void setToggleModelsEnabled(boolean enabled) {
+	public void setToggleComboGroupEnabled(boolean enabled) {
 		this.pickingToggleButton.setEnabled(enabled);
 		this.editingToggleButton.setEnabled(enabled);
 		this.transformingToggleButton.setEnabled(enabled);

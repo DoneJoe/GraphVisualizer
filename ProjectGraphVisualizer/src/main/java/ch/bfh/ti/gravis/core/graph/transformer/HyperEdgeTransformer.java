@@ -34,7 +34,7 @@ public class HyperEdgeTransformer implements
 
 		edge.setName(hEdgeMeta.getId());
 		edge.setCurrentColor(color == null ? GravisConstants.E_COLOR_DEFAULT
-				: ValueTransformer.transformStringToColor(hEdgeMeta
+				: ValueTransformer.transformToColor(hEdgeMeta
 						.getProperty(GravisConstants.E_COLOR)));
 
 		edge.setWeight(ValueTransformer.transformToDouble(hEdgeMeta

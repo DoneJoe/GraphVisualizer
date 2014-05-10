@@ -7,7 +7,7 @@ import javax.swing.text.JTextComponent;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class VertexSizeVerifier extends AbstractGravisVerifier {
+public class VertexSizeVerifier extends AbstractVerifier {
 
 	private static final double MIN_VALUE = 10.0;
 
@@ -33,7 +33,7 @@ public class VertexSizeVerifier extends AbstractGravisVerifier {
 			double value = 0.0;
 
 			try {
-				value = Integer.parseInt(textField.getText());
+				value = Double.parseDouble(textField.getText());
 			} catch (Exception e) {
 				return false;
 			}

@@ -29,6 +29,8 @@ public class MainWindow extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 8699847848182615730L;
 
+	private static final int BORDER = 5;
+	
 	private final static String TITLE_NEW = "Graph Visualizer - [Neuer Graph%s]";
 	private final static String TITLE_SAVED = "Graph Visualizer - [%s%s]";
 	private final static String UNSAVED = " *";
@@ -51,8 +53,8 @@ public class MainWindow extends JFrame implements Observer {
 		// set content pane:
 
 		JPanel contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
+		contentPane.setLayout(new BorderLayout(BORDER, BORDER));
 		this.setContentPane(contentPane);
 
 		// create panels:
@@ -69,7 +71,7 @@ public class MainWindow extends JFrame implements Observer {
 
 		// add panels:
 
-		centerPanel.setLayout(new BorderLayout());
+		centerPanel.setLayout(new BorderLayout(BORDER, BORDER));
 		centerPanel.add(visualizationPanel, BorderLayout.CENTER);
 		centerPanel.add(stepPanel, BorderLayout.SOUTH);
 		splitPane.setTopComponent(centerPanel);

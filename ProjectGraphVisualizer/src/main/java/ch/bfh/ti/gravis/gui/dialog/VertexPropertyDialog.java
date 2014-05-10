@@ -3,12 +3,18 @@ package ch.bfh.ti.gravis.gui.dialog;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.Action;
+import javax.swing.InputVerifier;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
@@ -22,6 +28,8 @@ import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
@@ -33,18 +41,21 @@ public class VertexPropertyDialog extends JDialog {
 
 	private static final long serialVersionUID = -6919635847499019908L;
 
+	private static final int BORDER = 5;
+	private static final int TEXT_COLS = 17;
+
 	private static final String TITLE = "Knoten %s bearbeiten...";
-	private static final String VERTEX_NAME_LABEL = "Knoten-Name:              ";
-	private static final String WIDTH_LABEL = "Breite:";
-	private static final String HEIGHT_LABEL = "Höhe:";
+	private static final String VERTEX_NAME_LABEL = "Knoten-Name: ";
+	private static final String WIDTH_LABEL = "Breite: ";
+	private static final String HEIGHT_LABEL = "Höhe: ";
 	private final static String OK = "OK";
-	private final static String CANCEL = "Cancel";
-	
-	private JTextField txtVertexName;
+	private final static String CANCEL = "Abbrechen";
 
-	private JTextField txtWidth;
+	private final JTextField txtVertexName;
 
-	private JTextField txtHeight;
+	private final JTextField txtWidth;
+
+	private final JTextField txtHeight;
 
 	/**
 	 * Create the dialog.
@@ -55,105 +66,187 @@ public class VertexPropertyDialog extends JDialog {
 	 */
 	public VertexPropertyDialog(final IVertex vertex, final JFrame owner,
 			final VisualizationViewer<IVertex, IEdge> vViewer) {
+
 		super(owner, true);
 
-		this.setTitle(String.format(TITLE, vertex.getName()));
+		// creates formatter and verifiers:
 
-		JPanel contentPanel = new JPanel();
-		this.setResizable(false);
-		this.getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new GridLayout(3, 2, 0, 0));
+		DecimalFormat sizeFormat = new DecimalFormat();
+		sizeFormat.setMinimumFractionDigits(0);
+		sizeFormat.setMaximumFractionDigits(2);
+
+		InputVerifier itemNameVerifier = new GraphItemNameVerifier(vertex.getName(),
+				vViewer.getGraphLayout().getGraph());
+		InputVerifier vertexHeightVerifier = new VertexSizeVerifier(
+				sizeFormat.format(vertex.getHeight()));
+		InputVerifier vertexWidthVerifier = new VertexSizeVerifier(
+				sizeFormat.format(vertex.getWidth()));
+
+		// creates panels:
+
+		JPanel fieldPanel = new JPanel();
+		fieldPanel.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
+		fieldPanel.setLayout(new BorderLayout(BORDER, BORDER));
+
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout(new GridLayout(3, 1, BORDER, BORDER));
+		fieldPanel.add(labelPanel, BorderLayout.WEST);
+
+		JPanel textFieldPanel = new JPanel();
+		textFieldPanel.setLayout(new GridLayout(3, 1, BORDER, BORDER));
+		fieldPanel.add(textFieldPanel, BorderLayout.CENTER);
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+		this.getContentPane().setLayout(new BorderLayout(BORDER, BORDER));
+		this.getContentPane().add(fieldPanel, BorderLayout.CENTER);
+		this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+		// creates text fields:
 
 		JLabel lblVertexName = new JLabel(VERTEX_NAME_LABEL);
-		contentPanel.add(lblVertexName);
+		labelPanel.add(lblVertexName);
+
 		this.txtVertexName = new JTextField();
-		contentPanel.add(this.txtVertexName);
+		this.txtVertexName.setColumns(TEXT_COLS);
+		textFieldPanel.add(this.txtVertexName);
+
 		JLabel lblWidth = new JLabel(WIDTH_LABEL);
-		contentPanel.add(lblWidth);
+		labelPanel.add(lblWidth);
+
 		this.txtWidth = new JTextField();
-		contentPanel.add(this.txtWidth);
+		this.txtWidth.setColumns(TEXT_COLS);
+		textFieldPanel.add(this.txtWidth);
+
 		JLabel lblHeight = new JLabel(HEIGHT_LABEL);
-		contentPanel.add(lblHeight);
+		labelPanel.add(lblHeight);
+
 		this.txtHeight = new JTextField();
-		contentPanel.add(this.txtHeight);
+		this.txtHeight.setColumns(TEXT_COLS);
+		textFieldPanel.add(this.txtHeight);
 
-		JPanel buttonPane = new JPanel();
-		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		this.getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		// creates cancel action and buttons:
+
+		Action cancelAction = new CancelDialogAction(this);
+
 		JButton okButton = new JButton(OK);
-		okButton.setActionCommand(OK);
-		buttonPane.add(okButton);
-		getRootPane().setDefaultButton(okButton);
-		JButton cancelButton = new JButton(CANCEL);
-		cancelButton.setActionCommand(CANCEL);
-		buttonPane.add(cancelButton);
+		buttonPanel.add(okButton);
 
-		this.setTextFieldValues(vertex, vViewer);
-		this.setListeners(vertex, vViewer, okButton, cancelButton);
+		JButton cancelButton = new JButton();
+		cancelButton.setAction(cancelAction);
+		cancelButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), CANCEL);
+		cancelButton.getInputMap(JComponent.WHEN_FOCUSED).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), CANCEL);
+		cancelButton.getActionMap().put(CANCEL, cancelAction);
+		cancelButton.setText(CANCEL);
+		buttonPanel.add(cancelButton);
 
+		// sets text field values:
+
+		this.txtVertexName.setInputVerifier(itemNameVerifier);
+		this.txtWidth.setInputVerifier(vertexWidthVerifier);
+		this.txtHeight.setInputVerifier(vertexHeightVerifier);
+
+		this.txtVertexName.setText(vertex.getName());
+		this.txtWidth.setText(sizeFormat.format(vertex.getWidth()));
+		this.txtHeight.setText(sizeFormat.format(vertex.getHeight()));
+
+		// adds listeners:
+
+		DocumentListener docListener = this.createVertexDocumentListener(
+				okButton, itemNameVerifier, vertexWidthVerifier);
+
+		this.txtVertexName.getDocument().addDocumentListener(docListener);
+		this.txtHeight.getDocument().addDocumentListener(docListener);
+		this.txtWidth.getDocument().addDocumentListener(docListener);
+		okButton.addActionListener(this.createOKActionListener(vertex, vViewer,
+				itemNameVerifier, vertexHeightVerifier, vertexWidthVerifier));
+
+		// prepares dialog:
+
+		this.setTitle(String.format(TITLE, vertex.getName()));
+		this.getRootPane().setDefaultButton(okButton);
+		this.setResizable(false);
 		this.pack();
 	}
 
 	/**
-	 * @param vertex
-	 * @param vViewer
 	 * @param okButton
-	 * @param cancelButton
+	 * @param itemNameVerifier
+	 * @param vertexSizeVerifier
+	 * @return
 	 */
-	private void setListeners(final IVertex vertex,
+	private DocumentListener createVertexDocumentListener(
+			final JButton okButton, final InputVerifier itemNameVerifier,
+			final InputVerifier vertexSizeVerifier) {
+
+		return new DocumentListener() {
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// nothing to do
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				okButton.setEnabled(itemNameVerifier
+						.verify(VertexPropertyDialog.this.txtVertexName)
+						&& vertexSizeVerifier
+								.verify(VertexPropertyDialog.this.txtWidth)
+						&& vertexSizeVerifier
+								.verify(VertexPropertyDialog.this.txtHeight));
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				okButton.setEnabled(itemNameVerifier
+						.verify(VertexPropertyDialog.this.txtVertexName)
+						&& vertexSizeVerifier
+								.verify(VertexPropertyDialog.this.txtWidth)
+						&& vertexSizeVerifier
+								.verify(VertexPropertyDialog.this.txtHeight));
+			}
+		};
+	}
+
+	/**
+	 * @param vertex
+	 * @param vViewer
+	 * @param itemNameVerifier
+	 * @param vertexHeightVerifier
+	 * @param vertexWidthVerifier
+	 * @return
+	 */
+	private ActionListener createOKActionListener(final IVertex vertex,
 			final VisualizationViewer<IVertex, IEdge> vViewer,
-			final JButton okButton, JButton cancelButton) {
+			final InputVerifier itemNameVerifier,
+			final InputVerifier vertexHeightVerifier,
+			final InputVerifier vertexWidthVerifier) {
 
-		okButton.addActionListener(new ActionListener() {
+		return new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				VertexPropertyDialog.this
-						.updateTextFieldValues(vertex, vViewer);
+				if (itemNameVerifier
+						.verify(VertexPropertyDialog.this.txtVertexName)
+						&& vertexHeightVerifier
+								.verify(VertexPropertyDialog.this.txtHeight)
+						&& vertexWidthVerifier
+								.verify(VertexPropertyDialog.this.txtWidth)) {
+
+					vertex.setName(VertexPropertyDialog.this.txtVertexName
+							.getText().trim());
+					vertex.setWidth(ValueTransformer
+							.transformToDouble(VertexPropertyDialog.this.txtWidth
+									.getText().trim()));
+					vertex.setHeight(ValueTransformer
+							.transformToDouble(VertexPropertyDialog.this.txtHeight
+									.getText().trim()));
+					vViewer.repaint();
+					VertexPropertyDialog.this.dispose();
+				}
 			}
-		});
-
-		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VertexPropertyDialog.this.dispose();
-			}
-		});
-	}
-
-	/**
-	 * @param vertex
-	 * @param vViewer
-	 */
-	private void updateTextFieldValues(final IVertex vertex,
-			final VisualizationViewer<IVertex, IEdge> vViewer) {
-		
-		vertex.setName(this.txtVertexName.getText().trim());
-		vertex.setWidth(ValueTransformer.transformToDouble(this.txtWidth.getText().trim()));
-		vertex.setHeight(ValueTransformer.transformToDouble(this.txtHeight.getText().trim()));
-		vViewer.repaint();
-		this.dispose();
-	}
-
-	/**
-	 * @param vertex
-	 * @param vViewer
-	 */
-	private void setTextFieldValues(final IVertex vertex,
-			final VisualizationViewer<IVertex, IEdge> vViewer) {
-
-		this.txtVertexName.setText(vertex.getName());
-		this.txtWidth.setText(String.valueOf(new Double(vertex.getWidth())
-				.intValue()));
-		this.txtHeight.setText(String.valueOf(new Double(vertex.getHeight())
-				.intValue()));
-
-		this.txtVertexName.setInputVerifier(new GraphItemNameVerifier(
-				this.txtVertexName.getText().trim(), vertex, vViewer
-						.getGraphLayout().getGraph()));
-		this.txtWidth.setInputVerifier(new VertexSizeVerifier(this.txtWidth
-				.getText().trim()));
-		this.txtHeight.setInputVerifier(new VertexSizeVerifier(this.txtHeight
-				.getText().trim()));
+		};
 	}
 
 }

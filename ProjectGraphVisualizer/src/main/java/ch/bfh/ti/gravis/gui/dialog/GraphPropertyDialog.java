@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -35,33 +34,17 @@ import ch.bfh.ti.gravis.gui.verifier.GraphNameVerifier;
  */
 public class GraphPropertyDialog extends JDialog {
 
-	private class CancelAction extends AbstractAction {
-		private static final long serialVersionUID = 434637644370980465L;
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
-		 * )
-		 */
-		@Override
-		public void actionPerformed(ActionEvent arg) {
-			GraphPropertyDialog.this.dispose();
-		}
-	}
-
 	private static final long serialVersionUID = -1767385966504542230L;
+	
+	private static final int BORDER = 5;
+	private static final int TEXT_COLS = 40;
+	private static final int TEXT_ROWS = 12;
 
 	private static final String TITLE = "%s bearbeiten...";
 	private static final String GRAPH_NAME_LABEL = "Name: ";
 	private static final String GRAPH_DESCR_LABEL = "Beschreibung: ";
 	private static final String OK = "OK";
 	private static final String CANCEL = "Abbrechen";
-
-	private JTextField txtGraphName;
-
-	private JTextArea graphDescription;
 
 	/**
 	 * Create the dialog.
@@ -72,32 +55,58 @@ public class GraphPropertyDialog extends JDialog {
 	public GraphPropertyDialog(final IGravisGraph graph, final JFrame owner) {
 		super(owner, true);
 
-		// creates panels:
+		// creates verifier and panels:
+
+		GraphNameVerifier verifier = new GraphNameVerifier(graph.getName());
 
 		JPanel panelGraphName = new JPanel();
-		panelGraphName.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panelGraphName.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
 		panelGraphName.setLayout(new BorderLayout());
 
 		JPanel panelGraphDescription = new JPanel();
-		panelGraphDescription.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panelGraphDescription.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
 		panelGraphDescription.setLayout(new BorderLayout());
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-		this.getContentPane().setLayout(new BorderLayout());
+		this.getContentPane().setLayout(new BorderLayout(BORDER, BORDER));
 		this.getContentPane().add(panelGraphName, BorderLayout.NORTH);
 		this.getContentPane().add(panelGraphDescription, BorderLayout.CENTER);
 		this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		// creates buttons:
+		// creates graph name text field:
+
+		JLabel lblGraphName = new JLabel(GRAPH_NAME_LABEL);
+		panelGraphName.add(lblGraphName, BorderLayout.WEST);
+
+		JTextField txtGraphName = new JTextField();
+		panelGraphName.add(txtGraphName, BorderLayout.CENTER);
+
+		// creates graph description text area:
+
+		JLabel lblGraphDescription = new JLabel(GRAPH_DESCR_LABEL);
+		panelGraphDescription.add(lblGraphDescription, BorderLayout.NORTH);
+
+		JTextArea graphDescription = new JTextArea();
+		graphDescription.setLineWrap(true);
+		graphDescription.setWrapStyleWord(true);
+		graphDescription.setColumns(TEXT_COLS);
+		graphDescription.setRows(TEXT_ROWS);
+		
+		JScrollPane areaScrollPane = new JScrollPane(graphDescription);
+		areaScrollPane
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		panelGraphDescription.add(areaScrollPane, BorderLayout.CENTER);
+
+		// creates cancel action and buttons:
+
+		Action cancelAction = new CancelDialogAction(this);
 
 		JButton okButton = new JButton(OK);
-		okButton.addActionListener(this.createOKActionListener(graph));
 		buttonPanel.add(okButton);
 
 		JButton cancelButton = new JButton();
-		Action cancelAction = new CancelAction();
 		cancelButton.setAction(cancelAction);
 		cancelButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), CANCEL);
@@ -107,60 +116,50 @@ public class GraphPropertyDialog extends JDialog {
 		cancelButton.setText(CANCEL);
 		buttonPanel.add(cancelButton);
 
-		// creates graph name text field:
+		// set text field values:
+		
+		txtGraphName.setText(graph.getName());
+		txtGraphName.setInputVerifier(verifier);
+		graphDescription.setText(graph.getDescription());
+		
+		// add listeners:
 
-		JLabel lblGraphName = new JLabel(GRAPH_NAME_LABEL);
-		panelGraphName.add(lblGraphName, BorderLayout.WEST);
-
-		this.txtGraphName = new JTextField();
-		GraphNameVerifier verifier = new GraphNameVerifier(
-				graph.getName());
-		this.txtGraphName.getDocument().addDocumentListener(
-				this.createGraphNameDocumentListener(okButton, verifier));
-		panelGraphName.add(this.txtGraphName, BorderLayout.CENTER);
-
-		// creates graph description text area:
-
-		JLabel lblGraphDescription = new JLabel(GRAPH_DESCR_LABEL);
-		panelGraphDescription.add(lblGraphDescription, BorderLayout.NORTH);
-
-		this.graphDescription = new JTextArea();
-		JScrollPane areaScrollPane = new JScrollPane(this.graphDescription);
-		areaScrollPane
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		this.graphDescription.setLineWrap(true);
-		this.graphDescription.setWrapStyleWord(true);
-		panelGraphDescription.add(areaScrollPane, BorderLayout.CENTER);
+		txtGraphName.getDocument().addDocumentListener(
+				this.createGraphNameDocumentListener(okButton, verifier,
+						txtGraphName));
+		okButton.addActionListener(this.createOKActionListener(graph, verifier,
+				txtGraphName, graphDescription));
 
 		// prepares dialog:
 
 		this.setTitle(String.format(TITLE, graph.getName()));
 		this.setResizable(false);
-		this.setBounds(100, 100, 500, 300);
 		this.getRootPane().setDefaultButton(okButton);
-		this.setTextFieldValues(graph, verifier);
+		this.pack();
 		this.centerDialog();
 	}
 
 	/**
 	 * @param okButton
-	 * @param verifier 
+	 * @param verifier
+	 * @param txtGraphName
 	 * @return DocumentListener
 	 */
-	private DocumentListener createGraphNameDocumentListener(final JButton okButton, 
-			final GraphNameVerifier verifier) {	
-		
-		return new DocumentListener() {			
+	private DocumentListener createGraphNameDocumentListener(
+			final JButton okButton, final GraphNameVerifier verifier,
+			final JTextField txtGraphName) {
+
+		return new DocumentListener() {
 			@Override
 			public void removeUpdate(DocumentEvent arg) {
-					okButton.setEnabled(verifier.verify(GraphPropertyDialog.this.txtGraphName));
+				okButton.setEnabled(verifier.verify(txtGraphName));
 			}
-			
+
 			@Override
 			public void insertUpdate(DocumentEvent arg) {
-				okButton.setEnabled(verifier.verify(GraphPropertyDialog.this.txtGraphName));
+				okButton.setEnabled(verifier.verify(txtGraphName));
 			}
-			
+
 			@Override
 			public void changedUpdate(DocumentEvent arg) {
 				// nothing to do
@@ -171,46 +170,32 @@ public class GraphPropertyDialog extends JDialog {
 	/**
 	 * 
 	 * @param graph
-	 * @return Ok ActionListener
+	 * @param verifier
+	 * @param txtGraphName
+	 * @param graphDescription
+	 * @return ActionListener
 	 */
-	private ActionListener createOKActionListener(final IGravisGraph graph) {
+	private ActionListener createOKActionListener(final IGravisGraph graph,
+			final GraphNameVerifier verifier, final JTextField txtGraphName,
+			final JTextArea graphDescription) {
+
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				GraphPropertyDialog.this.updateTextFieldValues(graph);
+				if (verifier.verify(txtGraphName)) {
+					graph.setName(txtGraphName.getText().trim());
+					graph.setDescription(graphDescription.getText().trim());
+					GraphPropertyDialog.this.dispose();
+				}
 			}
 		};
 	}
 
-	/**
-	 * @param graph
-	 */
-	private void updateTextFieldValues(final IGravisGraph graph) {
-		// TODO mit verifier ueberpruefen!
-		
-		if (!this.txtGraphName.getText().trim().isEmpty()) {
-			graph.setName(this.txtGraphName.getText().trim());
-			graph.setDescription(this.graphDescription.getText().trim());
-			this.dispose();
-		}
-	}
-
-	/**
-	 * 
-	 * @param graph
-	 * @param verifier
-	 */
-	private void setTextFieldValues(final IGravisGraph graph, final GraphNameVerifier verifier) {
-		this.txtGraphName.setText(graph.getName());
-		this.graphDescription.setText(graph.getDescription());
-		this.txtGraphName.setInputVerifier(verifier);
-	}
-
 	private void centerDialog() {
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		final Dimension screenSize = toolkit.getScreenSize();
-		final int x = (screenSize.width - this.getWidth()) / 2;
-		final int y = (screenSize.height - this.getHeight()) / 2;
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (screenSize.width - this.getWidth()) / 2;
+		int y = (screenSize.height - this.getHeight()) / 2;
+		
 		this.setLocation(x, y);
 	}
 

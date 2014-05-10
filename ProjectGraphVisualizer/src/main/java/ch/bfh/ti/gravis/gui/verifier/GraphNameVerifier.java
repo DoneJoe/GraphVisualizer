@@ -7,8 +7,10 @@ import javax.swing.text.JTextComponent;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-public class GraphNameVerifier extends AbstractGravisVerifier {
+public class GraphNameVerifier extends AbstractVerifier {
 
+	private static final int MAX_LENGTH = 55;
+	
 	/**
 	 * @param lastGood 
 	 */
@@ -22,9 +24,9 @@ public class GraphNameVerifier extends AbstractGravisVerifier {
 	@Override
 	public boolean verify(final JComponent input) {
 		if (input instanceof JTextComponent) {
-			JTextComponent textField = (JTextComponent) input;
+			String name = ((JTextComponent) input).getText().trim();
 			
-			return !textField.getText().trim().isEmpty();
+			return !name.trim().isEmpty() && name.length() <= MAX_LENGTH;
 		}
 		
 		return false;

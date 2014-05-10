@@ -7,7 +7,7 @@ import javax.swing.text.JTextComponent;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class EdgeWeightVerifier extends AbstractGravisVerifier {
+public class EdgeWeightVerifier extends AbstractVerifier {
 
 	/**
 	 * @param lastGood

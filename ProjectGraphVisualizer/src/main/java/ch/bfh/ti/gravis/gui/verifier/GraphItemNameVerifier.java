@@ -4,7 +4,6 @@ import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
-import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import edu.uci.ics.jung.graph.Graph;
@@ -13,22 +12,25 @@ import edu.uci.ics.jung.graph.Graph;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class GraphItemNameVerifier extends AbstractGravisVerifier {
+public class GraphItemNameVerifier extends AbstractVerifier {
 
-	private final IGraphItem graphItem;
+	private static final int MAX_LENGTH = 20;
+
+	private final String currentName;
 
 	private final Graph<IVertex, IEdge> graph;
 
 	/**
 	 * 
-	 * @param lastGood
-	 * @param graphItem
+	 * @param currentName
 	 * @param graph
 	 */
-	public GraphItemNameVerifier(String lastGood, IGraphItem graphItem,
+	public GraphItemNameVerifier(String currentName,
 			Graph<IVertex, IEdge> graph) {
-		super(lastGood);
-		this.graphItem = graphItem;
+
+		super(currentName);
+
+		this.currentName = currentName;
 		this.graph = graph;
 	}
 
@@ -41,13 +43,13 @@ public class GraphItemNameVerifier extends AbstractGravisVerifier {
 	public boolean verify(final JComponent input) {
 		if (input instanceof JTextComponent
 				&& this.graph instanceof IGravisGraph) {
-			JTextComponent textField = (JTextComponent) input;
+
 			IGravisGraph gravisGraph = (IGravisGraph) this.graph;
-			
-			return !textField.getText().trim().isEmpty()
-					&& (textField.getText()
-							.equals(this.graphItem.getName()) || !gravisGraph
-							.containsItemName(textField.getText().trim()));
+			String newName = ((JTextComponent) input).getText().trim();
+
+			return !newName.isEmpty() && newName.length() <= MAX_LENGTH
+					&& (newName.equals(this.currentName) || !gravisGraph
+							.containsItemName(newName));
 		}
 
 		return false;

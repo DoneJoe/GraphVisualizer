@@ -28,7 +28,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 	private static final String ALGO_BORDER = "Beschreibung Algorithmus";
 	private static final String PROTOCOL_BORDER = "Protokoll";
 
-	private static final int ROW_NUMBER = 8;
+	private static final int ROW_NUMBER = 7;
 
 	private final JTextArea protocol, graphDescription, algorithmDescription;
 

@@ -84,7 +84,7 @@ public class StepPanel extends JPanel implements Observer {
 		FlowLayout playBtnLayout = new FlowLayout();
 		FlowLayout stepBtnLayout = new FlowLayout();
 
-		// set layouts:
+		// sets layouts:
 
 		this.setLayout(new GridLayout(2, 0, 0, 0));
 		panelProgress.setLayout(new BoxLayout(panelProgress, BoxLayout.X_AXIS));
@@ -94,14 +94,14 @@ public class StepPanel extends JPanel implements Observer {
 		panelPlayButtons.setLayout(playBtnLayout);
 		panelStepButtons.setLayout(stepBtnLayout);
 
-		// compose panels:
+		// composes panels:
 
 		this.add(panelProgress);
 		this.add(panelStep);
 		panelStep.add(panelPlayButtons);
 		panelStep.add(panelStepButtons);
 
-		// set border and background colors:
+		// sets border and background colors:
 
 		this.setBorder(BorderFactory.createTitledBorder(BORDER_LABEL));
 		this.setBackground(GravisColor.ANTIQUE);
@@ -172,7 +172,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnEnd.setToolTipText(END_TOOLTIP);
 		panelStepButtons.add(btnEnd);
 
-		// set button models:
+		// sets button models:
 
 		btnPlay.setModel(model.getPlayButtonModel());
 		btnPause.setModel(model.getPauseButtonModel());
@@ -199,6 +199,26 @@ public class StepPanel extends JPanel implements Observer {
 		btnBeginning.addActionListener(stepController);
 		btnEnd.setActionCommand(EventSource.END.toString());
 		btnEnd.addActionListener(stepController);
+		
+		// disable step component focus:
+
+		this.lblProgress.setFocusable(false);
+		this.progressBar.setFocusable(false);
+		lblDelay.setFocusable(false);
+		this.spinnerDelay.setFocusable(false);
+		btnPlay.setFocusable(false);
+		btnPause.setFocusable(false);
+		btnStop.setFocusable(false);
+		btnForward.setFocusable(false);
+		btnBack.setFocusable(false);
+		btnBeginning.setFocusable(false);
+		btnEnd.setFocusable(false);
+		
+		panelProgress.setFocusable(false);
+		panelStep.setFocusable(false);
+		panelPlayButtons.setFocusable(false);
+		panelStepButtons.setFocusable(false);
+		this.setFocusable(false);
 	}
 
 	/*

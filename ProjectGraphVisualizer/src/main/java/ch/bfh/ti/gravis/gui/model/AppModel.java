@@ -62,7 +62,7 @@ class AppModel extends Observable implements IAppModel {
 
 	private final ICore core;
 
-	private final ToggleComboGroup toggleComboModel;
+	private final ToggleComboGroup toggleComboGroup;
 
 	private final DefaultComboBoxModel<String> algoComboModel;
 
@@ -144,7 +144,7 @@ class AppModel extends Observable implements IAppModel {
 
 		// create other component models:
 
-		this.toggleComboModel = new ToggleComboGroup();
+		this.toggleComboGroup = new ToggleComboGroup();
 		this.algoComboModel = new DefaultComboBoxModel<>();
 		this.delaySpinnerModel = new SpinnerNumberModel(INIT, MIN, MAX,
 				STEP_SIZE);
@@ -505,7 +505,7 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	@Override
 	public ToggleComboGroup getToggleComboGroup() {
-		return this.toggleComboModel;
+		return this.toggleComboGroup;
 	}
 
 	/*
@@ -694,8 +694,8 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	@Override
 	public void setEditMode(final Mode newMode) throws BadLocationException {
-		if (this.toggleComboModel.getMode() != newMode) {
-			this.toggleComboModel.getModeComboBox().setSelectedItem(newMode);
+		if (this.toggleComboGroup.getMode() != newMode) {
+			this.toggleComboGroup.getModeComboBox().setSelectedItem(newMode);
 		}
 
 		this.updateMenuToolbarModels();
@@ -1014,7 +1014,7 @@ class AppModel extends Observable implements IAppModel {
 		this.graphPropertiesButtonModel.setEnabled(!this.working
 				&& this.isStopped());
 
-		this.toggleComboModel.setToggleModelsEnabled(!this.working
+		this.toggleComboGroup.setToggleComboGroupEnabled(!this.working
 				&& this.isStopped());
 		this.newCalcButtonModel.setEnabled(!this.working && this.isStopped()
 				&& this.calcState == EDITED_CALCULABLE);
@@ -1025,7 +1025,7 @@ class AppModel extends Observable implements IAppModel {
 	 * 
 	 */
 	private void updatePopupModels() {
-		boolean ok = Mode.EDITING == this.toggleComboModel.getMode()
+		boolean ok = Mode.EDITING == this.toggleComboGroup.getMode()
 				&& !this.working && this.isStopped();
 
 		this.edgePropertiesButtonModel.setEnabled(ok);

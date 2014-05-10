@@ -59,8 +59,6 @@ public class ToolBarPanel extends JToolBar implements Observer {
 
 	private final JComboBox<String> comboBoxAlgorithm;
 
-	private final JComboBox<?> comboBoxMode;
-
 	private final JButton btnNewCalculation;
 
 	/**
@@ -73,16 +71,16 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	public ToolBarPanel(final IMenuToolbarController menuToolbarController,
 			final IAppModel model) throws IOException {
 
-		ToggleComboGroup tglCmbModel = model.getToggleComboGroup();
+		ToggleComboGroup tglCmbGroup = model.getToggleComboGroup();
 
 		// set layout:
 
 		FlowLayout layout = new FlowLayout();
-		layout.setAlignment(FlowLayout.LEADING);
+		layout.setAlignment(FlowLayout.LEFT);
 		this.setLayout(layout);
 		this.setFloatable(false);
 
-		// add new, IO and property buttons:
+		// add buttons ( new, IO and property):
 
 		JButton btnNewDirGraph = new JButton(NEW_DIR_LABEL);
 		btnNewDirGraph.setIcon(new ImageIcon(loadImage(NEW_ICON)));
@@ -121,24 +119,24 @@ public class ToolBarPanel extends JToolBar implements Observer {
 		// JLabel lblEditMode = new JLabel(EDIT_MODE_LABEL);
 		// this.add(lblEditMode);
 
-		JToggleButton tglbtnPicking = tglCmbModel.getModeToggleButton(Mode.PICKING);
+		JToggleButton tglbtnPicking = tglCmbGroup.getModeToggleButton(Mode.PICKING);
 		tglbtnPicking.setIcon(new ImageIcon(loadImage(PICKING_ICON)));
 		tglbtnPicking.setToolTipText(PICKING_TOOLTIP);
 		this.add(tglbtnPicking);
 
-		JToggleButton tglbtnEditing = tglCmbModel.getModeToggleButton(Mode.EDITING);
+		JToggleButton tglbtnEditing = tglCmbGroup.getModeToggleButton(Mode.EDITING);
 		tglbtnEditing.setIcon(new ImageIcon(loadImage(EDITING_ICON)));
 		tglbtnEditing.setToolTipText(EDITING_TOOLTIP);
 		this.add(tglbtnEditing);
 
-		JToggleButton tglbtnTransforming = tglCmbModel.getModeToggleButton(Mode.TRANSFORMING);
+		JToggleButton tglbtnTransforming = tglCmbGroup.getModeToggleButton(Mode.TRANSFORMING);
 		tglbtnTransforming.setIcon(new ImageIcon(loadImage(TRANSFORMING_ICON)));
 		tglbtnTransforming.setToolTipText(TRANSFORMING_TOOLTIP);
 		this.add(tglbtnTransforming);
 
-		this.comboBoxMode = tglCmbModel.getModeComboBox();
-		this.comboBoxMode.setToolTipText(MODE_TOOLTIP);
-		this.add(this.comboBoxMode);
+		JComboBox<?> comboBoxMode = tglCmbGroup.getModeComboBox();
+		comboBoxMode.setToolTipText(MODE_TOOLTIP);
+		this.add(comboBoxMode);
 
 		this.addSeparator();
 
@@ -165,14 +163,30 @@ public class ToolBarPanel extends JToolBar implements Observer {
 
 		// add other listeners:
 
-		this.comboBoxMode.setActionCommand(EventSource.MODE.toString());
-		this.comboBoxMode.addItemListener(menuToolbarController);
+		comboBoxMode.setActionCommand(EventSource.MODE.toString());
+		comboBoxMode.addItemListener(menuToolbarController);
 		this.comboBoxAlgorithm.setActionCommand(EventSource.ALGORITHM
 				.toString());
 		this.comboBoxAlgorithm.addItemListener(menuToolbarController);
 		this.btnNewCalculation
 				.setActionCommand(EventSource.NEW_CALC.toString());
 		this.btnNewCalculation.addActionListener(menuToolbarController);
+		
+		// disable toolbar component focus:
+		
+		btnNewDirGraph.setFocusable(false);
+		btnNewUndirGraph.setFocusable(false);
+		btnOpenGraph.setFocusable(false);
+		btnSaveGraph.setFocusable(false);
+		btnSaveGraphAs.setFocusable(false);
+		btnGraphProp.setFocusable(false);
+		tglbtnPicking.setFocusable(false);
+		tglbtnEditing.setFocusable(false);
+		tglbtnTransforming.setFocusable(false);		
+		comboBoxMode.setFocusable(false);
+		this.comboBoxAlgorithm.setFocusable(false);
+		this.btnNewCalculation.setFocusable(false);
+		this.setFocusable(false);
 	}
 
 	/*

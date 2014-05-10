@@ -4,7 +4,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
 http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="description" for="graph">
-<default>ungerichteter Graph 2</default>
+<default>gerichteter Graph 4</default>
 </key>
 <key id="vertexLocation.y" for="node">
 <default>50</default>
@@ -33,7 +33,7 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="edgeColor" for="edge">
 <default>black</default>
 </key>
-<graph id="ungerichteter Graph 2" edgedefault="undirected">
-<data key="description">ungerichteter Graph 2</data>
+<graph id="gerichteter Graph 4" edgedefault="directed">
+<data key="description">gerichteter Graph 4</data>
 </graph>
 </graphml>

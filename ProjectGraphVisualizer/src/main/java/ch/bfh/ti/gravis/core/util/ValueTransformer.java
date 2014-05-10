@@ -51,6 +51,8 @@ public final class ValueTransformer {
 	 * @return Color
 	 */
 	public static String transformColorToString(final Color color) {
+		// TODO switch verwenden
+		
 		if (color == null) {
 			return GravisConstants.ANTIQUE;
 		}
@@ -110,6 +112,8 @@ public final class ValueTransformer {
 	 * @return String
 	 */
 	public static String transformDoubleToString(double value) {
+		// TODO formatter verwenden
+		
 		return Double.compare(round2Decimals(value), (int) Math.round(value)) == 0 ? String
 				.valueOf((int) Math.round(value)) : String
 				.valueOf(round2Decimals(value));
@@ -119,7 +123,7 @@ public final class ValueTransformer {
 	 * @param stringValue
 	 * @return Color
 	 */
-	public static Color transformStringToColor(final String stringValue) {
+	public static Color transformToColor(final String stringValue) {
 		if (stringValue == null) {
 			return GravisColor.ANTIQUE;
 		}

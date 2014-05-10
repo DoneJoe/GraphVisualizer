@@ -67,6 +67,7 @@ public class GravisModalGraphMouse extends
 	protected void loadPlugins() {
 		// GravisPickingGraphMousePlugin class used
 		this.pickingPlugin = new GravisPickingGraphMousePlugin();
+		
 		this.animatedPickingPlugin = new AnimatedPickingGraphMousePlugin<IVertex, IEdge>();
 		this.translatingPlugin = new TranslatingGraphMousePlugin(
 				InputEvent.BUTTON1_MASK);
@@ -74,15 +75,19 @@ public class GravisModalGraphMouse extends
 				new CrossoverScalingControl(), 0, this.in, this.out);
 		this.rotatingPlugin = new RotatingGraphMousePlugin();
 		this.shearingPlugin = new ShearingGraphMousePlugin();
+		
 		// GravisEditingGraphMousePlugin class used
 		this.editingPlugin = new GravisEditingGraphMousePlugin(
 				this.vertexFactory, this.edgeFactory);
+		
 		this.labelEditingPlugin = new LabelEditingGraphMousePlugin<IVertex, IEdge>();
 		this.annotatingPlugin = new AnnotatingGraphMousePlugin<IVertex, IEdge>(
 				rc);
+		
 		// GravisPopupGraphMousePlugin class used
 		this.popupEditingPlugin = new GravisPopupGraphMousePlugin(
 				this.vertexFactory, this.edgeFactory);
+		
 		this.add(scalingPlugin);
 		this.setMode(Mode.EDITING);
 	}

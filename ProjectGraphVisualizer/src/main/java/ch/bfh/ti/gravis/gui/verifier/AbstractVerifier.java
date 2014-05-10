@@ -8,7 +8,7 @@ import javax.swing.text.JTextComponent;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
-abstract class AbstractGravisVerifier extends InputVerifier {
+abstract class AbstractVerifier extends InputVerifier {
 
 	private String lastGood;
 
@@ -16,7 +16,7 @@ abstract class AbstractGravisVerifier extends InputVerifier {
 	 * @param lastGood 
 	 * 
 	 */
-	protected AbstractGravisVerifier(String lastGood) {
+	protected AbstractVerifier(String lastGood) {
 		super();
 		
 		this.lastGood = lastGood;

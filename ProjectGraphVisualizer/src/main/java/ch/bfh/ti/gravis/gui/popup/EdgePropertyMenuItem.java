@@ -35,6 +35,7 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 	protected EdgePropertyMenuItem(
 			final VisualizationViewer<IVertex, IEdge> vViewer,
 			final JFrame owner) {
+		
 		super(TITLE);
 
 		this.addActionListener(new ActionListener() {
