@@ -38,7 +38,7 @@ public final class ValueTransformer {
 	 * @param stringValue
 	 * @return boolean
 	 */
-	public static boolean transformToBoolean(String stringValue) {
+	public static boolean toBoolean(String stringValue) {
 		try {
 			return Boolean.parseBoolean(stringValue);
 		} catch (Exception e) {
@@ -50,9 +50,7 @@ public final class ValueTransformer {
 	 * @param color
 	 * @return Color
 	 */
-	public static String transformColorToString(final Color color) {
-		// TODO switch verwenden
-		
+	public static String colorToString(final Color color) {
 		if (color == null) {
 			return GravisConstants.ANTIQUE;
 		}
@@ -82,7 +80,7 @@ public final class ValueTransformer {
 	 * @param stringValue
 	 * @return a transformed double value
 	 */
-	public static double transformToDouble(String stringValue) {
+	public static double toDouble(String stringValue) {
 		try {
 			return Double.parseDouble(stringValue);
 		} catch (Exception e) {
@@ -95,7 +93,7 @@ public final class ValueTransformer {
 	 * @param yValue
 	 * @return Point2D
 	 */
-	public static Point2D transformToLocation(String xValue, String yValue) {
+	public static Point2D toLocation(String xValue, String yValue) {
 		try {
 			return new Point(Integer.parseInt(xValue), Integer.parseInt(yValue));
 		} catch (Exception e) {
@@ -104,26 +102,10 @@ public final class ValueTransformer {
 	}
 
 	/**
-	 * Transforms a double value to a string-representation: If the double value
-	 * is a whole number, the value is first converted to a int. If the double
-	 * value has fractional parts, the value is rounded with round2Decimals().
-	 * 
-	 * @param value
-	 * @return String
-	 */
-	public static String transformDoubleToString(double value) {
-		// TODO formatter verwenden
-		
-		return Double.compare(round2Decimals(value), (int) Math.round(value)) == 0 ? String
-				.valueOf((int) Math.round(value)) : String
-				.valueOf(round2Decimals(value));
-	}
-
-	/**
 	 * @param stringValue
 	 * @return Color
 	 */
-	public static Color transformToColor(final String stringValue) {
+	public static Color toColor(final String stringValue) {
 		if (stringValue == null) {
 			return GravisColor.ANTIQUE;
 		}

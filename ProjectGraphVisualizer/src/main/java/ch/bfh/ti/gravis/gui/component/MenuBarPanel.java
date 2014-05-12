@@ -57,7 +57,7 @@ public class MenuBarPanel extends JMenuBar {
 	private final static String EDITOR_PANE_TYPE = "text/html";
 	private final static String HELP_TITLE = "Hilfe zum Graph Visualizer";
 	private final static String HELP_TEXT = "<html><body>"
-			+ "<p>Die Projektdokumentation mit Hilfe zu dieser Applikation "
+			+ "<p>Die Projektdokumentation inkl. Hilfe zu dieser Applikation "
 			+ "befindet sich im GitHub-Repository unter:</p>"
 			+ "<a href=\"https://github.com/kofmp1/GraphVisualizer/tree/master/"
 			+ "ProjectGraphVisualizer/doc\">"
@@ -103,8 +103,6 @@ public class MenuBarPanel extends JMenuBar {
 			+ "<li>CTRL+(Left-click)+drag shears the graph"
 			+ "</ul></body></html>";
 
-	private final JFrame mainWindow;
-
 	private final JEditorPane helpEditorPane, shortcutEditorPane,
 			infoEditorPane;
 
@@ -119,19 +117,21 @@ public class MenuBarPanel extends JMenuBar {
 			final IMenuToolbarController menuToolbarController,
 			final IAppModel model) throws IOException {
 
-		this.mainWindow = mainWindow;
-		this.helpEditorPane = this.createEditorPane(HELP_TEXT);
-		this.shortcutEditorPane = this.createEditorPane(SHORTCUT_TEXT);
-		this.infoEditorPane = this.createEditorPane(INFO_TEXT);
+		this.helpEditorPane = this.createEditorPane(mainWindow, HELP_TEXT);
+		this.shortcutEditorPane = this.createEditorPane(mainWindow,
+				SHORTCUT_TEXT);
+		this.infoEditorPane = this.createEditorPane(mainWindow, INFO_TEXT);
 
-		this.createMenus(menuToolbarController, model);
+		this.createMenus(menuToolbarController, model, mainWindow);
 	}
 
 	/**
+	 * @param mainWindow
 	 * @param helpText
 	 * @return JEditorPane
 	 */
-	private JEditorPane createEditorPane(String helpText) {
+	private JEditorPane createEditorPane(final JFrame mainWindow,
+			final String helpText) {
 		JEditorPane ep = new JEditorPane(EDITOR_PANE_TYPE, helpText);
 
 		// handle link events
@@ -153,7 +153,7 @@ public class MenuBarPanel extends JMenuBar {
 				} catch (Exception ex) {
 					// TODO Exception stack trace
 
-					JOptionPane.showMessageDialog(MenuBarPanel.this.mainWindow,
+					JOptionPane.showMessageDialog(mainWindow,
 							String.format(APP_ERR_MSG, ex.getMessage()),
 							APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
 				}
@@ -169,11 +169,12 @@ public class MenuBarPanel extends JMenuBar {
 	 * 
 	 * @param menuToolbarController
 	 * @param model
+	 * @param mainWindow
 	 * @throws IOException
 	 */
 	private void createMenus(
 			final IMenuToolbarController menuToolbarController,
-			final IAppModel model) throws IOException {
+			final IAppModel model, final JFrame mainWindow) throws IOException {
 
 		// create menu items:
 
@@ -240,7 +241,8 @@ public class MenuBarPanel extends JMenuBar {
 
 		menuItemExit.setActionCommand(EventSource.EXIT.toString());
 		menuItemExit.addActionListener(menuToolbarController);
-		this.setHelpListeners(menuItemHelp, menuItemShortcuts, menuItemInfo);
+		this.setHelpListeners(menuItemHelp, menuItemShortcuts, menuItemInfo,
+				mainWindow);
 
 		// add menu items:
 
@@ -263,14 +265,16 @@ public class MenuBarPanel extends JMenuBar {
 	 * @param menuItemHelp
 	 * @param menuItemShortcuts
 	 * @param menuItemInfo
+	 * @param mainWindow
 	 */
 	private void setHelpListeners(JMenuItem menuItemHelp,
-			JMenuItem menuItemShortcuts, JMenuItem menuItemInfo) {
+			JMenuItem menuItemShortcuts, JMenuItem menuItemInfo,
+			final JFrame mainWindow) {
 
 		menuItemHelp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(MenuBarPanel.this.mainWindow,
+				JOptionPane.showMessageDialog(mainWindow,
 						MenuBarPanel.this.helpEditorPane, HELP_TITLE,
 						JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -279,7 +283,7 @@ public class MenuBarPanel extends JMenuBar {
 		menuItemShortcuts.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(MenuBarPanel.this.mainWindow,
+				JOptionPane.showMessageDialog(mainWindow,
 						MenuBarPanel.this.shortcutEditorPane, SHORTCUT_TITLE,
 						JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -288,7 +292,7 @@ public class MenuBarPanel extends JMenuBar {
 		menuItemInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(MenuBarPanel.this.mainWindow,
+				JOptionPane.showMessageDialog(mainWindow,
 						MenuBarPanel.this.infoEditorPane, INFO_TITLE,
 						JOptionPane.INFORMATION_MESSAGE);
 			}

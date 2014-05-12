@@ -209,7 +209,7 @@ public class EdgePropertyDialog extends JDialog {
 						itemNameVerifier.verify(txtEdgeName)) {
 					
 					edge.setName(txtEdgeName.getText().trim());
-					edge.setWeight(ValueTransformer.transformToDouble(
+					edge.setWeight(ValueTransformer.toDouble(
 							txtEdgeWeight.getText().trim()));
 					vViewer.repaint();
 					EdgePropertyDialog.this.dispose();

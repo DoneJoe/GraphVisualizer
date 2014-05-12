@@ -1,15 +1,24 @@
 package ch.bfh.ti.gravis.core.graph.transformer;
 
+import java.text.DecimalFormat;
+
 import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
-import ch.bfh.ti.gravis.core.util.ValueTransformer;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
 public class EdgeLabelTransformer implements Transformer<IEdge, String> {
+
+	private DecimalFormat doubleFormat;
+
+	public EdgeLabelTransformer() {
+		this.doubleFormat = new DecimalFormat();
+		this.doubleFormat.setMinimumFractionDigits(0);
+		this.doubleFormat.setMaximumFractionDigits(2);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -19,10 +28,9 @@ public class EdgeLabelTransformer implements Transformer<IEdge, String> {
 	 */
 	@Override
 	public String transform(IEdge edge) {
-		return edge.isCurrentVisible() ? (ValueTransformer
-				.transformDoubleToString(edge.getWeight()) + (Double.isNaN(edge
-				.getCurrentResult()) ? "" : " : "
-				+ ValueTransformer.transformDoubleToString(edge
-						.getCurrentResult()))) : "";
+		return edge.isCurrentVisible() ? (this.doubleFormat.format((edge
+				.getWeight())) + (Double.isNaN(edge.getCurrentResult()) ? ""
+				: " : " + this.doubleFormat.format(edge.getCurrentResult())))
+				: "";
 	}
 }

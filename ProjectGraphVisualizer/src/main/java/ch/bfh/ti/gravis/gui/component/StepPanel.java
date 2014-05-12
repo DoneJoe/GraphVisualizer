@@ -4,12 +4,18 @@ import javax.swing.JPanel;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.JProgressBar;
 import javax.swing.JButton;
@@ -81,16 +87,14 @@ public class StepPanel extends JPanel implements Observer {
 		JPanel panelStep = new JPanel();
 		JPanel panelPlayButtons = new JPanel();
 		JPanel panelStepButtons = new JPanel();
-		FlowLayout playBtnLayout = new FlowLayout();
-		FlowLayout stepBtnLayout = new FlowLayout();
+		FlowLayout playBtnLayout = new FlowLayout(FlowLayout.RIGHT);
+		FlowLayout stepBtnLayout = new FlowLayout(FlowLayout.LEFT);
 
 		// sets layouts:
 
 		this.setLayout(new GridLayout(2, 0, 0, 0));
 		panelProgress.setLayout(new BoxLayout(panelProgress, BoxLayout.X_AXIS));
 		panelStep.setLayout(new GridLayout(0, 2));
-		playBtnLayout.setAlignment(FlowLayout.RIGHT);
-		stepBtnLayout.setAlignment(FlowLayout.LEFT);
 		panelPlayButtons.setLayout(playBtnLayout);
 		panelStepButtons.setLayout(stepBtnLayout);
 
@@ -150,24 +154,58 @@ public class StepPanel extends JPanel implements Observer {
 		btnStop.setToolTipText(STOP_TOOLTIP);
 		panelPlayButtons.add(btnStop);
 
-		// step button panel:
+		// beginning action and button:
 
+		Action beginningAction = this.createStepAction(stepController);
+		beginningAction.putValue(Action.ACTION_COMMAND_KEY, EventSource.BEGINNING.toString());
+		
 		JButton btnBeginning = new JButton();
+		btnBeginning.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.CTRL_MASK),
+				EventSource.BEGINNING.toString());
+		btnBeginning.getActionMap().put(EventSource.BEGINNING.toString(), beginningAction);
 		btnBeginning.setIcon(new ImageIcon(loadImage(BEGINNING_ICON)));
 		btnBeginning.setToolTipText(BEGINNING_TOOLTIP);
 		panelStepButtons.add(btnBeginning);
 
+		// back action and button:
+		
+		Action backAction = this.createStepAction(stepController);
+		backAction.putValue(Action.ACTION_COMMAND_KEY, EventSource.BACK.toString());
+		
 		JButton btnBack = new JButton();
+		btnBack.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.ALT_MASK),
+				EventSource.BACK.toString());
+		btnBack.getActionMap().put(EventSource.BACK.toString(), backAction);
 		btnBack.setIcon(new ImageIcon(loadImage(BACK_ICON)));
 		btnBack.setToolTipText(BACK_TOOLTIP);
 		panelStepButtons.add(btnBack);
 
+		// forward action and button:
+		
+		Action forwardAction = this.createStepAction(stepController);
+		forwardAction.putValue(Action.ACTION_COMMAND_KEY, EventSource.FORWARD.toString());
+		
 		JButton btnForward = new JButton();
+		btnForward.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, ActionEvent.ALT_MASK),
+				EventSource.FORWARD.toString());
+		btnForward.getActionMap().put(EventSource.FORWARD.toString(), forwardAction);
 		btnForward.setIcon(new ImageIcon(loadImage(FORWARD_ICON)));
 		btnForward.setToolTipText(FORWARD_TOOLTIP);
 		panelStepButtons.add(btnForward);
 
+		// end action and button:
+		
+		Action endAction = this.createStepAction(stepController);
+		endAction.putValue(Action.ACTION_COMMAND_KEY, EventSource.END.toString());
+		
 		JButton btnEnd = new JButton();
+		btnEnd.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, ActionEvent.CTRL_MASK),
+				EventSource.END.toString());
+		btnEnd.getActionMap().put(EventSource.END.toString(), endAction);
 		btnEnd.setIcon(new ImageIcon(loadImage(END_ICON)));
 		btnEnd.setToolTipText(END_TOOLTIP);
 		panelStepButtons.add(btnEnd);
@@ -182,7 +220,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnBack.setModel(model.getBackButtonModel());
 		btnEnd.setModel(model.getEndButtonModel());
 
-		// add listeners:
+		// adds listeners:
 
 		this.spinnerDelay.addChangeListener(stepController);
 		btnPlay.addActionListener(stepController);
@@ -191,16 +229,16 @@ public class StepPanel extends JPanel implements Observer {
 		btnPause.setActionCommand(EventSource.PAUSE.toString());
 		btnStop.addActionListener(stepController);
 		btnStop.setActionCommand(EventSource.STOP.toString());
-		btnForward.setActionCommand(EventSource.FORWARD.toString());
-		btnForward.addActionListener(stepController);
+		btnBeginning.setActionCommand(EventSource.BEGINNING.toString());
+		btnBeginning.addActionListener(stepController);		
 		btnBack.setActionCommand(EventSource.BACK.toString());
 		btnBack.addActionListener(stepController);
-		btnBeginning.setActionCommand(EventSource.BEGINNING.toString());
-		btnBeginning.addActionListener(stepController);
+		btnForward.setActionCommand(EventSource.FORWARD.toString());
+		btnForward.addActionListener(stepController);
 		btnEnd.setActionCommand(EventSource.END.toString());
 		btnEnd.addActionListener(stepController);
-		
-		// disable step component focus:
+
+		// disables step component focus:
 
 		this.lblProgress.setFocusable(false);
 		this.progressBar.setFocusable(false);
@@ -213,7 +251,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnBack.setFocusable(false);
 		btnBeginning.setFocusable(false);
 		btnEnd.setFocusable(false);
-		
+
 		panelProgress.setFocusable(false);
 		panelStep.setFocusable(false);
 		panelPlayButtons.setFocusable(false);
@@ -240,6 +278,22 @@ public class StepPanel extends JPanel implements Observer {
 			this.progressBar.setIndeterminate(model.isProgressIndeterminate());
 			this.spinnerDelay.setEnabled(model.isSpinnerEnabled());
 		}
+	}
+
+	/**
+	 * @param stepController
+	 * @return
+	 */
+	private Action createStepAction(final IStepController stepController) {
+		return new AbstractAction() {
+			
+			private static final long serialVersionUID = 7561990250078559350L;
+
+			@Override
+			public void actionPerformed(ActionEvent arg) {
+				stepController.actionPerformed(arg);
+			}
+		};
 	}
 
 }

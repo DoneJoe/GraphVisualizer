@@ -237,10 +237,10 @@ public class VertexPropertyDialog extends JDialog {
 					vertex.setName(VertexPropertyDialog.this.txtVertexName
 							.getText().trim());
 					vertex.setWidth(ValueTransformer
-							.transformToDouble(VertexPropertyDialog.this.txtWidth
+							.toDouble(VertexPropertyDialog.this.txtWidth
 									.getText().trim()));
 					vertex.setHeight(ValueTransformer
-							.transformToDouble(VertexPropertyDialog.this.txtHeight
+							.toDouble(VertexPropertyDialog.this.txtHeight
 									.getText().trim()));
 					vViewer.repaint();
 					VertexPropertyDialog.this.dispose();

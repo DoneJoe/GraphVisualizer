@@ -17,7 +17,7 @@ public class VertexColorStringTransformer implements
 	 */
 	@Override
 	public String transform(IVertex vertex) {
-		return ValueTransformer.transformColorToString(vertex.getCurrentColor());
+		return ValueTransformer.colorToString(vertex.getCurrentColor());
 	}
 
 }

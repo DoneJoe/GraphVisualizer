@@ -128,14 +128,14 @@ class StepController implements IStepController {
 			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().previous();
 
-			// update model
+			// updates model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(
 					this.model.getProgressBarModel().getValue() - 1);
 			doc.remove(doc.getLength() - stepMessage.length(),
 					stepMessage.length());
 
-			// update view
+			// updates view
 			this.model.notifyObservers(false);
 		}
 	}
@@ -152,13 +152,13 @@ class StepController implements IStepController {
 			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().first();
 
-			// update model
+			// updates model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(0);
 			doc.remove(doc.getLength() - stepMessage.length(),
 					stepMessage.length());
 
-			// update view
+			// updates view
 			this.model.notifyObservers(false);
 		}
 	}
@@ -175,14 +175,14 @@ class StepController implements IStepController {
 			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().last();
 
-			// update model
+			// updates model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(
 					this.model.getStepIterator().size());
 			doc.insertString(doc.getLength(), stepMessage,
 					SimpleAttributeSet.EMPTY);
 
-			// update view
+			// updates view
 			this.model.notifyObservers(false);
 		}
 	}
@@ -200,14 +200,14 @@ class StepController implements IStepController {
 			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().next();
 
-			// update model
+			// updates model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(
 					this.model.getProgressBarModel().getValue() + 1);
 			doc.insertString(doc.getLength(), stepMessage,
 					SimpleAttributeSet.EMPTY);
 
-			// update view
+			// updates view
 			this.model.notifyObservers(false);
 
 			return true;
@@ -224,10 +224,10 @@ class StepController implements IStepController {
 		if (this.model.isPlaying()
 				&& this.model.getCalculationState() == CALCULATED) {
 
-			// update model
+			// updates model
 			this.model.setPausedState();
 
-			// update view
+			// updates view
 			this.model.notifyObservers(false);
 		}
 	}
@@ -240,13 +240,13 @@ class StepController implements IStepController {
 		if (!this.model.isPlaying()
 				&& this.model.getCalculationState() == CALCULATED) {
 
-			// update model
+			// updates model
 			this.model.setPlayingState();
 
-			// update view
+			// updates view
 			this.model.notifyObservers(false);
 
-			// start timer
+			// starts timer
 			if (!this.model.getTimer().isRunning()) {
 				this.model.getTimer().start();
 			}
@@ -261,15 +261,15 @@ class StepController implements IStepController {
 		if (!this.model.isStopped()
 				&& this.model.getCalculationState() == CALCULATED) {
 
-			// stop timer
+			// stops timer
 			if (this.model.getTimer().isRunning()) {
 				this.model.getTimer().stop();
 			}
 
-			// update model
+			// updates model
 			this.model.setStoppedState();
 
-			// update view
+			// updates view
 			this.model.notifyObservers(false);
 		}
 	}

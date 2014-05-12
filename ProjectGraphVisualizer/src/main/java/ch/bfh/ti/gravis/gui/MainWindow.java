@@ -50,14 +50,14 @@ public class MainWindow extends JFrame implements Observer {
 
 		super(String.format(TITLE_NEW, ""));
 
-		// set content pane:
+		// sets content pane:
 
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
 		contentPane.setLayout(new BorderLayout(BORDER, BORDER));
 		this.setContentPane(contentPane);
 
-		// create panels:
+		// creates panels:
 
 		MenuBarPanel menuBar = new MenuBarPanel(this, menuToolbarController,
 				model);
@@ -69,7 +69,7 @@ public class MainWindow extends JFrame implements Observer {
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		JPanel centerPanel = new JPanel();
 
-		// add panels:
+		// adds panels:
 
 		centerPanel.setLayout(new BorderLayout(BORDER, BORDER));
 		centerPanel.add(visualizationPanel, BorderLayout.CENTER);
@@ -79,14 +79,14 @@ public class MainWindow extends JFrame implements Observer {
 		contentPane.add(toolBar, BorderLayout.NORTH);
 		contentPane.add(splitPane, BorderLayout.CENTER);
 
-		// add Observers:
+		// adds Observers:
 
 		model.addObserver(this);
 		model.addObserver(toolBar);
 		model.addObserver(visualizationPanel);
 		model.addObserver(stepPanel);
 
-		// prepare main window:
+		// prepares main window:
 
 		this.setJMenuBar(menuBar);
 		this.addWindowListener(menuToolbarController);

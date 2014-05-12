@@ -111,7 +111,7 @@ public class GraphIOManager {
 							GravisConstants.E_COLOR,
 							"",
 							ValueTransformer
-									.transformColorToString(GravisConstants.E_COLOR_DEFAULT),
+									.colorToString(GravisConstants.E_COLOR_DEFAULT),
 							new EdgeColorStringTransformer());
 			graphWriter.addEdgeData(GravisConstants.E_WEIGHT, "",
 					String.valueOf(GravisConstants.E_WEIGHT_DEFAULT),
@@ -122,7 +122,7 @@ public class GraphIOManager {
 							GravisConstants.V_COLOR,
 							"",
 							ValueTransformer
-									.transformColorToString(GravisConstants.V_FILL_COLOR_DEFAULT),
+									.colorToString(GravisConstants.V_FILL_COLOR_DEFAULT),
 							new VertexColorStringTransformer());
 			graphWriter.addVertexData(GravisConstants.V_START, "",
 					String.valueOf(false),
