@@ -10,13 +10,13 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <default>50</default>
 </key>
 <key id="vertexWidth" for="node">
-<default>60.0</default>
+<default>40.0</default>
 </key>
 <key id="endVertex" for="node">
 <default>false</default>
 </key>
 <key id="vertexColor" for="node">
-<default>antique</default>
+<default>lightBlue</default>
 </key>
 <key id="vertexLocation.x" for="node">
 <default>50</default>
@@ -31,42 +31,15 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <default>1.0</default>
 </key>
 <key id="edgeColor" for="edge">
-<default>black</default>
+<default>blue</default>
 </key>
 <graph id="Undirected Dijkstra Sample Graph 1" edgedefault="undirected">
 <data key="description">Dieser ungerichtete Graph kann insbesondere zur Visualisierung des Dijkstra-Algorithmus verwendet werden.</data>
-<node id="F">
-<data key="vertexLocation.y">340</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">495</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="D">
-<data key="vertexLocation.y">200</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">640</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="B">
-<data key="vertexLocation.y">200</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">60</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
 <node id="C">
 <data key="vertexLocation.y">200</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
+<data key="vertexColor">lightBlue</data>
 <data key="vertexLocation.x">350</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
@@ -75,7 +48,7 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="vertexLocation.y">340</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
+<data key="vertexColor">lightBlue</data>
 <data key="vertexLocation.x">205</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
@@ -84,46 +57,73 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="vertexLocation.y">60</data>
 <data key="vertexWidth">60.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
+<data key="vertexColor">lightBlue</data>
 <data key="vertexLocation.x">350</data>
 <data key="startVertex">true</data>
 <data key="vertexHeight">40.0</data>
 </node>
+<node id="D">
+<data key="vertexLocation.y">200</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">640</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="F">
+<data key="vertexLocation.y">340</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">495</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="B">
+<data key="vertexLocation.y">200</data>
+<data key="vertexWidth">60.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">60</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<edge id="e8" source="C" target="F">
+<data key="weight">9.0</data>
+<data key="edgeColor">blue</data>
+</edge>
 <edge id="e6" source="B" target="E">
 <data key="weight">2.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="e9" source="F" target="D">
-<data key="weight">5.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="e3" source="B" target="C">
-<data key="weight">7.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="e1" source="A" target="B">
-<data key="weight">8.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="e5" source="D" target="C">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
+<data key="edgeColor">blue</data>
 </edge>
 <edge id="e4" source="A" target="D">
 <data key="weight">4.0</data>
-<data key="edgeColor">black</data>
+<data key="edgeColor">blue</data>
 </edge>
-<edge id="e7" source="E" target="C">
-<data key="weight">3.0</data>
-<data key="edgeColor">black</data>
+<edge id="e3" source="B" target="C">
+<data key="weight">7.0</data>
+<data key="edgeColor">blue</data>
 </edge>
-<edge id="e8" source="C" target="F">
-<data key="weight">9.0</data>
-<data key="edgeColor">black</data>
+<edge id="e9" source="F" target="D">
+<data key="weight">5.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="e1" source="A" target="B">
+<data key="weight">8.0</data>
+<data key="edgeColor">blue</data>
 </edge>
 <edge id="e2" source="A" target="C">
 <data key="weight">1.0</data>
-<data key="edgeColor">black</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="e5" source="D" target="C">
+<data key="weight">1.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="e7" source="E" target="C">
+<data key="weight">3.0</data>
+<data key="edgeColor">blue</data>
 </edge>
 </graph>
 </graphml>

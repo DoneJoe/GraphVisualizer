@@ -18,7 +18,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  */
 public class BreadthFirstSearch extends AbstractAlgorithm {
 
-	private final static String ALGO_NAME = "Breadth-First-Search (BFS)";
+	private final static String ALGO_NAME = "Breitensuche (BFS)";
 	private final static String ALGO_DESCRIPTION = "Die Breitensuche ist iterativ "
 			+ "implementiert. Es sind sowohl gerichtete als auch ungerichtete Graphen "
 			+ "zulässig. Die Breitensuche wird für jede (schwache) Zusammenhangskomponente "

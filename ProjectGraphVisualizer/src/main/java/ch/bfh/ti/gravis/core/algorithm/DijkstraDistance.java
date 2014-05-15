@@ -19,15 +19,15 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class Dijkstra extends AbstractAlgorithm {
+class DijkstraDistance extends AbstractAlgorithm {
 
-	private final static String NEG_WEIGHT = "Dijkstra algorithm: "
+	private final static String NEG_WEIGHT = "DijkstraDistance algorithm: "
 			+ "negative weights are not allowed!" + LN;
-	private final static String NO_START_VERTEX = "Dijkstra algorithm: no start vertex "
+	private final static String NO_START_VERTEX = "DijkstraDistance algorithm: no start vertex "
 			+ "found in graph %s!" + LN;
 
-	private final static String ALGO_NAME = "Dijkstra";
-	private final static String ALGO_DESCRIPTION = "Der Dijkstra-Algorithmus findet den "
+	private final static String ALGO_NAME = "Algorithmus von Dijkstra";
+	private final static String ALGO_DESCRIPTION = "Der DijkstraDistance-Algorithmus findet den "
 			+ "kürzesten Weg zwischen zwei Knoten. Ein Startknoten muss im Graphen vorhanden "
 			+ "sein. Ist kein Endknoten vorhanden, so wird der kürteste Weg vom Startknoten "
 			+ "zu allen anderen Knoten berechnet. Diese Implementation des Algorithmus "
@@ -50,7 +50,7 @@ class Dijkstra extends AbstractAlgorithm {
 
 	private final CurrentResultComparator vertexResultComparator;
 
-	protected Dijkstra() {
+	protected DijkstraDistance() {
 		super(ALGO_NAME, ALGO_DESCRIPTION);
 
 		this.addEdgeType(EdgeType.DIRECTED);

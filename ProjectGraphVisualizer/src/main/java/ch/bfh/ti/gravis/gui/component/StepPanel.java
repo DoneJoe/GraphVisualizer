@@ -108,11 +108,11 @@ public class StepPanel extends JPanel implements Observer {
 		// sets border and background colors:
 
 		this.setBorder(BorderFactory.createTitledBorder(BORDER_LABEL));
-		this.setBackground(GravisColor.ANTIQUE);
-		panelProgress.setBackground(GravisColor.ANTIQUE);
-		panelStep.setBackground(GravisColor.ANTIQUE);
-		panelPlayButtons.setBackground(GravisColor.ANTIQUE);
-		panelStepButtons.setBackground(GravisColor.ANTIQUE);
+		this.setBackground(GravisColor.LIGHT_BLUE);
+		panelProgress.setBackground(GravisColor.LIGHT_BLUE);
+		panelStep.setBackground(GravisColor.LIGHT_BLUE);
+		panelPlayButtons.setBackground(GravisColor.LIGHT_BLUE);
+		panelStepButtons.setBackground(GravisColor.LIGHT_BLUE);
 
 		// progress panel:
 

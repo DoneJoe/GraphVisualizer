@@ -22,7 +22,7 @@ public class ShapeTransformer implements Transformer<IVertex, Shape> {
 	@Override
 	public Shape transform(IVertex vertex) {
 		return new Ellipse2D.Double(-vertex.getWidth() / 2.0,
-				-vertex.getWidth() / 2.0, vertex.getWidth(), vertex.getHeight());
+				-vertex.getHeight() / 2.0, vertex.getWidth(), vertex.getHeight());
 	}
 
 }

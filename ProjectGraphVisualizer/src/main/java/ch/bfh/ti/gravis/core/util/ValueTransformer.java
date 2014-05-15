@@ -11,7 +11,6 @@ import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
  * A utility class, therefore serving with static method only.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- * @author Roland Bruggmann (brugr9@bfh.ch)
  * 
  */
 public final class ValueTransformer {
@@ -52,7 +51,7 @@ public final class ValueTransformer {
 	 */
 	public static String colorToString(final Color color) {
 		if (color == null) {
-			return GravisConstants.ANTIQUE;
+			return GravisConstants.LIGHT_BLUE;
 		}
 
 		if (color.equals(GravisColor.GREEN)) {
@@ -61,18 +60,24 @@ public final class ValueTransformer {
 			return GravisConstants.YELLOW;
 		} else if (color.equals(GravisColor.BLUE)) {
 			return GravisConstants.BLUE;
-		} else if (color.equals(GravisColor.GRAY)) {
-			return GravisConstants.GRAY;
-		} else if (color.equals(GravisColor.ORANGE)) {
-			return GravisConstants.ORANGE;
 		} else if (color.equals(GravisColor.BLACK)) {
 			return GravisConstants.BLACK;
 		} else if (color.equals(GravisColor.WHITE)) {
 			return GravisConstants.WHITE;
 		} else if (color.equals(GravisColor.RED)) {
 			return GravisConstants.RED;
+		} else if (color.equals(GravisColor.LIGHT_RED)) {
+			return GravisConstants.LIGHT_RED;
+		} else if (color.equals(GravisColor.LIGHT_YELLOW)) {
+			return GravisConstants.LIGHT_YELLOW;
+		} else if (color.equals(GravisColor.LIGHT_GREEN)) {
+			return GravisConstants.LIGHT_GREEN;
+		} else if (color.equals(GravisColor.LIGHT_BLUE)) {
+			return GravisConstants.LIGHT_BLUE;
+		} else if (color.equals(GravisColor.LESS_BLUE)) {
+			return GravisConstants.LESS_BLUE;
 		} else {
-			return GravisConstants.ANTIQUE;
+			return GravisConstants.LIGHT_BLUE;
 		}
 	}
 
@@ -93,7 +98,7 @@ public final class ValueTransformer {
 	 * @param yValue
 	 * @return Point2D
 	 */
-	public static Point2D toLocation(String xValue, String yValue) {
+	public static Point2D toPoint(String xValue, String yValue) {
 		try {
 			return new Point(Integer.parseInt(xValue), Integer.parseInt(yValue));
 		} catch (Exception e) {
@@ -107,7 +112,7 @@ public final class ValueTransformer {
 	 */
 	public static Color toColor(final String stringValue) {
 		if (stringValue == null) {
-			return GravisColor.ANTIQUE;
+			return GravisColor.LIGHT_BLUE;
 		}
 
 		switch (stringValue) {
@@ -117,18 +122,24 @@ public final class ValueTransformer {
 			return GravisColor.YELLOW;
 		case GravisConstants.BLUE:
 			return GravisColor.BLUE;
-		case GravisConstants.GRAY:
-			return GravisColor.GRAY;
-		case GravisConstants.ORANGE:
-			return GravisColor.ORANGE;
 		case GravisConstants.BLACK:
 			return GravisColor.BLACK;
 		case GravisConstants.WHITE:
 			return GravisColor.WHITE;
 		case GravisConstants.RED:
 			return GravisColor.RED;
+		case GravisConstants.LIGHT_BLUE:
+			return GravisColor.LIGHT_BLUE;
+		case GravisConstants.LESS_BLUE:
+			return GravisColor.LESS_BLUE;
+		case GravisConstants.LIGHT_GREEN:
+			return GravisColor.LIGHT_GREEN;
+		case GravisConstants.LIGHT_RED:
+			return GravisColor.LIGHT_RED;
+		case GravisConstants.LIGHT_YELLOW:
+			return GravisColor.LIGHT_YELLOW;
 		default:
-			return GravisColor.ANTIQUE;
+			return GravisColor.LIGHT_BLUE;
 		}
 	}
 

@@ -58,7 +58,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		// creates text areas:
 
 		this.protocol = new JTextArea(model.getProtocolDocument());
-		this.protocol.setBackground(GravisColor.WHITE_GRAY);
+		//this.protocol.setBackground(GravisColor.WHITE_GRAY);
 		this.protocol.setDropMode(DropMode.INSERT);
 		this.protocol.setLineWrap(true);
 		this.protocol.setWrapStyleWord(true);
@@ -66,7 +66,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		this.protocol.setRows(ROW_NUMBER);
 
 		this.graphDescription = new JTextArea(model.getGraphDocument());
-		this.graphDescription.setBackground(GravisColor.WHITE_GRAY);
+		//this.graphDescription.setBackground(GravisColor.WHITE_GRAY);
 		this.graphDescription.setDropMode(DropMode.INSERT);
 		this.graphDescription.setLineWrap(true);
 		this.graphDescription.setWrapStyleWord(true);
@@ -74,7 +74,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		this.graphDescription.setRows(ROW_NUMBER);
 
 		this.algorithmDescription = new JTextArea(model.getAlgorithmDocument());
-		this.algorithmDescription.setBackground(GravisColor.WHITE_GRAY);
+		//this.algorithmDescription.setBackground(GravisColor.WHITE_GRAY);
 		this.algorithmDescription.setDropMode(DropMode.INSERT);
 		this.algorithmDescription.setLineWrap(true);
 		this.algorithmDescription.setWrapStyleWord(true);
@@ -105,11 +105,11 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 
 		// sets panel background colors:
 
-		this.setBackground(GravisColor.ANTIQUE);
-		graphAlgoPanel.setBackground(GravisColor.ANTIQUE);
-		graphPanel.setBackground(GravisColor.ANTIQUE);
-		algoPanel.setBackground(GravisColor.ANTIQUE);
-		nestedProtocolPanel.setBackground(GravisColor.ANTIQUE);
+		this.setBackground(GravisColor.LIGHT_BLUE);
+		graphAlgoPanel.setBackground(GravisColor.LIGHT_BLUE);
+		graphPanel.setBackground(GravisColor.LIGHT_BLUE);
+		algoPanel.setBackground(GravisColor.LIGHT_BLUE);
+		nestedProtocolPanel.setBackground(GravisColor.LIGHT_BLUE);
 
 		// sets scroll panes
 

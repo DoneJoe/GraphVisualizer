@@ -15,9 +15,9 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class DLSRecursive extends AbstractAlgorithm implements IAlgorithm {
+class PostorderRecursive extends AbstractAlgorithm implements IAlgorithm {
 
-	private final static String ALGO_NAME = "Depth-Last-Search (DLS) rekursiv";
+	private final static String ALGO_NAME = "Postorder-Traversierung";
 	private final static String ALGO_DESCRIPTION = "Der Graph wird in Postorder traversiert. "
 			+ "Es sind sowohl gerichtete als auch ungerichtete Graphen zulässig."
 			+ "Die Knoten werden in Postorder-Reihenfolge nummeriert.";
@@ -28,7 +28,7 @@ class DLSRecursive extends AbstractAlgorithm implements IAlgorithm {
 
 	private int counter = 0;
 
-	protected DLSRecursive() {
+	protected PostorderRecursive() {
 		super(ALGO_NAME, ALGO_DESCRIPTION);
 		this.addEdgeType(EdgeType.DIRECTED);
 		this.addEdgeType(EdgeType.UNDIRECTED);

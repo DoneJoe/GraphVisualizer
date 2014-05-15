@@ -26,11 +26,11 @@ public class AlgorithmFactory {
 		// Create an instance of each available algorithm
 		IAlgorithm algorithm = new DFSRecursive();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
-		algorithm = new DLSRecursive();
+		algorithm = new PostorderRecursive();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
 		algorithm = new BreadthFirstSearch();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
-		algorithm = new Dijkstra();
+		algorithm = new DijkstraDistance();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
 		algorithm = new KruskalMinSpanningForest();
 		this.algorithmMap.put(algorithm.getName(), algorithm);

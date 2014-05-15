@@ -116,7 +116,7 @@ public final class GraphFactory {
 		
 		newGraph.setName("Ungerichteter Sample-Graph");
 		newGraph.setDescription("Dieser ungerichtete Graph kann insbesondere zur "
-				+ "Visualisierung des Dijkstra-Algorithmus verwendet werden.");
+				+ "Visualisierung des DijkstraDistance-Algorithmus verwendet werden.");
 		
 		// creates vertices:
 		

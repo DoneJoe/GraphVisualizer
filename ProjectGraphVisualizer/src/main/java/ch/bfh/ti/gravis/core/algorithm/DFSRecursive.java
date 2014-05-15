@@ -17,7 +17,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  */
 class DFSRecursive extends AbstractAlgorithm {
 
-	private final static String ALGO_NAME = "Depth-First-Search (DFS) rekursiv";
+	private final static String ALGO_NAME = "Tiefensuche (DFS)";
 	private final static String ALGO_DESCRIPTION = "Der Graph wird in Preorder traversiert. "
 			+ "Es sind sowohl gerichtete als auch ungerichtete Graphen zulässig."
 			+ "Die Knoten werden in Preorder-Reihenfolge nummeriert.";

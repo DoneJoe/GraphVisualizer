@@ -32,7 +32,7 @@ public class VertexTransformer implements Transformer<NodeMetadata, IVertex> {
 		vertex.setCurrentColor(color == null ? GravisConstants.V_FILL_COLOR_DEFAULT : 
 			ValueTransformer.toColor(color));		
 		
-		vertex.setLocation(ValueTransformer.toLocation(vertexMeta
+		vertex.setLocation(ValueTransformer.toPoint(vertexMeta
 				.getProperty(GravisConstants.V_LOC_X), vertexMeta
 				.getProperty(GravisConstants.V_LOC_Y)));
 		vertex.setStart(ValueTransformer.toBoolean(vertexMeta
