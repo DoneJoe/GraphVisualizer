@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.core.graph.item.edge;
 
+import java.util.Objects;
+
 import org.apache.commons.collections15.Factory;
 
 /**
@@ -8,6 +10,9 @@ import org.apache.commons.collections15.Factory;
  */
 public class EdgeFactory implements Factory<IEdge> {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "EdgeFactory.%s(): %s == %s";
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -22,8 +27,10 @@ public class EdgeFactory implements Factory<IEdge> {
 	 * @param edge
 	 * @return IEdge
 	 */
-	public static IRestrictedEdge createRestrictedEdge(IEdge edge) {
-		return new RestrictedEdge(edge);
+	public static IRestrictedEdge createRestrictedEdge(final IEdge edge) {
+		return new RestrictedEdge(Objects.requireNonNull(edge, String.format(
+				NULL_POINTER_MSG, "createRestrictedEdge", "edge",
+				edge)));
 	}
 
 }

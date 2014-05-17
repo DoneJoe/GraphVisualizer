@@ -19,7 +19,8 @@ public class ItemNameComparator implements Comparator<IRestrictedGraphItem> {
 	 */
 	@Override
 	public int compare(IRestrictedGraphItem i1, IRestrictedGraphItem i2) {
-		return i1.getName().compareTo(i2.getName());
+		return i1 == null || i2 == null ? 0 : i1.getName().compareTo(
+				i2.getName());
 	}
 
 }

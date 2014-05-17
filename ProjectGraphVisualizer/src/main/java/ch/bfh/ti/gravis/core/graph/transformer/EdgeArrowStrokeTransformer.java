@@ -22,8 +22,9 @@ public class EdgeArrowStrokeTransformer implements Transformer<IEdge, Stroke> {
 	 */
 	@Override
 	public Stroke transform(IEdge edge) {
-		return new BasicStroke(edge.isCurrentTagged() ? GravisConstants.E_TAGGED_STROKE : 
-			GravisConstants.STROKE_WIDTH_DEFAULT);
+		return new BasicStroke(
+				edge != null && edge.isCurrentTagged() ? GravisConstants.E_TAGGED_STROKE
+						: GravisConstants.STROKE_WIDTH_DEFAULT);
 	}
 
 }

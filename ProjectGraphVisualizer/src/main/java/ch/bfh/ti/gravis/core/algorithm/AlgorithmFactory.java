@@ -14,16 +14,19 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  */
 public class AlgorithmFactory {
 
-	private Map<String, IAlgorithm> algorithmMap;
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "AlgorithmFactory.%s(): %s == %s";
 	
+	private Map<String, IAlgorithm> algorithmMap;
+
 	private List<String> directedAlgoNames, undirectedAlgoNames;
 
 	public AlgorithmFactory() {
 		this.algorithmMap = new TreeMap<>();
 		this.directedAlgoNames = new ArrayList<>();
 		this.undirectedAlgoNames = new ArrayList<>();
-		
-		// Create an instance of each available algorithm
+
+		// Creates an instance of each available algorithm
 		IAlgorithm algorithm = new DFSRecursive();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
 		algorithm = new PostorderRecursive();
@@ -34,42 +37,55 @@ public class AlgorithmFactory {
 		this.algorithmMap.put(algorithm.getName(), algorithm);
 		algorithm = new KruskalMinSpanningForest();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
-		
+
 		for (String algoName : this.algorithmMap.keySet()) {
 			if (this.algorithmMap.get(algoName).hasEdgeType(EdgeType.DIRECTED)) {
 				this.directedAlgoNames.add(algoName);
-			} 
-			
-			if (this.algorithmMap.get(algoName).hasEdgeType(EdgeType.UNDIRECTED)) {
+			}
+
+			if (this.algorithmMap.get(algoName)
+					.hasEdgeType(EdgeType.UNDIRECTED)) {
 				this.undirectedAlgoNames.add(algoName);
 			}
 		}
-		
+
 	}
 
 	/**
 	 * 
 	 * @param algorithmName
-	 * @return IAlgorithm
+	 * @return IAlgorithm or null
 	 */
-	public IAlgorithm createAlgorithm(String algorithmName) {
-		// TODO Exception handling
-		Objects.requireNonNull(algorithmName);
-		
+	public IAlgorithm createAlgorithm(final String algorithmName) {
+		Objects.requireNonNull(algorithmName, String.format(NULL_POINTER_MSG, "createAlgorithm", 
+				"algorithmName", algorithmName));
 		return this.algorithmMap.get(algorithmName.trim());
 	}
 
 	/**
 	 * 
 	 * @param edgetype
-	 * @return String[]
+	 * @return algo names with edge type
 	 */
-	public String[] getAlgorithmNames(EdgeType edgetype) {
-		if (edgetype == EdgeType.DIRECTED) {
-			return this.directedAlgoNames.toArray(new String[this.directedAlgoNames.size()]);
+	public String[] getAlgorithmNames(final EdgeType edgetype) {
+		if (edgetype == null) {
+			return new String[] { };
+		} else if (edgetype == EdgeType.DIRECTED) {
+			return this.directedAlgoNames
+					.toArray(new String[this.directedAlgoNames.size()]);
 		} else {
-			return this.undirectedAlgoNames.toArray(new String[this.undirectedAlgoNames.size()]);
+			return this.undirectedAlgoNames
+					.toArray(new String[this.undirectedAlgoNames.size()]);
 		}
+	}
+
+	/**
+	 * @param algoName
+	 * @return algorithm description or empty string
+	 */
+	public String getAlgorithmDescription(final String algoName) {
+		IAlgorithm algo = this.algorithmMap.get(algoName == null ? "" : algoName.trim());			
+		return algo == null ? "" : algo.getDescription();
 	}
 
 }

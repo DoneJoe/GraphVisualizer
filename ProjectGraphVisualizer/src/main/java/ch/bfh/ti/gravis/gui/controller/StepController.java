@@ -134,6 +134,7 @@ class StepController implements IStepController {
 					this.model.getProgressBarModel().getValue() - 1);
 			doc.remove(doc.getLength() - stepMessage.length(),
 					stepMessage.length());
+			this.model.clearPickedVertexState();
 
 			// updates view
 			this.model.notifyObservers(false);
@@ -157,6 +158,7 @@ class StepController implements IStepController {
 			this.model.getProgressBarModel().setValue(0);
 			doc.remove(doc.getLength() - stepMessage.length(),
 					stepMessage.length());
+			this.model.clearPickedVertexState();
 
 			// updates view
 			this.model.notifyObservers(false);
@@ -181,6 +183,7 @@ class StepController implements IStepController {
 					this.model.getStepIterator().size());
 			doc.insertString(doc.getLength(), stepMessage,
 					SimpleAttributeSet.EMPTY);
+			this.model.clearPickedVertexState();
 
 			// updates view
 			this.model.notifyObservers(false);
@@ -206,6 +209,7 @@ class StepController implements IStepController {
 					this.model.getProgressBarModel().getValue() + 1);
 			doc.insertString(doc.getLength(), stepMessage,
 					SimpleAttributeSet.EMPTY);
+			this.model.clearPickedVertexState();
 
 			// updates view
 			this.model.notifyObservers(false);

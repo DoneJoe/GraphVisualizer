@@ -1,10 +1,10 @@
 package ch.bfh.ti.gravis.core;
 
 /**
- * This class extends <code>Exception</code> that indicates conditions that a
- * reasonable application might want to catch.
+ * This class extends <code>Exception</code> that indicates an error in core while
+ * step calculation eg. because of an invalid algorithm name;
  * 
- *  @author Patrick Kofmel (kofmp1@bfh.ch)
+ * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
 public class CoreException extends Exception {
@@ -70,15 +70,4 @@ public class CoreException extends Exception {
 		super(cause);
 	}
 
-	/**
-	 * @param message
-	 * @param cause
-	 * @param enableSuppression
-	 * @param writableStackTrace
-	 */
-	public CoreException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}	
-	
 }

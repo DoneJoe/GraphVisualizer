@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.collections15.BidiMap;
 import org.apache.commons.collections15.bidimap.DualHashBidiMap;
@@ -27,6 +28,9 @@ import edu.uci.ics.jung.graph.util.Pair;
  */
 final class RestrictedGraph implements IRestrictedGraph {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "RestrictedGraph.%s(): %s == %s";
+	
 	private final IGravisGraph gravisGraph;
 
 	private final StepBuilder stepBuilder;
@@ -44,8 +48,11 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 * @param stepBuilder
 	 */
 	RestrictedGraph(final IGravisGraph graph, final StepBuilder stepBuilder) {
-		this.gravisGraph = graph;
-		this.stepBuilder = stepBuilder;
+		this.gravisGraph = Objects.requireNonNull(graph, String.format(NULL_POINTER_MSG,
+				"RestrictedGraph", "graph", graph));
+		this.stepBuilder = Objects.requireNonNull(stepBuilder, String.format(NULL_POINTER_MSG,
+				"RestrictedGraph", "stepBuilder", stepBuilder));
+		
 		this.verticesMap = new DualHashBidiMap<>();
 		this.edgesMap = new DualHashBidiMap<>();
 		this.itemComparator = new ItemNameComparator();
@@ -62,6 +69,8 @@ final class RestrictedGraph implements IRestrictedGraph {
 	 */
 	@Override
 	public void addStep(IRestrictedGraphItem... restrictedItems) {
+		Objects.requireNonNull(restrictedItems, String.format(NULL_POINTER_MSG,
+				"addStep", "restrictedItems", restrictedItems));
 		this.stepBuilder.addStep(this.getIGraphItems(restrictedItems));
 	}
 

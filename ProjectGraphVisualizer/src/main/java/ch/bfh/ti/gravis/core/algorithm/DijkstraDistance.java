@@ -63,7 +63,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 			throws AlgorithmException {
 
 		if (graph.isEmpty()) {
-			// nothing to compute
+			// nothing to calculate
 			return;
 		}
 		
@@ -286,7 +286,8 @@ class DijkstraDistance extends AbstractAlgorithm {
 
 		for (IRestrictedEdge edge : edges) {
 			if (edge.getWeight() < 0) {
-				throw new AlgorithmException(NEG_WEIGHT);
+				// TODO user dialog message
+				throw new AlgorithmException(NEG_WEIGHT, this);
 			}
 		}
 	}

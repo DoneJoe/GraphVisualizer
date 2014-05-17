@@ -18,14 +18,15 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import javax.swing.text.SimpleAttributeSet;
 
-import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
 import ch.bfh.ti.gravis.core.graph.GraphFactory;
 import ch.bfh.ti.gravis.core.graph.IEditGraphObservable;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
+import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
+import edu.uci.ics.jung.visualization.picking.PickedState;
 import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
 import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.*;
 import static ch.bfh.ti.gravis.gui.model.IAppModel.PlayerState.*;
@@ -43,9 +44,12 @@ class AppModel extends Observable implements IAppModel {
 	private final static String ALGO_DONE_MSG = "Die Animation kann jetzt gestartet werden."
 			+ LN + LN;
 
-	// double values in seconds
+	/**
+	 * double value in seconds
+	 */
 	private static final double INIT = 1.0, MIN = 0.25, MAX = 10.0,
 			STEP_SIZE = 0.25;
+	
 	private static final double FACTOR = 1000.0;
 
 	// non final fields:
@@ -94,14 +98,14 @@ class AppModel extends Observable implements IAppModel {
 
 	private File graphFile = null;
 
+	private PickedState<IVertex> pickedVertexState = null;
+
 	/**
 	 * 
 	 * @param core
-	 * @throws CoreException
 	 * @throws BadLocationException
 	 */
-	protected AppModel(final ICore core) throws CoreException,
-			BadLocationException {
+	protected AppModel(final ICore core) throws BadLocationException {
 		this.core = core;
 		this.working = this.graphUnsaved = false;
 		this.calcState = NOT_CALCULABLE;
@@ -156,6 +160,18 @@ class AppModel extends Observable implements IAppModel {
 		// init graph and edit mode
 		this.setNewGraphState(DEFAULT_EDGE_TYPE);
 		this.setEditMode(Mode.PICKING);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#clearPickedVertexState()
+	 */
+	@Override
+	public void clearPickedVertexState() {
+		if (this.pickedVertexState != null) {
+			this.pickedVertexState.clear();
+		}
 	}
 
 	/*
@@ -635,8 +651,8 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	@Override
 	public void setCalcDoneState(
-			final IGravisListIterator<String> stepIterator, final String algoName)
-			throws BadLocationException, CoreException {
+			final IGravisListIterator<String> stepIterator,
+			final String algoName) throws BadLocationException {
 		// TODO Exception if null
 
 		this.calcState = CALCULATED;
@@ -649,7 +665,8 @@ class AppModel extends Observable implements IAppModel {
 
 		this.algorithmDocument.remove(0, this.algorithmDocument.getLength());
 		this.protocolDocument.remove(0, this.protocolDocument.getLength());
-		this.algorithmDocument.insertString(0, this.core.getAlgorithmDescription(algoName),
+		this.algorithmDocument.insertString(0,
+				this.core.getAlgorithmDescription(algoName),
 				SimpleAttributeSet.EMPTY);
 		this.protocolDocument.insertString(0, ALGO_DONE_MSG,
 				SimpleAttributeSet.EMPTY);
@@ -681,7 +698,8 @@ class AppModel extends Observable implements IAppModel {
 			this.setStepPanelState(false);
 		}
 
-		if (this.calcState == EDITED_CALCULABLE && this.protocolDocument.getLength() != 0) {
+		if (this.calcState == EDITED_CALCULABLE
+				&& this.protocolDocument.getLength() != 0) {
 			this.protocolDocument.remove(0, this.protocolDocument.getLength());
 		}
 	}
@@ -700,6 +718,7 @@ class AppModel extends Observable implements IAppModel {
 
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
+		this.clearPickedVertexState();
 
 		if (newMode == Mode.EDITING) {
 			this.setStepPanelState(true);
@@ -716,9 +735,11 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setEndAnimationState() {
 		this.playerState = STOPPED;
+
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.updateStepPanelModels();
+		this.clearPickedVertexState();
 	}
 
 	/*
@@ -729,8 +750,7 @@ class AppModel extends Observable implements IAppModel {
 	 * .graph.util.EdgeType)
 	 */
 	@Override
-	public void setNewGraphState(EdgeType edgeType) throws CoreException,
-			BadLocationException {
+	public void setNewGraphState(EdgeType edgeType) throws BadLocationException {
 		if (this.graph == null) {
 			this.graph = GraphFactory.createUndirectedSampleGraph();
 			this.calcState = CALCULABLE;
@@ -762,9 +782,11 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setNoAlgoSelectedState() throws BadLocationException {
 		this.calcState = this.graph.isEmpty() ? NOT_CALCULABLE : CALCULABLE;
+
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.setStepPanelState(false);
+		this.clearPickedVertexState();
 	}
 
 	/*
@@ -775,7 +797,7 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	@Override
 	public void setOpenGraphState(IGravisGraph graph, File file)
-			throws CoreException, BadLocationException {
+			throws BadLocationException {
 		// TODO Exception if null
 
 		this.graph = GraphFactory.createEditGraphObservable(graph,
@@ -817,6 +839,18 @@ class AppModel extends Observable implements IAppModel {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * ch.bfh.ti.gravis.gui.model.IAppModel#setPickedVertexState(edu.uci.ics
+	 * .jung.visualization.picking.PickedState)
+	 */
+	@Override
+	public void setPickedVertexState(PickedState<IVertex> pickedVertexState) {
+		this.pickedVertexState = pickedVertexState;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setPlayingState()
 	 */
 	@Override
@@ -842,7 +876,8 @@ class AppModel extends Observable implements IAppModel {
 			this.updateMenuToolbarModels();
 			this.updatePopupModels();
 			this.updateStepPanelModels();
-			
+			this.clearPickedVertexState();
+
 			this.graphDocument.remove(0, this.graphDocument.getLength());
 			this.graphDocument.insertString(0, this.graph.getDescription(),
 					SimpleAttributeSet.EMPTY);
@@ -865,6 +900,7 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setStepPanelState(final boolean enabled)
 			throws BadLocationException {
+
 		if (this.hasStepIterator()) {
 			String stepMessage = this.stepIterator.first();
 			this.protocolDocument.remove(this.protocolDocument.getLength()
@@ -906,6 +942,7 @@ class AppModel extends Observable implements IAppModel {
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.setStepPanelState(true);
+		this.clearPickedVertexState();
 	}
 
 	/*

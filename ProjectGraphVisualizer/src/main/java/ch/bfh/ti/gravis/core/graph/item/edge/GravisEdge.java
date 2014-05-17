@@ -12,6 +12,9 @@ import ch.bfh.ti.gravis.core.util.GravisConstants;
  */
 class GravisEdge extends AbstractGraphItem implements IEdge {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "GravisEdge.%s(): %s == %s";
+	
 	private static final String LABEL = "e";
 	
 	private static int counter = 0;
@@ -55,10 +58,10 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setName(java.lang.String)
 	 */
 	@Override
-	public void setName(String name) {
-		// TODO Exception handling bei null values
-		
-		Objects.requireNonNull(name);
+	public void setName(final String name) {
+		Objects.requireNonNull(name, String.format(
+				NULL_POINTER_MSG, "setName", "name",
+				name));
 		boolean equal = this.getName() == null ? false : this.getName().equals(name.trim());
 		this.edgeName = name.trim();
 

@@ -1,6 +1,7 @@
 package ch.bfh.ti.gravis.core.graph;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
@@ -17,6 +18,9 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 		IGravisGraph, IEditGraphEventListener {
 
 	private static final long serialVersionUID = 7604897874620015084L;
+
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "GravisGraph.%s(): %s == %s";
 
 	private static final String DEFAULT_NAME = "%s Graph %d";
 	private static final String DEFAULT_DESCRIPTION = "%s Graph %d";
@@ -49,6 +53,10 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	protected GravisGraph(Graph<IVertex, IEdge> delegate, EdgeType edgeType) {
 		super(delegate);
 
+		Objects.requireNonNull(delegate, String.format(NULL_POINTER_MSG,
+				"GravisGraph", "delegate", delegate));
+		Objects.requireNonNull(edgeType, String.format(NULL_POINTER_MSG,
+				"GravisGraph", "edgeType", edgeType));
 		String edgeTypeStr = edgeType == EdgeType.DIRECTED ? DIR_STR
 				: UNDIR_STR;
 
@@ -82,6 +90,10 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean containsEdgeName(String edgeName) {
+		if (edgeName == null) {
+			return false;
+		}
+
 		for (IEdge edge : this.getEdges()) {
 			if (edge.getName().equals(edgeName.trim())) {
 				return true;
@@ -110,6 +122,10 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean containsVertexName(String vertexName) {
+		if (vertexName == null) {
+			return false;
+		}
+
 		for (IVertex vertex : this.getVertices()) {
 			if (vertex.getName().equals(vertexName.trim())) {
 				return true;
@@ -167,7 +183,10 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void setDescription(String graphDescription) {
-		this.graphDescription = graphDescription.trim();
+		this.graphDescription = Objects.requireNonNull(
+				graphDescription,
+				String.format(NULL_POINTER_MSG, "setDescription",
+						"graphDescription", graphDescription)).trim();
 	}
 
 	/*
@@ -178,7 +197,8 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void setEdgeType(EdgeType edgeType) {
-		this.edgeType = edgeType;
+		this.edgeType = Objects.requireNonNull(edgeType, String.format(
+				NULL_POINTER_MSG, "setEdgeType", "edgeType", edgeType));
 	}
 
 	/*
@@ -188,7 +208,8 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void setName(String graphName) {
-		this.graphName = graphName.trim();
+		this.graphName = Objects.requireNonNull(graphName, String.format(
+				NULL_POINTER_MSG, "setName", "graphName", graphName)).trim();
 	}
 
 	/*
@@ -209,10 +230,10 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type)
 	 */
 	@Override
-	public void handleGraphItemsChangedEvent(IGraphItem source, Type type) {
+	public void handleGraphItemsChangedEvent(final IGraphItem source, final Type type) {
 		if (type == Type.START_EDITED && source instanceof IVertex
 				&& ((IVertex) source).isStart()) {
-			
+
 			for (IVertex vertex : this.getVertices()) {
 				if (vertex != source) {
 					vertex.setStart(false);

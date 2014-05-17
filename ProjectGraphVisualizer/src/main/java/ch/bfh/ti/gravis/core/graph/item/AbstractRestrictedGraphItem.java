@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.core.graph.item;
 
+import java.util.Objects;
+
 /**
  * An restricted item.
  * 
@@ -9,6 +11,9 @@ package ch.bfh.ti.gravis.core.graph.item;
 public abstract class AbstractRestrictedGraphItem implements
 		IRestrictedGraphItem {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "AbstractRestrictedGraphItem.%s(): %s == %s";
+	
 	/**
 	 * A field for an item.
 	 */
@@ -21,7 +26,9 @@ public abstract class AbstractRestrictedGraphItem implements
 	 *            the item
 	 */
 	protected AbstractRestrictedGraphItem(IGraphItem item) {
-		this.item = item;
+		this.item = Objects.requireNonNull(item, String.format(
+				NULL_POINTER_MSG, "AbstractRestrictedGraphItem", "item",
+				item));
 	}
 
 	/*
@@ -160,6 +167,46 @@ public abstract class AbstractRestrictedGraphItem implements
 	@Override
 	public boolean isNewVisible() {
 		return this.item.isNewVisible();
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isInitial()
+	 */
+	@Override
+	public boolean isInitial() {
+		return this.item.isInitial();
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isActivation()
+	 */
+	@Override
+	public boolean isActivation() {
+		return this.item.isActivation();
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isVisit()
+	 */
+	@Override
+	public boolean isVisit() {
+		return this.item.isVisit();
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isSolution()
+	 */
+	@Override
+	public boolean isSolution() {
+		return this.item.isSolution();
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isElimination()
+	 */
+	@Override
+	public boolean isElimination() {
+		return this.item.isElimination();
 	}
 
 	/*

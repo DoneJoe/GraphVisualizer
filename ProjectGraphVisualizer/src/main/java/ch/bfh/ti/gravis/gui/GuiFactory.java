@@ -7,7 +7,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.text.BadLocationException;
 
-import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
@@ -40,12 +39,10 @@ public final class GuiFactory {
 	/**
 	 * @param core
 	 * @return JFrame
-	 * @throws CoreException
 	 * @throws IOException
-	 * @throws BadLocationException 
+	 * @throws BadLocationException
 	 */
-	public static JFrame createGUI(ICore core) throws CoreException,
-			IOException, BadLocationException {
+	public static JFrame createGUI(ICore core) throws IOException, BadLocationException {
 
 		// model
 		IAppModel model = AppModelFactory.createAppModel(core);

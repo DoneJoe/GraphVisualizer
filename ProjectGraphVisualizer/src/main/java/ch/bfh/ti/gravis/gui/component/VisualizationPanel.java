@@ -67,6 +67,7 @@ public class VisualizationPanel extends JPanel implements Observer {
 
 		// prepare VisualizationPanel:
 
+		model.setPickedVertexState(this.viewer.getPickedVertexState()); 
 		graphMouse.getModeComboBox().setModel(
 				model.getToggleComboGroup().getModeComboBox().getModel());
 		graphMouse.setMode(model.getToggleComboGroup().getMode());

@@ -1,23 +1,30 @@
 package ch.bfh.ti.gravis.gui.controller;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingWorker;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 
-import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
-import ch.bfh.ti.gravis.core.graph.GravisGraphIOException;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import ch.bfh.ti.gravis.gui.dialog.ConfirmDialogAdapter;
@@ -26,12 +33,11 @@ import ch.bfh.ti.gravis.gui.dialog.GraphPropertyDialogFactory;
 import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import edu.uci.ics.jung.io.GraphIOException;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import static ch.bfh.ti.gravis.gui.controller.IMenuToolbarController.EventSource.*;
 import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.NOT_CALCULABLE;
 import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
-
-;
 
 /**
  * This class controls all MenuBar and ToolBar events.
@@ -45,7 +51,8 @@ class MenuToolbarController extends WindowAdapter implements
 	// dialog messages:
 
 	private final static String APP_ERR_TITLE = "Fehler";
-	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten:%s%s%s";
+	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten. "
+			+ "Bitte starten Sie die Applikation neu.%s%s%s";
 	private final static String FILE_ERR_TITLE = "Öffnen";
 	private final static String FILE_ERR_MSG = "Datei nicht gefunden: %s%s";
 	private final static String SAVE_CONFIRM_TITLE = "Graph speichern";
@@ -78,13 +85,15 @@ class MenuToolbarController extends WindowAdapter implements
 	/**
 	 * @param model
 	 * @param core
-	 * @throws BadLocationException 
+	 * @throws BadLocationException
 	 */
-	protected MenuToolbarController(IAppModel model, ICore core) throws BadLocationException {
+	protected MenuToolbarController(IAppModel model, ICore core)
+			throws BadLocationException {
 		this.model = model;
 		this.core = core;
-		
-		this.model.getGraphDocument().insertString(0, this.model.getGraph().getDescription(), 
+
+		this.model.getGraphDocument().insertString(0,
+				this.model.getGraph().getDescription(),
 				SimpleAttributeSet.EMPTY);
 	}
 
@@ -120,14 +129,22 @@ class MenuToolbarController extends WindowAdapter implements
 					this.handleAlgorithmEvent((String) item);
 				}
 			}
-		} catch (Exception ex) {
+		} catch (FileNotFoundException ex) {
+			this.messageDialogAdapter.showMessageDialog(
+					"FileNotFoundException", APP_ERR_TITLE,
+					JOptionPane.ERROR_MESSAGE);
+		} catch (Throwable ex) {
 			if (this.messageDialogAdapter != null) {
-
-				// TODO stackTrace angeben
+				// TODO Exception handling verbessern
+				StringWriter sw = new StringWriter();
+				ex.printStackTrace(new PrintWriter(sw));
 
 				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, ex.getMessage(), LN, LN),
-						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
+						String.format(APP_ERR_MSG, LN, LN, sw), APP_ERR_TITLE,
+						JOptionPane.ERROR_MESSAGE);
+
+				// abnormal exit of application
+				System.exit(1);
 			}
 		}
 	}
@@ -158,7 +175,7 @@ class MenuToolbarController extends WindowAdapter implements
 					this.handleAlgorithmEvent(((String) e.getItem()).trim());
 				}
 			}
-		} catch (Exception ex) {
+		} catch (Throwable ex) {
 
 			// TODO stackTrace angeben ex.getStackTrace() ist array!
 
@@ -230,8 +247,9 @@ class MenuToolbarController extends WindowAdapter implements
 	public void windowClosing(final WindowEvent e) {
 		try {
 			this.handleExitEvent();
-		} catch (CoreException | GravisGraphIOException | BadLocationException ex) {
-			// TODO stackTrace angeben, allg Excepiton abfangen
+		} catch (GraphIOException | BadLocationException
+				| FileNotFoundException ex) {
+			// TODO stackTrace angeben, allg Excepiton abfangen : Throwable
 
 			if (this.messageDialogAdapter != null) {
 				this.messageDialogAdapter.showMessageDialog(
@@ -247,12 +265,13 @@ class MenuToolbarController extends WindowAdapter implements
 	 * been saved or "not save" is selected from the confirm dialog.
 	 * 
 	 * @return boolean
-	 * @throws CoreException
-	 * @throws GravisGraphIOException
+	 * @throws GraphIOException
 	 * @throws BadLocationException
+	 * @throws FileNotFoundException
 	 */
-	private boolean checkSave() throws GravisGraphIOException, CoreException,
-			BadLocationException {
+	private boolean checkSave() throws GraphIOException, BadLocationException,
+			FileNotFoundException {
+
 		if (this.model.isStopped() && this.model.isGraphUnsaved()
 				&& this.confirmDialogAdapter != null) {
 
@@ -276,21 +295,20 @@ class MenuToolbarController extends WindowAdapter implements
 	/**
 	 * 
 	 * @param algoName
-	 * @throws CoreException
 	 * @throws BadLocationException
 	 */
 	private void handleAlgorithmEvent(final String algoName)
-			throws CoreException, BadLocationException {
+			throws BadLocationException {
 
 		if (this.model.isStopped()
 				&& this.model.getCalculationState() != NOT_CALCULABLE) {
-			
+
 			Document algoDoc = this.model.getAlgorithmDocument();
 			Document protocolDoc = this.model.getProtocolDocument();
 
 			// ignores title entry
 			if (algoName.equals(IAppModel.DEFAULT_ALGO_ENTRY.toString())) {
-				
+
 				// updates model
 				this.model.setNoAlgoSelectedState();
 				algoDoc.remove(0, algoDoc.getLength());
@@ -334,7 +352,7 @@ class MenuToolbarController extends WindowAdapter implements
 			@Override
 			protected IGravisListIterator<String> doInBackground()
 					throws Exception {
-				
+
 				// calculates steps
 				return MenuToolbarController.this.core.calculateSteps(
 						MenuToolbarController.this.model.getGraph(), algoName);
@@ -350,15 +368,16 @@ class MenuToolbarController extends WindowAdapter implements
 				try {
 					// enables GUI
 					MenuToolbarController.this.model.setWorkingState(false);
-					
+
 					// updates model
-					MenuToolbarController.this.model.setCalcDoneState(this
-							.get(), algoName);
+					MenuToolbarController.this.model.setCalcDoneState(
+							this.get(), algoName);
 
 					// updates view
 					MenuToolbarController.this.model.notifyObservers(false);
 				} catch (Exception e) {
-					// TODO: handle exception -> exits app
+					// TODO: AglgoException -> message an user
+					// TODO: handle exception (CoreException-> exits app
 					e.printStackTrace();
 				}
 			}
@@ -367,12 +386,12 @@ class MenuToolbarController extends WindowAdapter implements
 
 	/**
 	 * 
-	 * @throws CoreException
-	 * @throws GravisGraphIOException
+	 * @throws GraphIOException
 	 * @throws BadLocationException
+	 * @throws FileNotFoundException
 	 */
-	private void handleExitEvent() throws CoreException,
-			GravisGraphIOException, BadLocationException {
+	private void handleExitEvent() throws GraphIOException,
+			BadLocationException, FileNotFoundException {
 
 		// handles unsaved graph
 		if (!this.checkSave()) {
@@ -394,7 +413,7 @@ class MenuToolbarController extends WindowAdapter implements
 
 	/**
 	 * @param mode
-	 * @throws BadLocationException 
+	 * @throws BadLocationException
 	 * 
 	 */
 	private void handleModeEvent(final Mode mode) throws BadLocationException {
@@ -410,12 +429,13 @@ class MenuToolbarController extends WindowAdapter implements
 	/**
 	 * 
 	 * @param edgeType
-	 * @throws CoreException
-	 * @throws GravisGraphIOException
+	 * @throws GraphIOException
 	 * @throws BadLocationException
+	 * @throws FileNotFoundException
 	 */
 	private void handleNewGraphEvent(final EdgeType edgeType)
-			throws CoreException, GravisGraphIOException, BadLocationException {
+			throws GraphIOException, BadLocationException,
+			FileNotFoundException {
 
 		if (this.model.isStopped()) {
 			// handle unsaved graph
@@ -434,12 +454,12 @@ class MenuToolbarController extends WindowAdapter implements
 	/**
 	 * An existing file must be selected for opening a graph.
 	 * 
-	 * @throws CoreException
-	 * @throws GravisGraphIOException
+	 * @throws GraphIOException
 	 * @throws BadLocationException
+	 * @throws FileNotFoundException
 	 */
-	private void handleOpenGraphEvent() throws CoreException,
-			GravisGraphIOException, BadLocationException {
+	private void handleOpenGraphEvent() throws GraphIOException,
+			BadLocationException, FileNotFoundException {
 
 		if (this.model.isStopped()) {
 			// handle unsaved graph
@@ -473,6 +493,7 @@ class MenuToolbarController extends WindowAdapter implements
 					worker.execute();
 					return;
 				} else {
+					// TODO message adpter layout anpassen (breite, hoehe)
 					this.messageDialogAdapter.showMessageDialog(
 							String.format(FILE_ERR_MSG, LN,
 									file.getAbsolutePath()), FILE_ERR_TITLE,
@@ -506,7 +527,7 @@ class MenuToolbarController extends WindowAdapter implements
 				try {
 					// enables GUI
 					MenuToolbarController.this.model.setWorkingState(false);
-					
+
 					// update model
 					MenuToolbarController.this.model.setOpenGraphState(
 							this.get(), file);
@@ -514,9 +535,36 @@ class MenuToolbarController extends WindowAdapter implements
 					// update view
 					MenuToolbarController.this.model.notifyObservers(true);
 				} catch (Exception e) {
+					// TODO Exception handling verbessern
+					// TODO Abstand message label
+					// TODO Exception bei open graph: -> default graph anzeigen, update model
 
-					// TODO: handle exception -> exits app
-					e.printStackTrace();
+					StringWriter sw = new StringWriter();
+					e.printStackTrace(new PrintWriter(sw));
+					
+					JPanel messagePanel = new JPanel(new BorderLayout());
+					messagePanel.add(new JLabel(String.format(APP_ERR_MSG, LN, LN, LN)), 
+							BorderLayout.NORTH);
+					JTextArea textArea = new JTextArea();
+					textArea.setText(sw.toString());
+					textArea.setCaretPosition(0);
+					JScrollPane scrollPane = new JScrollPane();			
+					textArea.setEditable(false);
+					textArea.setRows(40);
+					textArea.setColumns(60);
+					scrollPane.setViewportView(textArea);
+					scrollPane
+					.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+					scrollPane
+					.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+					messagePanel.add(scrollPane, BorderLayout.CENTER);
+					
+					MenuToolbarController.this.messageDialogAdapter.showMessageDialog(
+							messagePanel, APP_ERR_TITLE,
+							JOptionPane.ERROR_MESSAGE);
+
+					// abnormal exit of application
+					System.exit(1);
 				}
 			}
 		};
@@ -529,12 +577,13 @@ class MenuToolbarController extends WindowAdapter implements
 	 * dialog
 	 * 
 	 * @return save result
-	 * @throws GravisGraphIOException
+	 * @throws GraphIOException
 	 * @throws BadLocationException
+	 * @throws FileNotFoundException
 	 * 
 	 */
-	private int handleSaveGraphAsEvent() throws GravisGraphIOException,
-			BadLocationException {
+	private int handleSaveGraphAsEvent() throws GraphIOException,
+			BadLocationException, FileNotFoundException {
 
 		if (this.model.isStopped() && this.fileChooserAdapter != null
 				&& this.confirmDialogAdapter != null) {
@@ -551,13 +600,13 @@ class MenuToolbarController extends WindowAdapter implements
 					// sets step panel to initial state
 					this.model.setStepPanelState(true);
 
-					// save graph
+					// saves graph
 					this.core.saveGraph(this.model.getGraph(), file);
 
-					// update model
+					// updates model
 					this.model.setSaveGraphState(file);
 
-					// update view
+					// updates view
 					this.model.notifyObservers(false);
 
 					return JFileChooser.APPROVE_OPTION;
@@ -574,11 +623,12 @@ class MenuToolbarController extends WindowAdapter implements
 	 * graphFile.
 	 * 
 	 * @return save result
-	 * @throws GravisGraphIOException
+	 * @throws GraphIOException
 	 * @throws BadLocationException
+	 * @throws FileNotFoundException
 	 */
-	private int handleSaveGraphEvent() throws GravisGraphIOException,
-			BadLocationException {
+	private int handleSaveGraphEvent() throws GraphIOException,
+			BadLocationException, FileNotFoundException {
 
 		if (this.model.isStopped()) {
 			if (this.model.hasGraphFile()) {
@@ -586,14 +636,14 @@ class MenuToolbarController extends WindowAdapter implements
 				// sets step panel to initial state
 				this.model.setStepPanelState(true);
 
-				// save graph
+				// saves graph
 				this.core.saveGraph(this.model.getGraph(),
 						this.model.getGraphFile());
 
-				// update model
+				// updates model
 				this.model.setSaveGraphState();
 
-				// update view
+				// updates view
 				this.model.notifyObservers(false);
 
 				return JFileChooser.APPROVE_OPTION;

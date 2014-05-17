@@ -83,6 +83,33 @@ public interface IRestrictedGraphItem {
 	 * 
 	 * @return boolean
 	 */
+	public abstract boolean isInitial();
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isActivation();
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isVisit();
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isSolution();
+	/**
+	 * 
+	 * @return boolean
+	 */
+	public abstract boolean isElimination();
+	
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public abstract boolean isStateCommentEnabled();
 	
 	public abstract void resetHelperVariables();

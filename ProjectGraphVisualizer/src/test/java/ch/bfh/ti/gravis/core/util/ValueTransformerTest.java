@@ -50,10 +50,10 @@ public class ValueTransformerTest {
 	 */
 	@Test
 	public final void testTransformColorToString() {
-//		assertEquals(GravisConstants.INIT,  
-//				ValueTransformer.colorToString(GravisColor.INIT));
-//		assertEquals(GravisConstants.INIT,  
-//				ValueTransformer.colorToString(null));
+		assertEquals(GravisConstants.LIGHT_BLUE,  
+				ValueTransformer.colorToString(GravisColor.LIGHT_BLUE));
+		assertEquals(GravisConstants.LIGHT_BLUE,  
+				ValueTransformer.colorToString(null));
 	}
 
 	/**
@@ -63,10 +63,10 @@ public class ValueTransformerTest {
 	 */
 	@Test
 	public final void testTransformToColor() {
-//		assertEquals(GravisColor.INIT,  
-//				ValueTransformer.toColor("antique"));
-//		assertEquals(GravisColor.INIT,  
-//				ValueTransformer.toColor(null));
+		assertEquals(GravisColor.LIGHT_BLUE,  
+				ValueTransformer.toColor("lightBlue"));
+		assertEquals(GravisColor.LIGHT_BLUE,  
+				ValueTransformer.toColor(null));
 	}
 
 }

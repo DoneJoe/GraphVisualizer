@@ -4,19 +4,19 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
 http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="description" for="graph">
-<default>leerer ungerichteter Graph</default>
+<default>ungerichteter Graph 2</default>
 </key>
 <key id="vertexLocation.y" for="node">
 <default>50</default>
 </key>
 <key id="vertexWidth" for="node">
-<default>60.0</default>
+<default>40.0</default>
 </key>
 <key id="endVertex" for="node">
 <default>false</default>
 </key>
 <key id="vertexColor" for="node">
-<default>antique</default>
+<default>lightBlue</default>
 </key>
 <key id="vertexLocation.x" for="node">
 <default>50</default>
@@ -31,9 +31,9 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <default>1.0</default>
 </key>
 <key id="edgeColor" for="edge">
-<default>black</default>
+<default>blue</default>
 </key>
-<graph id="leerer ungerichteter Graph" edgedefault="undirected">
-<data key="description">leerer ungerichteter Graph</data>
+<graph id="ungerichteter Graph 2" edgedefault="undirected">
+<data key="description">ungerichteter Graph 2</data>
 </graph>
 </graphml>

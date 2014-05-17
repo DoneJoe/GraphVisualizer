@@ -3,6 +3,7 @@ package ch.bfh.ti.gravis.core.graph;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
@@ -20,6 +21,9 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 
 	private static final long serialVersionUID = 7295632383192262799L;
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "EditGraphDecorator.%s(): %s == %s";
+	
 	private final IGravisGraph gravisGraph;
 
 	private final List<IEditGraphEventListener> listeners;
@@ -31,6 +35,8 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	protected EditGraphDecorator(IGravisGraph delegate) {
 		super(delegate);
 
+		Objects.requireNonNull(delegate, String.format(NULL_POINTER_MSG, "EditGraphDecorator",
+				"delegate", delegate));
 		this.gravisGraph = delegate;
 		this.listeners = new ArrayList<>();
 	}
@@ -109,6 +115,8 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void addEditGraphEventListener(IEditGraphEventListener listener) {
+		Objects.requireNonNull(listener, String.format(NULL_POINTER_MSG, "addEditGraphEventListener",
+				"listener", listener));
 		this.listeners.add(listener);
 
 		for (IVertex vertex : this.getVertices()) {
@@ -283,6 +291,8 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void setDescription(String graphDescription) {
+		Objects.requireNonNull(graphDescription, String.format(NULL_POINTER_MSG, "setDescription",
+				"graphDescription", graphDescription));
 		boolean equal = this.getDescription().equals(graphDescription.trim());
 		
 		this.gravisGraph.setDescription(graphDescription);
@@ -300,6 +310,8 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void setEdgeType(EdgeType edgeType) {
+		Objects.requireNonNull(edgeType, String.format(NULL_POINTER_MSG, "setEdgeType",
+				"edgeType", edgeType));
 		boolean equal = this.getEdgeType() == edgeType;
 		
 		this.gravisGraph.setEdgeType(edgeType);
@@ -317,6 +329,8 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void setName(String graphName) {
+		Objects.requireNonNull(graphName, String.format(NULL_POINTER_MSG, "setName",
+				"graphName", graphName));
 		boolean equal = this.getName().equals(graphName.trim());
 		
 		this.gravisGraph.setName(graphName);

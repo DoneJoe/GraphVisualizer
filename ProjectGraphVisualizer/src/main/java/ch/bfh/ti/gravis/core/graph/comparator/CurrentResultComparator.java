@@ -17,7 +17,8 @@ public class CurrentResultComparator implements Comparator<IRestrictedVertex> {
 	 */
 	@Override
 	public int compare(IRestrictedVertex v1, IRestrictedVertex v2) {
-		return Double.compare(v1.getCurrentResult(), v2.getCurrentResult());
+		return v1 == null || v2 == null ? 0 : Double.compare(
+				v1.getCurrentResult(), v2.getCurrentResult());
 	}
 
 }

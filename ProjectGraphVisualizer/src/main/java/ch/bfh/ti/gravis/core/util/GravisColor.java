@@ -13,6 +13,7 @@ import java.awt.Color;
 public final class GravisColor {
 	public final static Color LIGHT_BLUE = new Color(0xf0, 0xeb, 0xff);
 	public final static Color LESS_BLUE = new Color(0xb2, 0x99, 0xff);
+	public final static Color LESS_LIGHT_BLUE = new Color(0xe5, 0xdc, 0xff);
 	public final static Color BLUE = new Color(0x3e, 0x20, 0x9e);
 	public final static Color LIGHT_YELLOW = new Color(0xff, 0xfb, 0xe8);
 	public final static Color YELLOW = new Color(0xe6, 0xc2, 0x17);

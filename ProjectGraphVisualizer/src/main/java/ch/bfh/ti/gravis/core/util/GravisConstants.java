@@ -46,19 +46,19 @@ public final class GravisConstants {
 	// item state colors:
 
 	public final static Color V_FILL_INITIAL_COLOR = GravisColor.LIGHT_BLUE;
-	public final static Color V_FILL_ACTIVATION_COLOR = GravisColor.LESS_BLUE;
+	public final static Color V_FILL_ACTIVATION_COLOR = GravisColor.LESS_LIGHT_BLUE;
 	public final static Color V_FILL_VISIT_COLOR = GravisColor.LIGHT_YELLOW;
 	public final static Color V_FILL_SOLUTION_COLOR = GravisColor.LIGHT_GREEN;
 	public final static Color V_FILL_ELIMINATION_COLOR = GravisColor.LIGHT_RED;
 
-	public final static Color V_PICKED_COLOR = GravisColor.BLACK;
+	public final static Color V_PICKED_COLOR = GravisColor.LESS_BLUE;
 	public final static Color V_DRAW_INITIAL_COLOR = GravisColor.BLUE;
 	public final static Color V_DRAW_ACTIVATION_COLOR = GravisColor.BLUE;
 	public final static Color V_DRAW_VISIT_COLOR = GravisColor.YELLOW;
 	public final static Color V_DRAW_SOLUTION_COLOR = GravisColor.GREEN;
 	public final static Color V_DRAW_ELIMINATION_COLOR = GravisColor.RED;
 
-	public final static Color E_PICKED_COLOR = GravisColor.BLACK;
+	public final static Color E_PICKED_COLOR = GravisColor.LESS_BLUE;
 	public final static Color E_INITIAL_COLOR = GravisColor.BLUE;
 	public final static Color E_ACTIVATION_COLOR = GravisColor.BLUE;
 	public final static Color E_VISIT_COLOR = GravisColor.YELLOW;

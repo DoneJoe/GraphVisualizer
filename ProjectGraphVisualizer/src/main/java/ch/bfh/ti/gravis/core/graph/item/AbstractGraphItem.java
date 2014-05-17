@@ -13,6 +13,9 @@ import ch.bfh.ti.gravis.core.util.GravisConstants;
 public abstract class AbstractGraphItem extends AbstractEditItemObservable
 		implements IGraphItem {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "AbstractGraphItem.%s(): %s == %s";
+
 	// new value variables:
 
 	private String newComment;
@@ -64,17 +67,14 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	 * appendComment(java.lang.String)
 	 */
 	@Override
-	public void appendComment(String comment) {
-		// TODO Exception handling bei null values
-		Objects.requireNonNull(comment);
-		this.newComment += comment;
+	public void appendComment(final String comment) {
+		this.newComment += (comment == null ? "" : comment);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#getCurrentColor()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#getCurrentColor()
 	 */
 	@Override
 	public Color getCurrentColor() {
@@ -111,8 +111,8 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	 */
 	@Override
 	public String getNewComment() {
-		return (this.stateCommentEnabled ? this.getNewState().getDoMessage(this) : "")
-				+ this.newComment;
+		return (this.stateCommentEnabled ? this.getNewState()
+				.getDoMessage(this) : "") + this.newComment;
 	}
 
 	/*
@@ -123,16 +123,14 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	 */
 	@Override
 	public double getNewResult() {
-		return Double.compare(this.newResult, Double.NaN) == 0 ? this.getCurrentResult()
-				: this.newResult;
+		return Double.compare(this.newResult, Double.NaN) == 0 ? this
+				.getCurrentResult() : this.newResult;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getNewState
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getNewState ()
 	 */
 	@Override
 	public ItemState getNewState() {
@@ -142,9 +140,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getValue
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getValue ()
 	 */
 	@Override
 	public Object getValue() {
@@ -154,8 +150,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#isCurrentDashed()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#isCurrentDashed()
 	 */
 	@Override
 	public boolean isCurrentDashed() {
@@ -165,8 +160,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#isCurrentTagged()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#isCurrentTagged()
 	 */
 	@Override
 	public boolean isCurrentTagged() {
@@ -176,9 +170,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#isCurrentVisible
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#isCurrentVisible ()
 	 */
 	@Override
 	public boolean isCurrentVisible() {
@@ -188,9 +180,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isDone
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isDone ()
 	 */
 	@Override
 	public boolean isDone() {
@@ -200,9 +190,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isNewDashed
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isNewDashed ()
 	 */
 	@Override
 	public boolean isNewDashed() {
@@ -212,9 +200,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isNewTagged
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isNewTagged ()
 	 */
 	@Override
 	public boolean isNewTagged() {
@@ -231,6 +217,57 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	public boolean isNewVisible() {
 		return this.newVisible == null ? this.isCurrentVisible()
 				: this.newVisible;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isInitial()
+	 */
+	@Override
+	public boolean isInitial() {
+		return this.getCurrentState() == ItemState.INITIAL;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isActivation()
+	 */
+	@Override
+	public boolean isActivation() {
+		return this.getCurrentState() == ItemState.ACTIVATION;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isVisit()
+	 */
+	@Override
+	public boolean isVisit() {
+		return this.getCurrentState() == ItemState.VISIT;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isSolution()
+	 */
+	@Override
+	public boolean isSolution() {
+		return this.getCurrentState() == ItemState.SOLUTION;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isElimination()
+	 */
+	@Override
+	public boolean isElimination() {
+		return this.getCurrentState() == ItemState.ELIMINATION;
 	}
 
 	/*
@@ -259,8 +296,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#
-	 * resetNewVariables()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem# resetNewVariables()
 	 */
 	@Override
 	public void resetNewVariables() {
@@ -276,21 +312,20 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentColor
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentColor
 	 * (java.awt.Color)
 	 */
 	@Override
 	public void setCurrentColor(Color currentColor) {
-		// TODO Exception handling bei null values
-		this.currentColor = Objects.requireNonNull(currentColor);
+		this.currentColor = Objects.requireNonNull(currentColor, String.format(
+				NULL_POINTER_MSG, "setCurrentColor", "currentColor",
+				currentColor));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentDashed
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentDashed
 	 * (boolean)
 	 */
 	@Override
@@ -301,8 +336,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentResult
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentResult
 	 * (double)
 	 */
 	@Override
@@ -313,23 +347,21 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentState
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentState
 	 * (ch.bfh.ti.gravis.core.graph.item.ItemState)
 	 */
 	@Override
 	public void setCurrentState(ItemState currentState) {
-		// TODO Exception handling bei null values
-		
-		this.currentState = Objects.requireNonNull(currentState);
+		this.currentState = Objects.requireNonNull(currentState, String.format(
+				NULL_POINTER_MSG, "setCurrentState", "currentState",
+				currentState));
 		this.setCurrentColor(currentState.getFillColor(this));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentTagged
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentTagged
 	 * (boolean)
 	 */
 	@Override
@@ -340,8 +372,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentVisible
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setCurrentVisible
 	 * (boolean)
 	 */
 	@Override
@@ -352,8 +383,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setDone
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setDone
 	 * (boolean)
 	 */
 	@Override
@@ -369,9 +399,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	 */
 	@Override
 	public void setNewComment(String newComment) {
-		// TODO Exception handling bei null values
-		Objects.requireNonNull(newComment);
-		this.newComment = newComment;
+		this.newComment = newComment == null ? "" : newComment;
 	}
 
 	/*
@@ -399,8 +427,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setNewState
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setNewState
 	 * (ch.bfh.ti.gravis.core.graph.item.ItemState)
 	 */
 	@Override
@@ -444,8 +471,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setValue
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setValue
 	 * (java.lang.Object)
 	 */
 	@Override

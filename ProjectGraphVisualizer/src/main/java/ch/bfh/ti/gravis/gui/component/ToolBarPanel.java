@@ -49,9 +49,9 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	private static final String PICKING_ICON = "Picking_24.png";
 	private static final String PICKING_TOOLTIP = "Knoten auswählen und verschieben";
 	private static final String EDITING_ICON = "Editing_24.png";
-	private static final String EDITING_TOOLTIP = "Elemente hinzufügen und löschen";
+	private static final String EDITING_TOOLTIP = "Elemente hinzufügen, löschen oder bearbeiten";
 	private static final String TRANSFORMING_ICON = "Transforming_24.png";
-	private static final String TRANSFORMING_TOOLTIP = "Graph verschieben und drehen";
+	private static final String TRANSFORMING_TOOLTIP = "Graph verschieben oder drehen";
 
 	private static final String ALGO_TOOLTIP = "Algorithmus wählen";
 	private static final String CALC_LABEL = "Neu berechnen";

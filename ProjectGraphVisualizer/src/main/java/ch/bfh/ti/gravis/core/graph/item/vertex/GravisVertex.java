@@ -21,9 +21,12 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 
 	// constants:
 
-	private final static char FIRST_CHAR = 'A';
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "AbstractGraphItem.%s(): %s == %s";
+	
+	private static final char FIRST_CHAR = 'A';
 
-	private final static char LAST_CHAR = 'Z';
+	private static final char LAST_CHAR = 'Z';
 
 	// static counters:
 
@@ -148,9 +151,10 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 * setCurrentDrawColor(java.awt.Color)
 	 */
 	@Override
-	public void setCurrentDrawColor(Color color) {
-		// TODO Exception handling bei null values
-		this.currentDrawColor = Objects.requireNonNull(color);
+	public void setCurrentDrawColor(final Color color) {
+		this.currentDrawColor = Objects.requireNonNull(color, String.format(
+				NULL_POINTER_MSG, "setCurrentDrawColor", "color",
+				color));
 	}
 
 	/*
@@ -200,10 +204,10 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 * .Point2D)
 	 */
 	@Override
-	public void setLocation(Point2D location) {
-		// TODO Exception handling bei null values
-		
-		Objects.requireNonNull(location);
+	public void setLocation(final Point2D location) {
+		Objects.requireNonNull(location, String.format(
+				NULL_POINTER_MSG, "setLocation", "location",
+				location));
 		boolean equal = location.equals(this.getLocation());
 		this.location = (Point2D) location.clone();
 		
@@ -220,10 +224,10 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 * lang.String)
 	 */
 	@Override
-	public void setName(String name) {
-		// TODO Exception handling bei null values
-		
-		Objects.requireNonNull(name);
+	public void setName(final String name) {
+		Objects.requireNonNull(name, String.format(
+				NULL_POINTER_MSG, "setName", "name",
+				name));
 		boolean equal = name.trim().equals(this.getName());
 		this.vertexName = name.trim();
 

@@ -11,12 +11,13 @@ import javax.swing.Timer;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.graph.IEditGraphObservable;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
+import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
+import edu.uci.ics.jung.visualization.picking.PickedState;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -333,11 +334,10 @@ public interface IAppModel {
 
 	/**
 	 * @param edgeType
-	 * @throws CoreException
 	 * @throws BadLocationException
 	 */
 	public abstract void setNewGraphState(EdgeType edgeType)
-			throws CoreException, BadLocationException;
+			throws BadLocationException;
 
 	/**
 	 * No valid algorithm has been selected in the combo box.
@@ -350,11 +350,10 @@ public interface IAppModel {
 	 * 
 	 * @param graph
 	 * @param file
-	 * @throws CoreException
 	 * @throws BadLocationException
 	 */
 	public abstract void setOpenGraphState(IGravisGraph graph, File file)
-			throws CoreException, BadLocationException;
+			throws BadLocationException;
 
 	/**
 	 * 
@@ -385,11 +384,10 @@ public interface IAppModel {
 	 * @param stepIterator
 	 * @param algoName 
 	 * @throws BadLocationException
-	 * @throws CoreException 
 	 */
 	public abstract void setCalcDoneState(
 			IGravisListIterator<String> stepIterator, String algoName)
-			throws BadLocationException, CoreException;
+			throws BadLocationException;
 
 	public abstract void setStoppedState() throws BadLocationException;
 
@@ -417,5 +415,13 @@ public interface IAppModel {
 	 */
 	public abstract void setWorkingState(boolean enabled)
 			throws BadLocationException;
+
+	/**
+	 * @param pickedVertexState
+	 */
+	public abstract void setPickedVertexState(
+			PickedState<IVertex> pickedVertexState);
+
+	public abstract void clearPickedVertexState();
 
 }

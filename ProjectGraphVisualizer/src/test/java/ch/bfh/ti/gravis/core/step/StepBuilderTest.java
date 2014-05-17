@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static ch.bfh.ti.gravis.core.graph.item.ItemState.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +17,6 @@ import org.junit.Test;
 
 import ch.bfh.ti.gravis.core.graph.GraphFactory;
 import ch.bfh.ti.gravis.core.graph.GraphIOManager;
-import ch.bfh.ti.gravis.core.graph.GravisGraphIOException;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.graph.IRestrictedGraph;
 import ch.bfh.ti.gravis.core.graph.comparator.ItemNameComparator;
@@ -30,6 +30,7 @@ import ch.bfh.ti.gravis.core.step.IStepRecorder;
 import ch.bfh.ti.gravis.core.step.IStepResult;
 import ch.bfh.ti.gravis.core.step.StepBuilder;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
+import edu.uci.ics.jung.io.GraphIOException;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -98,10 +99,11 @@ public class StepBuilderTest {
 	 * Test method for
 	 * {@link ch.bfh.ti.gravis.core.step.StepBuilder#createStepList()} .
 	 * 
-	 * @throws GravisGraphIOException
+	 * @throws GraphIOException
+	 * @throws FileNotFoundException 
 	 */
 	@Test
-	public void testCreateStepList() throws GravisGraphIOException {
+	public void testCreateStepList() throws GraphIOException, FileNotFoundException {
 		GraphIOManager gm = new GraphIOManager();
 		IGravisGraph g = gm.loadGraph(new File(GravisConstants.TEMPLATES_DIR
 				+ "/Directed_Dijkstra_Sample_Graph_1.graphml"));

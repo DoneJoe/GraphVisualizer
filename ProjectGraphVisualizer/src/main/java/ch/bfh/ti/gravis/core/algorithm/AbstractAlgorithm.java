@@ -14,6 +14,9 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  */
 abstract class AbstractAlgorithm implements IAlgorithm {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "AbstractAlgorithm.%s(): %s == %s";
+	
 	/**
 	 * A filed for the name.
 	 */
@@ -35,8 +38,10 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 * @param description
 	 */
 	protected AbstractAlgorithm(String name, String description) {
-		this.name = name;
-		this.description = description;
+		this.name = Objects.requireNonNull(name, String.format(NULL_POINTER_MSG, "AbstractAlgorithm",
+				"name", name));
+		this.description = Objects.requireNonNull(description, String.format(NULL_POINTER_MSG, 
+				"AbstractAlgorithm", "description", description));
 		this.edgeTypes = new HashSet<>();
 	}
 
@@ -45,6 +50,8 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 * @param edgeType
 	 */
 	protected void addEdgeType(EdgeType edgeType) {
+		Objects.requireNonNull(edgeType, String.format(NULL_POINTER_MSG, 
+				"addEdgeType", "edgeType", edgeType));
 		this.edgeTypes.add(edgeType);
 	}
 
@@ -78,9 +85,6 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 */
 	@Override
 	public final boolean hasEdgeType(EdgeType edgeType) {
-		// TODO Exception handling
-		Objects.requireNonNull(edgeType);
-				
 		return this.edgeTypes.contains(edgeType);
 	}
 

@@ -2,6 +2,7 @@ package ch.bfh.ti.gravis.core.graph;
 
 
 import java.awt.Point;
+import java.util.Objects;
 
 import ch.bfh.ti.gravis.core.graph.item.edge.EdgeFactory;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
@@ -18,6 +19,9 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  */
 public final class GraphFactory {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "GraphFactory.%s(): %s == %s";
+	
 	/**
 	 * A main (no-)constructor.
 	 */
@@ -37,6 +41,8 @@ public final class GraphFactory {
 	 * @return a new directed graph instance of type IGravisGraph
 	 */
 	public static IGravisGraph createDirectedGravisGraph(Graph<IVertex, IEdge> graph) {
+		Objects.requireNonNull(graph, String.format(NULL_POINTER_MSG, "createDirectedGravisGraph",
+				"graph", graph));
 		return new GravisGraph(graph);
 	}
 
@@ -52,6 +58,8 @@ public final class GraphFactory {
 	 * @return a new graph instance of type IGravisGraph
 	 */
 	public static IGravisGraph createGravisGraph(EdgeType edgeType) {
+		Objects.requireNonNull(edgeType, String.format(NULL_POINTER_MSG, "createGravisGraph",
+				"edgeType", edgeType));
 		return new GravisGraph(createGraph(), edgeType);
 	}
 	
@@ -70,6 +78,11 @@ public final class GraphFactory {
 	 */
 	public static IEditGraphObservable createEditGraphObservable(EdgeType edgeType, 
 			IEditGraphEventListener ... listeners) {
+		
+		Objects.requireNonNull(edgeType, String.format(NULL_POINTER_MSG, "createEditGraphObservable",
+				"edgeType", edgeType));
+		Objects.requireNonNull(listeners, String.format(NULL_POINTER_MSG, "createEditGraphObservable",
+				"listeners", listeners));
 		EditGraphDecorator graph = new EditGraphDecorator(createGravisGraph(edgeType));
 		
 		for (IEditGraphEventListener listener : listeners) {
@@ -86,6 +99,11 @@ public final class GraphFactory {
 	 */
 	public static IEditGraphObservable createEditGraphObservable(IGravisGraph graph, 
 			IEditGraphEventListener ... listeners) {
+		
+		Objects.requireNonNull(graph, String.format(NULL_POINTER_MSG, "createEditGraphObservable",
+				"graph", graph));
+		Objects.requireNonNull(listeners, String.format(NULL_POINTER_MSG, "createEditGraphObservable",
+				"listeners", listeners));
 		EditGraphDecorator editGraph = new EditGraphDecorator(graph);
 		
 		for (IEditGraphEventListener listener : listeners) {
@@ -101,6 +119,11 @@ public final class GraphFactory {
 	 */
 	public static IRestrictedGraph createRestrictedGraph(
 			IGravisGraph graph, StepBuilder stepBuilder) {
+		
+		Objects.requireNonNull(graph, String.format(NULL_POINTER_MSG, "createRestrictedGraph",
+				"graph", graph));
+		Objects.requireNonNull(stepBuilder, String.format(NULL_POINTER_MSG, "createRestrictedGraph",
+				"stepBuilder", stepBuilder));
 		return new RestrictedGraph(graph, stepBuilder);
 	}
 
