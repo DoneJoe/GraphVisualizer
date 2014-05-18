@@ -92,6 +92,7 @@ public class GravisEditingGraphMousePlugin extends
 			final Point2D p = e.getPoint();
 			GraphElementAccessor<IVertex, IEdge> pickSupport = vv
 					.getPickSupport();
+			
 			if (pickSupport != null) {
 				Graph<IVertex, IEdge> graph = vv.getModel().getGraphLayout()
 						.getGraph();

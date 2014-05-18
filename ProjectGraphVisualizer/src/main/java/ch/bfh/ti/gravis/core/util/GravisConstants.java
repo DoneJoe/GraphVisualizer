@@ -27,6 +27,7 @@ public final class GravisConstants {
 	public static final String LIGHT_YELLOW = "lightYellow";
 	public static final String LIGHT_BLUE = "lightBlue";
 	public static final String LESS_BLUE = "lessBlue";
+	public static final String LESS_LIGHT_BLUE = "lessLightBlue";
 	public static final String LIGHT_RED = "lightRed";
 
 	// key ids in graphML format:
@@ -51,21 +52,19 @@ public final class GravisConstants {
 	public final static Color V_FILL_SOLUTION_COLOR = GravisColor.LIGHT_GREEN;
 	public final static Color V_FILL_ELIMINATION_COLOR = GravisColor.LIGHT_RED;
 
-	public final static Color V_PICKED_COLOR = GravisColor.LESS_BLUE;
 	public final static Color V_DRAW_INITIAL_COLOR = GravisColor.BLUE;
 	public final static Color V_DRAW_ACTIVATION_COLOR = GravisColor.BLUE;
 	public final static Color V_DRAW_VISIT_COLOR = GravisColor.YELLOW;
 	public final static Color V_DRAW_SOLUTION_COLOR = GravisColor.GREEN;
 	public final static Color V_DRAW_ELIMINATION_COLOR = GravisColor.RED;
 
-	public final static Color E_PICKED_COLOR = GravisColor.LESS_BLUE;
 	public final static Color E_INITIAL_COLOR = GravisColor.BLUE;
 	public final static Color E_ACTIVATION_COLOR = GravisColor.BLUE;
 	public final static Color E_VISIT_COLOR = GravisColor.YELLOW;
 	public final static Color E_SOLUTION_COLOR = GravisColor.GREEN;
 	public final static Color E_ELIMINATION_COLOR = GravisColor.RED;
 
-	// some graph item field default values::
+	// some graph item field default values:
 
 	public final static int V_LOC_X_DEFAULT = 50;
 	public final static int V_LOC_Y_DEFAULT = 50;
@@ -77,6 +76,8 @@ public final class GravisConstants {
 	public final static Color E_COLOR_DEFAULT = E_INITIAL_COLOR;
 	public final static Color V_DRAW_COLOR_DEFAULT = V_DRAW_INITIAL_COLOR;
 	public final static Color V_FILL_COLOR_DEFAULT = V_FILL_INITIAL_COLOR;
+	public final static Color V_PICKED_COLOR = GravisColor.LESS_BLUE;
+	public final static Color E_PICKED_COLOR = GravisColor.LESS_BLUE;
 
 	// some visualisation default values:
 

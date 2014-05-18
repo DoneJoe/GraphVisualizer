@@ -3,6 +3,7 @@ package ch.bfh.ti.gravis.core.step;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.collections15.Transformer;
@@ -16,13 +17,18 @@ import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
  */
 public class StepBuilder {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "StepBuilder.%s(): %s == %s";
 	/**
 	 * @param restrictedGraph
 	 * @return IStepRecorder
 	 */
 	public static IStepRecorder createStepRecorder(
 			IRestrictedGraph restrictedGraph) {
-		return new StepRecorder(restrictedGraph);
+		
+		return new StepRecorder(Objects.requireNonNull(restrictedGraph, String.format(
+				NULL_POINTER_MSG, "createStepRecorder", "restrictedGraph",
+				restrictedGraph)));
 	}
 
 	private final List<IStep> stepList;
@@ -38,8 +44,9 @@ public class StepBuilder {
 	 * @param currentItems
 	 */
 	public void addStep(IGraphItem... currentItems) {
-		// TODO Exception handling bei null
-
+		Objects.requireNonNull(currentItems, String.format(
+				NULL_POINTER_MSG, "addStep", "currentItems",
+				currentItems));
 		List<IGraphItem> tempList = new ArrayList<>();
 		Set<IGraphItem> lookup = new HashSet<>();
 		Step step = new Step();
@@ -47,7 +54,7 @@ public class StepBuilder {
 		// eliminates duplicates and preserves order
 		for (IGraphItem item : currentItems) {
 			if (item != null && lookup.add(item)) {
-				// Set.add returns false if item is already in the set
+				// lookup.add() returns false if item is already in the set
 				tempList.add(item);
 			}
 		}

@@ -22,10 +22,10 @@ public class EdgeStrokeTransformer implements Transformer<IEdge, Stroke> {
 	 */
 	@Override
 	public Stroke transform(IEdge edge) {
-		float currentStrokeWidth = edge.isCurrentTagged() ? GravisConstants.E_TAGGED_STROKE
+		float currentStrokeWidth = edge != null && edge.isCurrentTagged() ? GravisConstants.E_TAGGED_STROKE
 				: GravisConstants.STROKE_WIDTH_DEFAULT;
 
-		return edge.isCurrentDashed() ? new BasicStroke(currentStrokeWidth,
+		return edge != null && edge.isCurrentDashed() ? new BasicStroke(currentStrokeWidth,
 				BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
 				GravisConstants.MITER_LIMIT_DEFAULT,
 				new float[] { GravisConstants.DASH_DEFAULT },

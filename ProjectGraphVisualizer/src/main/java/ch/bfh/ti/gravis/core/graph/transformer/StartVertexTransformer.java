@@ -15,7 +15,7 @@ public class StartVertexTransformer implements Transformer<IVertex, String> {
 	 */
 	@Override
 	public String transform(IVertex vertex) {
-		return String.valueOf(vertex.isStart());
+		return String.valueOf(vertex == null ? false : vertex.isStart());
 	}
 
 }

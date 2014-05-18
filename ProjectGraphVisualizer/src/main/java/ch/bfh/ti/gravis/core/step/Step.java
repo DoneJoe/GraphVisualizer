@@ -2,6 +2,7 @@ package ch.bfh.ti.gravis.core.step;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -9,6 +10,9 @@ import java.util.List;
  */
 class Step extends EmptyStep {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "Step.%s(): %s == %s";
+	
 	private final List<IStep> nestedCommands;
 
 	protected final String comment;
@@ -18,7 +22,9 @@ class Step extends EmptyStep {
 	 */
 	protected Step(IStep command) {
 		this("");
-		this.nestedCommands.add(command);
+		this.nestedCommands.add(Objects.requireNonNull(command, String.format(
+				NULL_POINTER_MSG, "Step", "command",
+				command)));
 	}
 
 	public Step() {
@@ -30,7 +36,9 @@ class Step extends EmptyStep {
 	 */
 	public Step(String newComment) {
 		this.nestedCommands = new ArrayList<>();
-		this.comment = newComment;
+		this.comment = Objects.requireNonNull(newComment, String.format(
+				NULL_POINTER_MSG, "Step", "newComment",
+				newComment));
 	}
 
 	@Override
@@ -69,7 +77,9 @@ class Step extends EmptyStep {
 	 * @param command
 	 */
 	public void add(IStep command) {
-		this.nestedCommands.add(command);
+		this.nestedCommands.add(Objects.requireNonNull(command, String.format(
+				NULL_POINTER_MSG, "add", "command",
+				command)));
 	}
 
 }

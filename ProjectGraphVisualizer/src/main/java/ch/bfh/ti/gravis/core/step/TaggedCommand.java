@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.core.step;
 
+import java.util.Objects;
+
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 
 /**
@@ -8,6 +10,9 @@ import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
  */
 class TaggedCommand extends EmptyStep {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "TaggedCommand.%s(): %s == %s";
+	
 	private final IGraphItem item;
 
 	private final boolean oldTagged, newTagged;
@@ -20,7 +25,10 @@ class TaggedCommand extends EmptyStep {
 	 */
 	protected TaggedCommand(IGraphItem currentItem, boolean oldTagged, 
 			boolean newTagged) {
-		this.item = currentItem;
+		
+		this.item = Objects.requireNonNull(currentItem, String.format(
+				NULL_POINTER_MSG, "TaggedCommand", "currentItem",
+				currentItem));
 		this.oldTagged = oldTagged;
 		this.newTagged = newTagged;
 	}

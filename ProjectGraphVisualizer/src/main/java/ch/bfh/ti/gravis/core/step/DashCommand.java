@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.core.step;
 
+import java.util.Objects;
+
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 
 /**
@@ -8,6 +10,9 @@ import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
  */
 class DashCommand extends EmptyStep {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "DashCommand.%s(): %s == %s";
+	
 	private final IGraphItem item;
 
 	private final boolean oldDashed, newDashed;
@@ -20,7 +25,10 @@ class DashCommand extends EmptyStep {
 	 */
 	protected DashCommand(IGraphItem currentItem, boolean oldDashed, 
 			boolean newDashed) {
-		this.item = currentItem;
+		
+		this.item = Objects.requireNonNull(currentItem, String.format(
+				NULL_POINTER_MSG, "DashCommand", "currentItem",
+				currentItem));
 		this.oldDashed = oldDashed;
 		this.newDashed = newDashed;
 	}

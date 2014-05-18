@@ -29,6 +29,7 @@ public final class ValueTransformer {
 	 */
 	public static IRestrictedGraphItem[] toArray(
 			Collection<? extends IRestrictedGraphItem> itemList) {
+
 		return itemList == null ? new IRestrictedGraphItem[0] : itemList
 				.toArray(new IRestrictedGraphItem[itemList.size()]);
 	}
@@ -76,6 +77,8 @@ public final class ValueTransformer {
 			return GravisConstants.LIGHT_BLUE;
 		} else if (color.equals(GravisColor.LESS_BLUE)) {
 			return GravisConstants.LESS_BLUE;
+		} else if (color.equals(GravisColor.LESS_LIGHT_BLUE)) {
+			return GravisConstants.LESS_LIGHT_BLUE;
 		} else {
 			return GravisConstants.LIGHT_BLUE;
 		}
@@ -132,6 +135,8 @@ public final class ValueTransformer {
 			return GravisColor.LIGHT_BLUE;
 		case GravisConstants.LESS_BLUE:
 			return GravisColor.LESS_BLUE;
+		case GravisConstants.LESS_LIGHT_BLUE:
+			return GravisColor.LESS_LIGHT_BLUE;
 		case GravisConstants.LIGHT_GREEN:
 			return GravisColor.LIGHT_GREEN;
 		case GravisConstants.LIGHT_RED:

@@ -1,10 +1,12 @@
 package ch.bfh.ti.gravis.core.graph.transformer;
 
+import java.awt.Color;
 import java.awt.Paint;
 
 import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.ti.gravis.core.util.GravisConstants;
 import edu.uci.ics.jung.visualization.renderers.DefaultVertexLabelRenderer;
 
 /**
@@ -29,8 +31,10 @@ public class VertexDrawColorTransformer implements Transformer<IVertex, Paint> {
 	 */
 	@Override
 	public Paint transform(IVertex vertex) {
-		this.vertexLabelRenderer.setForeground(vertex.getCurrentDrawColor());
-		return vertex.getCurrentDrawColor();
+		Color color = vertex == null ? GravisConstants.V_DRAW_COLOR_DEFAULT :
+			vertex.getCurrentDrawColor();
+		this.vertexLabelRenderer.setForeground(color);
+		return color;
 	}
 
 }

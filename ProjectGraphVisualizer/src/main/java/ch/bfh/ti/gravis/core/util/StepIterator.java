@@ -1,6 +1,7 @@
 package ch.bfh.ti.gravis.core.util;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 import ch.bfh.ti.gravis.core.step.IStep;
 
@@ -10,6 +11,9 @@ import ch.bfh.ti.gravis.core.step.IStep;
  */
 public class StepIterator implements IGravisListIterator<String> {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "StepIterator.%s(): %s == %s";
+	
 	private static final String EXCEPTION_MSG = "remove: unsupported operation!";
 
 	/**
@@ -25,11 +29,13 @@ public class StepIterator implements IGravisListIterator<String> {
 	/**
 	 * Main constructor.
 	 * 
-	 * @param graphIterator
+	 * @param listIterator
 	 * 
 	 */
-	public StepIterator(IGravisListIterator<IStep> graphIterator) {
-		this.iterator = graphIterator;
+	public StepIterator(IGravisListIterator<IStep> listIterator) {
+		this.iterator = Objects.requireNonNull(listIterator, String.format(
+				NULL_POINTER_MSG, "StepIterator", "listIterator",
+				listIterator));
 		this.currentCommand = null;
 
 	}

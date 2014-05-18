@@ -5,6 +5,7 @@ import java.awt.Paint;
 import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.ti.gravis.core.util.GravisConstants;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -19,7 +20,8 @@ public class VertexFillColorTransformer implements Transformer<IVertex, Paint> {
 	 */
 	@Override
 	public Paint transform(IVertex vertex) {
-		return vertex.getCurrentColor();
+		return vertex == null ? GravisConstants.V_FILL_COLOR_DEFAULT : vertex
+				.getCurrentColor();
 	}
 
 }

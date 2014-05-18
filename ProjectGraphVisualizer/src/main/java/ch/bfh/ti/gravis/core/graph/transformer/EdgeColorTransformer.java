@@ -1,10 +1,12 @@
 package ch.bfh.ti.gravis.core.graph.transformer;
 
+import java.awt.Color;
 import java.awt.Paint;
 
 import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
+import ch.bfh.ti.gravis.core.util.GravisConstants;
 import edu.uci.ics.jung.visualization.renderers.DefaultEdgeLabelRenderer;
 
 /**
@@ -29,9 +31,11 @@ public class EdgeColorTransformer implements Transformer<IEdge, Paint> {
 	 * Object)
 	 */
 	@Override
-	public Paint transform(IEdge edge) {
-		this.edgeLabelRenderer.setForeground(edge.getCurrentColor());
-		return edge.getCurrentColor();
+	public Paint transform(final IEdge edge) {
+		Color color = edge == null ? GravisConstants.E_COLOR_DEFAULT :
+			edge.getCurrentColor();
+		this.edgeLabelRenderer.setForeground(color);
+		return color;
 	}
 
 }

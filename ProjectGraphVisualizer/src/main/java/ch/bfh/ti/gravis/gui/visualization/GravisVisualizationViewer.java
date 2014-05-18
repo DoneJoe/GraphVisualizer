@@ -9,6 +9,7 @@ import ch.bfh.ti.gravis.core.graph.transformer.EdgeArrowStrokeTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.EdgeColorTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.EdgeLabelTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.EdgeStrokeTransformer;
+import ch.bfh.ti.gravis.core.graph.transformer.EdgeToolTipTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.ShapeTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.VertexDrawColorTransformer;
 import ch.bfh.ti.gravis.core.graph.transformer.VertexFillColorTransformer;
@@ -35,7 +36,7 @@ public class GravisVisualizationViewer extends
 
 	private static final int LABEL_OFFSET = 8;
 	private static final double LABEL_CLOSENESS = 0.5;
-	
+
 	/**
 	 * 
 	 * @param layout
@@ -45,12 +46,13 @@ public class GravisVisualizationViewer extends
 
 		this.setBackground(GravisColor.WHITE);
 		this.getRenderContext().setLabelOffset(LABEL_OFFSET);
-		
+
 		// vertex visualization:
 
-		GravisVertexLabelRenderer vertexLabelRenderer = new GravisVertexLabelRenderer( 
-				GravisConstants.V_DRAW_INITIAL_COLOR, GravisConstants.V_PICKED_COLOR);
-		
+		GravisVertexLabelRenderer vertexLabelRenderer = new GravisVertexLabelRenderer(
+				GravisConstants.V_DRAW_INITIAL_COLOR,
+				GravisConstants.V_PICKED_COLOR);
+
 		this.getRenderContext().setVertexLabelRenderer(vertexLabelRenderer);
 		this.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
 		this.getRenderContext().setVertexFillPaintTransformer(
@@ -67,23 +69,29 @@ public class GravisVisualizationViewer extends
 
 		// edge visualization:
 
-		GravisEdgeLabelRenderer edgeLabelRenderer = new GravisEdgeLabelRenderer( 
+		GravisEdgeLabelRenderer edgeLabelRenderer = new GravisEdgeLabelRenderer(
 				GravisConstants.E_INITIAL_COLOR, GravisConstants.E_PICKED_COLOR);
-		EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer(edgeLabelRenderer);
-		
+		EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer(
+				edgeLabelRenderer);
+
 		this.getRenderContext().setEdgeLabelRenderer(edgeLabelRenderer);
 		this.getRenderContext().setEdgeShapeTransformer(
 				new EdgeShape.Line<IVertex, IEdge>());
-		this.getRenderContext().setEdgeDrawPaintTransformer(edgeColorTransformer);
-		this.getRenderContext().setEdgeFillPaintTransformer(edgeColorTransformer);
+		this.getRenderContext().setEdgeDrawPaintTransformer(
+				edgeColorTransformer);
+		this.getRenderContext().setEdgeFillPaintTransformer(
+				edgeColorTransformer);
 		this.getRenderContext().setEdgeStrokeTransformer(
 				new EdgeStrokeTransformer());
-		this.getRenderContext().setArrowDrawPaintTransformer(edgeColorTransformer);
-		this.getRenderContext().setArrowFillPaintTransformer(edgeColorTransformer);
+		this.getRenderContext().setArrowDrawPaintTransformer(
+				edgeColorTransformer);
+		this.getRenderContext().setArrowFillPaintTransformer(
+				edgeColorTransformer);
 		this.getRenderContext().setEdgeArrowStrokeTransformer(
 				new EdgeArrowStrokeTransformer());
 		this.getRenderContext().setEdgeLabelTransformer(
 				new EdgeLabelTransformer());
+		this.setEdgeToolTipTransformer(new EdgeToolTipTransformer());
 		// centers edge label
 		this.getRenderContext().setEdgeLabelClosenessTransformer(
 				new ConstantDirectionalEdgeValueTransformer<IVertex, IEdge>(

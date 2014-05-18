@@ -37,6 +37,7 @@ public class GravisStartup {
 					StringWriter sw = new StringWriter();
 					e.printStackTrace(new PrintWriter(sw));
 					
+					// TODO error dialog verwenden
 					JOptionPane.showMessageDialog(null, String.format(
 							STARTUP_ERROR, LN, LN, sw), TITLE, JOptionPane.ERROR_MESSAGE);
 					

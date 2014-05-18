@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 /**
  * An implementation of an immutable list iterator.
@@ -13,6 +14,9 @@ import java.util.ListIterator;
  */
 public class GravisListIterator<E> implements IGravisListIterator<E> {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "GravisListIterator<E>.%s(): %s == %s";
+	
 	private static final String EXCEPTION_MSG = "remove: unsupported operation!";
 	
 	private final ListIterator<E> listIterator;
@@ -31,6 +35,9 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 	 * @param list
 	 */
 	public GravisListIterator(List<E> list) {
+		Objects.requireNonNull(list, String.format(
+				NULL_POINTER_MSG, "GravisListIterator", "list",
+				list));
 		this.listIterator = list.listIterator();
 		this.size = list.size();
 	}

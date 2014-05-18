@@ -176,7 +176,7 @@ public class VertexPropertyDialog extends JDialog {
 	 * @param okButton
 	 * @param itemNameVerifier
 	 * @param vertexSizeVerifier
-	 * @return
+	 * @return DocumentListener
 	 */
 	private DocumentListener createVertexDocumentListener(
 			final JButton okButton, final InputVerifier itemNameVerifier,
@@ -216,7 +216,7 @@ public class VertexPropertyDialog extends JDialog {
 	 * @param itemNameVerifier
 	 * @param vertexHeightVerifier
 	 * @param vertexWidthVerifier
-	 * @return
+	 * @return ActionListener
 	 */
 	private ActionListener createOKActionListener(final IVertex vertex,
 			final VisualizationViewer<IVertex, IEdge> vViewer,

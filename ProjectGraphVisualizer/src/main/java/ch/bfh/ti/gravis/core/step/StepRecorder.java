@@ -2,6 +2,7 @@ package ch.bfh.ti.gravis.core.step;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ch.bfh.ti.gravis.core.graph.IRestrictedGraph;
 import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
@@ -14,6 +15,9 @@ import static ch.bfh.ti.gravis.core.util.ValueTransformer.toArray;
  */
 class StepRecorder implements IStepRecorder {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "StepRecorder.%s(): %s == %s";
+	
 	private final IRestrictedGraph graph;
 
 	private final List<IRestrictedGraphItem> itemList;
@@ -24,7 +28,9 @@ class StepRecorder implements IStepRecorder {
 	 * @param restrictedGraph
 	 */
 	protected StepRecorder(IRestrictedGraph restrictedGraph) {
-		this.graph = restrictedGraph;
+		this.graph = Objects.requireNonNull(restrictedGraph, String.format(
+				NULL_POINTER_MSG, "StepRecorder", "restrictedGraph",
+				restrictedGraph));
 		this.itemList = new ArrayList<>();
 	}
 
@@ -47,7 +53,7 @@ class StepRecorder implements IStepRecorder {
 	@Override
 	public IStepRecorder app(String comment) {
 		if (this.currentItem != null) {
-			this.currentItem.appendComment(comment);
+			this.currentItem.appendComment(comment == null ? "" : comment);
 		}
 		return this;
 	}
@@ -62,7 +68,7 @@ class StepRecorder implements IStepRecorder {
 	@Override
 	public IStepRecorder cmt(String comment) {
 		if (this.currentItem != null) {
-			this.currentItem.setNewComment(comment);
+			this.currentItem.setNewComment(comment == null ? "" : comment);
 		}
 		return this;
 	}
@@ -115,7 +121,9 @@ class StepRecorder implements IStepRecorder {
 	 */
 	@Override
 	public IStepRecorder item(IRestrictedGraphItem item) {
-		this.currentItem = item;
+		this.currentItem = Objects.requireNonNull(item, String.format(
+				NULL_POINTER_MSG, "item", "item",
+				item));
 		return this;
 	}
 

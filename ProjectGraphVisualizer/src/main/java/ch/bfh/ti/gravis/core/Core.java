@@ -36,9 +36,9 @@ class Core implements ICore {
 	 * @param graphIOManager
 	 * @param algorithmFactory
 	 */
-	protected Core(GraphIOManager graphManager,
+	protected Core(GraphIOManager graphIOManager,
 			AlgorithmFactory algorithmFactory) {
-		this.graphIOManager = graphManager;
+		this.graphIOManager = graphIOManager;
 		this.algorithmFactory = algorithmFactory;
 	}
 

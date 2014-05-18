@@ -2,6 +2,7 @@ package ch.bfh.ti.gravis.gui;
 
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -33,6 +34,9 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.*;
  */
 public final class GuiFactory {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "GuiFactory.%s(): %s == %s";
+	
 	private GuiFactory() {
 	}
 
@@ -42,8 +46,11 @@ public final class GuiFactory {
 	 * @throws IOException
 	 * @throws BadLocationException
 	 */
-	public static JFrame createGUI(ICore core) throws IOException, BadLocationException {
-
+	public static JFrame createGUI(final ICore core) throws IOException, BadLocationException {
+		Objects.requireNonNull(core, String.format(
+				NULL_POINTER_MSG, "createGUI", "core",
+				core));
+		
 		// model
 		IAppModel model = AppModelFactory.createAppModel(core);
 

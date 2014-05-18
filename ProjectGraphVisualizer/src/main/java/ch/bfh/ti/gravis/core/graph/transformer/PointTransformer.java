@@ -1,5 +1,6 @@
 package ch.bfh.ti.gravis.core.graph.transformer;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import org.apache.commons.collections15.Transformer;
@@ -20,7 +21,7 @@ public class PointTransformer implements Transformer<IVertex, Point2D> {
 	 */
 	@Override
 	public Point2D transform(IVertex vertex) {
-		return vertex.getLocation();
+		return vertex == null ? new Point() : vertex.getLocation();
 	}
 
 }

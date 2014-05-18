@@ -28,7 +28,7 @@ public class EdgeLabelTransformer implements Transformer<IEdge, String> {
 	 */
 	@Override
 	public String transform(IEdge edge) {
-		return edge.isCurrentVisible() ? (this.doubleFormat.format((edge
+		return edge != null && edge.isCurrentVisible() ? (this.doubleFormat.format((edge
 				.getWeight())) + (Double.isNaN(edge.getCurrentResult()) ? ""
 				: " : " + this.doubleFormat.format(edge.getCurrentResult())))
 				: "";

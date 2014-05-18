@@ -29,14 +29,17 @@ public class EdgeTransformer implements Transformer<EdgeMetadata, IEdge> {
 	@Override
 	public IEdge transform(EdgeMetadata edgeMeta) {
 		IEdge edge = this.edgeFactory.create();
-		String color = edgeMeta.getProperty(GravisConstants.E_COLOR);
-
-		edge.setName(edgeMeta.getId());
-		edge.setCurrentColor(color == null ? GravisConstants.E_COLOR_DEFAULT : 
-			ValueTransformer.toColor(color));		
 		
-		edge.setWeight(ValueTransformer.toDouble(edgeMeta
-				.getProperty(GravisConstants.E_WEIGHT)));
+		if (edgeMeta != null) {
+			String color = edgeMeta.getProperty(GravisConstants.E_COLOR);
+			
+			edge.setName(edgeMeta.getId());
+			edge.setCurrentColor(color == null ? GravisConstants.E_COLOR_DEFAULT
+					: ValueTransformer.toColor(color));
+			edge.setWeight(ValueTransformer.toDouble(edgeMeta
+					.getProperty(GravisConstants.E_WEIGHT)));
+		}
+		
 		return edge;
 	}
 

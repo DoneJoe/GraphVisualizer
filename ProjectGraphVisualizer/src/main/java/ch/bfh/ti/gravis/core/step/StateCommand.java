@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.core.step;
 
+import java.util.Objects;
+
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 import ch.bfh.ti.gravis.core.graph.item.ItemState;
 
@@ -9,6 +11,9 @@ import ch.bfh.ti.gravis.core.graph.item.ItemState;
  */
 class StateCommand extends EmptyStep {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "StateCommand.%s(): %s == %s";
+	
 	private final IGraphItem item;
 
 	private final ItemState newState, oldState;
@@ -20,9 +25,15 @@ class StateCommand extends EmptyStep {
 	 * @param newState
 	 */
 	protected StateCommand(IGraphItem currentItem, ItemState oldState, ItemState newState) {
-		this.item = currentItem;
-		this.oldState = oldState;
-		this.newState = newState;
+		this.item = Objects.requireNonNull(currentItem, String.format(
+				NULL_POINTER_MSG, "StateCommand", "currentItem",
+				currentItem));
+		this.oldState = Objects.requireNonNull(oldState, String.format(
+				NULL_POINTER_MSG, "StateCommand", "oldState",
+				oldState));
+		this.newState = Objects.requireNonNull(newState, String.format(
+				NULL_POINTER_MSG, "StateCommand", "newState",
+				newState));
 	}
 
 	@Override

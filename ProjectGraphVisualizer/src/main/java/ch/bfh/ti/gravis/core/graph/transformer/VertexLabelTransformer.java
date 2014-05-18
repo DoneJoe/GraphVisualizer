@@ -28,7 +28,7 @@ public class VertexLabelTransformer implements Transformer<IVertex, String> {
 	 */
 	@Override
 	public String transform(IVertex vertex) {
-		return vertex.isCurrentVisible() ? (vertex.getName()
+		return vertex != null && vertex.isCurrentVisible() ? (vertex.getName()
 				+ (Double.isNaN(vertex.getCurrentResult()) ? "" : ": "
 						+ this.doubleFormat.format(vertex
 								.getCurrentResult()))) : "";

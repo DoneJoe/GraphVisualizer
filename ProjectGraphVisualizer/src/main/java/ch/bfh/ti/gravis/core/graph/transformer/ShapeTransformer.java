@@ -6,6 +6,7 @@ import java.awt.geom.Ellipse2D;
 import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.ti.gravis.core.util.GravisConstants;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -21,7 +22,10 @@ public class ShapeTransformer implements Transformer<IVertex, Shape> {
 	 */
 	@Override
 	public Shape transform(IVertex vertex) {
-		return new Ellipse2D.Double(-vertex.getWidth() / 2.0,
+		return vertex == null ? new Ellipse2D.Double(-GravisConstants.V_WIDTH_DEFAULT / 2.0,
+				-GravisConstants.V_HEIGHT_DEFAULT / 2.0, GravisConstants.V_WIDTH_DEFAULT,
+				GravisConstants.V_HEIGHT_DEFAULT) : 
+				new Ellipse2D.Double(-vertex.getWidth() / 2.0,
 				-vertex.getHeight() / 2.0, vertex.getWidth(), vertex.getHeight());
 	}
 

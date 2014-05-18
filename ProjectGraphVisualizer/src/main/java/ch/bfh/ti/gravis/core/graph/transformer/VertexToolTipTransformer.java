@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.core.graph.transformer;
 
+import java.text.DecimalFormat;
+
 import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
@@ -10,6 +12,14 @@ import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
  */
 public class VertexToolTipTransformer implements Transformer<IVertex, String> {
 
+	private DecimalFormat doubleFormat;
+
+	public VertexToolTipTransformer() {
+		this.doubleFormat = new DecimalFormat();
+		this.doubleFormat.setMinimumFractionDigits(0);
+		this.doubleFormat.setMaximumFractionDigits(2);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -18,9 +28,15 @@ public class VertexToolTipTransformer implements Transformer<IVertex, String> {
 	 */
 	@Override
 	public String transform(IVertex vertex) {
-		return "Knoten " + vertex.getName() + ": (x = "
-				+ new Double(vertex.getLocation().getX()).intValue() + ", y = "
-				+ new Double(vertex.getLocation().getY()).intValue() + ")";
+		return "Knoten "
+				+ (vertex == null ? ""
+						: (vertex.getName()
+								+ ": (x = "
+								+ this.doubleFormat.format(vertex.getLocation()
+										.getX())
+								+ ", y = "
+								+ this.doubleFormat.format(vertex.getLocation()
+										.getY()) + ")"));
 	}
 
 }

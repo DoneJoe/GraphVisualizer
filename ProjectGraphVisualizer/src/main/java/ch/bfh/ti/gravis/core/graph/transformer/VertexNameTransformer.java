@@ -15,7 +15,7 @@ public class VertexNameTransformer implements Transformer<IVertex, String> {
 	 */
 	@Override
 	public String transform(IVertex vertex) {
-		return vertex.getName();
+		return vertex == null ? "" :  vertex.getName();
 	}
 
 }

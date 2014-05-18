@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.core.step;
 
+import java.util.Objects;
+
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 
 /**
@@ -8,6 +10,9 @@ import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
  */
 class VisibleCommand extends EmptyStep {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "VisibleCommand.%s(): %s == %s";
+	
 	private final IGraphItem item;
 
 	private final boolean oldVisible, newVisible;
@@ -20,7 +25,10 @@ class VisibleCommand extends EmptyStep {
 	 */
 	protected VisibleCommand(IGraphItem currentItem, boolean oldVisible, 
 			boolean newVisible) {
-		this.item = currentItem;
+		
+		this.item = Objects.requireNonNull(currentItem, String.format(
+				NULL_POINTER_MSG, "VisibleCommand", "currentItem",
+				currentItem));
 		this.oldVisible = oldVisible;
 		this.newVisible = newVisible;
 	}

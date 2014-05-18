@@ -3,6 +3,7 @@ package ch.bfh.ti.gravis.core.graph.transformer;
 import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.ti.gravis.core.util.GravisConstants;
 import ch.bfh.ti.gravis.core.util.ValueTransformer;
 
 /**
@@ -17,7 +18,8 @@ public class VertexColorStringTransformer implements
 	 */
 	@Override
 	public String transform(IVertex vertex) {
-		return ValueTransformer.colorToString(vertex.getCurrentColor());
+		return ValueTransformer.colorToString(vertex == null ? GravisConstants.V_FILL_COLOR_DEFAULT :
+				vertex.getCurrentColor());
 	}
 
 }

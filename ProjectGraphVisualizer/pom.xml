@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.bfh.ti.gravis</groupId>
 	<artifactId>GraphVisualizer</artifactId>
-	<description>Software zur Visualisierung der Traversierung von Graphen. Ein Algorithmus, wie etwa derjenige von Dijkstra soll mit diesem Werkzeug so auf einfache Weise visualisiert werden. Das Werkzeug soll sich als didaktisches Hilfsmittel für beliebige Graphen-Algorithmen eignen.</description>
+	<description>Software zur Visualisierung von Graphen und Algorithmen.</description>
 	<packaging>jar</packaging>
 	<version>1.0</version>
 	<name>GraphVisualizer</name>
@@ -15,12 +15,12 @@
 		<name>BFH-TI, HS 2013, Modul BTI7301</name>
 	</organization>
 	<dependencies>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung2</artifactId>
-			<version>2.0.1</version>
-			<type>pom</type>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>net.sf.jung</groupId> -->
+		<!-- <artifactId>jung2</artifactId> -->
+		<!-- <version>2.0.1</version> -->
+		<!-- <type>pom</type> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>net.sf.jung</groupId>
 			<artifactId>jung-io</artifactId>
@@ -46,43 +46,41 @@
 			<artifactId>jung-visualization</artifactId>
 			<version>2.0.1</version>
 		</dependency>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-jai</artifactId>
-			<version>2.0.1</version>
-		</dependency>
-		<!--  <dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-samples</artifactId>
-			<version>2.0.1</version>
-		</dependency> -->
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-jai-samples</artifactId>
-			<version>2.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.directory.studio</groupId>
-			<artifactId>org.apache.commons.io</artifactId>
-			<version>2.4</version>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>net.sf.jung</groupId> -->
+		<!-- <artifactId>jung-jai</artifactId> -->
+		<!-- <version>2.0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> <groupId>net.sf.jung</groupId> <artifactId>jung-samples</artifactId> 
+			<version>2.0.1</version> </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>net.sf.jung</groupId> -->
+		<!-- <artifactId>jung-jai-samples</artifactId> -->
+		<!-- <version>2.0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.directory.studio</groupId> -->
+		<!-- <artifactId>org.apache.commons.io</artifactId> -->
+		<!-- <version>2.4</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
+			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-resources-plugin</artifactId>
-			<version>2.6</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<version>3.1</version>
-			<type>pom</type>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.maven.plugins</groupId> -->
+		<!-- <artifactId>maven-resources-plugin</artifactId> -->
+		<!-- <version>2.6</version> -->
+		<!-- <type>pom</type> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.maven.plugins</groupId> -->
+		<!-- <artifactId>maven-compiler-plugin</artifactId> -->
+		<!-- <version>3.1</version> -->
+		<!-- <type>pom</type> -->
+		<!-- </dependency> -->
 	</dependencies>
 	<build>
 		<plugins>
@@ -95,83 +93,108 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.4</version>
-					<configuration>
-					  <archive>
-					    <manifest>
-					    	<addClasspath>true</addClasspath>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
 							<mainClass>ch.bfh.ti.gravis.GravisStartup</mainClass>
-							<classpathPrefix>dependency-jars/</classpathPrefix>
-					    </manifest>
-					  </archive>
-					</configuration>
+							<classpathPrefix>lib/</classpathPrefix>
+						</manifest>
+					</archive>
+				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.5.1</version>
 				<executions>
-				  <execution>
-					<id>copy-dependencies</id>
-					<phase>package</phase>
-					<goals>
-					    <goal>copy-dependencies</goal>
-					</goals>
-					<configuration>
-					    <outputDirectory>
-			                 ${project.build.directory}/dependency-jars/
-			            </outputDirectory>
-					</configuration>
-				    </execution>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/lib/
+							</outputDirectory>
+							<includeScope>compile</includeScope>
+						</configuration>
+					</execution>
 				</executions>
-		  </plugin>
-			
-		<plugin>
-        	<groupId>org.apache.maven.plugins</groupId>
-        	<artifactId>maven-javadoc-plugin</artifactId>
-        	<version>2.9.1</version>
-        	<configuration>
-       		<!--   <stylesheetfile>${basedir}/src/main/javadoc/stylesheet.css</stylesheetfile>  --> 
-          		<show>private</show>
-        	</configuration>
-      	</plugin>	
-			
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<!-- <stylesheetfile>${basedir}/src/main/javadoc/stylesheet.css</stylesheetfile> -->
+					<show>private</show>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/graph-templates</outputDirectory>
+							<resources>
+								<resource>
+									<directory>graph-templates</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
-		
+
 		<pluginManagement>
-		  <plugins>
-		    <plugin>
-		      <groupId>org.eclipse.m2e</groupId>
-		      <artifactId>lifecycle-mapping</artifactId>
-		      <version>1.0.0</version>
-		      <configuration>
-		        <lifecycleMappingMetadata>
-		          <pluginExecutions>
-		            <pluginExecution>
-		              <pluginExecutionFilter>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-dependency-plugin</artifactId>
-		                <versionRange>[2.0,)</versionRange>
-		                <goals>
-		                  <goal>copy-dependencies</goal>
-		                </goals>
-		              </pluginExecutionFilter>
-		              <action>
-		                <execute />
-		              </action>
-		            </pluginExecution>
-		          </pluginExecutions>
-		        </lifecycleMappingMetadata>
-		      </configuration>
-		    </plugin>
-		  </plugins>
-		</pluginManagement>		
-		
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.0,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 	</build>
 	<issueManagement>
 		<system>none</system>
@@ -179,19 +202,19 @@
 	<ciManagement>
 		<system>none</system>
 	</ciManagement>
-	
+
 	<reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
-        <configuration>
-       <!--   <stylesheetfile>${basedir}/src/main/javadoc/stylesheet.css</stylesheetfile>  --> 
-          <show>private</show>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-	
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<!-- <stylesheetfile>${basedir}/src/main/javadoc/stylesheet.css</stylesheetfile> -->
+					<show>private</show>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
 </project>

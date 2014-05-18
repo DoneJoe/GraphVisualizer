@@ -15,7 +15,7 @@ public class EndVertexTransformer implements Transformer<IVertex, String> {
 	 */
 	@Override
 	public String transform(IVertex vertex) {
-		return String.valueOf(vertex.isEnd());
+		return String.valueOf(vertex == null ? false : vertex.isEnd());
 	}
 
 }

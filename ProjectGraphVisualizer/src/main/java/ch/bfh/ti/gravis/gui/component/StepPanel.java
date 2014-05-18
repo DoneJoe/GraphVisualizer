@@ -282,7 +282,7 @@ public class StepPanel extends JPanel implements Observer {
 
 	/**
 	 * @param stepController
-	 * @return
+	 * @return Action
 	 */
 	private Action createStepAction(final IStepController stepController) {
 		return new AbstractAction() {

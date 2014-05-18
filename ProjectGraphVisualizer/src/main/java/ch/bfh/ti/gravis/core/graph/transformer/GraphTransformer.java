@@ -11,25 +11,32 @@ import edu.uci.ics.jung.io.graphml.GraphMetadata.EdgeDefault;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- *
+ * 
  */
-public class GraphTransformer implements Transformer<GraphMetadata, IGravisGraph> {
+public class GraphTransformer implements
+		Transformer<GraphMetadata, IGravisGraph> {
 
-	/* (non-Javadoc)
-	 * @see org.apache.commons.collections15.Transformer#transform(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.commons.collections15.Transformer#transform(java.lang.Object)
 	 */
 	@Override
-	public IGravisGraph transform(GraphMetadata graphMeta) {
+	public IGravisGraph transform(final GraphMetadata graphMeta) {
 		IGravisGraph newGraph = GraphFactory.createDirectedGravisGraph();
-		EdgeType edgeType = graphMeta.getEdgeDefault() == EdgeDefault.UNDIRECTED ? 
-				EdgeType.UNDIRECTED : EdgeType.DIRECTED;
-		
-		newGraph.setName(graphMeta.getId());
-		newGraph.setEdgeType(edgeType);
-		
-		if (graphMeta.getProperty(GravisConstants.G_DESCRIPTION) != null) {
-			newGraph.setDescription(graphMeta.getProperty(GravisConstants.G_DESCRIPTION)
-					.trim());
+
+		if (graphMeta != null) {
+			EdgeType edgeType = graphMeta.getEdgeDefault() == EdgeDefault.UNDIRECTED ? EdgeType.UNDIRECTED
+					: EdgeType.DIRECTED;
+
+			newGraph.setName(graphMeta.getId());
+			newGraph.setEdgeType(edgeType);
+
+			if (graphMeta.getProperty(GravisConstants.G_DESCRIPTION) != null) {
+				newGraph.setDescription(graphMeta.getProperty(
+						GravisConstants.G_DESCRIPTION).trim());
+			}
 		}
 		
 		return newGraph;

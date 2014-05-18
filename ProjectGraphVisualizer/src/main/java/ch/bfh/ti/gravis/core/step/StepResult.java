@@ -13,7 +13,7 @@ class StepResult implements IStepResult {
 	 * @param comment
 	 */
 	protected StepResult(String comment) {
-		this.stepComment = comment;
+		this.stepComment = comment == null ? "" : comment;
 	}
 
 	public StepResult() {

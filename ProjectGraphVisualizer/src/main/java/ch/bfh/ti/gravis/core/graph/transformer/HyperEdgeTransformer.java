@@ -30,15 +30,18 @@ public class HyperEdgeTransformer implements
 	@Override
 	public IEdge transform(HyperEdgeMetadata hEdgeMeta) {
 		IEdge edge = this.edgeFactory.create();
-		String color = hEdgeMeta.getProperty(GravisConstants.E_COLOR);
-
-		edge.setName(hEdgeMeta.getId());
-		edge.setCurrentColor(color == null ? GravisConstants.E_COLOR_DEFAULT
-				: ValueTransformer.toColor(hEdgeMeta
-						.getProperty(GravisConstants.E_COLOR)));
-
-		edge.setWeight(ValueTransformer.toDouble(hEdgeMeta
-				.getProperty(GravisConstants.E_WEIGHT)));
+		
+		if (hEdgeMeta != null) {
+			String color = hEdgeMeta.getProperty(GravisConstants.E_COLOR);
+			
+			edge.setName(hEdgeMeta.getId());
+			edge.setCurrentColor(color == null ? GravisConstants.E_COLOR_DEFAULT
+					: ValueTransformer.toColor(hEdgeMeta
+							.getProperty(GravisConstants.E_COLOR)));
+			edge.setWeight(ValueTransformer.toDouble(hEdgeMeta
+					.getProperty(GravisConstants.E_WEIGHT)));
+		}
+		
 		return edge;
 	}
 
