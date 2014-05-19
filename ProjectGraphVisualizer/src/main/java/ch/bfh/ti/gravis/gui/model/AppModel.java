@@ -1,6 +1,7 @@
 package ch.bfh.ti.gravis.gui.model;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.Observable;
 
 import javax.swing.BoundedRangeModel;
@@ -39,6 +40,9 @@ class AppModel extends Observable implements IAppModel {
 
 	// static final fields:
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "AppModel.%s(): %s == %s";
+	
 	private static final EdgeType DEFAULT_EDGE_TYPE = EdgeType.UNDIRECTED;
 
 	private final static String ALGO_DONE_MSG = "Die Animation kann jetzt gestartet werden."
@@ -49,7 +53,7 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	private static final double INIT = 1.0, MIN = 0.25, MAX = 10.0,
 			STEP_SIZE = 0.25;
-	
+
 	private static final double FACTOR = 1000.0;
 
 	// non final fields:
@@ -160,6 +164,8 @@ class AppModel extends Observable implements IAppModel {
 		// init graph and edit mode
 		this.setNewGraphState(DEFAULT_EDGE_TYPE);
 		this.setEditMode(Mode.PICKING);
+		this.graphDocument.insertString(0, this.graph.getDescription(),
+				SimpleAttributeSet.EMPTY);
 	}
 
 	/*
@@ -653,11 +659,12 @@ class AppModel extends Observable implements IAppModel {
 	public void setCalcDoneState(
 			final IGravisListIterator<String> stepIterator,
 			final String algoName) throws BadLocationException {
-		// TODO Exception if null
 
+		this.stepIterator = Objects.requireNonNull(stepIterator, String.format(
+				NULL_POINTER_MSG, "setCalcDoneState", "stepIterator",
+				stepIterator));
 		this.calcState = CALCULATED;
-		this.stepIterator = stepIterator;
-
+		
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.setStepPanelState(true);
@@ -711,7 +718,9 @@ class AppModel extends Observable implements IAppModel {
 	 * visualization.control.ModalGraphMouse.Mode)
 	 */
 	@Override
-	public void setEditMode(final Mode newMode) throws BadLocationException {
+	public void setEditMode(Mode newMode) throws BadLocationException {
+		newMode = newMode == null ? Mode.PICKING : newMode;
+		
 		if (this.toggleComboGroup.getMode() != newMode) {
 			this.toggleComboGroup.getModeComboBox().setSelectedItem(newMode);
 		}
@@ -751,6 +760,8 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	@Override
 	public void setNewGraphState(EdgeType edgeType) throws BadLocationException {
+		edgeType = edgeType == null ? EdgeType.DIRECTED : edgeType;
+		
 		if (this.graph == null) {
 			this.graph = GraphFactory.createUndirectedSampleGraph();
 			this.calcState = CALCULABLE;
@@ -786,6 +797,8 @@ class AppModel extends Observable implements IAppModel {
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.setStepPanelState(false);
+		this.algorithmDocument.remove(0, this.algorithmDocument.getLength());
+		this.protocolDocument.remove(0, this.protocolDocument.getLength());
 		this.clearPickedVertexState();
 	}
 
@@ -798,7 +811,12 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setOpenGraphState(IGravisGraph graph, File file)
 			throws BadLocationException {
-		// TODO Exception if null
+		Objects.requireNonNull(graph, String.format(
+				NULL_POINTER_MSG, "setOpenGraphState", "graph",
+				graph));
+		Objects.requireNonNull(file, String.format(
+				NULL_POINTER_MSG, "setOpenGraphState", "file",
+				file));
 
 		this.graph = GraphFactory.createEditGraphObservable(graph,
 				this.graph.getEditGraphEventListeners());
@@ -845,7 +863,9 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	@Override
 	public void setPickedVertexState(PickedState<IVertex> pickedVertexState) {
-		this.pickedVertexState = pickedVertexState;
+		this.pickedVertexState = Objects.requireNonNull(pickedVertexState, String.format(
+				NULL_POINTER_MSG, "setPickedVertexState", "pickedVertexState",
+				pickedVertexState));
 	}
 
 	/*
@@ -891,9 +911,9 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	@Override
 	public void setSaveGraphState(File graphFile) throws BadLocationException {
-		// TODO Exception if null
-
-		this.graphFile = graphFile;
+		this.graphFile = Objects.requireNonNull(graphFile, String.format(
+				NULL_POINTER_MSG, "setSaveGraphState", "graphFile",
+				graphFile));
 		this.setSaveGraphState();
 	}
 
@@ -998,7 +1018,7 @@ class AppModel extends Observable implements IAppModel {
 		boolean calculated = this.calcState == CALCULATED;
 
 		return new StepModel(calculated && !this.isPlaying() && !this.working,
-				calculated, this.working);
+				calculated || this.working, this.working);
 	}
 
 	/**

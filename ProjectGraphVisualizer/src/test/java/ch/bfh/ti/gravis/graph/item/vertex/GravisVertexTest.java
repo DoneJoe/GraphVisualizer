@@ -13,7 +13,8 @@ import org.junit.Test;
  * 
  */
 public class GravisVertexTest {
-
+	// TODO implement test GravisVertexTest
+	
 	/**
 	 * @throws java.lang.Exception
 	 */

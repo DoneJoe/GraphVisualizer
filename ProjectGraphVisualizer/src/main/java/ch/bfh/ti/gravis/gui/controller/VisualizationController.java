@@ -1,6 +1,5 @@
 package ch.bfh.ti.gravis.gui.controller;
 
-import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 
@@ -18,7 +17,7 @@ class VisualizationController implements IEditGraphEventListener {
 
 	private final IAppModel model;
 
-	private final MessageDialogAdapter messageDialogAdapter;
+	private final ErrorHandler errHandler;
 
 	/**
 	 * 
@@ -27,8 +26,9 @@ class VisualizationController implements IEditGraphEventListener {
 	 */
 	protected VisualizationController(IAppModel model,
 			MessageDialogAdapter messageDialogAdapter) {
+		
 		this.model = model;
-		this.messageDialogAdapter = messageDialogAdapter;
+		this.errHandler = new ErrorHandler(messageDialogAdapter);
 	}
 
 	/*
@@ -45,13 +45,8 @@ class VisualizationController implements IEditGraphEventListener {
 
 		try {
 			this.updateModelAndView(type);
-		} catch (Exception e) {
-			
-			// TODO Exception Handling -> Message adapter in construktur
-			// uebergeben
-			this.messageDialogAdapter.showMessageDialog(
-					"handleGraphItemsChangedEvent error", "Error",
-					JOptionPane.ERROR_MESSAGE);
+		} catch (Throwable ex) {
+			this.errHandler.handleAppErrorExit(ex);
 		}
 	}
 
@@ -69,16 +64,12 @@ class VisualizationController implements IEditGraphEventListener {
 
 		try {
 			this.updateModelAndView(type);
-
 			this.model.getGraphDocument().remove(0,
 					this.model.getGraphDocument().getLength());
 			this.model.getGraphDocument().insertString(0,
 					source.getDescription(), SimpleAttributeSet.EMPTY);
-		} catch (BadLocationException e) {
-			
-			// TODO Exception Handling -> Message adapter in construktur
-			// uebergeben
-			e.printStackTrace();
+		} catch (Throwable ex) {
+			this.errHandler.handleAppErrorExit(ex);
 		}
 	}
 
@@ -88,6 +79,7 @@ class VisualizationController implements IEditGraphEventListener {
 	 */
 	private void updateModelAndView(final Type type)
 			throws BadLocationException {
+		
 		if (this.model.isStopped() && !this.model.isWorking()) {
 			// update model
 			this.model.setEditGraphState(type == Type.VISUAL_EDITED);

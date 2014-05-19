@@ -1,30 +1,25 @@
 package ch.bfh.ti.gravis.gui.controller;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingWorker;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 
+import ch.bfh.ti.gravis.core.CoreException;
 import ch.bfh.ti.gravis.core.ICore;
+import ch.bfh.ti.gravis.core.algorithm.AlgorithmException;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import ch.bfh.ti.gravis.gui.dialog.ConfirmDialogAdapter;
@@ -50,16 +45,22 @@ class MenuToolbarController extends WindowAdapter implements
 
 	// dialog messages:
 
-	private final static String APP_ERR_TITLE = "Fehler";
-	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten. "
-			+ "Bitte starten Sie die Applikation neu.%s%s%s";
-	private final static String FILE_ERR_TITLE = "Öffnen";
-	private final static String FILE_ERR_MSG = "Datei nicht gefunden: %s%s";
+	private final static String OPEN_ERR_TITLE = "Graph öffnen";
+	private final static String SAVE_ERR_TITLE = "Graph speichern";
+	private final static String OPEN_ERR_MSG = "Beim Öffnen des Graphen ist ein Fehler aufgetreten!";
+	private final static String SAVE_ERR_MSG = "Beim Speichern des Graphen ist ein Fehler aufgetreten!";
+	private final static String FILE_OPEN_ERR_MSG = "Datei nicht gefunden: %s%s";
+	private final static String FILE_SAVE_ERR_MSG = "Der Dateiname ist ungültig: %s%s";
+
 	private final static String SAVE_CONFIRM_TITLE = "Graph speichern";
 	private final static String SAVE_CONFIRM_MSG = "Änderungen speichern?";
 	private final static String SAVE_CONFIRM_FILE_MSG = "Änderungen speichern?%s%s%s%s%s";
 	private final static String OVERWRITE_TITLE = "Graph speichern";
 	private final static String OVERWRITE_MSG = "Vorhandene Datei überschreiben?";
+
+	private final static String CALC_ERR_MSG = "Bei der Berechnung ist ein interner "
+			+ "Fehler aufgetreten! Die Applikation wird jetzt beendet.";
+	private final static String ALGO_ERR_MSG = "%s: %s";
 
 	// protocol messages:
 
@@ -72,29 +73,24 @@ class MenuToolbarController extends WindowAdapter implements
 
 	private final ICore core;
 
+	private final ErrorHandler errHandler;
+
 	// null pointer fields:
 
 	private FileChooserAdapter fileChooserAdapter = null;
 
 	private ConfirmDialogAdapter confirmDialogAdapter = null;
 
-	private MessageDialogAdapter messageDialogAdapter = null;
-
 	private GraphPropertyDialogFactory graphPropertyDialogFactory = null;
 
 	/**
 	 * @param model
 	 * @param core
-	 * @throws BadLocationException
 	 */
-	protected MenuToolbarController(IAppModel model, ICore core)
-			throws BadLocationException {
+	protected MenuToolbarController(IAppModel model, ICore core) {
 		this.model = model;
 		this.core = core;
-
-		this.model.getGraphDocument().insertString(0,
-				this.model.getGraph().getDescription(),
-				SimpleAttributeSet.EMPTY);
+		this.errHandler = new ErrorHandler();
 	}
 
 	/*
@@ -129,23 +125,8 @@ class MenuToolbarController extends WindowAdapter implements
 					this.handleAlgorithmEvent((String) item);
 				}
 			}
-		} catch (FileNotFoundException ex) {
-			this.messageDialogAdapter.showMessageDialog(
-					"FileNotFoundException", APP_ERR_TITLE,
-					JOptionPane.ERROR_MESSAGE);
 		} catch (Throwable ex) {
-			if (this.messageDialogAdapter != null) {
-				// TODO Exception handling verbessern
-				StringWriter sw = new StringWriter();
-				ex.printStackTrace(new PrintWriter(sw));
-
-				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, LN, LN, sw), APP_ERR_TITLE,
-						JOptionPane.ERROR_MESSAGE);
-
-				// abnormal exit of application
-				System.exit(1);
-			}
+			this.errHandler.handleAppErrorExit(ex);
 		}
 	}
 
@@ -176,14 +157,7 @@ class MenuToolbarController extends WindowAdapter implements
 				}
 			}
 		} catch (Throwable ex) {
-
-			// TODO stackTrace angeben ex.getStackTrace() ist array!
-
-			if (this.messageDialogAdapter != null) {
-				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, LN, LN, ex.getMessage()),
-						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
-			}
+			this.errHandler.handleAppErrorExit(ex);
 		}
 	}
 
@@ -234,7 +208,8 @@ class MenuToolbarController extends WindowAdapter implements
 	@Override
 	public void setMessageDialogAdapter(
 			MessageDialogAdapter messageDialogAdapter) {
-		this.messageDialogAdapter = messageDialogAdapter;
+
+		this.errHandler.setMessageDialogAdapter(messageDialogAdapter);
 	}
 
 	/*
@@ -247,15 +222,8 @@ class MenuToolbarController extends WindowAdapter implements
 	public void windowClosing(final WindowEvent e) {
 		try {
 			this.handleExitEvent();
-		} catch (GraphIOException | BadLocationException
-				| FileNotFoundException ex) {
-			// TODO stackTrace angeben, allg Excepiton abfangen : Throwable
-
-			if (this.messageDialogAdapter != null) {
-				this.messageDialogAdapter.showMessageDialog(
-						String.format(APP_ERR_MSG, LN, LN, ex.getMessage()),
-						APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
-			}
+		} catch (Throwable ex) {
+			this.errHandler.handleAppErrorExit(ex);
 		}
 	}
 
@@ -265,13 +233,9 @@ class MenuToolbarController extends WindowAdapter implements
 	 * been saved or "not save" is selected from the confirm dialog.
 	 * 
 	 * @return boolean
-	 * @throws GraphIOException
 	 * @throws BadLocationException
-	 * @throws FileNotFoundException
 	 */
-	private boolean checkSave() throws GraphIOException, BadLocationException,
-			FileNotFoundException {
-
+	private boolean checkSave() throws BadLocationException {
 		if (this.model.isStopped() && this.model.isGraphUnsaved()
 				&& this.confirmDialogAdapter != null) {
 
@@ -293,6 +257,151 @@ class MenuToolbarController extends WindowAdapter implements
 	}
 
 	/**
+	 * @param algoName
+	 * @return SwingWorker<IGravisListIterator<String>, Void>
+	 */
+	private SwingWorker<IGravisListIterator<String>, Void> createCalcSwingWorker(
+			final String algoName) {
+
+		return new SwingWorker<IGravisListIterator<String>, Void>() {
+
+			@Override
+			protected IGravisListIterator<String> doInBackground()
+					throws Exception {
+
+				// calculate steps
+				return MenuToolbarController.this.core.calculateSteps(
+						MenuToolbarController.this.model.getGraph(), algoName);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see javax.swing.SwingWorker#done()
+			 */
+			@Override
+			protected void done() {
+				try {
+					// enable GUI
+					MenuToolbarController.this.model.setWorkingState(false);
+
+					// update model
+					MenuToolbarController.this.model.setCalcDoneState(
+							this.get(), algoName);
+
+					// update view
+					MenuToolbarController.this.model.notifyObservers(false);
+				} catch (ExecutionException e) {
+					try {
+						// update view
+						MenuToolbarController.this.model.notifyObservers(false);
+
+						if (e.getCause() instanceof AlgorithmException) {
+							AlgorithmException aex = (AlgorithmException) e
+									.getCause();
+							MenuToolbarController.this.errHandler
+									.showErrorMessage(
+											e,
+											String.format(ALGO_ERR_MSG,
+													aex.getAlgorithmName(),
+													aex.getUserDialogMsg()));
+						} else if (e.getCause() instanceof CoreException) {
+							MenuToolbarController.this.errHandler
+									.handleAppErrorExit(e, CALC_ERR_MSG);
+						} else {
+							MenuToolbarController.this.errHandler
+									.handleAppErrorExit(e);
+						}
+
+						// set model to no algo selected state
+						MenuToolbarController.this.model
+								.getAlgorithmComboModel()
+								.setSelectedItem(
+										IAppModel.DEFAULT_ALGO_ENTRY.toString());
+					} catch (Throwable ex) {
+						MenuToolbarController.this.errHandler
+								.handleAppErrorExit(e);
+					}
+				} catch (Throwable e) {
+					MenuToolbarController.this.errHandler.handleAppErrorExit(e);
+				}
+			}
+		};
+	}
+
+	/**
+	 * @param file
+	 * @return SwingWorker<IGravisGraph, Void>
+	 */
+	private SwingWorker<IGravisGraph, Void> createOpenGraphSwingWorker(
+			final File file) {
+
+		return new SwingWorker<IGravisGraph, Void>() {
+
+			@Override
+			protected IGravisGraph doInBackground() throws Exception {
+				return MenuToolbarController.this.core.loadGraph(file);
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see javax.swing.SwingWorker#done()
+			 */
+			@Override
+			protected void done() {
+				try {
+					// enables GUI
+					MenuToolbarController.this.model.setWorkingState(false);
+
+					// updates model
+					MenuToolbarController.this.model.setOpenGraphState(
+							this.get(), file);
+
+					// updates view
+					MenuToolbarController.this.model.notifyObservers(true);
+				} catch (ExecutionException e) {
+					try {
+						Document graphDoc = MenuToolbarController.this.model.getGraphDocument();
+						// update view
+						MenuToolbarController.this.model.notifyObservers(false);
+
+						if (e.getCause() instanceof FileNotFoundException) {
+							MenuToolbarController.this.errHandler
+									.showErrorMessage(String.format(
+											FILE_OPEN_ERR_MSG, LN,
+											file.getAbsolutePath()),
+											OPEN_ERR_TITLE);
+						} else if (e.getCause() instanceof GraphIOException) {
+							MenuToolbarController.this.errHandler
+									.showErrorMessage(e, OPEN_ERR_MSG,
+											OPEN_ERR_TITLE);
+						} else {
+							MenuToolbarController.this.errHandler
+									.handleAppErrorExit(e);
+						}
+
+						graphDoc.remove(0, graphDoc.getLength());						
+						graphDoc.insertString(0, MenuToolbarController.this.model.getGraph().
+								getDescription(),
+								SimpleAttributeSet.EMPTY);
+						// set model to no algo selected state
+						MenuToolbarController.this.model
+								.getAlgorithmComboModel()
+								.setSelectedItem(
+										IAppModel.DEFAULT_ALGO_ENTRY.toString());
+					} catch (Throwable ex) {
+						MenuToolbarController.this.errHandler
+								.handleAppErrorExit(e);
+					}
+				} catch (Throwable e) {
+					MenuToolbarController.this.errHandler.handleAppErrorExit(e);
+				}
+			}
+		};
+	}
+
+	/**
 	 * 
 	 * @param algoName
 	 * @throws BadLocationException
@@ -300,21 +409,21 @@ class MenuToolbarController extends WindowAdapter implements
 	private void handleAlgorithmEvent(final String algoName)
 			throws BadLocationException {
 
+		boolean noAlgo = algoName.equals(IAppModel.DEFAULT_ALGO_ENTRY
+				.toString());
+
 		if (this.model.isStopped()
-				&& this.model.getCalculationState() != NOT_CALCULABLE) {
+				&& (this.model.getCalculationState() != NOT_CALCULABLE || noAlgo)) {
 
 			Document algoDoc = this.model.getAlgorithmDocument();
 			Document protocolDoc = this.model.getProtocolDocument();
 
 			// ignores title entry
-			if (algoName.equals(IAppModel.DEFAULT_ALGO_ENTRY.toString())) {
-
-				// updates model
+			if (noAlgo) {
+				// update model
 				this.model.setNoAlgoSelectedState();
-				algoDoc.remove(0, algoDoc.getLength());
-				protocolDoc.remove(0, protocolDoc.getLength());
 
-				// updates view
+				// update view
 				this.model.notifyObservers(false);
 			} else {
 				SwingWorker<IGravisListIterator<String>, Void> worker = this
@@ -341,58 +450,10 @@ class MenuToolbarController extends WindowAdapter implements
 	}
 
 	/**
-	 * @param algoName
-	 * @return SwingWorker<IGravisListIterator<String>, Void>
-	 */
-	private SwingWorker<IGravisListIterator<String>, Void> createCalcSwingWorker(
-			final String algoName) {
-
-		return new SwingWorker<IGravisListIterator<String>, Void>() {
-
-			@Override
-			protected IGravisListIterator<String> doInBackground()
-					throws Exception {
-
-				// calculates steps
-				return MenuToolbarController.this.core.calculateSteps(
-						MenuToolbarController.this.model.getGraph(), algoName);
-			}
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see javax.swing.SwingWorker#done()
-			 */
-			@Override
-			protected void done() {
-				try {
-					// enables GUI
-					MenuToolbarController.this.model.setWorkingState(false);
-
-					// updates model
-					MenuToolbarController.this.model.setCalcDoneState(
-							this.get(), algoName);
-
-					// updates view
-					MenuToolbarController.this.model.notifyObservers(false);
-				} catch (Exception e) {
-					// TODO: AglgoException -> message an user
-					// TODO: handle exception (CoreException-> exits app
-					e.printStackTrace();
-				}
-			}
-		};
-	}
-
-	/**
 	 * 
-	 * @throws GraphIOException
 	 * @throws BadLocationException
-	 * @throws FileNotFoundException
 	 */
-	private void handleExitEvent() throws GraphIOException,
-			BadLocationException, FileNotFoundException {
-
+	private void handleExitEvent() throws BadLocationException {
 		// handles unsaved graph
 		if (!this.checkSave()) {
 			return;
@@ -429,13 +490,10 @@ class MenuToolbarController extends WindowAdapter implements
 	/**
 	 * 
 	 * @param edgeType
-	 * @throws GraphIOException
 	 * @throws BadLocationException
-	 * @throws FileNotFoundException
 	 */
 	private void handleNewGraphEvent(final EdgeType edgeType)
-			throws GraphIOException, BadLocationException,
-			FileNotFoundException {
+			throws BadLocationException {
 
 		if (this.model.isStopped()) {
 			// handle unsaved graph
@@ -454,14 +512,10 @@ class MenuToolbarController extends WindowAdapter implements
 	/**
 	 * An existing file must be selected for opening a graph.
 	 * 
-	 * @throws GraphIOException
 	 * @throws BadLocationException
-	 * @throws FileNotFoundException
 	 */
-	private void handleOpenGraphEvent() throws GraphIOException,
-			BadLocationException, FileNotFoundException {
-
-		if (this.model.isStopped()) {
+	private void handleOpenGraphEvent() throws BadLocationException {
+		if (this.model.isStopped() && this.fileChooserAdapter != null) {
 			// handle unsaved graph
 			if (!this.checkSave()) {
 				return;
@@ -477,7 +531,7 @@ class MenuToolbarController extends WindowAdapter implements
 					Document algoDoc = this.model.getAlgorithmDocument();
 					Document protocolDoc = this.model.getProtocolDocument();
 
-					// disables GUI
+					// sets step panel to initial state and disables GUI
 					this.model.setWorkingState(true);
 
 					// clears documents and inserts open graph message
@@ -487,87 +541,17 @@ class MenuToolbarController extends WindowAdapter implements
 					graphDoc.insertString(0, OPEN_GRAPH_MSG,
 							SimpleAttributeSet.EMPTY);
 
-					// update view
+					// updates view
 					this.model.notifyObservers(false);
 
 					worker.execute();
 					return;
 				} else {
-					// TODO message adpter layout anpassen (breite, hoehe)
-					this.messageDialogAdapter.showMessageDialog(
-							String.format(FILE_ERR_MSG, LN,
-									file.getAbsolutePath()), FILE_ERR_TITLE,
-							JOptionPane.ERROR_MESSAGE);
+					this.errHandler.showErrorMessage(String.format(FILE_OPEN_ERR_MSG, LN,
+							file.getAbsolutePath()), OPEN_ERR_TITLE);
 				}
 			}
 		}
-	}
-
-	/**
-	 * @param file
-	 * @return SwingWorker<IGravisGraph, Void>
-	 */
-	private SwingWorker<IGravisGraph, Void> createOpenGraphSwingWorker(
-			final File file) {
-
-		return new SwingWorker<IGravisGraph, Void>() {
-
-			@Override
-			protected IGravisGraph doInBackground() throws Exception {
-				return MenuToolbarController.this.core.loadGraph(file);
-			}
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see javax.swing.SwingWorker#done()
-			 */
-			@Override
-			protected void done() {
-				try {
-					// enables GUI
-					MenuToolbarController.this.model.setWorkingState(false);
-
-					// update model
-					MenuToolbarController.this.model.setOpenGraphState(
-							this.get(), file);
-
-					// update view
-					MenuToolbarController.this.model.notifyObservers(true);
-				} catch (Exception e) {
-					// TODO Exception handling verbessern
-					// TODO Abstand message label
-					// TODO Exception bei open graph: -> default graph anzeigen, update model
-
-					StringWriter sw = new StringWriter();
-					e.printStackTrace(new PrintWriter(sw));
-					
-					JPanel messagePanel = new JPanel(new BorderLayout());
-					messagePanel.add(new JLabel(String.format(APP_ERR_MSG, LN, LN, LN)), 
-							BorderLayout.NORTH);
-					JTextArea textArea = new JTextArea();
-					textArea.setText(sw.toString());
-					textArea.setCaretPosition(0);
-					JScrollPane scrollPane = new JScrollPane();			
-					textArea.setEditable(false);
-					textArea.setRows(40);
-					textArea.setColumns(60);
-					scrollPane.setViewportView(textArea);
-					scrollPane
-					.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-					scrollPane
-					.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-					messagePanel.add(scrollPane, BorderLayout.CENTER);
-					
-					MenuToolbarController.this.messageDialogAdapter.showMessageDialog(
-							messagePanel, APP_ERR_TITLE,
-							JOptionPane.ERROR_MESSAGE);
-
-					// abnormal exit of application
-					System.exit(1);
-				}
-			}
-		};
 	}
 
 	/**
@@ -577,14 +561,10 @@ class MenuToolbarController extends WindowAdapter implements
 	 * dialog
 	 * 
 	 * @return save result
-	 * @throws GraphIOException
 	 * @throws BadLocationException
-	 * @throws FileNotFoundException
 	 * 
 	 */
-	private int handleSaveGraphAsEvent() throws GraphIOException,
-			BadLocationException, FileNotFoundException {
-
+	private int handleSaveGraphAsEvent() throws BadLocationException {
 		if (this.model.isStopped() && this.fileChooserAdapter != null
 				&& this.confirmDialogAdapter != null) {
 
@@ -600,11 +580,19 @@ class MenuToolbarController extends WindowAdapter implements
 					// sets step panel to initial state
 					this.model.setStepPanelState(true);
 
-					// saves graph
-					this.core.saveGraph(this.model.getGraph(), file);
+					try {
+						// saves graph
+						this.core.saveGraph(this.model.getGraph(), file);
 
-					// updates model
-					this.model.setSaveGraphState(file);
+						// updates model
+						this.model.setSaveGraphState(file);
+					} catch (FileNotFoundException e) {
+						this.errHandler.showErrorMessage(
+								String.format(FILE_SAVE_ERR_MSG, LN,
+										file.getAbsolutePath()), SAVE_ERR_TITLE);
+					} catch (GraphIOException e) {
+						this.errHandler.showErrorMessage(e, SAVE_ERR_MSG, SAVE_ERR_TITLE);
+					}
 
 					// updates view
 					this.model.notifyObservers(false);
@@ -623,25 +611,28 @@ class MenuToolbarController extends WindowAdapter implements
 	 * graphFile.
 	 * 
 	 * @return save result
-	 * @throws GraphIOException
 	 * @throws BadLocationException
-	 * @throws FileNotFoundException
 	 */
-	private int handleSaveGraphEvent() throws GraphIOException,
-			BadLocationException, FileNotFoundException {
-
+	private int handleSaveGraphEvent() throws BadLocationException {
 		if (this.model.isStopped()) {
 			if (this.model.hasGraphFile()) {
-
 				// sets step panel to initial state
 				this.model.setStepPanelState(true);
 
-				// saves graph
-				this.core.saveGraph(this.model.getGraph(),
-						this.model.getGraphFile());
+				try {
+					// saves graph
+					this.core.saveGraph(this.model.getGraph(),
+							this.model.getGraphFile());
 
-				// updates model
-				this.model.setSaveGraphState();
+					// updates model
+					this.model.setSaveGraphState();
+				} catch (FileNotFoundException e) {
+					this.errHandler.showErrorMessage(String.format(FILE_SAVE_ERR_MSG, LN,
+							this.model.getGraphFile().getAbsolutePath()),
+							SAVE_ERR_TITLE);
+				} catch (GraphIOException e) {
+					this.errHandler.showErrorMessage(e, SAVE_ERR_MSG, SAVE_ERR_TITLE);
+				}
 
 				// updates view
 				this.model.notifyObservers(false);

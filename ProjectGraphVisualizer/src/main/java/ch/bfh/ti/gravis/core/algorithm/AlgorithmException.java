@@ -10,17 +10,15 @@ public class AlgorithmException extends Exception {
 
 	private static final long serialVersionUID = 3774886120793515985L;
 
-	private final IAlgorithm algorithm;
-
-	private final String userDialogMsg;
+	private final String algorithmName, userDialogMsg;
 
 	/**
 	 * 
-	 * @param message
+	 * @param userDialogMsg
 	 * @param algorithm
 	 */
-	public AlgorithmException(String message, IAlgorithm algorithm) {
-		this(message, "", null, algorithm);
+	public AlgorithmException(String userDialogMsg, String algorithm) {
+		this("", userDialogMsg, null, algorithm);
 	}
 
 	/**
@@ -30,7 +28,7 @@ public class AlgorithmException extends Exception {
 	 * @param algorithm
 	 */
 	public AlgorithmException(String message, String userDialogMsg,
-			IAlgorithm algorithm) {
+			String algorithm) {
 		
 		this(message, userDialogMsg, null, algorithm);
 	}
@@ -51,19 +49,19 @@ public class AlgorithmException extends Exception {
 	 * @param algorithm
 	 */
 	public AlgorithmException(String message, String userDialogMsg,
-			Throwable cause, IAlgorithm algorithm) {
+			Throwable cause, String algorithm) {
 		
 		super(message, cause);
 
 		this.userDialogMsg = userDialogMsg;
-		this.algorithm = algorithm;
+		this.algorithmName = algorithm;
 	}
 
 	/**
-	 * @return the algorithm
+	 * @return the algorithm name
 	 */
-	public IAlgorithm getAlgorithm() {
-		return this.algorithm;
+	public String getAlgorithmName() {
+		return this.algorithmName;
 	}
 
 	/**

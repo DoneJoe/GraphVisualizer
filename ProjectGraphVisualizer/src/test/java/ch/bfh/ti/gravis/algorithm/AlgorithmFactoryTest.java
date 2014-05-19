@@ -13,14 +13,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Tests the algorithm loader.
  * 
- * @author Roland Bruggmann (brugr9@bfh.ch)
+ * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
 @SuppressWarnings("unused")
 public class AlgorithmFactoryTest {
 
+	// TODO implement test AlgorithmFactoryTest
+	
 	// parameter
 	// private static String pathname;
 	// private static String classname;

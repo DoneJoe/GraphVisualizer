@@ -13,7 +13,7 @@ import org.junit.Test;
  * 
  */
 public class ValueTransformerTest {
-	// TODO implement Tests
+	// TODO implement ValueTransformerTest
 	
 	/**
 	 * @throws java.lang.Exception

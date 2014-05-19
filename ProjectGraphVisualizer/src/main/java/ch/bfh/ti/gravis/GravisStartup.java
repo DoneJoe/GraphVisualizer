@@ -4,12 +4,9 @@ import java.awt.EventQueue;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import javax.swing.JOptionPane;
-
 import ch.bfh.ti.gravis.core.CoreFactory;
 import ch.bfh.ti.gravis.gui.GuiFactory;
-import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
-
+import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 
 /**
  * This is the main class of the GraphVisualizer application.
@@ -18,7 +15,7 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
  * 
  */
 public class GravisStartup {
-	private final static String STARTUP_ERROR = "Fehler beim Starten der Applikation:%s%s%s";
+	private final static String STARTUP_ERROR = "Fehler beim Starten der Applikation!";
 	private final static String TITLE = "Graph Visualizer";
 
 	/**
@@ -28,7 +25,7 @@ public class GravisStartup {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
@@ -36,12 +33,10 @@ public class GravisStartup {
 				} catch (Throwable e) {
 					StringWriter sw = new StringWriter();
 					e.printStackTrace(new PrintWriter(sw));
-					
-					// TODO error dialog verwenden
-					JOptionPane.showMessageDialog(null, String.format(
-							STARTUP_ERROR, LN, LN, sw), TITLE, JOptionPane.ERROR_MESSAGE);
-					
-					// abnormal exit of application
+					new MessageDialogAdapter().showErrorMessageDialog(
+							STARTUP_ERROR, sw.toString(), TITLE);
+
+					// abnormal termination of application
 					System.exit(1);
 				}
 			}

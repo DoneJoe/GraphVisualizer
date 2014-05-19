@@ -23,8 +23,7 @@ import edu.uci.ics.jung.graph.util.Pair;
  */
 public class KruskalMinSpanningForest extends AbstractAlgorithm {
 
-	private final static String DIRECTED_EDGE = "Kruskal algorithm: DIRECTED "
-			+ "edges are not allowed!";
+	private final static String DIRECTED_EDGE = "DIRECTED edges are not allowed!";
 
 	private final static String ALGO_NAME = "Algorithmus von Kruskal";
 	private final static String ALGO_DESCRIPTION = "Diese Implementation "
@@ -54,6 +53,7 @@ public class KruskalMinSpanningForest extends AbstractAlgorithm {
 		
 		// TODO implement
 
+		throw new AlgorithmException(DIRECTED_EDGE, ALGO_NAME);
 		
 //		this.checkEdgeType(graph);
 //

@@ -21,8 +21,7 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
  */
 class DijkstraDistance extends AbstractAlgorithm {
 
-	private final static String NEG_WEIGHT = "DijkstraDistance algorithm: "
-			+ "negative weights are not allowed!" + LN;
+	private final static String NEG_WEIGHT = "Negative Kantengewichte sind nicht erlaubt!";
 	private final static String NO_START_VERTEX = "DijkstraDistance algorithm: no start vertex "
 			+ "found in graph %s!" + LN;
 
@@ -287,7 +286,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 		for (IRestrictedEdge edge : edges) {
 			if (edge.getWeight() < 0) {
 				// TODO user dialog message
-				throw new AlgorithmException(NEG_WEIGHT, this);
+				throw new AlgorithmException(NEG_WEIGHT, ALGO_NAME);
 			}
 		}
 	}

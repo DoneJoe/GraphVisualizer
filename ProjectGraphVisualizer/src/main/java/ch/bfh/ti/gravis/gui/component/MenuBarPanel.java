@@ -44,7 +44,7 @@ public class MenuBarPanel extends JMenuBar {
 	private final static String SHORTCUTS = "Shortcuts...";
 	private final static String INFO = "Info...";
 	private final static String APP_ERR_TITLE = "Fehler";
-	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten: %s";
+	private final static String LINK_ERR_MSG = "Die angeforderte Seite konnte nicht geöffnet werden!";
 
 	private static final String OPEN_ICON = "Open16.gif";
 	private static final String SAVE_AS_ICON = "SaveAs16.gif";
@@ -71,32 +71,32 @@ public class MenuBarPanel extends JMenuBar {
 			+ "<br />Modul BTI7301: Projekt 1"
 			+ "<br />Herbstsemester 2013/2014"
 			+ "<br /><br />Entwickelt von Patrick Kofmel</body></html>";
-	private final static String SHORTCUT_TITLE = "Shortcuts zum Graph Visualizer";
+	private final static String SHORTCUT_TITLE = "Edit Shortcuts zum Graph Visualizer";
 	private final static String SHORTCUT_TEXT = "<html><body>"
 			+ "<h3>All Modes:</h3>"
 			+ "<ul>"
-			+ "<li>Right-click an empty area for <b>Create Vertex</b> popup"
-			+ "<li>Right-click on a Vertex for <b>Set Start Vertex, Set End Vertex, "
+			+ "<li>Right-click an empty area: <b>Create Vertex</b> popup"
+			+ "<li>Right-click on a vertex: <b>Set Start Vertex, Set End Vertex, "
 			+ "Edit Vertex, Delete Vertex</b> popup"
-			+ "<li>Right-click on an Edge for <b>Edit Edge, Delete Edge</b> popup"
+			+ "<li>Right-click on an edge: <b>Edit Edge, Delete Edge</b> popup"
 			+ "<li>Mousewheel scales with a crossover value of 1.0.<p>"
 			+ "     - scales the graph layout when the combined scale is greater than 1<p>"
 			+ "     - scales the graph view when the combined scale is less than 1"
 			+ "</ul>"
 			+ "<h3>Picking Mode:</h3>"
 			+ "<ul>"
-			+ "<li>Left-click on a Vertex selects the vertex"
-			+ "<li>Left-click elsewhere unselects all Vertices"
-			+ "<li>Shift+(Left-click) on a Vertex adds/removes Vertex selection"
-			+ "<li>(Left-click)+drag on a Vertex moves all selected Vertices"
-			+ "<li>(Left-click)+drag elsewhere selects Vertices in a region"
-			+ "<li>Shift+(Left-click)+drag adds selection of Vertices in a new region"
-			+ "<li>CTRL+(Left-click) on a Vertex selects the vertex and centers the display on it"
+			+ "<li>Left-click on a vertex selects the vertex"
+			+ "<li>Left-click elsewhere unselects all vertices"
+			+ "<li>Shift+(Left-click) on a vertex adds/removes vertex selection"
+			+ "<li>(Left-click)+drag on a vertex moves all selected vertices"
+			+ "<li>(Left-click)+drag elsewhere selects vertices in a region"
+			+ "<li>Shift+(Left-click)+drag adds selection of vertices in a new region"
+			+ "<li>CTRL+(Left-click) on a vertex selects the vertex and centers the display on it"
 			+ "</ul>"
 			+ "<h3>Editing Mode:</h3>"
 			+ "<ul>"
-			+ "<li>Left-click an empty area to create a new Vertex"
-			+ "<li>Left-click on a Vertex and drag to another Vertex to create a directed "
+			+ "<li>Left-click an empty area to create a new vertex"
+			+ "<li>Left-click on a vertex and drag to another vertex to create a directed "
 			+ "or undirected edge" + "</ul>" + "<h3>Transforming Mode:</h3>"
 			+ "<ul>" + "<li>(Left-click)+drag pans the graph"
 			+ "<li>Shift+(Left-click)+drag rotates the graph"
@@ -151,10 +151,7 @@ public class MenuBarPanel extends JMenuBar {
 						}
 					}
 				} catch (Exception ex) {
-					// TODO Exception stack trace
-
-					JOptionPane.showMessageDialog(mainWindow,
-							String.format(APP_ERR_MSG, ex.getMessage()),
+					JOptionPane.showMessageDialog(mainWindow, LINK_ERR_MSG,
 							APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
 				}
 			}

@@ -20,7 +20,6 @@ import ch.bfh.ti.gravis.core.graph.GraphIOManager;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.graph.IRestrictedGraph;
 import ch.bfh.ti.gravis.core.graph.comparator.ItemNameComparator;
-import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex;
@@ -104,6 +103,8 @@ public class StepBuilderTest {
 	 */
 	@Test
 	public void testCreateStepList() throws GraphIOException, FileNotFoundException {
+		// TODO implement test StepBuilderTest
+		
 		GraphIOManager gm = new GraphIOManager();
 		IGravisGraph g = gm.loadGraph(new File(GravisConstants.TEMPLATES_DIR
 				+ "/Directed_Dijkstra_Sample_Graph_1.graphml"));

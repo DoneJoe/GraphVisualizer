@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.gui.verifier;
 
+import java.util.Objects;
+
 import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
@@ -14,6 +16,9 @@ import edu.uci.ics.jung.graph.Graph;
  */
 public class GraphItemNameVerifier extends AbstractVerifier {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "GraphItemNameVerifier.%s(): %s == %s";
+	
 	private static final int MAX_LENGTH = 20;
 
 	private final String currentName;
@@ -30,8 +35,10 @@ public class GraphItemNameVerifier extends AbstractVerifier {
 
 		super(currentName);
 
-		this.currentName = currentName;
-		this.graph = graph;
+		this.currentName = currentName == null ? "" : currentName;
+		this.graph = Objects.requireNonNull(graph, String.format(
+				NULL_POINTER_MSG, "GraphItemNameVerifier", "graph",
+				graph));
 	}
 
 	/*

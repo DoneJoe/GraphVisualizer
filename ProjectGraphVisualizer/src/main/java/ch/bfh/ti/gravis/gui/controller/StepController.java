@@ -4,7 +4,6 @@ import static ch.bfh.ti.gravis.gui.controller.IStepController.EventSource.*;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.text.BadLocationException;
@@ -25,13 +24,14 @@ class StepController implements IStepController {
 
 	private final IAppModel model;
 
-	private MessageDialogAdapter messageDialogAdapter;
+	private final ErrorHandler errHandler;
 
 	/**
 	 * @param model
 	 */
 	protected StepController(IAppModel model) {
 		this.model = model;
+		this.errHandler = new ErrorHandler();
 
 		// add timer listener
 		this.model.getTimer().setActionCommand(TIMER_EVENT.toString());
@@ -64,13 +64,8 @@ class StepController implements IStepController {
 			} else if (e.getActionCommand().equals(TIMER_EVENT.toString())) {
 				this.handleTimerEvent();
 			}
-		} catch (Exception ex) {
-			// TODO Exception handling
-			ex.printStackTrace();
-			if (this.messageDialogAdapter != null) {
-				this.messageDialogAdapter.showMessageDialog("err", "err",
-						JOptionPane.ERROR_MESSAGE);
-			}
+		} catch (Throwable ex) {
+			this.errHandler.handleAppErrorExit(ex);
 		}
 	}
 
@@ -85,7 +80,7 @@ class StepController implements IStepController {
 	public void setMessageDialogAdapter(
 			MessageDialogAdapter messageDialogAdapter) {
 
-		this.messageDialogAdapter = messageDialogAdapter;
+		this.errHandler.setMessageDialogAdapter(messageDialogAdapter);
 	}
 
 	/*
@@ -110,9 +105,8 @@ class StepController implements IStepController {
 					this.model.getTimer().setDelay(delay);
 				}
 			}
-		} catch (Exception ex) {
-			// TODO: handle exception
-			ex.printStackTrace();
+		} catch (Throwable ex) {
+			this.errHandler.handleAppErrorExit(ex);
 		}
 	}
 

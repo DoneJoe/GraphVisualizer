@@ -73,7 +73,11 @@ public class ToggleComboGroup {
 	 * @param mode
 	 * @return JToggleButton
 	 */
-	public JToggleButton getModeToggleButton(Mode mode) {
+	public JToggleButton getModeToggleButton(final Mode mode) {
+		if (mode == null) {
+			return this.pickingToggleButton;
+		}
+		
 		switch (mode) {
 		case EDITING:
 			return this.editingToggleButton;

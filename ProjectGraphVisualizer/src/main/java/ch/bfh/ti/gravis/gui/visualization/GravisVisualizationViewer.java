@@ -79,8 +79,6 @@ public class GravisVisualizationViewer extends
 				new EdgeShape.Line<IVertex, IEdge>());
 		this.getRenderContext().setEdgeDrawPaintTransformer(
 				edgeColorTransformer);
-		this.getRenderContext().setEdgeFillPaintTransformer(
-				edgeColorTransformer);
 		this.getRenderContext().setEdgeStrokeTransformer(
 				new EdgeStrokeTransformer());
 		this.getRenderContext().setArrowDrawPaintTransformer(

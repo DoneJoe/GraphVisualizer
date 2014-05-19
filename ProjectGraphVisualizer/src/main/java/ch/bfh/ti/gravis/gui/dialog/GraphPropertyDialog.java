@@ -37,8 +37,8 @@ public class GraphPropertyDialog extends JDialog {
 	private static final long serialVersionUID = -1767385966504542230L;
 	
 	private static final int BORDER = 5;
-	private static final int TEXT_COLS = 40;
-	private static final int TEXT_ROWS = 12;
+	private static final int COLS = 40;
+	private static final int ROWS = 12;
 
 	private static final String TITLE = "%s bearbeiten...";
 	private static final String GRAPH_NAME_LABEL = "Name: ";
@@ -91,8 +91,8 @@ public class GraphPropertyDialog extends JDialog {
 		JTextArea graphDescription = new JTextArea();
 		graphDescription.setLineWrap(true);
 		graphDescription.setWrapStyleWord(true);
-		graphDescription.setColumns(TEXT_COLS);
-		graphDescription.setRows(TEXT_ROWS);
+		graphDescription.setColumns(COLS);
+		graphDescription.setRows(ROWS);
 		
 		JScrollPane areaScrollPane = new JScrollPane(graphDescription);
 		areaScrollPane

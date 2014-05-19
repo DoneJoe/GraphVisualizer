@@ -71,7 +71,7 @@ public class MainWindow extends JFrame implements Observer {
 
 		// adds panels:
 
-		centerPanel.setLayout(new BorderLayout(BORDER, BORDER));
+		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(visualizationPanel, BorderLayout.CENTER);
 		centerPanel.add(stepPanel, BorderLayout.SOUTH);
 		splitPane.setTopComponent(centerPanel);

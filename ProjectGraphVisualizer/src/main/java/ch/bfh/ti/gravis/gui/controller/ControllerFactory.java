@@ -1,6 +1,6 @@
 package ch.bfh.ti.gravis.gui.controller;
 
-import javax.swing.text.BadLocationException;
+import java.util.Objects;
 
 import ch.bfh.ti.gravis.core.ICore;
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
@@ -13,6 +13,9 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
  */
 public final class ControllerFactory {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "ControllerFactory.%s(): %s == %s";
+
 	private ControllerFactory() {
 	}
 
@@ -20,10 +23,14 @@ public final class ControllerFactory {
 	 * @param model
 	 * @param core
 	 * @return IMenuToolbarController
-	 * @throws BadLocationException
 	 */
 	public static IMenuToolbarController createMenuToolbarController(
-			IAppModel model, ICore core) throws BadLocationException {
+			IAppModel model, ICore core) {
+
+		Objects.requireNonNull(core, String.format(NULL_POINTER_MSG,
+				"createMenuToolbarController", "core", core));
+		Objects.requireNonNull(model, String.format(NULL_POINTER_MSG,
+				"createMenuToolbarController", "model", model));
 		return new MenuToolbarController(model, core);
 	}
 
@@ -35,6 +42,12 @@ public final class ControllerFactory {
 	 */
 	public static IEditGraphEventListener createVisualizationController(
 			IAppModel model, MessageDialogAdapter messageDialogAdapter) {
+
+		Objects.requireNonNull(messageDialogAdapter, String.format(
+				NULL_POINTER_MSG, "createVisualizationController",
+				"messageDialogAdapter", messageDialogAdapter));
+		Objects.requireNonNull(model, String.format(NULL_POINTER_MSG,
+				"createVisualizationController", "model", model));
 		return new VisualizationController(model, messageDialogAdapter);
 	}
 
@@ -43,6 +56,8 @@ public final class ControllerFactory {
 	 * @return IStepController
 	 */
 	public static IStepController createStepController(IAppModel model) {
+		Objects.requireNonNull(model, String.format(NULL_POINTER_MSG,
+				"createStepController", "model", model));
 		return new StepController(model);
 	}
 

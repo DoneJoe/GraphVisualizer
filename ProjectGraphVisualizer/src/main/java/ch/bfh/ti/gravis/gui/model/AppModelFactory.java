@@ -1,5 +1,7 @@
 package ch.bfh.ti.gravis.gui.model;
 
+import java.util.Objects;
+
 import javax.swing.text.BadLocationException;
 
 import ch.bfh.ti.gravis.core.ICore;
@@ -11,6 +13,9 @@ import ch.bfh.ti.gravis.core.ICore;
  */
 public final class AppModelFactory {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "AppModelFactory.%s(): %s == %s";
+	
 	private AppModelFactory() {
 	}
 	
@@ -20,6 +25,9 @@ public final class AppModelFactory {
 	 * @throws BadLocationException 
 	 */
 	public static IAppModel createAppModel(ICore core) throws BadLocationException {
+		Objects.requireNonNull(core, String.format(
+				NULL_POINTER_MSG, "createAppModel", "core",
+				core));
 		return new AppModel(core);
 	}
 

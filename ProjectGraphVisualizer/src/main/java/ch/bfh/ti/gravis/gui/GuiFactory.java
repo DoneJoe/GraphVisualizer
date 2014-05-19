@@ -116,6 +116,9 @@ public final class GuiFactory {
 	 * @return Layout<IVertex, IEdge>
 	 */
 	public static Layout<IVertex, IEdge> createLayout(IGravisGraph graph) {
+		Objects.requireNonNull(graph, String.format(
+				NULL_POINTER_MSG, "createLayout", "graph",
+				graph));
 		return new StaticLayout<>(graph, new PointTransformer());
 	}
 

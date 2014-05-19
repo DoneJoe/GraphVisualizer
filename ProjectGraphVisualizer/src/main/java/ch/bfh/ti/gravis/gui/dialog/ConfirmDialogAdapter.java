@@ -1,6 +1,7 @@
 package ch.bfh.ti.gravis.gui.dialog;
 
 import java.awt.Component;
+import java.util.Objects;
 
 import javax.swing.JOptionPane;
 
@@ -10,12 +11,17 @@ import javax.swing.JOptionPane;
  */
 public class ConfirmDialogAdapter extends AbstractDialogAdapter {
 
+	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
+			+ "ConfirmDialogAdapter.%s(): %s == %s";
+	
 	/**
 	 * @param parent
 	 * 
 	 */
 	public ConfirmDialogAdapter(Component parent) {
-		super(parent);
+		super(Objects.requireNonNull(parent, String.format(
+				NULL_POINTER_MSG, "ConfirmDialogAdapter", "parent",
+				parent)));
 	}
 
 	/**

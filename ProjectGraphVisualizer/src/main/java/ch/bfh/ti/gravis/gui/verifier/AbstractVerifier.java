@@ -19,7 +19,7 @@ abstract class AbstractVerifier extends InputVerifier {
 	protected AbstractVerifier(String lastGood) {
 		super();
 		
-		this.lastGood = lastGood;
+		this.lastGood = lastGood == null ? "" : lastGood;
 	}
 
 	@Override
