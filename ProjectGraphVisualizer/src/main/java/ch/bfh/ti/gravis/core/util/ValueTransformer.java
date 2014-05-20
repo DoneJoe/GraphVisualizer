@@ -103,9 +103,10 @@ public final class ValueTransformer {
 	 */
 	public static Point2D toPoint(String xValue, String yValue) {
 		try {
-			return new Point(Integer.parseInt(xValue), Integer.parseInt(yValue));
+			return new Point(Math.round(Float.parseFloat(xValue)), 
+					Math.round(Float.parseFloat(yValue)));
 		} catch (Exception e) {
-			return new Point();
+			return new Point(GravisConstants.V_LOC_X_DEFAULT, GravisConstants.V_LOC_Y_DEFAULT);
 		}
 	}
 

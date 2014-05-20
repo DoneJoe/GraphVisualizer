@@ -54,7 +54,7 @@ class MenuToolbarController extends WindowAdapter implements
 
 	private final static String SAVE_CONFIRM_TITLE = "Graph speichern";
 	private final static String SAVE_CONFIRM_MSG = "Änderungen speichern?";
-	private final static String SAVE_CONFIRM_FILE_MSG = "Änderungen speichern?%s%s%s%s%s";
+	private final static String SAVE_CONFIRM_FILE_MSG = "Änderungen speichern?%s%s%s";
 	private final static String OVERWRITE_TITLE = "Graph speichern";
 	private final static String OVERWRITE_MSG = "Vorhandene Datei überschreiben?";
 
@@ -240,8 +240,8 @@ class MenuToolbarController extends WindowAdapter implements
 				&& this.confirmDialogAdapter != null) {
 
 			String message = this.model.hasGraphFile() ? String.format(
-					SAVE_CONFIRM_FILE_MSG, LN, LN, this.model.getGraphFile()
-							.getName(), LN, LN) : SAVE_CONFIRM_MSG;
+					SAVE_CONFIRM_FILE_MSG, LN, this.model.getGraphFile()
+							.getName(), LN) : SAVE_CONFIRM_MSG;
 			int dialogResult = this.confirmDialogAdapter.showConfirmDialog(
 					message, SAVE_CONFIRM_TITLE,
 					JOptionPane.YES_NO_CANCEL_OPTION);

@@ -9,11 +9,20 @@ import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 public interface IEditItemObservable {
 
 	/**
+	 * Adds the listeners to this edit item observable.
 	 * 
 	 * @param listeners
 	 */
 	public abstract void addEditGraphEventListeners(
-			IEditGraphEventListener ... listeners);
+			IEditGraphEventListener... listeners);
 
-	public abstract void removeEditGraphEventListeners();
+	/**
+	 * Removes the listeners if the listeners were added to this edit item
+	 * observable.
+	 * 
+	 * @param listeners
+	 */
+	public abstract void removeEditGraphEventListeners(
+			IEditGraphEventListener... listeners);
+
 }

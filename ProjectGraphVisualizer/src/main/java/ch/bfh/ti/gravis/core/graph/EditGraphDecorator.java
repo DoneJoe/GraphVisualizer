@@ -262,7 +262,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 		boolean ok = super.removeEdge(edge);
 		
 		this.fireGraphItemsChangedEvent(edge, Type.REMOVED);
-		edge.removeEditGraphEventListeners();
+		edge.removeEditGraphEventListeners(this.getEditGraphEventListeners());
 		
 		return ok;
 	}
@@ -277,7 +277,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 		boolean ok = super.removeVertex(vertex);
 		
 		this.fireGraphItemsChangedEvent(vertex, Type.REMOVED);
-		vertex.removeEditGraphEventListeners();
+		vertex.removeEditGraphEventListeners(this.getEditGraphEventListeners());
 		
 		return ok;
 	}

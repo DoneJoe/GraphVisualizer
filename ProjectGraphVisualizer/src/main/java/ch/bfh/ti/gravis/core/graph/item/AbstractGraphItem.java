@@ -3,6 +3,7 @@ package ch.bfh.ti.gravis.core.graph.item;
 import java.awt.Color;
 import java.util.Objects;
 
+import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type;
 import ch.bfh.ti.gravis.core.util.GravisColor;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 
@@ -16,6 +17,8 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "AbstractGraphItem.%s(): %s == %s";
 
+	private String itemName;
+	
 	// new value variables:
 
 	private String newComment;
@@ -50,6 +53,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	protected AbstractGraphItem() {
 		this.resetNewVariables();
 
+		this.setName(this.createItemName());
 		this.setCurrentResult(Double.NaN);
 		this.setCurrentColor(GravisConstants.V_FILL_COLOR_DEFAULT);
 		this.setCurrentVisible(true);
@@ -489,4 +493,34 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 		return this.getName();
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setName(java.lang.String)
+	 */
+	@Override
+	public void setName(final String name) {
+		Objects.requireNonNull(name, String.format(
+				NULL_POINTER_MSG, "setName", "name",
+				name));
+		boolean equal = this.getName() == null ? false : this.getName().equals(name.trim());
+		this.itemName = name.trim();
+
+		if (!equal) {
+			this.fireGraphItemsChangedEvent(this, Type.EDITED);
+		}		
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getName()
+	 */
+	@Override
+	public String getName() {
+		return this.itemName;
+	}
+	
+	/**
+	 * 
+	 * @return item name
+	 */
+	protected abstract String createItemName();
+	
 }

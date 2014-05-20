@@ -4,8 +4,10 @@ import java.util.Collection;
 import java.util.Objects;
 
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
+import ch.bfh.ti.gravis.core.graph.item.edge.EdgeFactory;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.ti.gravis.core.graph.item.vertex.VertexFactory;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.GraphDecorator;
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -208,8 +210,10 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void setName(String graphName) {
-		this.graphName = Objects.requireNonNull(graphName, String.format(
-				NULL_POINTER_MSG, "setName", "graphName", graphName)).trim();
+		this.graphName = Objects.requireNonNull(
+				graphName,
+				String.format(NULL_POINTER_MSG, "setName", "graphName",
+						graphName)).trim();
 	}
 
 	/*
@@ -230,7 +234,9 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type)
 	 */
 	@Override
-	public void handleGraphItemsChangedEvent(final IGraphItem source, final Type type) {
+	public void handleGraphItemsChangedEvent(final IGraphItem source,
+			final Type type) {
+
 		if (type == Type.START_EDITED && source instanceof IVertex
 				&& ((IVertex) source).isStart()) {
 
@@ -245,6 +251,24 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 			for (IVertex vertex : this.getVertices()) {
 				if (vertex != source) {
 					vertex.setEnd(false);
+				}
+			}
+		}
+
+		if (type == Type.EDITED && this.containsItemName(source.getName())) {			
+			for (IVertex v : this.getVertices()) {
+				if (v != source && source.getName().equals(v.getName())) {
+					source.setName(source instanceof IVertex ? VertexFactory.createVertexName() : 
+						EdgeFactory.createEdgeName());
+					return;
+				}
+			}
+			
+			for (IEdge e : this.getEdges()) {
+				if (e != source && source.getName().equals(e.getName())) {
+					source.setName(source instanceof IVertex ? VertexFactory.createVertexName() : 
+						EdgeFactory.createEdgeName());
+					return;
 				}
 			}
 		}
@@ -269,8 +293,12 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * @see edu.uci.ics.jung.graph.GraphDecorator#addVertex(java.lang.Object)
 	 */
 	@Override
-	public boolean addVertex(IVertex vertex) {
+	public boolean addVertex(final IVertex vertex) {
 		vertex.addEditGraphEventListeners(this);
+		if (this.containsItemName(vertex.getName())) {
+			vertex.setName(VertexFactory.createVertexName());
+		}
+
 		return super.addVertex(vertex);
 	}
 
@@ -280,9 +308,77 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * @see edu.uci.ics.jung.graph.GraphDecorator#removeVertex(java.lang.Object)
 	 */
 	@Override
-	public boolean removeVertex(IVertex vertex) {
-		vertex.removeEditGraphEventListeners();
+	public boolean removeVertex(final IVertex vertex) {
+		vertex.removeEditGraphEventListeners(this);
 		return super.removeVertex(vertex);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
+	 * java.util.Collection)
+	 */
+	@Override
+	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices) {
+		this.validateEdgeName(edge);		
+		return super.addEdge(edge, vertices);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
+	 * java.util.Collection, edu.uci.ics.jung.graph.util.EdgeType)
+	 */
+	@Override
+	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices,
+			EdgeType edge_type) {
+		this.validateEdgeName(edge);		
+		return super.addEdge(edge, vertices, edge_type);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
+	 * java.lang.Object, java.lang.Object, edu.uci.ics.jung.graph.util.EdgeType)
+	 */
+	@Override
+	public boolean addEdge(IEdge e, IVertex v1, IVertex v2, EdgeType edgeType) {
+		this.validateEdgeName(e);		
+		return super.addEdge(e, v1, v2, edgeType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
+	 * java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public boolean addEdge(IEdge e, IVertex v1, IVertex v2) {
+		this.validateEdgeName(e);		
+		return super.addEdge(e, v1, v2);
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#removeEdge(java.lang.Object)
+	 */
+	@Override
+	public boolean removeEdge(IEdge edge) {
+		edge.removeEditGraphEventListeners(this);
+		return super.removeEdge(edge);
+	}
+
+	/**
+	 * @param edge
+	 */
+	private void validateEdgeName(IEdge edge) {
+		edge.addEditGraphEventListeners(this);		
+		if (this.containsItemName(edge.getName())) {
+			edge.setName(EdgeFactory.createEdgeName());
+		}
+	}
+	
 }

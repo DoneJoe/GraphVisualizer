@@ -22,12 +22,10 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
 class DijkstraDistance extends AbstractAlgorithm {
 
 	private final static String NEG_WEIGHT = "Negative Kantengewichte sind nicht erlaubt!";
-	private final static String NO_START_VERTEX = "DijkstraDistance algorithm: no start vertex "
-			+ "found in graph %s!" + LN;
 
 	private final static String ALGO_NAME = "Algorithmus von Dijkstra";
-	private final static String ALGO_DESCRIPTION = "Der DijkstraDistance-Algorithmus findet den "
-			+ "kürzesten Weg zwischen zwei Knoten. Ein Startknoten muss im Graphen vorhanden "
+	private final static String ALGO_DESCRIPTION = "Der Dijkstra-Algorithmus findet den "
+			+ "kürzesten Weg zwischen zwei Knoten. Ist kein Startknoten ausgewählt, "
 			+ "sein. Ist kein Endknoten vorhanden, so wird der kürteste Weg vom Startknoten "
 			+ "zu allen anderen Knoten berechnet. Diese Implementation des Algorithmus "
 			+ "funktioniert mit gerichteten oder ungerichteten Kanten. Negative "

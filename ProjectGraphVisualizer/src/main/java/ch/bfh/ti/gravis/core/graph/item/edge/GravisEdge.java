@@ -1,7 +1,5 @@
 package ch.bfh.ti.gravis.core.graph.item.edge;
 
-import java.util.Objects;
-
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type;
 import ch.bfh.ti.gravis.core.graph.item.AbstractGraphItem;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
@@ -12,19 +10,9 @@ import ch.bfh.ti.gravis.core.util.GravisConstants;
  */
 class GravisEdge extends AbstractGraphItem implements IEdge {
 
-	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
-			+ "GravisEdge.%s(): %s == %s";
-	
-	private static final String LABEL = "e";
-	
-	private static int counter = 0;
-	
-	private String edgeName;
-
 	private double weight;
 
 	protected GravisEdge() {
-		this.setName(LABEL + String.valueOf(++counter));
 		this.setWeight(GravisConstants.E_WEIGHT_DEFAULT);
 		this.setCurrentColor(GravisConstants.E_COLOR_DEFAULT);
 	}
@@ -55,27 +43,11 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setName(java.lang.String)
+	 * @see ch.bfh.ti.gravis.core.graph.item.AbstractGraphItem#createItemName()
 	 */
 	@Override
-	public void setName(final String name) {
-		Objects.requireNonNull(name, String.format(
-				NULL_POINTER_MSG, "setName", "name",
-				name));
-		boolean equal = this.getName() == null ? false : this.getName().equals(name.trim());
-		this.edgeName = name.trim();
-
-		if (!equal) {
-			this.fireGraphItemsChangedEvent(this, Type.EDITED);
-		}		
-	}
-
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getName()
-	 */
-	@Override
-	public String getName() {
-		return this.edgeName;
+	protected String createItemName() {
+		return EdgeFactory.createEdgeName();
 	}
 
 }

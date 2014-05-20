@@ -79,7 +79,7 @@ public final class GravisConstants {
 	public final static Color V_PICKED_COLOR = GravisColor.LESS_BLUE;
 	public final static Color E_PICKED_COLOR = GravisColor.LESS_BLUE;
 
-	// some visualisation default values:
+	// some other visualisation default values:
 
 	public final static float V_START_DASH = 8.0f;
 	public final static float V_END_DASH = 1.5f;

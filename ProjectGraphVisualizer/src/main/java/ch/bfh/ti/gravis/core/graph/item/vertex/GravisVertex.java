@@ -19,42 +19,10 @@ import ch.bfh.ti.gravis.core.util.GravisConstants;
  */
 class GravisVertex extends AbstractGraphItem implements IVertex {
 
-	// constants:
-
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "AbstractGraphItem.%s(): %s == %s";
 	
-	private static final char FIRST_CHAR = 'A';
-
-	private static final char LAST_CHAR = 'Z';
-
-	// static counters:
-
-	private static int intCounter = 0;
-
-	private static char charCounter = FIRST_CHAR;
-
-	/**
-	 * @return default name
-	 */
-	protected static String createNewDefaultVertexName() {
-		String newChar = String.valueOf(charCounter);
-		String newName = intCounter == 0 ? newChar : newChar
-				+ String.valueOf(intCounter);
-
-		if (LAST_CHAR - charCounter == 0) {
-			charCounter = FIRST_CHAR;
-			intCounter++;
-		} else {
-			charCounter++;
-		}
-
-		return newName;
-	}
-
 	// special vertex fields:
-
-	private String vertexName;
 
 	private boolean start, end;
 
@@ -68,7 +36,6 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 * Main constructor setting start and end to false both by default.
 	 */
 	protected GravisVertex() {
-		this.setName(createNewDefaultVertexName());
 		this.setStart(false);
 		this.setEnd(false);
 		this.setWidth(GravisConstants.V_WIDTH_DEFAULT);
@@ -109,18 +76,6 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	@Override
 	public Point2D getLocation() {
 		return this.location;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getName
-	 * ()
-	 */
-	@Override
-	public String getName() {
-		return this.vertexName;
 	}
 
 	/*
@@ -216,26 +171,6 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#setName(java.
-	 * lang.String)
-	 */
-	@Override
-	public void setName(final String name) {
-		Objects.requireNonNull(name, String.format(
-				NULL_POINTER_MSG, "setName", "name",
-				name));
-		boolean equal = name.trim().equals(this.getName());
-		this.vertexName = name.trim();
-
-		if (!equal) {
-			this.fireGraphItemsChangedEvent(this, Type.EDITED);
-		}
-	}
-
 	@Override
 	public void setStart(boolean start) {
 		boolean equal = this.start == start;
@@ -261,6 +196,14 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 		if (!equal) {
 			this.fireGraphItemsChangedEvent(this, Type.VISUAL_EDITED);
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.item.AbstractGraphItem#createItemName()
+	 */
+	@Override
+	protected String createItemName() {
+		return VertexFactory.createVertexName();
 	}
 
 }

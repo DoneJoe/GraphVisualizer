@@ -4,7 +4,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
 http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="description" for="graph">
-<default>ungerichteter Graph 12</default>
+<default>gerichteter Graph 4</default>
 </key>
 <key id="vertexLocation.y" for="node">
 <default>50</default>
@@ -33,74 +33,74 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="edgeColor" for="edge">
 <default>blue</default>
 </key>
-<graph id="ungerichteter Graph 12" edgedefault="undirected">
-<data key="description">ungerichteter Graph mit Farben</data>
-<node id="19">
-<data key="vertexLocation.y">106</data>
-<data key="vertexWidth">60.0</data>
+<graph id="gerichteter Graph 4" edgedefault="directed">
+<data key="description">gerichteter Graph 4</data>
+<node id="M">
+<data key="vertexLocation.y">165.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">true</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">917.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="P">
+<data key="vertexLocation.y">356.0</data>
+<data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">366</data>
+<data key="vertexLocation.x">599.0</data>
 <data key="startVertex">true</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="K">
-<data key="vertexLocation.y">270</data>
-<data key="vertexWidth">60.0</data>
+<node id="J">
+<data key="vertexLocation.y">332.0</data>
+<data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">1182</data>
+<data key="vertexLocation.x">974.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="18">
-<data key="vertexLocation.y">527</data>
-<data key="vertexWidth">60.0</data>
+<node id="W">
+<data key="vertexLocation.y">202.0</data>
+<data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">625</data>
+<data key="vertexLocation.x">1181.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="20">
-<data key="vertexLocation.y">133</data>
-<data key="vertexWidth">60.0</data>
+<node id="L">
+<data key="vertexLocation.y">154.0</data>
+<data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">871</data>
+<data key="vertexLocation.x">530.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="10">
-<data key="vertexLocation.y">505</data>
-<data key="vertexWidth">60.0</data>
-<data key="endVertex">true</data>
-<data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">1212</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<edge id="5" source="18" target="20">
+<edge id="e13" source="P" target="J">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="21" source="19" target="20">
+<edge id="e14" source="M" target="L">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="11" source="10" target="18">
+<edge id="e16" source="P" target="L">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e14" source="10" target="K">
+<edge id="e28" source="J" target="W">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="9" source="19" target="18">
+<edge id="e17" source="P" target="M">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e15" source="K" target="20">
+<edge id="e29" source="M" target="W">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
