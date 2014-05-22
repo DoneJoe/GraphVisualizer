@@ -62,7 +62,7 @@ public interface IStepRecorder {
 	public abstract IStepRecorder item(IRestrictedGraphItem item);
 	
 	/**
-	 * Sets StateCommentEnabled visualization variable to false.
+	 * Sets StateCommentEnabled visualization variable to false. This is the default value.
 	 * 
 	 * @return IStepRecorder
 	 */

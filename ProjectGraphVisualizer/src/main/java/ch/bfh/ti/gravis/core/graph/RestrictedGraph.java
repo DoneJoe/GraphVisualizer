@@ -586,7 +586,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 
 		List<IRestrictedEdge> edgesList = new ArrayList<>(coll.size());
 
-		// Adds restricted edge instances to the edges list
+		// add restricted edge instances to the edges list
 		for (IEdge edge : coll) {
 			if (edge != null) {
 				if (this.edgesMap.containsKey(edge)) {
@@ -601,7 +601,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 			}
 		}
 
-		// Sorts the vertices in lexicographical name order
+		// sort the vertices in lexicographical name order
 		Collections.sort(edgesList, this.itemComparator);
 
 		return edgesList;
@@ -616,7 +616,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 
 		List<IRestrictedVertex> verticesList = new ArrayList<>(coll.size());
 
-		// Adds restricted vertex instances to the vertices list
+		// add restricted vertex instances to the vertices list
 		for (IVertex vertex : coll) {
 			if (vertex != null) {
 				if (this.verticesMap.containsKey(vertex)) {
@@ -631,10 +631,10 @@ final class RestrictedGraph implements IRestrictedGraph {
 			}
 		}
 
-		// Sorts the vertices in lexicographical name order
+		// sort the vertices in lexicographical name order
 		Collections.sort(verticesList, this.itemComparator);
 
-		// moves the start vertex to the first position in the list
+		// move the start vertex to the first position in the list
 		for (int i = 0; i < verticesList.size(); i++) {
 			if (verticesList.get(i).isStart()) {
 				verticesList.add(0, verticesList.remove(i));

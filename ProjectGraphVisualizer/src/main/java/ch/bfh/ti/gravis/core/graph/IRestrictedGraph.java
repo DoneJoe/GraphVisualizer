@@ -14,7 +14,9 @@ import edu.uci.ics.jung.graph.util.Pair;
  * or remove operations are possible. This graph operates with restricted graph
  * items. A restricted graph item restricts the operations on the item to a
  * subset of all possible operations (see specification of
- * IRestrictedGraphItem).
+ * IRestrictedGraphItem). <br />
+ * All edges have the same edgeType (directed or undirected). Parallel edges and
+ * hyper-edges are not possible.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -24,7 +26,8 @@ public interface IRestrictedGraph {
 	/**
 	 * Adds a new step for a given array of restricted graph items.
 	 * 
-	 * @param restrictedItems array of restricted graph items
+	 * @param restrictedItems
+	 *            array of restricted graph items
 	 */
 	public void addStep(IRestrictedGraphItem... restrictedItems);
 

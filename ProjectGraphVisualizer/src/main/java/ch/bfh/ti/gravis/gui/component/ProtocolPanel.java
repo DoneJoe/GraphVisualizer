@@ -125,6 +125,12 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		this.graphDescription.getDocument().addDocumentListener(this);
 		this.algorithmDescription.getDocument().addDocumentListener(this);
 		this.protocol.getDocument().addDocumentListener(this);
+		
+		// disable text area focus:
+
+		this.protocol.setFocusable(false);
+		this.graphDescription.setFocusable(false);
+		this.algorithmDescription.setFocusable(false);
 	}
 
 	/*

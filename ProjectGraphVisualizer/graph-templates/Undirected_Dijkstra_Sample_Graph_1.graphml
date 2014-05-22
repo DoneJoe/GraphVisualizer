@@ -114,7 +114,7 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="edgeColor">blue</data>
 </edge>
 <edge id="e2" source="A" target="C">
-<data key="weight">1.0</data>
+<data key="weight">2.0</data>
 <data key="edgeColor">blue</data>
 </edge>
 <edge id="e5" source="D" target="C">

@@ -35,9 +35,14 @@ public interface IAlgorithm {
 	public abstract boolean hasEdgeType(EdgeType edgeType);
 
 	/**
+	 * The algorithm is executed with the given restricted graph and step
+	 * recorder.
+	 * 
 	 * @param graph
-	 * @param rec 
+	 * @param rec
 	 * @throws AlgorithmException
+	 *             if the algorithm is not able to cumpute a correct result with
+	 *             the given graph.
 	 */
 	public abstract void execute(IRestrictedGraph graph, IStepRecorder rec)
 			throws AlgorithmException;

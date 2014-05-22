@@ -66,7 +66,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 		this.setName(String.format(DEFAULT_NAME, edgeTypeStr, counter));
 		this.setDescription(String.format(DEFAULT_DESCRIPTION, edgeTypeStr,
 				counter));
-		this.setEdgeType(edgeType);
+		this.edgeType = edgeType;
 
 	}
 
@@ -77,10 +77,10 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void clear() {
-		Collection<IVertex> vertices = this.delegate.getVertices();
+		Collection<IVertex> vertices = this.getVertices();
 
 		for (IVertex vertex : vertices.toArray(new IVertex[vertices.size()])) {
-			this.delegate.removeVertex(vertex);
+			this.removeVertex(vertex);
 		}
 	}
 
@@ -199,8 +199,26 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void setEdgeType(EdgeType edgeType) {
-		this.edgeType = Objects.requireNonNull(edgeType, String.format(
+		Objects.requireNonNull(edgeType, String.format(
 				NULL_POINTER_MSG, "setEdgeType", "edgeType", edgeType));
+		boolean equal = edgeType == this.edgeType; 
+		IGravisGraph copy = null;
+		
+		if (!equal) {
+			copy = this.copy();
+		}
+		
+		this.edgeType = edgeType;
+		
+		if (!equal) {			
+			for (IEdge edge : this.getEdges().toArray(new IEdge[this.getEdgeCount()])) {
+				this.removeEdge(edge);
+			}
+			
+			for (IEdge edge : copy.getEdges()) {
+		        this.addEdge(edge, copy.getEndpoints(edge));
+			}
+		}
 	}
 
 	/*
@@ -322,7 +340,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices) {
 		this.validateEdgeName(edge);		
-		return super.addEdge(edge, vertices);
+		return super.addEdge(edge, vertices, this.edgeType);
 	}
 
 	/*
@@ -335,7 +353,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices,
 			EdgeType edge_type) {
 		this.validateEdgeName(edge);		
-		return super.addEdge(edge, vertices, edge_type);
+		return super.addEdge(edge, vertices, edge_type == this.edgeType ? edge_type : this.edgeType);
 	}
 
 	/*
@@ -347,7 +365,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean addEdge(IEdge e, IVertex v1, IVertex v2, EdgeType edgeType) {
 		this.validateEdgeName(e);		
-		return super.addEdge(e, v1, v2, edgeType);
+		return super.addEdge(e, v1, v2, edgeType == this.edgeType ? edgeType : this.edgeType);
 	}
 
 	/*
@@ -359,7 +377,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean addEdge(IEdge e, IVertex v1, IVertex v2) {
 		this.validateEdgeName(e);		
-		return super.addEdge(e, v1, v2);
+		return super.addEdge(e, v1, v2, this.edgeType);
 	}
 
 	/* (non-Javadoc)
@@ -371,6 +389,23 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 		return super.removeEdge(edge);
 	}
 
+	/**
+	 * @return a shallow copy of this instance of IGravisGraph
+	 */
+	protected IGravisGraph copy() {
+		IGravisGraph copy = GraphFactory.createGravisGraph(this.edgeType);
+
+	    for (IVertex v : this.getVertices())
+	    	copy.addVertex(v);
+
+	    for (IEdge e : this.getEdges())
+	    	copy.addEdge(e, this.getEndpoints(e));
+	    
+	    copy.setName(this.getName());
+	    copy.setDescription(this.getDescription());
+		return copy;
+	}
+	
 	/**
 	 * @param edge
 	 */

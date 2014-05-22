@@ -46,7 +46,7 @@ class AppModel extends Observable implements IAppModel {
 	private static final EdgeType DEFAULT_EDGE_TYPE = EdgeType.UNDIRECTED;
 
 	private final static String ALGO_DONE_MSG = "Die Animation kann jetzt gestartet werden."
-			+ LN + LN;
+			+ LN;
 
 	/**
 	 * double value in seconds

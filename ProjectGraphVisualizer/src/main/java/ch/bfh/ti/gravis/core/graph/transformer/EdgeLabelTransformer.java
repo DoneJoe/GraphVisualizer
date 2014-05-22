@@ -12,7 +12,7 @@ import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
  */
 public class EdgeLabelTransformer implements Transformer<IEdge, String> {
 
-	private DecimalFormat doubleFormat;
+	private final DecimalFormat doubleFormat;
 
 	public EdgeLabelTransformer() {
 		this.doubleFormat = new DecimalFormat();

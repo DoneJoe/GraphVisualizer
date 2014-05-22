@@ -48,7 +48,8 @@ class Core implements ICore {
 	 * @see ch.bfh.ti.gravis.core.ICore#loadGraph(java.io.File)
 	 */
 	@Override
-	public IGravisGraph loadGraph(File source) throws GraphIOException, FileNotFoundException {
+	public IGravisGraph loadGraph(File source) throws GraphIOException,
+			FileNotFoundException {
 		return this.graphIOManager.loadGraph(source);
 	}
 
@@ -85,7 +86,7 @@ class Core implements ICore {
 	public IGravisListIterator<String> calculateSteps(final IGravisGraph graph,
 			final String algorithmName) throws CoreException,
 			AlgorithmException {
-		
+
 		StepBuilder stepBuilder = new StepBuilder();
 		IRestrictedGraph restrictedGraph = GraphFactory.createRestrictedGraph(
 				graph, stepBuilder);

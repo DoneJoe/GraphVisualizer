@@ -33,6 +33,7 @@ public final class GraphFactory {
 	 * @return a new graph instance of type Graph<IVertex, IEdge>
 	 */
 	public static Graph<IVertex, IEdge> createGraph() {
+		// permits both directed and undirected edges and no parallel edges, no hyper-edges
 		return new SparseGraph<IVertex, IEdge>();
 	}
 
@@ -196,7 +197,7 @@ public final class GraphFactory {
 		// sets edge weights:
 
 		e1.setWeight(8.0);
-		e2.setWeight(1.0);
+		e2.setWeight(2.0);
 		e3.setWeight(4.0);
 		e4.setWeight(7.0);
 		e5.setWeight(1.0);
