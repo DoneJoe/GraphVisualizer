@@ -11,6 +11,8 @@ import ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex;
 import ch.bfh.ti.gravis.core.step.IStepRecorder;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
+
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -23,10 +25,11 @@ public class BreadthFirstSearch extends AbstractAlgorithm {
 			+ "implementiert. Es sind sowohl gerichtete als auch ungerichtete Graphen "
 			+ "zulässig. Die Breitensuche wird für jede (schwache) Zusammenhangskomponente "
 			+ "separat durchgefürt.";
+	
 	private final static String END_MSG1 = "Der Endknoten %s wurde erreicht."
-			+ System.lineSeparator();
+			+ LN;
 	private final static String END_MSG2 = "Die Breitensuche wurde erfolgreich beendet."
-			+ System.lineSeparator();
+			+ LN;
 
 	private int counter = 0;
 

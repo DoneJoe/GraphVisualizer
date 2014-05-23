@@ -2,6 +2,7 @@ package ch.bfh.ti.gravis.gui.component;
 
 import javax.swing.JPanel;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -257,6 +258,11 @@ public class StepPanel extends JPanel implements Observer {
 		panelPlayButtons.setFocusable(false);
 		panelStepButtons.setFocusable(false);
 		this.setFocusable(false);
+		
+		// disable focusable in all child components of spinner
+		for (Component comp : this.spinnerDelay.getEditor().getComponents()) {
+			comp.setFocusable(false);
+		}
 	}
 
 	/*

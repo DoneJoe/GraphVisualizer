@@ -23,6 +23,8 @@ import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.decorators.ConstantDirectionalEdgeValueTransformer;
 import edu.uci.ics.jung.visualization.decorators.EdgeShape;
+import edu.uci.ics.jung.visualization.picking.ShapePickSupport;
+import edu.uci.ics.jung.visualization.picking.ShapePickSupport.Style;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 /**
@@ -36,6 +38,7 @@ public class GravisVisualizationViewer extends
 
 	private static final int LABEL_OFFSET = 8;
 	private static final double LABEL_CLOSENESS = 0.5;
+	private static final float PICK_SIZE = 20.0f;
 
 	/**
 	 * 
@@ -44,11 +47,14 @@ public class GravisVisualizationViewer extends
 	public GravisVisualizationViewer(final Layout<IVertex, IEdge> layout) {
 		super(layout);
 
+		ShapePickSupport<IVertex, IEdge> pickSupport = new ShapePickSupport<>(this, PICK_SIZE);
+		pickSupport.setStyle(Style.CENTERED);
+		this.setPickSupport(pickSupport);
 		this.setBackground(GravisColor.WHITE);
 		this.getRenderContext().setLabelOffset(LABEL_OFFSET);
-
-		// vertex visualization:
-
+		
+		// vertex visualization:		
+		
 		GravisVertexLabelRenderer vertexLabelRenderer = new GravisVertexLabelRenderer(
 				GravisConstants.V_DRAW_INITIAL_COLOR,
 				GravisConstants.V_PICKED_COLOR);
@@ -94,6 +100,8 @@ public class GravisVisualizationViewer extends
 		this.getRenderContext().setEdgeLabelClosenessTransformer(
 				new ConstantDirectionalEdgeValueTransformer<IVertex, IEdge>(
 						LABEL_CLOSENESS, LABEL_CLOSENESS));
+		
+		this.repaint();
 	}
 
 	/*

@@ -18,7 +18,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 			+ "AbstractGraphItem.%s(): %s == %s";
 
 	private String itemName;
-	
+
 	// new value variables:
 
 	private String newComment;
@@ -127,8 +127,8 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	 */
 	@Override
 	public double getNewResult() {
-		return Double.compare(this.newResult, Double.NaN) == 0 ? this
-				.getCurrentResult() : this.newResult;
+		return Double.isNaN(this.newResult) ? this.getCurrentResult()
+				: this.newResult;
 	}
 
 	/*
@@ -493,34 +493,39 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 		return this.getName();
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.core.graph.item.IGraphItem#setName(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ch.bfh.ti.gravis.core.graph.item.IGraphItem#setName(java.lang.String)
 	 */
 	@Override
 	public void setName(final String name) {
-		Objects.requireNonNull(name, String.format(
-				NULL_POINTER_MSG, "setName", "name",
-				name));
-		boolean equal = this.getName() == null ? false : this.getName().equals(name.trim());
+		Objects.requireNonNull(name,
+				String.format(NULL_POINTER_MSG, "setName", "name", name));
+		boolean equal = this.getName() == null ? false : this.getName().equals(
+				name.trim());
 		this.itemName = name.trim();
 
 		if (!equal) {
 			this.fireGraphItemsChangedEvent(this, Type.EDITED);
-		}		
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getName()
 	 */
 	@Override
 	public String getName() {
 		return this.itemName;
 	}
-	
+
 	/**
 	 * 
 	 * @return item name
 	 */
 	protected abstract String createItemName();
-	
+
 }

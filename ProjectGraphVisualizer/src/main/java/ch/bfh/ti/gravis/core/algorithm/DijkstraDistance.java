@@ -22,7 +22,9 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
  * <a href="http://www-m9.ma.tum.de/Allgemeines/DijkstraCode">http://www-m9.ma.
  * tum.de/Allgemeines/DijkstraCode</a> <br />
  * A priority queue is used in order to determine the vertex with the minimum
- * distance (class MapBinaryHeap in JUNG framework).
+ * distance (class MapBinaryHeap in JUNG framework). <br />
+ * The method IRestrictedGraphItem.setValue(vertex) is used to store the shortest
+ * predecessor of a vertex.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -125,8 +127,9 @@ class DijkstraDistance extends AbstractAlgorithm {
 		while (!prioQueue.isEmpty()) {
 			IRestrictedVertex selectedVertex = prioQueue.poll();
 
-			// exclude unreachable vertices
+			// skip unreachable vertices
 			if (!Double.isInfinite(selectedVertex.getCurrentResult())) {
+				// add distance message to current vertex
 				if (selectedVertex != startVertex) {
 					rec.item(selectedVertex)
 							.app(String.format(V_DISTANCE, this.format
@@ -165,7 +168,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 	}
 
 	/**
-	 * Updates the shortest path to all adjacent vertices of the current solution vertex.
+	 * Updates the shortest path to all adjacent vertices of current solution vertex.
 	 * 
 	 * @param graph
 	 * @param vertex
@@ -183,9 +186,10 @@ class DijkstraDistance extends AbstractAlgorithm {
 			double oldDistance = adjacentVertex.getCurrentResult();
 
 			if (newDistance < oldDistance) {
+				// visited edge to adjacentVertex
 				rec.item(edge).state(VISIT).cmtOk().tag().add();
 
-				// update current shortest path for adjacentVertex
+				// update current shortest path for adjacentVertex and set shortest predecessor
 				String cmt = String.format(SHORTEST_PATH_UPDATE,
 						adjacentVertex.getName(),
 						this.format.format(newDistance));
@@ -338,7 +342,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 
 		// build the path comment string
 		for (int i = vertexNames.size() - 1; i >= 0; i--) {
-			path.append(vertexNames.get(i) + " => ");
+			path.append(vertexNames.get(i) + " - ");
 		}
 		path.delete(Math.max(0, path.length() - 3), Math.max(0, path.length()));
 		String cmt = String.format(PATH_VERTICES, path.toString());
@@ -367,8 +371,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 			Pair<? extends IRestrictedVertex> pair = graph.getEndpoints(edge);
 
 			// discard unreachable edges
-			if (Double.isInfinite(pair.getFirst().getCurrentResult())
-					&& Double.isInfinite(pair.getSecond().getCurrentResult())) {
+			if (Double.isInfinite(pair.getFirst().getCurrentResult())) {
 				rec.item(edge).state(ELIMINATION).visib().tag().dash().notCmt()
 						.add();
 			}

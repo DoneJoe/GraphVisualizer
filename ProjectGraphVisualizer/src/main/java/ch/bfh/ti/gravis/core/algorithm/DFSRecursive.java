@@ -8,6 +8,8 @@ import ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex;
 import ch.bfh.ti.gravis.core.step.IStepRecorder;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
+
 
 /**
  * Depth-first search (DFS) algorithm, implemented recursively
@@ -21,10 +23,11 @@ class DFSRecursive extends AbstractAlgorithm {
 	private final static String ALGO_DESCRIPTION = "Der Graph wird in Preorder traversiert. "
 			+ "Es sind sowohl gerichtete als auch ungerichtete Graphen zulässig."
 			+ "Die Knoten werden in Preorder-Reihenfolge nummeriert.";
+	
 	private final static String END_MSG1 = "Der Endknoten %s wurde erreicht."
-			 + System.lineSeparator();
+			 + LN;
 	private final static String END_MSG2 = "Die Preorder-Traversierung wurde erfolgreich "
-			+ "beendet." + System.lineSeparator();
+			+ "beendet." + LN;
 
 	private int counter = 0;
 

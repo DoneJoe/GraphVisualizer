@@ -61,22 +61,16 @@ public class GravisPopupGraphMousePlugin extends
 			if (pickSupport != null) {
 				IVertex vertex = pickSupport.getVertex(
 						vViewer.getGraphLayout(), point.getX(), point.getY());
+				IEdge edge = pickSupport.getEdge(vViewer.getGraphLayout(),
+						point.getX(), point.getY());
 
 				if (vertex != null && this.vertexPopup != null) {
 					this.updateItemMenu(vertex, point, this.vertexPopup);
 					this.vertexPopup.show(vViewer, e.getX(), e.getY());
-				}
-
-				IEdge edge = pickSupport.getEdge(vViewer.getGraphLayout(),
-						point.getX(), point.getY());
-
-				if (edge != null && this.edgePopup != null) {
+				} else if (edge != null && this.edgePopup != null) {
 					this.updateItemMenu(edge, point, this.edgePopup);
 					this.edgePopup.show(vViewer, e.getX(), e.getY());
-
-				}
-
-				if (edge == null && vertex == null
+				} else if (edge == null && vertex == null
 						&& this.vertexCreatePopup != null) {
 					if (this.vertexCreatePopup instanceof IGraphItemMenuListener) {
 						((IGraphItemMenuListener) this.vertexCreatePopup)
@@ -84,6 +78,8 @@ public class GravisPopupGraphMousePlugin extends
 					}
 					this.vertexCreatePopup.show(vViewer, e.getX(), e.getY());
 				}
+				
+				vViewer.repaint();
 			}
 		}
 	}

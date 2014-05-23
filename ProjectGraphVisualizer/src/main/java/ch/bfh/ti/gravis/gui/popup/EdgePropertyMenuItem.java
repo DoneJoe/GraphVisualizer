@@ -21,7 +21,7 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 
 	private static final long serialVersionUID = -1894264493446725645L;
 
-	private final static String TITLE = "Kante bearbeiten...";
+	private final static String TITLE = "Kante %s bearbeiten...";
 
 	private IEdge edge = null;
 
@@ -34,9 +34,8 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 	 */
 	protected EdgePropertyMenuItem(
 			final VisualizationViewer<IVertex, IEdge> vViewer,
-			final JFrame owner) {
-		
-		super(TITLE);
+			final JFrame owner) {		
+		super(String.format(TITLE, ""));
 
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -74,6 +73,7 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 	public void setGraphItemAndView(final IGraphItem item) {
 		if (item instanceof IEdge) {
 			this.edge = (IEdge) item;
+			this.setText(String.format(TITLE, item.getName()));
 		}
 	}
 

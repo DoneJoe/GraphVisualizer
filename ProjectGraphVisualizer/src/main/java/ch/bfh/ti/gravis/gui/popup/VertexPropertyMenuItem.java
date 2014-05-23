@@ -22,7 +22,7 @@ class VertexPropertyMenuItem extends JMenuItem implements
 
 	private static final long serialVersionUID = 3448304253580836407L;
 
-	private final static String TITLE = "Knoten bearbeiten...";
+	private final static String TITLE = "Knoten %s bearbeiten...";
 
 	private IVertex vertex = null;
 
@@ -34,7 +34,7 @@ class VertexPropertyMenuItem extends JMenuItem implements
 	 */
 	protected VertexPropertyMenuItem(
 			final VisualizationViewer<IVertex, IEdge> vViewer, final JFrame owner) {
-		super(TITLE);
+		super(String.format(TITLE, ""));
 
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -71,6 +71,7 @@ class VertexPropertyMenuItem extends JMenuItem implements
 	public void setGraphItemAndView(final IGraphItem item) {
 		if (item instanceof IVertex) {
 			this.vertex = (IVertex) item;
+			this.setText(String.format(TITLE, item.getName()));
 		}
 	}
 
