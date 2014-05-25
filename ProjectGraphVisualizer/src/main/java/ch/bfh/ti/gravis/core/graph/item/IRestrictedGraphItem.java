@@ -89,22 +89,22 @@ public interface IRestrictedGraphItem {
 	 * 
 	 * @return boolean
 	 */
-	public abstract boolean isActivation();
+	public abstract boolean isActivated();
 	/**
 	 * 
 	 * @return boolean
 	 */
-	public abstract boolean isVisit();
+	public abstract boolean isVisited();
 	/**
 	 * 
 	 * @return boolean
 	 */
-	public abstract boolean isSolution();
+	public abstract boolean isSolved();
 	/**
 	 * 
 	 * @return boolean
 	 */
-	public abstract boolean isElimination();
+	public abstract boolean isDiscarded();
 	
 	/**
 	 * 

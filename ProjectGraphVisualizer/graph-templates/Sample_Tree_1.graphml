@@ -10,13 +10,13 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <default>50</default>
 </key>
 <key id="vertexWidth" for="node">
-<default>60.0</default>
+<default>40.0</default>
 </key>
 <key id="endVertex" for="node">
 <default>false</default>
 </key>
 <key id="vertexColor" for="node">
-<default>antique</default>
+<default>lightBlue</default>
 </key>
 <key id="vertexLocation.x" for="node">
 <default>50</default>
@@ -31,157 +31,157 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <default>1.0</default>
 </key>
 <key id="edgeColor" for="edge">
-<default>black</default>
+<default>blue</default>
 </key>
 <graph id="Sample Forrest 1" edgedefault="directed">
 <data key="description">Dieser Wald kann insbesondere zur Tiefen- und Breitensuche verwendet werden.</data>
-<node id="G">
-<data key="vertexLocation.y">275</data>
+<node id="J">
+<data key="vertexLocation.y">184.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">300</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">30.0</data>
-</node>
-<node id="A">
-<data key="vertexLocation.y">33</data>
-<data key="vertexWidth">50.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">301</data>
-<data key="startVertex">true</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="F">
-<data key="vertexLocation.y">192</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">302</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">501.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">30.0</data>
 </node>
 <node id="I">
-<data key="vertexLocation.y">111</data>
+<data key="vertexLocation.y">111.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">402</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">30.0</data>
-</node>
-<node id="L">
-<data key="vertexLocation.y">188</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">649</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">30.0</data>
-</node>
-<node id="J">
-<data key="vertexLocation.y">184</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">501</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">30.0</data>
-</node>
-<node id="B">
-<data key="vertexLocation.y">108</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">222</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">30.0</data>
-</node>
-<node id="K">
-<data key="vertexLocation.y">41</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">648</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">30.0</data>
-</node>
-<node id="C">
-<data key="vertexLocation.y">183</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">157</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">402.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">30.0</data>
 </node>
 <node id="H">
-<data key="vertexLocation.y">190</data>
+<data key="vertexLocation.y">190.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">389</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">389.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">30.0</data>
 </node>
-<node id="E">
-<data key="vertexLocation.y">115</data>
+<node id="L">
+<data key="vertexLocation.y">188.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">303</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">649.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">30.0</data>
+</node>
+<node id="B">
+<data key="vertexLocation.y">108.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">222.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">30.0</data>
+</node>
+<node id="C">
+<data key="vertexLocation.y">183.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">157.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">30.0</data>
+</node>
+<node id="F">
+<data key="vertexLocation.y">192.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">302.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">30.0</data>
+</node>
+<node id="K">
+<data key="vertexLocation.y">41.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">648.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">30.0</data>
 </node>
 <node id="D">
-<data key="vertexLocation.y">266</data>
+<data key="vertexLocation.y">266.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
-<data key="vertexColor">antique</data>
-<data key="vertexLocation.x">88</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">88.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">30.0</data>
 </node>
-<edge id="cd" source="C" target="D">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
-</edge>
+<node id="E">
+<data key="vertexLocation.y">115.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">303.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">30.0</data>
+</node>
+<node id="A">
+<data key="vertexLocation.y">33.0</data>
+<data key="vertexWidth">50.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">301.0</data>
+<data key="startVertex">true</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="G">
+<data key="vertexLocation.y">275.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">300.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">30.0</data>
+</node>
 <edge id="bc" source="B" target="C">
 <data key="weight">1.0</data>
-<data key="edgeColor">black</data>
+<data key="edgeColor">blue</data>
 </edge>
-<edge id="kl" source="K" target="L">
+<edge id="cd" source="C" target="D">
 <data key="weight">1.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="ef" source="E" target="F">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
-</edge>
-<edge id="ij" source="I" target="J">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
+<data key="edgeColor">blue</data>
 </edge>
 <edge id="fg" source="F" target="G">
 <data key="weight">1.0</data>
-<data key="edgeColor">black</data>
+<data key="edgeColor">blue</data>
 </edge>
-<edge id="ab" source="A" target="B">
-<data key="weight">5.0</data>
-<data key="edgeColor">black</data>
+<edge id="ij" source="I" target="J">
+<data key="weight">1.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="kl" source="K" target="L">
+<data key="weight">1.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="ef" source="E" target="F">
+<data key="weight">1.0</data>
+<data key="edgeColor">blue</data>
 </edge>
 <edge id="eh" source="E" target="H">
 <data key="weight">1.0</data>
-<data key="edgeColor">black</data>
+<data key="edgeColor">blue</data>
 </edge>
-<edge id="ai" source="A" target="I">
-<data key="weight">1.0</data>
-<data key="edgeColor">black</data>
+<edge id="ab" source="A" target="B">
+<data key="weight">5.0</data>
+<data key="edgeColor">blue</data>
 </edge>
 <edge id="ae" source="A" target="E">
 <data key="weight">1.0</data>
-<data key="edgeColor">black</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="ai" source="A" target="I">
+<data key="weight">1.0</data>
+<data key="edgeColor">blue</data>
 </edge>
 </graph>
 </graphml>

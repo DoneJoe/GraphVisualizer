@@ -12,6 +12,7 @@ import ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex;
 import ch.bfh.ti.gravis.core.step.IStepRecorder;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
+import static ch.bfh.ti.gravis.core.graph.item.ItemState.*;
 
 
 /**
@@ -40,8 +41,12 @@ public class BreadthFirstSearch extends AbstractAlgorithm {
 	}
 
 	@Override
-	public void execute(final IRestrictedGraph graph, final IStepRecorder rec)
-			throws AlgorithmException {
+	public void execute(final IRestrictedGraph graph, final IStepRecorder rec) {
+		
+		if (graph.isEmpty()) {
+			// nothing to calculate
+			return;
+		}
 		
 		// TODO implement
 		
@@ -68,11 +73,11 @@ public class BreadthFirstSearch extends AbstractAlgorithm {
 //					updateHandler.update();
 //					return;
 //				}
-//				updateHandler.add(selectedVertex, ItemState.SOLUTION, true,
+//				updateHandler.add(selectedVertex, ItemState.SOLVED, true,
 //						++this.counter, true);
 //				updateHandler.update();
 //
-//				updateHandler.add(selectedVertex, ItemState.SOLUTION, false,
+//				updateHandler.add(selectedVertex, ItemState.SOLVED, false,
 //						false);
 //				this.visitSuccessors(graph, vertexQueue, updateHandler,
 //						selectedVertex);
@@ -107,19 +112,19 @@ public class BreadthFirstSearch extends AbstractAlgorithm {
 //			IRestrictedEdge edge = graph.findEdge(selectedVertex, successor);
 //
 //			if (successor.isDone()) {
-//				if (edge.getCurrentState() != ItemState.ELIMINATION
+//				if (edge.getCurrentState() != ItemState.DISCARDED
 //						&& selectedVertex.getValue() != successor) {
-//					updateHandler.add(edge, ItemState.ELIMINATION, true, true,
+//					updateHandler.add(edge, ItemState.DISCARDED, true, true,
 //							true);
 //					updateHandler.update();
 //				}
 //			} else {
-//				updateHandler.add(edge, ItemState.VISIT, true, true);
-//				updateHandler.add(successor, ItemState.VISIT, true, true,
+//				updateHandler.add(edge, ItemState.VISITED, true, true);
+//				updateHandler.add(successor, ItemState.VISITED, true, true,
 //						false, selectedVertex, true);
 //				updateHandler.update();
 //
-//				updateHandler.add(successor, ItemState.VISIT, false, false);
+//				updateHandler.add(successor, ItemState.VISITED, false, false);
 //				vertexQueue.offer(successor);
 //			}
 //		}
@@ -137,7 +142,7 @@ public class BreadthFirstSearch extends AbstractAlgorithm {
 //		if (vertex.getValue() != null) {
 //			IRestrictedEdge edge = graph.findEdge(
 //					(IRestrictedVertex) vertex.getValue(), vertex);
-//			updateHandler.add(edge, ItemState.SOLUTION, true, true);
+//			updateHandler.add(edge, ItemState.SOLVED, true, true);
 //		}
 //	}
 //
@@ -151,12 +156,12 @@ public class BreadthFirstSearch extends AbstractAlgorithm {
 //			final IGraphUpdateHandler updateHandler) {
 //
 //		if (endVertex.isEnd()) {
-//			updateHandler.add(endVertex, ItemState.SOLUTION, true,
+//			updateHandler.add(endVertex, ItemState.SOLVED, true,
 //					String.format(END_MSG1, endVertex.getName()),
 //					++this.counter, true);
 //			updateHandler.update();
 //
-//			updateHandler.add(endVertex, ItemState.SOLUTION, false, false);
+//			updateHandler.add(endVertex, ItemState.SOLVED, false, false);
 //			return true;
 //		}
 //		return false;

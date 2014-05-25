@@ -132,10 +132,10 @@ public class StepBuilderTest {
 		
 		rec.item(rVertices[0]).cmt("cmt1").res(0.0).add();
 		rec.item(rVertices[1]).cmt("cmt2").res(Double.POSITIVE_INFINITY).add();
-		rec.item(rVertices[0]).app("app").state(ACTIVATION).tag().cmtOk().add();
+		rec.item(rVertices[0]).app("app").state(ACTIVATED).tag().cmtOk().add();
 		rec.save();
-		rec.item(rEdges[0]).state(VISIT).cmtOk().tag().add();
-		rec.item(rVertices[1]).state(VISIT).cmtOk().cmt("visit e1").tag().
+		rec.item(rEdges[0]).state(VISITED).cmtOk().tag().add();
+		rec.item(rVertices[1]).state(VISITED).cmtOk().cmt("visit e1").tag().
 			res(10.0).value(rVertices[0]).add();
 		rec.save();
 
@@ -143,22 +143,22 @@ public class StepBuilderTest {
 		IStepResult res1 = stepList.get(0).execute();
 		IStepResult res2 = stepList.get(1).execute();
 
-		assertEquals(ACTIVATION.getDoMessage(vertices[0]) + "cmt1appcmt2", res1.getComment());
+		assertEquals(ACTIVATED.getMessage(vertices[0]) + "cmt1appcmt2", res1.getComment());
 		assertEquals("", rVertices[0].getNewComment());
 		assertEquals(0.0, rVertices[0].getCurrentResult(), 0.01);
-		assertEquals(ACTIVATION, rVertices[0].getCurrentState());
+		assertEquals(ACTIVATED, rVertices[0].getCurrentState());
 
-		assertEquals(VISIT.getDoMessage(edges[0]) + VISIT.getDoMessage(vertices[1]) +
+		assertEquals(VISITED.getMessage(edges[0]) + VISITED.getMessage(vertices[1]) +
 				"visit e1",	res2.getComment());
 		assertEquals(true, edges[0].isCurrentTagged());
-		assertEquals(VISIT, edges[0].getCurrentState());
+		assertEquals(VISITED, edges[0].getCurrentState());
 		assertEquals(false, edges[0].isCurrentDashed());
-		assertEquals(VISIT.getFillColor(edges[0]), edges[0].getCurrentColor());
-		assertEquals(VISIT, vertices[1].getCurrentState());
+		assertEquals(VISITED.getFillColor(edges[0]), edges[0].getCurrentColor());
+		assertEquals(VISITED, vertices[1].getCurrentState());
 		assertEquals(10.0, vertices[1].getCurrentResult(), 0.01);
 
 		res2 = stepList.get(1).unExecute();
-		assertEquals(VISIT.getDoMessage(edges[0]) + VISIT.getDoMessage(vertices[1]) +
+		assertEquals(VISITED.getMessage(edges[0]) + VISITED.getMessage(vertices[1]) +
 				"visit e1", res2.getComment());
 	}
 

@@ -78,9 +78,8 @@ public class GravisPopupGraphMousePlugin extends
 					}
 					this.vertexCreatePopup.show(vViewer, e.getX(), e.getY());
 				}
-				
-				vViewer.repaint();
 			}
+			vViewer.repaint();
 		}
 	}
 

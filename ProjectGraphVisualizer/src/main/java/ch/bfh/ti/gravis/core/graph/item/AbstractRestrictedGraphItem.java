@@ -178,35 +178,35 @@ public abstract class AbstractRestrictedGraphItem implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isActivation()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isActivated()
 	 */
 	@Override
-	public boolean isActivation() {
-		return this.item.isActivation();
+	public boolean isActivated() {
+		return this.item.isActivated();
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isVisit()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isVisited()
 	 */
 	@Override
-	public boolean isVisit() {
-		return this.item.isVisit();
+	public boolean isVisited() {
+		return this.item.isVisited();
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isSolution()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isSolved()
 	 */
 	@Override
-	public boolean isSolution() {
-		return this.item.isSolution();
+	public boolean isSolved() {
+		return this.item.isSolved();
 	}
 
 	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isElimination()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isDiscarded()
 	 */
 	@Override
-	public boolean isElimination() {
-		return this.item.isElimination();
+	public boolean isDiscarded() {
+		return this.item.isDiscarded();
 	}
 
 	/*

@@ -23,8 +23,8 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
  * tum.de/Allgemeines/DijkstraCode</a> <br />
  * A priority queue is used in order to determine the vertex with the minimum
  * distance (class MapBinaryHeap in JUNG framework). <br />
- * The method IRestrictedGraphItem.setValue(vertex) is used to store the shortest
- * predecessor of a vertex.
+ * The method IRestrictedGraphItem.setValue(vertex) is used to store the
+ * shortest predecessor of a vertex. All unreachable vertices are marked in the graph.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -63,7 +63,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 	private final static String PATH_VERTICES = "Weg vom Startknoten zum Endknoten: %s"
 			+ LN;
 	private final static String CALC_DONE = "Der kürzeste Weg vom Startknoten %s zu allen anderen "
-			+ "Knoten wurde berechnet." + LN;
+			+ "erreichbaren Knoten wurde berechnet." + LN;
 
 	private final CurrentResultComparator vertexResultComparator;
 
@@ -93,7 +93,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 		IRestrictedVertex startVertex = graph.getStartVertex();
 		// initialize vertex distances
 		for (IRestrictedVertex vertex : graph.getVertices()) {
-			if (vertex == startVertex) {
+			if (vertex.isStart()) {
 				// start vertex has distance 0
 				String startCmt = String.format(INIT_START_VERTEX,
 						startVertex.getName(), 0);
@@ -107,18 +107,17 @@ class DijkstraDistance extends AbstractAlgorithm {
 			}
 		}
 
-		this.calculateDistances(graph, startVertex, rec);
+		this.calculateDistances(graph, rec);
 	}
 
 	/**
 	 * Calculates the shortest path from start vertex to the other vertices.
 	 * 
 	 * @param graph
-	 * @param startVertex
 	 * @param rec
 	 */
 	private void calculateDistances(final IRestrictedGraph graph,
-			final IRestrictedVertex startVertex, final IStepRecorder rec) {
+			final IStepRecorder rec) {
 
 		MapBinaryHeap<IRestrictedVertex> prioQueue = new MapBinaryHeap<>(
 				this.vertexResultComparator);
@@ -130,7 +129,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 			// skip unreachable vertices
 			if (!Double.isInfinite(selectedVertex.getCurrentResult())) {
 				// add distance message to current vertex
-				if (selectedVertex != startVertex) {
+				if (!selectedVertex.isStart()) {
 					rec.item(selectedVertex)
 							.app(String.format(V_DISTANCE, this.format
 									.format(selectedVertex.getCurrentResult())))
@@ -138,19 +137,19 @@ class DijkstraDistance extends AbstractAlgorithm {
 				}
 
 				// add selected vertex and edge to solution set
-				rec.item(selectedVertex).state(SOLUTION).cmtOk().tag().add();
+				rec.item(selectedVertex).state(SOLVED).cmtOk().tag().add();
 				if (selectedVertex.getValue() != null) {
 					IRestrictedEdge edge = graph.findEdge(
 							(IRestrictedVertex) selectedVertex.getValue(),
 							selectedVertex);
 
 					if (edge != null) {
-						rec.item(edge).state(SOLUTION).tag().add();
+						rec.item(edge).state(SOLVED).tag().add();
 					}
 				}
 
 				// check if end vertex is reached
-				if (this.validateEndVertex(startVertex, selectedVertex, rec)) {
+				if (this.validateEndVertex(graph.getStartVertex(), selectedVertex, rec)) {
 					this.showShortestPath(graph, selectedVertex, rec);
 					return;
 				}
@@ -161,14 +160,16 @@ class DijkstraDistance extends AbstractAlgorithm {
 			}
 		}
 
-		// shortest path from start vertex to all other vertices has been calculatad
-		String cmt = String.format(CALC_DONE, startVertex.getName());
-		rec.item(startVertex).app(cmt).add();
+		// shortest path from start vertex to all other vertices has been
+		// calculatad
+		String cmt = String.format(CALC_DONE, graph.getStartVertex().getName());
+		rec.item(graph.getStartVertex()).app(cmt).add();
 		this.updateUnreachableVertices(graph, rec);
 	}
 
 	/**
-	 * Updates the shortest path to all adjacent vertices of current solution vertex.
+	 * Updates the shortest path to all adjacent vertices of current solution
+	 * vertex.
 	 * 
 	 * @param graph
 	 * @param vertex
@@ -187,13 +188,14 @@ class DijkstraDistance extends AbstractAlgorithm {
 
 			if (newDistance < oldDistance) {
 				// visited edge to adjacentVertex
-				rec.item(edge).state(VISIT).cmtOk().tag().add();
+				rec.item(edge).state(VISITED).cmtOk().tag().add();
 
-				// update current shortest path for adjacentVertex and set shortest predecessor
+				// update current shortest path for adjacentVertex and set
+				// shortest predecessor
 				String cmt = String.format(SHORTEST_PATH_UPDATE,
 						adjacentVertex.getName(),
 						this.format.format(newDistance));
-				rec.item(adjacentVertex).state(VISIT).cmtOk().cmt(cmt).tag()
+				rec.item(adjacentVertex).state(VISITED).cmtOk().cmt(cmt).tag()
 						.res(newDistance).value(vertex).add();
 				rec.save();
 
@@ -201,9 +203,9 @@ class DijkstraDistance extends AbstractAlgorithm {
 
 				// adjust the position of adjacentVertex in the proirity queue
 				prioQueue.update(adjacentVertex);
-			} else if (!edge.isElimination() && !edge.isSolution()) {
+			} else if (!edge.isDiscarded() && !edge.isSolved()) {
 				// discard outgoing edges with not minimal path
-				rec.item(edge).state(ELIMINATION).cmtOk().tag().dash().add();
+				rec.item(edge).state(DISCARDED).cmtOk().tag().dash().add();
 				rec.save();
 			}
 		}
@@ -223,13 +225,13 @@ class DijkstraDistance extends AbstractAlgorithm {
 
 		for (IRestrictedVertex predecessor : graph
 				.getPredecessors(adjacentVertex)) {
-			if (predecessor.isSolution() && predecessor != currentVertex) {
+			if (predecessor.isSolved() && predecessor != currentVertex) {
 				IRestrictedEdge discardedEdge = graph.findEdge(predecessor,
 						adjacentVertex);
 
-				if (!discardedEdge.isElimination()) {
+				if (!discardedEdge.isDiscarded()) {
 					// discard incoming edges with not minimal path
-					rec.item(discardedEdge).state(ELIMINATION).cmtOk().tag()
+					rec.item(discardedEdge).state(DISCARDED).cmtOk().tag()
 							.dash().add();
 					rec.save();
 
@@ -254,7 +256,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 					currentVertex.getName(),
 					this.format.format(currentVertex.getCurrentResult()));
 
-			rec.item(currentVertex).state(SOLUTION).cmtOk().app(cmt).tag().add();
+			rec.item(currentVertex).state(SOLVED).cmtOk().app(cmt).tag().add();
 			rec.save();
 			return true;
 		}
@@ -262,7 +264,8 @@ class DijkstraDistance extends AbstractAlgorithm {
 	}
 
 	/**
-	 * Sets a successor message. This message contains all successors of the current vertex.
+	 * Sets a successor message. This message contains all successors of the
+	 * current vertex.
 	 * 
 	 * @param graph
 	 * @param vertex
@@ -287,10 +290,11 @@ class DijkstraDistance extends AbstractAlgorithm {
 	}
 
 	/**
-	 * Checks if all edge weights are >= 0. 
+	 * Checks if all edge weights are >= 0.
 	 * 
 	 * @param edges
-	 * @throws AlgorithmException if one or more edge weights are < 0
+	 * @throws AlgorithmException
+	 *             if one or more edge weights are < 0
 	 */
 	private void validatePositiveWeights(
 			final Collection<? extends IRestrictedEdge> edges)
@@ -325,16 +329,17 @@ class DijkstraDistance extends AbstractAlgorithm {
 		StringBuilder path = new StringBuilder();
 		List<String> vertexNames = new ArrayList<>();
 
-		rec.item(selectedVertex).state(SOLUTION).visib().add();
+		rec.item(selectedVertex).state(SOLVED).visib().add();
 		vertexNames.add(selectedVertex.getName());
-		// go back to the start vertex from the end vertex and mark elements as visible
+		// go back to the start vertex from the end vertex and mark elements as
+		// visible
 		while (selectedVertex.getValue() != null) {
 			currentVertex = (IRestrictedVertex) selectedVertex.getValue();
 			IRestrictedEdge edge = graph
 					.findEdge(currentVertex, selectedVertex);
 
-			rec.item(edge).state(SOLUTION).visib().add();
-			rec.item(currentVertex).state(SOLUTION).visib().add();
+			rec.item(edge).state(SOLVED).visib().add();
+			rec.item(currentVertex).state(SOLVED).visib().add();
 			vertexNames.add(currentVertex.getName());
 
 			selectedVertex = currentVertex;
@@ -362,8 +367,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 		for (IRestrictedVertex vertex : graph.getVertices()) {
 			// unreachable vertices have infinite distance
 			if (Double.isInfinite(vertex.getCurrentResult())) {
-				rec.item(vertex).state(ELIMINATION).visib().tag().notCmt()
-						.add();
+				rec.item(vertex).state(DISCARDED).visib().tag().notCmt().add();
 			}
 		}
 
@@ -372,7 +376,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 
 			// discard unreachable edges
 			if (Double.isInfinite(pair.getFirst().getCurrentResult())) {
-				rec.item(edge).state(ELIMINATION).visib().tag().dash().notCmt()
+				rec.item(edge).state(DISCARDED).visib().tag().dash().notCmt()
 						.add();
 			}
 		}

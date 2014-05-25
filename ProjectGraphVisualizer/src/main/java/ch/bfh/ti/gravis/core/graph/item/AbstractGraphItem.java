@@ -116,7 +116,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	@Override
 	public String getNewComment() {
 		return (this.stateCommentEnabled ? this.getNewState()
-				.getDoMessage(this) : "") + this.newComment;
+				.getMessage(this) : "") + this.newComment;
 	}
 
 	/*
@@ -236,42 +236,42 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isActivation()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isActivated()
 	 */
 	@Override
-	public boolean isActivation() {
-		return this.getCurrentState() == ItemState.ACTIVATION;
+	public boolean isActivated() {
+		return this.getCurrentState() == ItemState.ACTIVATED;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isVisit()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isVisited()
 	 */
 	@Override
-	public boolean isVisit() {
-		return this.getCurrentState() == ItemState.VISIT;
+	public boolean isVisited() {
+		return this.getCurrentState() == ItemState.VISITED;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isSolution()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isSolved()
 	 */
 	@Override
-	public boolean isSolution() {
-		return this.getCurrentState() == ItemState.SOLUTION;
+	public boolean isSolved() {
+		return this.getCurrentState() == ItemState.SOLVED;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isElimination()
+	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isDiscarded()
 	 */
 	@Override
-	public boolean isElimination() {
-		return this.getCurrentState() == ItemState.ELIMINATION;
+	public boolean isDiscarded() {
+		return this.getCurrentState() == ItemState.DISCARDED;
 	}
 
 	/*

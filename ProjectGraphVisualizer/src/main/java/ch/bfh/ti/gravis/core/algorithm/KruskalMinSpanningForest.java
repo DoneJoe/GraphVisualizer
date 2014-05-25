@@ -17,6 +17,7 @@ import ch.bfh.ti.gravis.core.util.Partition;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
 import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
+import static ch.bfh.ti.gravis.core.graph.item.ItemState.*;
 
 
 /**
@@ -67,10 +68,11 @@ public class KruskalMinSpanningForest extends AbstractAlgorithm {
 		}
 		this.validateEdgeType(graph);
 
-		// TODO implement
-
 		this.counter = 0;
 
+		// TODO implement
+
+		
 		// Map<IRestrictedVertex, Partition<IRestrictedVertex>> partitionMap =
 		// new HashedMap<>();
 		// Collection<? extends IRestrictedVertex> vertices =
@@ -128,32 +130,32 @@ public class KruskalMinSpanningForest extends AbstractAlgorithm {
 	//
 	// updateHandler.add(
 	// selectedEdge,
-	// ItemState.ACTIVATION,
+	// ItemState.ACTIVATED,
 	// true,
 	// String.format(MIN_EDGE, selectedEdge.getName(),
 	// selectedEdge.getWeight()), true);
-	// updateHandler.add(pair.getFirst(), ItemState.ACTIVATION, true, true);
-	// updateHandler.add(pair.getSecond(), ItemState.ACTIVATION, true, true);
+	// updateHandler.add(pair.getFirst(), ItemState.ACTIVATED, true, true);
+	// updateHandler.add(pair.getSecond(), ItemState.ACTIVATED, true, true);
 	// updateHandler.update();
 	//
 	// updateHandler.add(pair.getFirst(), false, false);
 	// updateHandler.add(pair.getSecond(), false, false);
 	// if (!Partition.areMerged(partitionMap.get(pair.getFirst()).find(),
 	// partitionMap.get(pair.getSecond()).find())) {
-	// updateHandler.add(selectedEdge, ItemState.SOLUTION, true,
+	// updateHandler.add(selectedEdge, ItemState.SOLVED, true,
 	// ++this.counter, true);
 	// if (!pair.getFirst().isDone()) {
-	// updateHandler.add(pair.getFirst(), ItemState.SOLUTION, true,
+	// updateHandler.add(pair.getFirst(), ItemState.SOLVED, true,
 	// true, false, true);
 	// } else {
-	// updateHandler.add(pair.getFirst(), ItemState.SOLUTION, true,
+	// updateHandler.add(pair.getFirst(), ItemState.SOLVED, true,
 	// true);
 	// }
 	// if (!pair.getSecond().isDone()) {
-	// updateHandler.add(pair.getSecond(), ItemState.SOLUTION, true,
+	// updateHandler.add(pair.getSecond(), ItemState.SOLVED, true,
 	// true, false, true);
 	// } else {
-	// updateHandler.add(pair.getSecond(), ItemState.SOLUTION, true,
+	// updateHandler.add(pair.getSecond(), ItemState.SOLVED, true,
 	// true);
 	// }
 	// updateHandler.update();
@@ -163,15 +165,15 @@ public class KruskalMinSpanningForest extends AbstractAlgorithm {
 	// partitionMap.get(pair.getFirst()).merge(
 	// partitionMap.get(pair.getSecond()));
 	// } else {
-	// updateHandler.add(selectedEdge, ItemState.ELIMINATION, true,
+	// updateHandler.add(selectedEdge, ItemState.DISCARDED, true,
 	// String.format(CIRCLE_EDGE, selectedEdge.getName()), true,
 	// true);
 	// updateHandler.update();
 	//
 	// updateHandler.add(selectedEdge, false);
 	// updateHandler
-	// .add(pair.getFirst(), ItemState.SOLUTION, false, false);
-	// updateHandler.add(pair.getSecond(), ItemState.SOLUTION, false,
+	// .add(pair.getFirst(), ItemState.SOLVED, false, false);
+	// updateHandler.add(pair.getSecond(), ItemState.SOLVED, false,
 	// false);
 	// }
 	// }

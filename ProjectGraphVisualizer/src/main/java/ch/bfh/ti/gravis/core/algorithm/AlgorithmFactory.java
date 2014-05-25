@@ -29,8 +29,6 @@ public class AlgorithmFactory {
 		// Creates an instance of each available algorithm
 		IAlgorithm algorithm = new DFSRecursive();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
-		algorithm = new PostorderRecursive();
-		this.algorithmMap.put(algorithm.getName(), algorithm);
 		algorithm = new BreadthFirstSearch();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
 		algorithm = new DijkstraDistance();
