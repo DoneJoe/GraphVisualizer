@@ -85,5 +85,7 @@ public interface IGravisGraph extends Graph<IVertex, IEdge> {
 	 */
 	public abstract void setName(String graphName);
 
+	public abstract void resetItemHelperVars();
+
 
 }

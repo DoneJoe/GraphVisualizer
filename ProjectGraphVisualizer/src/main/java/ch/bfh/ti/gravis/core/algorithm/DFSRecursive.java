@@ -15,12 +15,16 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
 /**
  * This class implements a recursive version of the depth-first search (DFS)
  * algorithm. This implementation is based on pseudocode-descriptions at: <br />
- * <a href="http://en.wikipedia.org/wiki/Depth-first_search">http://en.wikipedia.
+ * <a
+ * href="http://en.wikipedia.org/wiki/Depth-first_search">http://en.wikipedia.
  * org/wiki/Depth-first_search</a> <br />
- * <a href="http://www.imn.htwk-leipzig.de/~waldmann/edu/ws04/graph/folien/graph/node45.html">
- * http://www.imn.htwk-leipzig.de/~waldmann/edu/ws04/graph/folien/graph/node45.html</a> <br />
- * If a reachable end vertex has been selected, the algorithm shows the path from the start
- * to the end vertex. All unreachable vertices are marked in the graph.
+ * <a href=
+ * "http://www.imn.htwk-leipzig.de/~waldmann/edu/ws04/graph/folien/graph/node45.html"
+ * > http://www.imn.htwk-leipzig.de/~waldmann/edu/ws04/graph/folien/graph/node45
+ * .html</a> <br />
+ * If a reachable end vertex is selected, the algorithm shows the path from the
+ * start to the end vertex. If there is no reachable end vertex selected, all
+ * unreachable vertices and edges are marked in the graph.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -31,10 +35,10 @@ class DFSRecursive extends AbstractAlgorithm {
 
 	private final static String ALGO_NAME = "Tiefensuche (DFS)";
 	private final static String ALGO_DESCRIPTION = "Dies ist eine rekursive Implementation "
-			+ "von DFS. Der Graph wird in Preorder traversiert und jeder "
+			+ "von DFS. Der Graph wird in Preorder traversiert und jeder besuchte "
 			+ "Knoten aufsteigend nummeriert. Ist kein Startknoten gesetzt, so wird "
 			+ "der Knoten mit dem lexikographisch kleinsten Namen als Startknoten ausgewählt. "
-			+ "Der Graph wird traversiert bis entweder der Endknoten (falls vorhanden) erreicht "
+			+ "Der Graph wird traversiert, bis entweder der Endknoten (falls vorhanden) erreicht "
 			+ "oder alle vom Start aus erreichbaren Knoten besucht wurden. Es sind sowohl "
 			+ "gerichtete als auch ungerichtete Graphen zulässig. Das Gewicht wird "
 			+ "bei diesm Algorithmus nicht berücksichtigt.";
@@ -47,8 +51,8 @@ class DFSRecursive extends AbstractAlgorithm {
 	private final static String VISITED_E_MSG = "Die Kante %s wurde besucht."
 			+ LN;
 	private final static String BACK_V_MSG = "Zurück zum Knoten %s." + LN;
-	private final static String DISCARDED_E_MSG = "Die Kante %s ist keine Baumkante."
-			+ LN;
+	private final static String DISCARDED_E_MSG = "Die Kante %s ist keine Baumkante. "
+			+ "Ihr Nachfolgeknoten %s wurde schon besucht." + LN;
 	private final static String END_V_MSG = "Der Endknoten %s wurde erreicht."
 			+ LN;
 	private final static String PATH_VERTICES = "Weg vom Startknoten zum Endknoten: %s"
@@ -58,9 +62,6 @@ class DFSRecursive extends AbstractAlgorithm {
 
 	private int counter = 0;
 
-	/**
-	 * Constructor
-	 */
 	protected DFSRecursive() {
 		super(ALGO_NAME, ALGO_DESCRIPTION);
 		this.addEdgeType(EdgeType.DIRECTED);
@@ -69,38 +70,40 @@ class DFSRecursive extends AbstractAlgorithm {
 
 	@Override
 	public void execute(final IRestrictedGraph graph, final IStepRecorder rec) {
-
 		if (graph.isEmpty()) {
 			// nothing to calculate
 			return;
 		}
 
 		this.counter = 0;
-		Stack<IRestrictedVertex> path = new Stack<>();
+		Stack<IRestrictedGraphItem> path = new Stack<>();
 		String msg = String.format(START_MSG, graph.getStartVertex().getName());
 
 		rec.item(graph.getStartVertex()).cmt(msg).add();
 		// start recursive dfs
 		if (this.dfs(graph, rec, path, graph.getStartVertex())) {
-			this.showPathToEndMsg(graph, rec, path);
+			this.showPathToEnd(graph, rec, path);
 		} else {
 			this.updateUnreachableVertices(graph, rec);
 		}
 	}
 
 	/**
-	 * Applies a recursive dfs to the given vertex and graph.
+	 * Applies a recursive DFS to the given vertex and graph. A stack is used to
+	 * keep track of the path between the start vertex and the current vertex.
 	 * 
 	 * @param graph
 	 * @param rec
-	 * @param path stores the visited vertices from start to end vertex
+	 * @param path
+	 *            stores the visited vertices from start to end vertex
 	 * @param vertex
 	 * @return true, if end vertex has been located, false otherwise
 	 */
 	private boolean dfs(final IRestrictedGraph graph, final IStepRecorder rec,
-			Stack<IRestrictedVertex> path, final IRestrictedVertex vertex) {
+			Stack<IRestrictedGraphItem> path, final IRestrictedVertex vertex) {
 
 		// visit the current vertex
+		// hint: the SOLVED state is used for visited vertices
 		String msg = String.format(VISITED_V_MSG, vertex.getName());
 		rec.item(vertex).state(SOLVED).tag().res(++this.counter).app(msg).add();
 		rec.save();
@@ -111,7 +114,7 @@ class DFSRecursive extends AbstractAlgorithm {
 			return true;
 		}
 
-		// visit each successor of current vertex
+		// visit all successors of current vertex
 		for (IRestrictedVertex successor : graph.getSuccessors(vertex)) {
 			IRestrictedEdge edge = graph.findEdge(vertex, successor);
 
@@ -123,10 +126,12 @@ class DFSRecursive extends AbstractAlgorithm {
 					msg = String.format(VISITED_E_MSG, edge.getName());
 					rec.item(edge).state(SOLVED).tag().app(msg).add();
 
+					path.push(edge);
 					// recursive call of dfs with successor vertex
 					if (this.dfs(graph, rec, path, successor)) {
 						return true;
 					}
+					path.pop();
 
 					// activate the already visitied vertex
 					msg = String.format(BACK_V_MSG, vertex.getName());
@@ -135,43 +140,57 @@ class DFSRecursive extends AbstractAlgorithm {
 					rec.item(vertex).state(SOLVED).add();
 				} else {
 					// successor has been visited before -> discard this edge
-					msg = String.format(DISCARDED_E_MSG, edge.getName());
+					msg = String.format(DISCARDED_E_MSG, edge.getName(),
+							successor.getName());
 					rec.item(edge).state(DISCARDED).tag().dash().app(msg).add();
 					rec.save();
 				}
 			}
 		}
 
-		// no end vertex found in successors of current vertex
 		path.pop();
+		// no end vertex found in successors of current vertex
 		return false;
 	}
 
 	/**
-	 * Shows a message: the path from start vertex to end vertex.
+	 * Shows the path from start vertex to end vertex in the graph.
 	 * 
 	 * @param graph
 	 * @param rec
 	 * @param path
 	 */
-	private void showPathToEndMsg(final IRestrictedGraph graph,
-			final IStepRecorder rec, final List<IRestrictedVertex> path) {
+	private void showPathToEnd(final IRestrictedGraph graph,
+			final IStepRecorder rec, final List<IRestrictedGraphItem> path) {
 
 		StringBuilder pathVertices = new StringBuilder();
 		String endVertexName = "";
 
-		// builds the path string
-		for (IRestrictedVertex vertex : path) {
-			pathVertices.append(vertex.getName() + " - ");
-
-			if (vertex.isEnd()) {
-				endVertexName = vertex.getName();
-			}
+		// hide all graph elements
+		for (IRestrictedEdge edge : graph.getEdges()) {
+			rec.item(edge).notVisib().add();
+		}
+		for (IRestrictedVertex vertex : graph.getVertices()) {
+			rec.item(vertex).notVisib().add();
 		}
 
+		// make path elements visible and build path string
+		for (IRestrictedGraphItem item : path) {
+			rec.item(item).visib().add();
+
+			if (item instanceof IRestrictedVertex) {
+				IRestrictedVertex vertex = (IRestrictedVertex) item;
+
+				pathVertices.append(vertex.getName() + " - ");
+				if (vertex.isEnd()) {
+					endVertexName = vertex.getName();
+				}
+			}
+		}
 		pathVertices.delete(Math.max(0, pathVertices.length() - 3),
 				Math.max(0, pathVertices.length()));
-		// show the path message
+		
+		// show path message
 		String msg = String.format(END_V_MSG, endVertexName);
 		String pathMsg = String.format(PATH_VERTICES, pathVertices.toString());
 		rec.item(graph.getStartVertex()).app(msg).app(pathMsg).add();

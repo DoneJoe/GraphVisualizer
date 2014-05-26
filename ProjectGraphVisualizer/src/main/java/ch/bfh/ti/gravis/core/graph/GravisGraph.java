@@ -73,6 +73,70 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
+	 * java.util.Collection)
+	 */
+	@Override
+	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices) {
+		this.validateEdgeName(edge);		
+		return super.addEdge(edge, vertices, this.edgeType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
+	 * java.util.Collection, edu.uci.ics.jung.graph.util.EdgeType)
+	 */
+	@Override
+	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices,
+			EdgeType edge_type) {
+		this.validateEdgeName(edge);		
+		return super.addEdge(edge, vertices, edge_type == this.edgeType ? edge_type : this.edgeType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
+	 * java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public boolean addEdge(IEdge e, IVertex v1, IVertex v2) {
+		this.validateEdgeName(e);		
+		return super.addEdge(e, v1, v2, this.edgeType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
+	 * java.lang.Object, java.lang.Object, edu.uci.ics.jung.graph.util.EdgeType)
+	 */
+	@Override
+	public boolean addEdge(IEdge e, IVertex v1, IVertex v2, EdgeType edgeType) {
+		this.validateEdgeName(e);		
+		return super.addEdge(e, v1, v2, edgeType == this.edgeType ? edgeType : this.edgeType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#addVertex(java.lang.Object)
+	 */
+	@Override
+	public boolean addVertex(final IVertex vertex) {
+		vertex.addEditGraphEventListeners(this);
+		if (this.containsItemName(vertex.getName())) {
+			vertex.setName(VertexFactory.createVertexName());
+		}
+
+		return super.addVertex(vertex);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.IGravisGraph#clear()
 	 */
 	@Override
@@ -169,12 +233,107 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see ch.bfh.ti.gravis.core.graph.IEditGraphEventListener#
+	 * handleGraphItemsChangedEvent(ch.bfh.ti.gravis.core.graph.item.IGraphItem,
+	 * ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type)
+	 */
+	@Override
+	public void handleGraphItemsChangedEvent(final IGraphItem source,
+			final Type type) {
+
+		if (type == Type.START_EDITED && source instanceof IVertex
+				&& ((IVertex) source).isStart()) {
+
+			for (IVertex vertex : this.getVertices()) {
+				if (vertex != source) {
+					vertex.setStart(false);
+				}
+			}
+		} else if (type == Type.END_EDITED && source instanceof IVertex
+				&& ((IVertex) source).isEnd()) {
+
+			for (IVertex vertex : this.getVertices()) {
+				if (vertex != source) {
+					vertex.setEnd(false);
+				}
+			}
+		}
+
+		if (type == Type.EDITED && this.containsItemName(source.getName())) {			
+			for (IVertex v : this.getVertices()) {
+				if (v != source && source.getName().equals(v.getName())) {
+					source.setName(source instanceof IVertex ? VertexFactory.createVertexName() : 
+						EdgeFactory.createEdgeName());
+					return;
+				}
+			}
+			
+			for (IEdge e : this.getEdges()) {
+				if (e != source && source.getName().equals(e.getName())) {
+					source.setName(source instanceof IVertex ? VertexFactory.createVertexName() : 
+						EdgeFactory.createEdgeName());
+					return;
+				}
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.core.graph.IEditGraphEventListener#
+	 * handleGraphPropertiesChangedEvent
+	 * (ch.bfh.ti.gravis.core.graph.IGravisGraph,
+	 * ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type)
+	 */
+	@Override
+	public void handleGraphPropertiesChangedEvent(IGravisGraph source, Type type) {
+		// nothing to do
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.IGravisGraph#isEmpty()
 	 */
 	@Override
 	public boolean isEmpty() {
-		return this.delegate.getVertexCount() == 0
-				&& this.delegate.getEdgeCount() == 0;
+		return this.getVertexCount() == 0
+				&& this.getEdgeCount() == 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#removeEdge(java.lang.Object)
+	 */
+	@Override
+	public boolean removeEdge(IEdge edge) {
+		edge.removeEditGraphEventListeners(this);
+		return super.removeEdge(edge);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see edu.uci.ics.jung.graph.GraphDecorator#removeVertex(java.lang.Object)
+	 */
+	@Override
+	public boolean removeVertex(final IVertex vertex) {
+		vertex.removeEditGraphEventListeners(this);
+		return super.removeVertex(vertex);
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.IGravisGraph#resetItemHelperVars()
+	 */
+	@Override
+	public void resetItemHelperVars() {
+		for (IVertex vertex : this.getVertices()) {
+			vertex.resetHelperVariables();
+		}
+		
+		for (IEdge edge : this.getEdges()) {
+			edge.resetHelperVariables();
+		}
 	}
 
 	/*
@@ -243,152 +402,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	public String toString() {
 		return this.getName();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.ti.gravis.core.graph.IEditGraphEventListener#
-	 * handleGraphItemsChangedEvent(ch.bfh.ti.gravis.core.graph.item.IGraphItem,
-	 * ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type)
-	 */
-	@Override
-	public void handleGraphItemsChangedEvent(final IGraphItem source,
-			final Type type) {
-
-		if (type == Type.START_EDITED && source instanceof IVertex
-				&& ((IVertex) source).isStart()) {
-
-			for (IVertex vertex : this.getVertices()) {
-				if (vertex != source) {
-					vertex.setStart(false);
-				}
-			}
-		} else if (type == Type.END_EDITED && source instanceof IVertex
-				&& ((IVertex) source).isEnd()) {
-
-			for (IVertex vertex : this.getVertices()) {
-				if (vertex != source) {
-					vertex.setEnd(false);
-				}
-			}
-		}
-
-		if (type == Type.EDITED && this.containsItemName(source.getName())) {			
-			for (IVertex v : this.getVertices()) {
-				if (v != source && source.getName().equals(v.getName())) {
-					source.setName(source instanceof IVertex ? VertexFactory.createVertexName() : 
-						EdgeFactory.createEdgeName());
-					return;
-				}
-			}
-			
-			for (IEdge e : this.getEdges()) {
-				if (e != source && source.getName().equals(e.getName())) {
-					source.setName(source instanceof IVertex ? VertexFactory.createVertexName() : 
-						EdgeFactory.createEdgeName());
-					return;
-				}
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.ti.gravis.core.graph.IEditGraphEventListener#
-	 * handleGraphPropertiesChangedEvent
-	 * (ch.bfh.ti.gravis.core.graph.IGravisGraph,
-	 * ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type)
-	 */
-	@Override
-	public void handleGraphPropertiesChangedEvent(IGravisGraph source, Type type) {
-		// nothing to do
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.uci.ics.jung.graph.GraphDecorator#addVertex(java.lang.Object)
-	 */
-	@Override
-	public boolean addVertex(final IVertex vertex) {
-		vertex.addEditGraphEventListeners(this);
-		if (this.containsItemName(vertex.getName())) {
-			vertex.setName(VertexFactory.createVertexName());
-		}
-
-		return super.addVertex(vertex);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.uci.ics.jung.graph.GraphDecorator#removeVertex(java.lang.Object)
-	 */
-	@Override
-	public boolean removeVertex(final IVertex vertex) {
-		vertex.removeEditGraphEventListeners(this);
-		return super.removeVertex(vertex);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
-	 * java.util.Collection)
-	 */
-	@Override
-	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices) {
-		this.validateEdgeName(edge);		
-		return super.addEdge(edge, vertices, this.edgeType);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
-	 * java.util.Collection, edu.uci.ics.jung.graph.util.EdgeType)
-	 */
-	@Override
-	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices,
-			EdgeType edge_type) {
-		this.validateEdgeName(edge);		
-		return super.addEdge(edge, vertices, edge_type == this.edgeType ? edge_type : this.edgeType);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
-	 * java.lang.Object, java.lang.Object, edu.uci.ics.jung.graph.util.EdgeType)
-	 */
-	@Override
-	public boolean addEdge(IEdge e, IVertex v1, IVertex v2, EdgeType edgeType) {
-		this.validateEdgeName(e);		
-		return super.addEdge(e, v1, v2, edgeType == this.edgeType ? edgeType : this.edgeType);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.uci.ics.jung.graph.GraphDecorator#addEdge(java.lang.Object,
-	 * java.lang.Object, java.lang.Object)
-	 */
-	@Override
-	public boolean addEdge(IEdge e, IVertex v1, IVertex v2) {
-		this.validateEdgeName(e);		
-		return super.addEdge(e, v1, v2, this.edgeType);
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.uci.ics.jung.graph.GraphDecorator#removeEdge(java.lang.Object)
-	 */
-	@Override
-	public boolean removeEdge(IEdge edge) {
-		edge.removeEditGraphEventListeners(this);
-		return super.removeEdge(edge);
-	}
-
+	
 	/**
 	 * @return a shallow copy of this instance of IGravisGraph
 	 */
@@ -405,7 +419,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	    copy.setDescription(this.getDescription());
 		return copy;
 	}
-	
+
 	/**
 	 * @param edge
 	 */

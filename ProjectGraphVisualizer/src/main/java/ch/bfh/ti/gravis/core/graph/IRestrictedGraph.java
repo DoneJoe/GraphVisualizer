@@ -525,4 +525,10 @@ public interface IRestrictedGraph {
 	 */
 	public int outDegree(IRestrictedVertex vertex);
 
+	public void resetItemHelperVars();
+
+	public void resetItemDoneVar();
+
+	public void resetItemValueVar();
+
 }

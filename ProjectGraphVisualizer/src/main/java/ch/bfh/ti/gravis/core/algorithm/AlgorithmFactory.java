@@ -33,7 +33,7 @@ public class AlgorithmFactory {
 		this.algorithmMap.put(algorithm.getName(), algorithm);
 		algorithm = new DijkstraDistance();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
-		algorithm = new KruskalMinSpanningForest();
+		algorithm = new KruskalMSF();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
 
 		for (String algoName : this.algorithmMap.keySet()) {

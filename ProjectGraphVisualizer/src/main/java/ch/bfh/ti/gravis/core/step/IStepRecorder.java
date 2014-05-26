@@ -33,7 +33,7 @@ public interface IStepRecorder {
 	public abstract IStepRecorder cmt(String comment);
 
 	/**
-	 * 	 Sets StateCommentEnabled visualization variable to true.
+	 * 	 Sets stateCommentEnabled visualization variable to true.
 	 * 
 	 * @return IStepRecorder
 	 */

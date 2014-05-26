@@ -96,9 +96,10 @@ class Core implements ICore {
 		if (algorithm == null) {
 			throw new CoreException(String.format(UNKNOWN_ALGO, algorithmName));
 		} else {
+			graph.resetItemHelperVars();
 			algorithm.execute(restrictedGraph,
 					StepBuilder.createStepRecorder(restrictedGraph));
-
+			graph.resetItemHelperVars();
 			return new StepIterator(new GravisListIterator<IStep>(
 					stepBuilder.createStepList()));
 		}

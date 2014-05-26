@@ -24,7 +24,8 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
  * A priority queue is used in order to determine the vertex with the minimum
  * distance (class MapBinaryHeap in JUNG framework). <br />
  * The method IRestrictedGraphItem.setValue(vertex) is used to store the
- * shortest predecessor of a vertex. All unreachable vertices are marked in the graph.
+ * shortest predecessor of a vertex. All unreachable vertices are marked in the
+ * graph.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -65,8 +66,6 @@ class DijkstraDistance extends AbstractAlgorithm {
 	private final static String CALC_DONE = "Der kürzeste Weg vom Startknoten %s zu allen anderen "
 			+ "erreichbaren Knoten wurde berechnet." + LN;
 
-	private final CurrentResultComparator vertexResultComparator;
-
 	private final DecimalFormat format;
 
 	protected DijkstraDistance() {
@@ -74,7 +73,6 @@ class DijkstraDistance extends AbstractAlgorithm {
 		this.addEdgeType(EdgeType.DIRECTED);
 		this.addEdgeType(EdgeType.UNDIRECTED);
 
-		this.vertexResultComparator = new CurrentResultComparator();
 		this.format = new DecimalFormat();
 		this.format.setMinimumFractionDigits(0);
 		this.format.setMaximumFractionDigits(2);
@@ -120,7 +118,7 @@ class DijkstraDistance extends AbstractAlgorithm {
 			final IStepRecorder rec) {
 
 		MapBinaryHeap<IRestrictedVertex> prioQueue = new MapBinaryHeap<>(
-				this.vertexResultComparator);
+				new CurrentResultComparator());
 		prioQueue.addAll(graph.getVertices());
 
 		while (!prioQueue.isEmpty()) {
@@ -128,28 +126,12 @@ class DijkstraDistance extends AbstractAlgorithm {
 
 			// skip unreachable vertices
 			if (!Double.isInfinite(selectedVertex.getCurrentResult())) {
-				// add distance message to current vertex
-				if (!selectedVertex.isStart()) {
-					rec.item(selectedVertex)
-							.app(String.format(V_DISTANCE, this.format
-									.format(selectedVertex.getCurrentResult())))
-							.add();
-				}
-
 				// add selected vertex and edge to solution set
-				rec.item(selectedVertex).state(SOLVED).cmtOk().tag().add();
-				if (selectedVertex.getValue() != null) {
-					IRestrictedEdge edge = graph.findEdge(
-							(IRestrictedVertex) selectedVertex.getValue(),
-							selectedVertex);
-
-					if (edge != null) {
-						rec.item(edge).state(SOLVED).tag().add();
-					}
-				}
+				this.addItemsToSolution(graph, rec, selectedVertex);
 
 				// check if end vertex is reached
-				if (this.validateEndVertex(graph.getStartVertex(), selectedVertex, rec)) {
+				if (this.validateEndVertex(graph.getStartVertex(),
+						selectedVertex, rec)) {
 					this.showShortestPath(graph, selectedVertex, rec);
 					return;
 				}
@@ -317,29 +299,28 @@ class DijkstraDistance extends AbstractAlgorithm {
 	private void showShortestPath(final IRestrictedGraph graph,
 			IRestrictedVertex selectedVertex, final IStepRecorder rec) {
 
-		// mark all graph elements as invisible
+		// hide all graph elements
 		for (IRestrictedEdge edge : graph.getEdges()) {
-			rec.item(edge).state(INITIAL).notVisib().notCmt().add();
+			rec.item(edge).notVisib().add();
 		}
 		for (IRestrictedVertex vertex : graph.getVertices()) {
-			rec.item(vertex).state(INITIAL).notVisib().notCmt().add();
+			rec.item(vertex).notVisib().add();
 		}
 
 		IRestrictedVertex currentVertex = null;
 		StringBuilder path = new StringBuilder();
 		List<String> vertexNames = new ArrayList<>();
 
-		rec.item(selectedVertex).state(SOLVED).visib().add();
+		rec.item(selectedVertex).visib().add();
 		vertexNames.add(selectedVertex.getName());
-		// go back to the start vertex from the end vertex and mark elements as
-		// visible
+		// go back to the start vertex from the end vertex and make elements visible
 		while (selectedVertex.getValue() != null) {
 			currentVertex = (IRestrictedVertex) selectedVertex.getValue();
 			IRestrictedEdge edge = graph
 					.findEdge(currentVertex, selectedVertex);
 
-			rec.item(edge).state(SOLVED).visib().add();
-			rec.item(currentVertex).state(SOLVED).visib().add();
+			rec.item(edge).visib().add();
+			rec.item(currentVertex).visib().add();
 			vertexNames.add(currentVertex.getName());
 
 			selectedVertex = currentVertex;
@@ -350,6 +331,8 @@ class DijkstraDistance extends AbstractAlgorithm {
 			path.append(vertexNames.get(i) + " - ");
 		}
 		path.delete(Math.max(0, path.length() - 3), Math.max(0, path.length()));
+
+		// show path message
 		String cmt = String.format(PATH_VERTICES, path.toString());
 		rec.item(selectedVertex).app(cmt).add();
 		rec.save();
@@ -382,6 +365,35 @@ class DijkstraDistance extends AbstractAlgorithm {
 		}
 
 		rec.save();
+	}
+
+	/**
+	 * Adds selected vertex and edge to solution.
+	 * 
+	 * @param graph
+	 * @param rec
+	 * @param selectedVertex
+	 */
+	private void addItemsToSolution(final IRestrictedGraph graph,
+			final IStepRecorder rec, final IRestrictedVertex selectedVertex) {
+
+		if (selectedVertex.getValue() != null) {
+			IRestrictedEdge edge = graph.findEdge(
+					(IRestrictedVertex) selectedVertex.getValue(),
+					selectedVertex);
+
+			if (edge != null) {
+				rec.item(edge).state(SOLVED).cmtOk().tag().add();
+			}
+		}
+
+		// add distance message to current vertex
+		if (!selectedVertex.isStart()) {
+			rec.item(selectedVertex)
+					.app(String.format(V_DISTANCE, this.format
+							.format(selectedVertex.getCurrentResult()))).add();
+		}
+		rec.item(selectedVertex).state(SOLVED).cmtOk().tag().add();
 	}
 
 }

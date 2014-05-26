@@ -282,6 +282,14 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 		return ok;
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.IGravisGraph#resetItemHelperVars()
+	 */
+	@Override
+	public void resetItemHelperVars() {
+		this.gravisGraph.resetItemHelperVars();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -338,7 +346,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 			this.fireGraphPropertiesChangedEvent(this, Type.VISUAL_EDITED);
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -346,7 +354,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	public String toString() {
 		return this.gravisGraph.toString();
 	}
-	
+
 	/**
 	 * 
 	 * @param source

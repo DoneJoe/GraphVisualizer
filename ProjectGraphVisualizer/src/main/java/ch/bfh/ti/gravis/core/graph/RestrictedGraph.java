@@ -555,6 +555,42 @@ final class RestrictedGraph implements IRestrictedGraph {
 		return this.gravisGraph.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#resetItemHelperVars()
+	 */
+	@Override
+	public void resetItemHelperVars() {
+		this.gravisGraph.resetItemHelperVars();
+	}
+	
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#resetItemDoneVar()
+	 */
+	@Override
+	public void resetItemDoneVar() {
+		for (IVertex vertex : this.gravisGraph.getVertices()) {
+			vertex.setDone(false);
+		}
+		
+		for (IEdge edge : this.gravisGraph.getEdges()) {
+			edge.setDone(false);
+		}		
+	}
+
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#resetItemValueVar()
+	 */
+	@Override
+	public void resetItemValueVar() {
+		for (IVertex vertex : this.gravisGraph.getVertices()) {
+			vertex.setValue(null);
+		}
+		
+		for (IEdge edge : this.gravisGraph.getEdges()) {
+			edge.setValue(null);
+		}		
+	}
+	
 	/**
 	 * @param restrictedItems
 	 * @return IGraphItem[]
@@ -644,5 +680,6 @@ final class RestrictedGraph implements IRestrictedGraph {
 
 		return verticesList;
 	}
+
 
 }
