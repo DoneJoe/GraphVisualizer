@@ -1,8 +1,8 @@
 package ch.bfh.ti.gravis.core;
 
 /**
- * This class extends <code>Exception</code> that indicates an error in core while
- * step calculation eg. because of an invalid algorithm name;
+ * This class extends <code>Exception</code> and indicates an error in a core service,
+ * for example an invalid algorithm name in step calculation.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 

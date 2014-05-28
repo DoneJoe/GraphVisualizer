@@ -43,9 +43,9 @@ public class KruskalMSF extends AbstractAlgorithm {
 			+ "berechnet einen minimalen Spannbaum für einen ungerichteten Graphen. "
 			+ "Es sind nur ungerichtete Graphen erlaubt. Ist der Graph unzusammenhängend,  "
 			+ "so wird ein minimaler Spannbaum für jede Zusammenhangskomponente berechnet "
-			+ "(minimaler aufspannender Wald). Ein Start- und Endknoten muss nicht angegeben "
-			+ "werden. Die Kanten der Lösung zeigen neben dem Gewicht auch an, in welcher "
-			+ "Reihenfolge sie zur Lösung hinzugefügt wurden.";
+			+ "(minimaler aufspannender Wald). Die Kanten der Lösung zeigen neben dem "
+			+ "Gewicht auch an, in welcher Reihenfolge sie zur Lösung hinzugefügt wurden. "
+			+ "Start- und Endknoten werden bei diesm Algorithmus nicht berücksichtigt.";
 
 	// protocol messages:
 
@@ -55,7 +55,7 @@ public class KruskalMSF extends AbstractAlgorithm {
 			+ LN;
 	private final static String CYCLE_MSG = "Mit der Kante %s entsteht ein Zyklus."
 			+ LN;
-	private final static String END_MSG = "Der minimal aufspannende Wald wurde berechnet."
+	private final static String END_MSG = "Der minimale aufspannende Wald wurde berechnet."
 			+ LN;
 
 	private int counter = 0;
@@ -89,12 +89,13 @@ public class KruskalMSF extends AbstractAlgorithm {
 		}
 
 		this.buildMSF(graph, rec);
-		this.hideDiscardedEdges(graph, rec);
+		this.hideDiscardedItems(graph, rec);
 	}
 
 	/**
-	 * Builds the minimal spanning forest. The Partion class is used for building the MSF.
-	 * The Partition class is an implementation of a disjoint-set data structure. 
+	 * Builds the minimal spanning forest. The Partion class is used for
+	 * building the MSF. The Partition class is an implementation of a
+	 * disjoint-set data structure.
 	 * 
 	 * @param graph
 	 * @param rec
@@ -106,7 +107,7 @@ public class KruskalMSF extends AbstractAlgorithm {
 
 		prioQueue.addAll(graph.getEdges());
 		while (!prioQueue.isEmpty()) {
-			// select edge with minimal weight
+			// select edge with minimal weight from prioQueue
 			IRestrictedEdge selectedEdge = prioQueue.poll();
 			Pair<? extends IRestrictedVertex> pair = graph
 					.getEndpoints(selectedEdge);
@@ -237,12 +238,13 @@ public class KruskalMSF extends AbstractAlgorithm {
 	}
 
 	/**
-	 * Hides all discarded edges in the graph.
+	 * Hides all discarded edges in the graph. Sets all vertices to SOLVED
+	 * state.
 	 * 
 	 * @param graph
 	 * @param rec
 	 */
-	private void hideDiscardedEdges(final IRestrictedGraph graph,
+	private void hideDiscardedItems(final IRestrictedGraph graph,
 			final IStepRecorder rec) {
 		// set end message
 		rec.item(graph.getStartVertex()).cmt(END_MSG).add();
@@ -251,6 +253,10 @@ public class KruskalMSF extends AbstractAlgorithm {
 			if (edge.isDiscarded()) {
 				rec.item(edge).notVisib().add();
 			}
+		}
+
+		for (IRestrictedVertex vertex : graph.getVertices()) {
+			rec.item(vertex).state(SOLVED).tag().add();
 		}
 
 		rec.save();

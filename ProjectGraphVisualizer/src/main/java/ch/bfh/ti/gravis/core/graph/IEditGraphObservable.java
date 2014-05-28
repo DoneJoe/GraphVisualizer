@@ -17,4 +17,5 @@ public interface IEditGraphObservable extends IGravisGraph {
 	 * @return IEditGraphEventListener[]
 	 */
 	public abstract IEditGraphEventListener[] getEditGraphEventListeners();
+
 }

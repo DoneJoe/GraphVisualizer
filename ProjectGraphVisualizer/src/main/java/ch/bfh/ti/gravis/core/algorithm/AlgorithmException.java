@@ -1,7 +1,8 @@
 package ch.bfh.ti.gravis.core.algorithm;
 
 /**
- * Graph not valid for that algorithm calc, error while algo calc
+ * This Exception class can be used if the algorithm is not able to calculate a
+ * correct result with the given graph.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -29,7 +30,7 @@ public class AlgorithmException extends Exception {
 	 */
 	public AlgorithmException(String message, String userDialogMsg,
 			String algorithm) {
-		
+
 		this(message, userDialogMsg, null, algorithm);
 	}
 
@@ -50,7 +51,7 @@ public class AlgorithmException extends Exception {
 	 */
 	public AlgorithmException(String message, String userDialogMsg,
 			Throwable cause, String algorithm) {
-		
+
 		super(message, cause);
 
 		this.userDialogMsg = userDialogMsg;
@@ -71,5 +72,4 @@ public class AlgorithmException extends Exception {
 		return this.userDialogMsg;
 	}
 
-	
 }

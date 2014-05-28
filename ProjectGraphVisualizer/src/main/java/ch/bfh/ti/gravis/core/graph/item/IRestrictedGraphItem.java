@@ -2,6 +2,8 @@ package ch.bfh.ti.gravis.core.graph.item;
 
 
 /**
+ * "current" variables ar permanent, "new" variables are temporary
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
@@ -13,7 +15,6 @@ public interface IRestrictedGraphItem {
 	public abstract void appendComment(String comment);
 
 	/**
-	 * The current result of this item.
 	 * 
 	 * @return double
 	 */

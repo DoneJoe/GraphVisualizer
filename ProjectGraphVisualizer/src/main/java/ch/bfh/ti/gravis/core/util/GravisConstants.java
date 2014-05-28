@@ -12,7 +12,7 @@ import java.awt.Color;
 public final class GravisConstants {
 
 	public static final String LN = System.lineSeparator();
-	public static final String TEMPLATES_DIR = "graph-templates";
+	public static final String SAMPLES_DIR = "sample_graphs";
 	public static final String IMAGES_DIR = "/META-INF/images/";
 
 	// string representation of the available colors in graphML format:

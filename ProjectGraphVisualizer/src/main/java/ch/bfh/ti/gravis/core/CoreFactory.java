@@ -4,11 +4,7 @@ import ch.bfh.ti.gravis.core.algorithm.AlgorithmFactory;
 import ch.bfh.ti.gravis.core.graph.GraphIOManager;
 
 /**
- * This factory class creates and composes all necessary objects used in the
- * gravis core package. The construction of objects is centralized in this
- * class. All necessary dependencies are passed through the constructors and
- * methods to the objects (dependency injection). An object speaks only through
- * an interface to other dependant objects.
+ * This static factory class creates instances of type ICore.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -23,7 +19,7 @@ public final class CoreFactory {
 
 	/**
 	 * Creates an instance of type ICore. ICore is the interface to all important
-	 * core classes.
+	 * core services.
 	 * 
 	 * @return an instance of type ICore
 	 */

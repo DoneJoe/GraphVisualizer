@@ -33,7 +33,7 @@ public class FileChooserAdapter extends AbstractDialogAdapter {
 		
 		this.fileChooser.setAcceptAllFileFilterUsed(false);
 		this.fileChooser.addChoosableFileFilter(filter);
-		this.fileChooser.setCurrentDirectory(new File(GravisConstants.TEMPLATES_DIR));
+		this.fileChooser.setCurrentDirectory(new File(GravisConstants.SAMPLES_DIR));
 		this.fileChooser.setSelectedFile(new File(DEFAULT_FILE_NAME));
 	}
 

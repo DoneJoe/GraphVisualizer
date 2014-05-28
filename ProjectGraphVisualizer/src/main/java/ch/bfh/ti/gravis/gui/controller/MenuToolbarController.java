@@ -454,12 +454,12 @@ class MenuToolbarController extends WindowAdapter implements
 	 * @throws BadLocationException
 	 */
 	private void handleExitEvent() throws BadLocationException {
-		// handles unsaved graph
+		// handle unsaved graph
 		if (!this.checkSave()) {
 			return;
 		}
 
-		// exits the application
+		// exit application
 		System.exit(0);
 	}
 
@@ -503,9 +503,9 @@ class MenuToolbarController extends WindowAdapter implements
 
 			// update model
 			this.model.setNewGraphState(edgeType);
-
+			
 			// update view
-			this.model.notifyObservers(true);
+			this.model.notifyObservers(true);			
 		}
 	}
 
@@ -577,14 +577,14 @@ class MenuToolbarController extends WindowAdapter implements
 										OVERWRITE_TITLE,
 										JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION)) {
 
-					// sets step panel to initial state
+					// set step panel to initial state
 					this.model.setStepPanelState(true);
 
 					try {
-						// saves graph
+						// save graph
 						this.core.saveGraph(this.model.getGraph(), file);
 
-						// updates model
+						// update model
 						this.model.setSaveGraphState(file);
 					} catch (FileNotFoundException e) {
 						this.errHandler.showErrorMessage(
@@ -594,7 +594,7 @@ class MenuToolbarController extends WindowAdapter implements
 						this.errHandler.showErrorMessage(e, SAVE_ERR_MSG, SAVE_ERR_TITLE);
 					}
 
-					// updates view
+					// update view
 					this.model.notifyObservers(false);
 
 					return JFileChooser.APPROVE_OPTION;
@@ -616,15 +616,15 @@ class MenuToolbarController extends WindowAdapter implements
 	private int handleSaveGraphEvent() throws BadLocationException {
 		if (this.model.isStopped()) {
 			if (this.model.hasGraphFile()) {
-				// sets step panel to initial state
+				// set step panel to initial state
 				this.model.setStepPanelState(true);
 
 				try {
-					// saves graph
+					// save graph
 					this.core.saveGraph(this.model.getGraph(),
 							this.model.getGraphFile());
 
-					// updates model
+					// update model
 					this.model.setSaveGraphState();
 				} catch (FileNotFoundException e) {
 					this.errHandler.showErrorMessage(String.format(FILE_SAVE_ERR_MSG, LN,
@@ -634,7 +634,7 @@ class MenuToolbarController extends WindowAdapter implements
 					this.errHandler.showErrorMessage(e, SAVE_ERR_MSG, SAVE_ERR_TITLE);
 				}
 
-				// updates view
+				// update view
 				this.model.notifyObservers(false);
 
 				return JFileChooser.APPROVE_OPTION;

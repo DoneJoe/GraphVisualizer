@@ -9,6 +9,9 @@ import java.util.TreeMap;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
+ * This class creates instances of graph algorithms. Concrete graph algorithm
+ * classes implement the IAlgorithm interface.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -16,7 +19,7 @@ public class AlgorithmFactory {
 
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "AlgorithmFactory.%s(): %s == %s";
-	
+
 	private Map<String, IAlgorithm> algorithmMap;
 
 	private List<String> directedAlgoNames, undirectedAlgoNames;
@@ -50,24 +53,26 @@ public class AlgorithmFactory {
 	}
 
 	/**
+	 * Creates an algorithm instance associated with the given algorithmName.
 	 * 
 	 * @param algorithmName
-	 * @return IAlgorithm or null
+	 * @return instance of IAlgorithm or null, if the algorithmName is unknown
 	 */
 	public IAlgorithm createAlgorithm(final String algorithmName) {
-		Objects.requireNonNull(algorithmName, String.format(NULL_POINTER_MSG, "createAlgorithm", 
-				"algorithmName", algorithmName));
+		Objects.requireNonNull(algorithmName, String.format(NULL_POINTER_MSG,
+				"createAlgorithm", "algorithmName", algorithmName));
 		return this.algorithmMap.get(algorithmName.trim());
 	}
 
 	/**
+	 * Returns a String array of algorithm names with the given edgetype.
 	 * 
 	 * @param edgetype
-	 * @return algo names with edge type
+	 * @return algo names with the given edgetype
 	 */
 	public String[] getAlgorithmNames(final EdgeType edgetype) {
 		if (edgetype == null) {
-			return new String[] { };
+			return new String[] {};
 		} else if (edgetype == EdgeType.DIRECTED) {
 			return this.directedAlgoNames
 					.toArray(new String[this.directedAlgoNames.size()]);
@@ -78,11 +83,14 @@ public class AlgorithmFactory {
 	}
 
 	/**
+	 * Returns an algorithm description associated with the given algorithmName.
+	 * 
 	 * @param algoName
-	 * @return algorithm description or empty string
+	 * @return algorithm description or empty string,  if the algorithmName is unknown
 	 */
 	public String getAlgorithmDescription(final String algoName) {
-		IAlgorithm algo = this.algorithmMap.get(algoName == null ? "" : algoName.trim());			
+		IAlgorithm algo = this.algorithmMap.get(algoName == null ? ""
+				: algoName.trim());
 		return algo == null ? "" : algo.getDescription();
 	}
 

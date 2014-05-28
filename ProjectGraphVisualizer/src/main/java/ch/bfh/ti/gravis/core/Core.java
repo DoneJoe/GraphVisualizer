@@ -19,8 +19,8 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.io.GraphIOException;
 
 /**
- * This class gives access to all important methods of the core classes (facade
- * pattern).
+ * This is an implementation of the ICore interface. This class gives access to
+ * all important core services (facade pattern).
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -94,9 +94,11 @@ class Core implements ICore {
 				.createAlgorithm(algorithmName);
 
 		if (algorithm == null) {
+			// invalid algorithmName
 			throw new CoreException(String.format(UNKNOWN_ALGO, algorithmName));
 		} else {
 			graph.resetItemHelperVars();
+			// execute the algorithm
 			algorithm.execute(restrictedGraph,
 					StepBuilder.createStepRecorder(restrictedGraph));
 			graph.resetItemHelperVars();

@@ -10,8 +10,8 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.io.GraphIOException;
 
 /**
- * This interface gives access to all important core classes. It is a facade to
- * different other classes and interfaces (facade pattern).
+ * This interface gives access to all important core services. It is a facade to
+ * different other core classes and interfaces (facade pattern).
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -19,7 +19,7 @@ import edu.uci.ics.jung.io.GraphIOException;
 public interface ICore {
 
 	/**
-	 * Imports a graph.
+	 * Loads a graph from the source file (graphml-format).
 	 * 
 	 * @param source
 	 *            the graph file to import
@@ -31,38 +31,46 @@ public interface ICore {
 			throws GraphIOException, FileNotFoundException;
 
 	/**
+	 * Saves the graph in a file (graphml-format).
 	 * 
 	 * @param graph
 	 * @param file
 	 * @throws GraphIOException
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	public abstract void saveGraph(IGravisGraph graph, File file)
 			throws GraphIOException, FileNotFoundException;
 
 	/**
+	 * Returns a String array of algorithm names with the given edgetype.
 	 * 
 	 * @param edgeType
-	 * @return String[]
+	 * @return string array
 	 */
 	public abstract String[] getAlgorithmNames(EdgeType edgeType);
 
 	/**
+	 * Calculates the animation steps for a given graph and algorithmName.
 	 * 
 	 * @param graph
 	 * @param algorithmName
-	 * @return IGravisListIterator<String>
+	 * @return a list iterator over the steps in proper sequence
 	 * @throws CoreException
+	 *             for an invalid algorithmName
 	 * @throws AlgorithmException
+	 *             if the algorithm is not able to calculate a correct result
+	 *             with the given graph
 	 */
 	public abstract IGravisListIterator<String> calculateSteps(
 			IGravisGraph graph, String algorithmName) throws CoreException,
 			AlgorithmException;
 
 	/**
+	 * Returns an algorithm description associated with the given algorithmName.
 	 * 
 	 * @param algoName
-	 * @return String
+	 * @return algorithm description or empty string, if the algorithmName is
+	 *         unknown
 	 */
 	public abstract String getAlgorithmDescription(String algoName);
 

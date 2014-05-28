@@ -9,7 +9,7 @@ import ch.bfh.ti.gravis.gui.GuiFactory;
 import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 
 /**
- * This is the main class of the GraphVisualizer application.
+ * This is the main class and entry point of the GraphVisualizer application.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -19,7 +19,7 @@ public class GravisStartup {
 	private final static String TITLE = "Graph Visualizer";
 
 	/**
-	 * The application entry point with the main method.
+	 * The application entry point.
 	 * 
 	 * @param args
 	 */

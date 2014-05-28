@@ -106,7 +106,7 @@ public class StepBuilderTest {
 		// TODO implement test StepBuilderTest
 		
 		GraphIOManager gm = new GraphIOManager();
-		IGravisGraph g = gm.loadGraph(new File(GravisConstants.TEMPLATES_DIR
+		IGravisGraph g = gm.loadGraph(new File(GravisConstants.SAMPLES_DIR
 				+ "/Directed_Dijkstra_Sample_Graph_1.graphml"));
 		StepBuilder sb = new StepBuilder();
 		IRestrictedGraph rg = GraphFactory.createRestrictedGraph(g, sb);

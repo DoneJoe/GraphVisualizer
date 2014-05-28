@@ -6,8 +6,8 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
- * The edgeType is either directed or undirected for all edges. 
- * Parallel edges and hyper-edges are not allowed.
+ * The edgeType is either directed or undirected for all edges. Parallel edges
+ * and hyper-edges are not allowed.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -56,7 +56,7 @@ public interface IGravisGraph extends Graph<IVertex, IEdge> {
 	 * @return graphName
 	 */
 	public abstract String getName();
-	
+
 	/**
 	 * 
 	 * @return true, if this graph contains no edges and vertices, false
@@ -70,7 +70,7 @@ public interface IGravisGraph extends Graph<IVertex, IEdge> {
 	 * @param graphDescription
 	 */
 	public abstract void setDescription(String graphDescription);
-	
+
 	/**
 	 * Changes the edgeType of all edges in this graph.
 	 * 
@@ -87,5 +87,10 @@ public interface IGravisGraph extends Graph<IVertex, IEdge> {
 
 	public abstract void resetItemHelperVars();
 
-
+	/**
+	 * Forces the existence of a start vertex. If no start vertex is set, this
+	 * method chooses and sets an arbitrary start vertex. If this graph is empty,
+	 * no changes are performed.
+	 */
+	public abstract void forceStartVertex();
 }

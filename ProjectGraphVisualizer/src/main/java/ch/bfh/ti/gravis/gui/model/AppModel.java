@@ -973,6 +973,11 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setWorkingState(boolean enabled) throws BadLocationException {
 		this.working = enabled;
+		
+		if (enabled) {
+			this.graph.forceStartVertex();
+		}
+		
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.setStepPanelState(!enabled);

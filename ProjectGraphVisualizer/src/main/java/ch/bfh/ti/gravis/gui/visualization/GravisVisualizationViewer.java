@@ -38,7 +38,7 @@ public class GravisVisualizationViewer extends
 
 	private static final int LABEL_OFFSET = 5;
 	private static final double LABEL_CLOSENESS = 0.5;
-	private static final float PICK_SIZE = 20.0f;
+	private static final float PICK_SIZE = 25.0f;
 
 	/**
 	 * 

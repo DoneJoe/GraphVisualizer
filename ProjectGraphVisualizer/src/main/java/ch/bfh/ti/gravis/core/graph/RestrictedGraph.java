@@ -387,7 +387,11 @@ final class RestrictedGraph implements IRestrictedGraph {
 			return null;
 		}
 
-		return this.verticesList.get(0);
+		IRestrictedVertex startVertex = this.verticesList.get(0);
+		if (!startVertex.isStart()) {
+			this.verticesMap.getKey(startVertex).setStart(true);
+		}
+		return startVertex;
 	}
 
 	/*

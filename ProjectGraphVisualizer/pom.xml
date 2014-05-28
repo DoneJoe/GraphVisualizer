@@ -152,10 +152,10 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}/target/graph-templates</outputDirectory>
+							<outputDirectory>${basedir}/target/sample_graphs</outputDirectory>
 							<resources>
 								<resource>
-									<directory>graph-templates</directory>
+									<directory>sample_graphs</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>

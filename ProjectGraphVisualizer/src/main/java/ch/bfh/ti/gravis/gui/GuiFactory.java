@@ -54,7 +54,7 @@ public final class GuiFactory {
 		// model
 		IAppModel model = AppModelFactory.createAppModel(core);
 
-		// controllers
+		// MenuToolbarController and StepController
 		IMenuToolbarController menuToolbarController = ControllerFactory
 				.createMenuToolbarController(model, core);
 		IStepController stepController = ControllerFactory

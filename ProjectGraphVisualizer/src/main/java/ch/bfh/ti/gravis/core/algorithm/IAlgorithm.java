@@ -5,7 +5,7 @@ import ch.bfh.ti.gravis.core.step.IStepRecorder;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
- * An algorithm able to operate on a <code>Graph</code>.
+ * An algorithm able to operate on a <code>graph</code>.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -28,6 +28,7 @@ public interface IAlgorithm {
 	public abstract String getDescription();
 
 	/**
+	 * Checks if the given edgeType is valid for this algorithm.
 	 * 
 	 * @param edgeType
 	 * @return boolean
@@ -41,8 +42,8 @@ public interface IAlgorithm {
 	 * @param graph
 	 * @param rec
 	 * @throws AlgorithmException
-	 *             if the algorithm is not able to cumpute a correct result with
-	 *             the given graph.
+	 *             if the algorithm is not able to calculate a correct result with
+	 *             the given graph and step recorder.
 	 */
 	public abstract void execute(IRestrictedGraph graph, IStepRecorder rec)
 			throws AlgorithmException;

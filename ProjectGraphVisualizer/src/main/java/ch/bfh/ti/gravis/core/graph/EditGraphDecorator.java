@@ -348,6 +348,14 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	}
 	
 	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.IGravisGraph#forceStartVertex()
+	 */
+	@Override
+	public void forceStartVertex() {
+		this.gravisGraph.forceStartVertex();
+	}
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

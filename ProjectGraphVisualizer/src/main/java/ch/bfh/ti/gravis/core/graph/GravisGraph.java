@@ -1,8 +1,10 @@
 package ch.bfh.ti.gravis.core.graph;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 
+import ch.bfh.ti.gravis.core.graph.comparator.ItemNameComparator;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 import ch.bfh.ti.gravis.core.graph.item.edge.EdgeFactory;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
@@ -141,9 +143,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void clear() {
-		Collection<IVertex> vertices = this.getVertices();
-
-		for (IVertex vertex : vertices.toArray(new IVertex[vertices.size()])) {
+		for (IVertex vertex : this.getVertices().toArray(new IVertex[this.getVertexCount()])) {
 			this.removeVertex(vertex);
 		}
 	}
@@ -393,6 +393,26 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 						graphName)).trim();
 	}
 
+	/* (non-Javadoc)
+	 * @see ch.bfh.ti.gravis.core.graph.IGravisGraph#forceStartVertex()
+	 */
+	@Override
+	public void forceStartVertex() {
+		boolean start = false;
+		for (IVertex vertex : this.getVertices()) {
+			if (vertex.isStart()) {
+				start = true;
+				break;
+			}
+		}
+		
+		if (!start && !this.isEmpty()) {
+			IVertex[] vertices = this.getVertices().toArray(new IVertex[this.getVertexCount()]);
+			Arrays.sort(vertices, new ItemNameComparator());
+			vertices[0].setStart(true);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -429,5 +449,5 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 			edge.setName(EdgeFactory.createEdgeName());
 		}
 	}
-	
+
 }

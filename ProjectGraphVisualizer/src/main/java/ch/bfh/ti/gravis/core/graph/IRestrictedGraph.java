@@ -368,7 +368,9 @@ public interface IRestrictedGraph {
 	public IRestrictedVertex getSource(IRestrictedEdge directed_edge);
 
 	/**
-	 * The first start vertex in this graph. Null, if this graph is empty.
+	 * Returns the start vertex in this graph or null, if this graph is empty.
+	 * If no start vertex is set in this graph, this method chooses and sets
+	 * an arbitrary start vertex and returns this vertex.
 	 * 
 	 * @return start vertex
 	 */
