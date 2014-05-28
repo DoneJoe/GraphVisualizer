@@ -103,7 +103,7 @@ public class KruskalMSF extends AbstractAlgorithm {
 	@SuppressWarnings("unchecked")
 	private void buildMSF(final IRestrictedGraph graph, final IStepRecorder rec) {
 		PriorityQueue<IRestrictedEdge> prioQueue = new PriorityQueue<>(
-				graph.getEdgeCount(), new EdgeWeightComparator());
+				Math.max(1, graph.getEdgeCount()), new EdgeWeightComparator());
 
 		prioQueue.addAll(graph.getEdges());
 		while (!prioQueue.isEmpty()) {

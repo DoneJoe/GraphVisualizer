@@ -8,7 +8,8 @@ import java.util.Collection;
 import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
 
 /**
- * A utility class, therefore serving with static method only.
+ * This utility class contains methods for transforming values from one data
+ * type to other data typs.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -16,16 +17,20 @@ import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
 public final class ValueTransformer {
 
 	/**
+	 * Rounds a double value to a double value with two fractional parts.
+	 * 
 	 * @param value
-	 * @return double
+	 * @return rounded double value
 	 */
 	public static double round2Decimals(double value) {
 		return Math.rint(value * 100.0) / 100.0;
 	}
 
 	/**
+	 * Converts a list of IRestrictedGraphItem to an array of IRestrictedGraphItem.
+	 * 
 	 * @param itemList
-	 * @return IRestrictedGraphItem[]
+	 * @return array of IRestrictedGraphItem
 	 */
 	public static IRestrictedGraphItem[] toArray(
 			Collection<? extends IRestrictedGraphItem> itemList) {
@@ -35,8 +40,10 @@ public final class ValueTransformer {
 	}
 
 	/**
+	 * Converts a stringValue to a boolean value.
+	 * 
 	 * @param stringValue
-	 * @return boolean
+	 * @return boolean value
 	 */
 	public static boolean toBoolean(String stringValue) {
 		try {
@@ -47,8 +54,10 @@ public final class ValueTransformer {
 	}
 
 	/**
+	 * 	Converts a color to a string representation.
+	 * 
 	 * @param color
-	 * @return Color
+	 * @return string representation of color
 	 */
 	public static String colorToString(final Color color) {
 		if (color == null) {
@@ -85,8 +94,10 @@ public final class ValueTransformer {
 	}
 
 	/**
+	 * Converts a stringValue to a double value.
+	 * 
 	 * @param stringValue
-	 * @return a transformed double value
+	 * @return double value
 	 */
 	public static double toDouble(String stringValue) {
 		try {
@@ -97,22 +108,27 @@ public final class ValueTransformer {
 	}
 
 	/**
+	 * 	Converts two string values to a Point2D object.
+	 * 
 	 * @param xValue
 	 * @param yValue
-	 * @return Point2D
+	 * @return an instance of Point2D
 	 */
 	public static Point2D toPoint(String xValue, String yValue) {
 		try {
-			return new Point(Math.round(Float.parseFloat(xValue)), 
+			return new Point(Math.round(Float.parseFloat(xValue)),
 					Math.round(Float.parseFloat(yValue)));
 		} catch (Exception e) {
-			return new Point(GravisConstants.V_LOC_X_DEFAULT, GravisConstants.V_LOC_Y_DEFAULT);
+			return new Point(GravisConstants.V_LOC_X_DEFAULT,
+					GravisConstants.V_LOC_Y_DEFAULT);
 		}
 	}
 
 	/**
+	 * 	Converts a stringValue to a color object.
+	 * 
 	 * @param stringValue
-	 * @return Color
+	 * @return an instance of Color
 	 */
 	public static Color toColor(final String stringValue) {
 		if (stringValue == null) {
@@ -150,7 +166,7 @@ public final class ValueTransformer {
 	}
 
 	/**
-	 * A main (no-)constructor.
+	 * A private constructor.
 	 */
 	private ValueTransformer() {
 	}

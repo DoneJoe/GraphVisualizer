@@ -5,6 +5,8 @@ import java.util.Comparator;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex;
 
 /**
+ * This Comparator compares the current result of two vertices.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

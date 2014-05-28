@@ -5,7 +5,7 @@ import java.util.Comparator;
 import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
 
 /**
- * This comparator compares graph items in lexicographical name order.
+ * This Comparator compares graph items names in lexicographical order.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 

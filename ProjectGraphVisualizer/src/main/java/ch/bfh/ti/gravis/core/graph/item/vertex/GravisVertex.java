@@ -126,10 +126,8 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 
 	@Override
 	public void setEnd(boolean end) {
-		boolean equal = this.end == end;
-		this.end = end;
-
-		if (!equal) {
+		if (this.isEnd() != end) {
+			this.end = end;
 			this.fireGraphItemsChangedEvent(this, Type.END_EDITED);
 		}
 	}
@@ -143,10 +141,8 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 */
 	@Override
 	public void setHeight(double height) {
-		boolean equal = Double.compare(this.getHeight(), height) == 0;
-		this.height = height;
-		
-		if (!equal) {
+		if (Double.compare(this.getHeight(), height) != 0) {
+			this.height = height;
 			this.fireGraphItemsChangedEvent(this, Type.VISUAL_EDITED);
 		}
 	}
@@ -163,20 +159,17 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 		Objects.requireNonNull(location, String.format(
 				NULL_POINTER_MSG, "setLocation", "location",
 				location));
-		boolean equal = location.equals(this.getLocation());
-		this.location = (Point2D) location.clone();
 		
-		if (!equal) {
+		if (!location.equals(this.getLocation())) {
+			this.location = (Point2D) location.clone();
 			this.fireGraphItemsChangedEvent(this, Type.VISUAL_EDITED);
 		}
 	}
 
 	@Override
 	public void setStart(boolean start) {
-		boolean equal = this.start == start;
-		this.start = start;
-
-		if (!equal) {
+		if (this.isStart() != start) {
+			this.start = start;
 			this.fireGraphItemsChangedEvent(this, Type.START_EDITED);
 		}
 	}
@@ -190,10 +183,8 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	 */
 	@Override
 	public void setWidth(double width) {
-		boolean equal = Double.compare(this.getWidth(), width) == 0;
-		this.width = width;
-		
-		if (!equal) {
+		if (Double.compare(this.getWidth(), width) != 0) {
+			this.width = width;
 			this.fireGraphItemsChangedEvent(this, Type.VISUAL_EDITED);
 		}
 	}

@@ -13,6 +13,7 @@ import ch.bfh.ti.gravis.core.graph.item.vertex.VertexFactory;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.GraphDecorator;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import edu.uci.ics.jung.graph.util.Pair;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -68,8 +69,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 		this.setName(String.format(DEFAULT_NAME, edgeTypeStr, counter));
 		this.setDescription(String.format(DEFAULT_DESCRIPTION, edgeTypeStr,
 				counter));
-		this.edgeType = edgeType;
-
+		this.setEdgeType(edgeType);
 	}
 
 	/*
@@ -360,22 +360,15 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	public void setEdgeType(EdgeType edgeType) {
 		Objects.requireNonNull(edgeType, String.format(
 				NULL_POINTER_MSG, "setEdgeType", "edgeType", edgeType));
-		boolean equal = edgeType == this.edgeType; 
-		IGravisGraph copy = null;
 		
-		if (!equal) {
-			copy = this.copy();
-		}
-		
-		this.edgeType = edgeType;
-		
-		if (!equal) {			
-			for (IEdge edge : this.getEdges().toArray(new IEdge[this.getEdgeCount()])) {
-				this.removeEdge(edge);
-			}
+		if (edgeType != this.edgeType) {
+			this.edgeType = edgeType;
+			IEdge[] edges = this.getEdges().toArray(new IEdge[this.getEdgeCount()]);
 			
-			for (IEdge edge : copy.getEdges()) {
-		        this.addEdge(edge, copy.getEndpoints(edge));
+			for (IEdge edge : edges) {
+				Pair<IVertex> pair = this.getEndpoints(edge);
+				this.removeEdge(edge);
+		        this.addEdge(edge, pair, edgeType);
 			}
 		}
 	}
@@ -427,13 +420,13 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * @return a shallow copy of this instance of IGravisGraph
 	 */
 	protected IGravisGraph copy() {
-		IGravisGraph copy = GraphFactory.createGravisGraph(this.edgeType);
+		IGravisGraph copy = GraphFactory.createGravisGraph(this.getEdgeType());
 
 	    for (IVertex v : this.getVertices())
 	    	copy.addVertex(v);
 
 	    for (IEdge e : this.getEdges())
-	    	copy.addEdge(e, this.getEndpoints(e));
+	    	copy.addEdge(e, this.getEndpoints(e), this.getEdgeType());
 	    
 	    copy.setName(this.getName());
 	    copy.setDescription(this.getDescription());

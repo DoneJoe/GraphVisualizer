@@ -1,13 +1,12 @@
 package ch.bfh.ti.gravis.core.util;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * An implementation of an immutable list iterator.
+ * A generic implementation of a bidirectinal immutable iterator.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -24,13 +23,7 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 	private int size;
 
 	/**
-	 * 
-	 */
-	protected GravisListIterator() {
-		this(new ArrayList<E>());
-	}
-
-	/**
+	 * Creates an iterator iterating over all list elements.
 	 * 
 	 * @param list
 	 */
@@ -91,6 +84,7 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 	 */
 	@Override
 	public void remove() {
+		// this iterator is immutable
 		throw new UnsupportedOperationException(EXCEPTION_MSG);
 	}
 

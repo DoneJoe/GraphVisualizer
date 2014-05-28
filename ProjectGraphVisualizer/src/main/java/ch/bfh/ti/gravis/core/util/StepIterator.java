@@ -6,6 +6,10 @@ import java.util.Objects;
 import ch.bfh.ti.gravis.core.step.IStep;
 
 /**
+ * This implementation of a bidirectinal immutable iterator iterates over a
+ * collection of step comments (String) and executes (or unexecutes) the steps.
+ * It decorates a given IGravisListIterator.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -13,17 +17,11 @@ public class StepIterator implements IGravisListIterator<String> {
 
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "StepIterator.%s(): %s == %s";
-	
+
 	private static final String EXCEPTION_MSG = "remove: unsupported operation!";
 
-	/**
-	 * A field for a graph iterator.
-	 */
 	private IGravisListIterator<IStep> iterator;
 
-	/**
-	 * A field for a current command.
-	 */
 	private IStep currentCommand;
 
 	/**
@@ -33,9 +31,9 @@ public class StepIterator implements IGravisListIterator<String> {
 	 * 
 	 */
 	public StepIterator(IGravisListIterator<IStep> listIterator) {
-		this.iterator = Objects.requireNonNull(listIterator, String.format(
-				NULL_POINTER_MSG, "StepIterator", "listIterator",
-				listIterator));
+		this.iterator = Objects
+				.requireNonNull(listIterator, String.format(NULL_POINTER_MSG,
+						"StepIterator", "listIterator", listIterator));
 		this.currentCommand = null;
 
 	}
@@ -102,7 +100,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	@Override
 	public String previous() {
 		if (this.iterator.hasPrevious()) {
-			this.currentCommand = this.iterator.previous();			
+			this.currentCommand = this.iterator.previous();
 			return this.currentCommand.unExecute().getComment();
 		}
 		return "";
@@ -141,8 +139,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.IGravisListIterator#previousIndex()
+	 * @see ch.bfh.ti.gravis.core.IGravisListIterator#previousIndex()
 	 */
 	@Override
 	public int previousIndex() {

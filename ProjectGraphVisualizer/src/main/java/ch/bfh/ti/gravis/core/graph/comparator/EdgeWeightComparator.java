@@ -5,6 +5,8 @@ import java.util.Comparator;
 import ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge;
 
 /**
+ * This Comparator compares the weight of two edges.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

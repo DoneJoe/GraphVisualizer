@@ -13,8 +13,7 @@ import org.junit.Test;
  * 
  */
 public class ValueTransformerTest {
-	// TODO implement ValueTransformerTest
-	
+
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -64,9 +63,11 @@ public class ValueTransformerTest {
 	@Test
 	public final void testTransformToColor() {
 		assertEquals(GravisColor.LIGHT_BLUE,  
-				ValueTransformer.toColor("lightBlue"));
+				ValueTransformer.toColor(GravisConstants.LIGHT_BLUE));
 		assertEquals(GravisColor.LIGHT_BLUE,  
 				ValueTransformer.toColor(null));
 	}
+
+	// TODO implement ValueTransformerTest
 
 }

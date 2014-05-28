@@ -28,7 +28,6 @@ import ch.bfh.ti.gravis.core.step.IStep;
 import ch.bfh.ti.gravis.core.step.IStepRecorder;
 import ch.bfh.ti.gravis.core.step.IStepResult;
 import ch.bfh.ti.gravis.core.step.StepBuilder;
-import ch.bfh.ti.gravis.core.util.GravisConstants;
 import edu.uci.ics.jung.io.GraphIOException;
 
 /**
@@ -37,11 +36,37 @@ import edu.uci.ics.jung.io.GraphIOException;
  */
 public class StepBuilderTest {
 
+	private static IStepRecorder rec;
+	private static StepBuilder sb;
+	private static IRestrictedVertex[] rVertices;
+	private static IRestrictedEdge[] rEdges;
+	private static IVertex[] vertices;
+	private static IEdge[] edges;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		GraphIOManager gm = new GraphIOManager();
+		IGravisGraph g = gm.loadGraph(new File("junit_graphs/JUnit_Dir_Sample_Graph.graphml"));
+		sb = new StepBuilder();
+		IRestrictedGraph rg = GraphFactory.createRestrictedGraph(g, sb);
+		rec = StepBuilder.createStepRecorder(rg);
+		
+		Collection<? extends IRestrictedVertex> rvColl = rg.getVertices();
+		rVertices = rvColl
+				.toArray(new IRestrictedVertex[rvColl.size()]);
+		Collection<? extends IRestrictedEdge> reColl = rg.getEdges();
+		rEdges = reColl.toArray(new IRestrictedEdge[reColl
+				.size()]);
+		
+		Collection<? extends IVertex> vColl = g.getVertices();
+		vertices = vColl.toArray(new IVertex[vColl.size()]);		
+		Arrays.sort(vertices, new ItemNameComparator());
+		Collection<? extends IEdge> eColl = g.getEdges();
+		edges = eColl.toArray(new IEdge[eColl.size()]);
+		Arrays.sort(edges, new ItemNameComparator());
 	}
 
 	/**
@@ -63,36 +88,7 @@ public class StepBuilderTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-	}
-
-	/**
-	 * Test method for
-	 * {@link ch.bfh.ti.gravis.core.step.StepBuilder#createStepRecorder(ch.bfh.ti.gravis.core.graph.IRestrictedGraph)}
-	 * .
-	 */
-	@Test
-	public void testCreateStepRecorder() {
-		// fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link ch.bfh.ti.gravis.core.step.StepBuilder#StepBuilder()}.
-	 */
-	@Test
-	public void testStepBuilder() {
-		// fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link ch.bfh.ti.gravis.core.step.StepBuilder#addStep(ch.bfh.ti.gravis.core.graph.item.IGraphItem[])}
-	 * .
-	 */
-	@Test
-	public void testAddStep() {
-		// fail("Not yet implemented");
-	}
+	}	
 
 	/**
 	 * Test method for
@@ -103,29 +99,6 @@ public class StepBuilderTest {
 	 */
 	@Test
 	public void testCreateStepList() throws GraphIOException, FileNotFoundException {
-		// TODO implement test StepBuilderTest
-		
-		GraphIOManager gm = new GraphIOManager();
-		IGravisGraph g = gm.loadGraph(new File(GravisConstants.SAMPLES_DIR
-				+ "/Directed_Dijkstra_Sample_Graph_1.graphml"));
-		StepBuilder sb = new StepBuilder();
-		IRestrictedGraph rg = GraphFactory.createRestrictedGraph(g, sb);
-		IStepRecorder rec = StepBuilder.createStepRecorder(rg);
-		
-		Collection<? extends IRestrictedVertex> rvColl = rg.getVertices();
-		IRestrictedVertex[] rVertices = rvColl
-				.toArray(new IRestrictedVertex[rvColl.size()]);
-		Collection<? extends IRestrictedEdge> reColl = rg.getEdges();
-		IRestrictedEdge[] rEdges = reColl.toArray(new IRestrictedEdge[reColl
-				.size()]);
-		
-		Collection<? extends IVertex> vColl = g.getVertices();
-		IVertex[] vertices = vColl.toArray(new IVertex[vColl.size()]);		
-		Arrays.sort(vertices, new ItemNameComparator());
-		Collection<? extends IEdge> eColl = g.getEdges();
-		IEdge[] edges = eColl.toArray(new IEdge[eColl.size()]);
-		Arrays.sort(edges, new ItemNameComparator());
-
 		assertEquals("", rVertices[0].getNewComment());
 		assertEquals(Double.NaN, rVertices[0].getCurrentResult(), 0.01);
 		assertEquals(INITIAL, rVertices[0].getCurrentState());		
@@ -161,5 +134,7 @@ public class StepBuilderTest {
 		assertEquals(VISITED.getMessage(edges[0]) + VISITED.getMessage(vertices[1]) +
 				"visit e1", res2.getComment());
 	}
+
+	// TODO implement StepBuilderTest
 
 }

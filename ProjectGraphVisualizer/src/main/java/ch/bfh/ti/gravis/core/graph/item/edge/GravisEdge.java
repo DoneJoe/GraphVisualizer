@@ -34,10 +34,8 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 	 */
 	@Override
 	public void setWeight(double weight) {
-		boolean equal = Double.compare(this.getWeight(), weight) == 0;
-		this.weight = weight;
-		
-		if (!equal) {
+		if (Double.compare(this.getWeight(), weight) != 0) {
+			this.weight = weight;
 			this.fireGraphItemsChangedEvent(this, Type.EDITED);
 		}
 	}

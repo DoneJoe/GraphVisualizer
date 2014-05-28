@@ -115,8 +115,8 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	 */
 	@Override
 	public String getNewComment() {
-		return (this.stateCommentEnabled ? this.getNewState()
-				.getMessage(this) : "") + this.newComment;
+		return (this.stateCommentEnabled ? this.getNewState().getMessage(this)
+				: "") + this.newComment;
 	}
 
 	/*
@@ -266,8 +266,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isDiscarded()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isDiscarded()
 	 */
 	@Override
 	public boolean isDiscarded() {
@@ -503,11 +502,9 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	public void setName(final String name) {
 		Objects.requireNonNull(name,
 				String.format(NULL_POINTER_MSG, "setName", "name", name));
-		boolean equal = this.getName() == null ? false : this.getName().equals(
-				name.trim());
-		this.itemName = name.trim();
 
-		if (!equal) {
+		if (!name.trim().equals(this.itemName)) {
+			this.itemName = name.trim();
 			this.fireGraphItemsChangedEvent(this, Type.EDITED);
 		}
 	}

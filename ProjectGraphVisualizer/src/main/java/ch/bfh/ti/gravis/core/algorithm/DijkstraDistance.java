@@ -234,9 +234,10 @@ class DijkstraDistance extends AbstractAlgorithm {
 			final IRestrictedVertex currentVertex, final IStepRecorder rec) {
 
 		if (currentVertex.isEnd()) {
+			String result = this.format.format(currentVertex.isStart() ? 0
+					: currentVertex.getCurrentResult());
 			String cmt = String.format(SHORTEST_PATH_OK, startVertex.getName(),
-					currentVertex.getName(),
-					this.format.format(currentVertex.getCurrentResult()));
+					currentVertex.getName(), result);
 
 			rec.item(currentVertex).state(SOLVED).cmtOk().app(cmt).tag().add();
 			rec.save();
@@ -313,7 +314,8 @@ class DijkstraDistance extends AbstractAlgorithm {
 
 		rec.item(selectedVertex).visib().add();
 		vertexNames.add(selectedVertex.getName());
-		// go back to the start vertex from the end vertex and make elements visible
+		// go back to the start vertex from the end vertex and make elements
+		// visible
 		while (selectedVertex.getValue() != null) {
 			currentVertex = (IRestrictedVertex) selectedVertex.getValue();
 			IRestrictedEdge edge = graph
