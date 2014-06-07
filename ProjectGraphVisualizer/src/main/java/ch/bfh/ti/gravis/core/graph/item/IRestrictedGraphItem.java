@@ -2,6 +2,7 @@ package ch.bfh.ti.gravis.core.graph.item;
 
 
 /**
+ * This interface
  * "current" variables ar permanent, "new" variables are temporary
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)

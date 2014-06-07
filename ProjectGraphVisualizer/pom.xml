@@ -145,8 +145,7 @@
 				<version>2.6</version>
 				<executions>
 					<execution>
-						<id>copy-resources</id>
-						<!-- here the phase you need -->
+						<id>copy-sample-graphs</id>
 						<phase>validate</phase>
 						<goals>
 							<goal>copy-resources</goal>
@@ -162,16 +161,9 @@
 							</resources>
 						</configuration>
 					</execution>
-				</executions>
-			</plugin>
-			
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
+					
 					<execution>
-						<id>copy-resources</id>
-						<!-- here the phase you need -->
+						<id>copy-apidocs</id>
 						<phase>validate</phase>
 						<goals>
 							<goal>copy-resources</goal>

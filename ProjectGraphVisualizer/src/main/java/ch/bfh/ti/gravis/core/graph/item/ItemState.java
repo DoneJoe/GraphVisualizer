@@ -17,11 +17,11 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
 public enum ItemState {
 
 	// state definition:
-	
+
 	INITIAL, ACTIVATED, VISITED, SOLVED, DISCARDED;
 
 	// default state messages:
-	
+
 	private final static String V_INITIAL_MSG = "Der Knoten %s befindet sich im Anfangszustand.%s";
 	private final static String E_INITIAL_MSG = "Die Kante %s befindet sich im Anfangszustand.%s";
 	private final static String V_ACTIVATED_MSG = "Der Knoten %s wurde ausgewählt.%s";
@@ -32,11 +32,13 @@ public enum ItemState {
 	private final static String E_SOLVED_MSG = "Die Kante %s wurde zur Lösung hinzugefügt.%s";
 	private final static String V_DISCARDED_MSG = "Der Knoten %s wurde aus der Lösung ausgeschlossen.%s";
 	private final static String E_DISCARDED_MSG = "Die Kante %s wurde aus der Lösung ausgeschlossen.%s";
-	
+
 	/**
+	 * Returns the default state message with new line at the end (vertex or
+	 * edge message) dependant on current item state.
 	 * 
 	 * @param item
-	 * @return default state message with new line at the end
+	 * @return the default state message with new line at the end
 	 */
 	public String getMessage(final IGraphItem item) {
 		if (item instanceof IVertex) {
@@ -71,9 +73,10 @@ public enum ItemState {
 	}
 
 	/**
+	 * Returns the item draw color dependant on current item state.
 	 * 
 	 * @param item
-	 * @return draw color
+	 * @return the item draw color
 	 */
 	public Color getDrawColor(final IGraphItem item) {
 		if (item instanceof IVertex) {
@@ -97,9 +100,10 @@ public enum ItemState {
 	}
 
 	/**
+	 * Returns the item fill color dependant on current item state.
 	 * 
 	 * @param item
-	 * @return fill Color
+	 * @return the item fill color
 	 */
 	public Color getFillColor(final IGraphItem item) {
 		if (item instanceof IVertex) {
@@ -123,8 +127,9 @@ public enum ItemState {
 	}
 
 	/**
+	 * Returns the edge color (fill and draw) dependant on current item state.
 	 * 
-	 * @return edge color
+	 * @return the edge color
 	 */
 	private Color getEdgeColor() {
 		switch (this) {
