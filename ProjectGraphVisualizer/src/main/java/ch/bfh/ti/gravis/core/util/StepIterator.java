@@ -25,7 +25,6 @@ public class StepIterator implements IGravisListIterator<String> {
 	private IStep currentCommand;
 
 	/**
-	 * Main constructor.
 	 * 
 	 * @param listIterator
 	 * 

@@ -3,8 +3,7 @@ package ch.bfh.ti.gravis.core.util;
 import java.awt.Color;
 
 /**
- * This class defines static fields for all important constants in the
- * application.
+ * Static fields for all important constants in the application.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 

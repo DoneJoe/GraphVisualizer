@@ -97,11 +97,11 @@ class Core implements ICore {
 			// invalid algorithmName
 			throw new CoreException(String.format(UNKNOWN_ALGO, algorithmName));
 		} else {
-			graph.resetItemHelperVars();
+			restrictedGraph.resetItemHelperVars();
 			// execute the algorithm
 			algorithm.execute(restrictedGraph,
 					StepBuilder.createStepRecorder(restrictedGraph));
-			graph.resetItemHelperVars();
+			restrictedGraph.resetItemHelperVars();
 			return new StepIterator(new GravisListIterator<IStep>(
 					stepBuilder.createStepList()));
 		}

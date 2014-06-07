@@ -36,6 +36,7 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 * 
 	 * @param name
 	 * @param description
+	 * @throws NullPointerException if name or description is null
 	 */
 	protected AbstractAlgorithm(String name, String description) {
 		this.name = Objects.requireNonNull(name, String.format(
@@ -51,6 +52,7 @@ abstract class AbstractAlgorithm implements IAlgorithm {
 	 * either DIRECTED or UNDIRECTED.
 	 * 
 	 * @param edgeType
+	 * @throws NullPointerException if edgeType is null
 	 */
 	protected void addEdgeType(EdgeType edgeType) {
 		Objects.requireNonNull(edgeType, String.format(NULL_POINTER_MSG,

@@ -153,6 +153,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${basedir}/target/sample_graphs</outputDirectory>
+							<overwrite>true</overwrite>
 							<resources>
 								<resource>
 									<directory>sample_graphs</directory>
@@ -163,7 +164,31 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/doc/apidocs</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>${basedir}/target/site/apidocs</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 		<pluginManagement>

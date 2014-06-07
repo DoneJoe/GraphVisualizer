@@ -23,6 +23,9 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
 
 /**
+ * This implementation of the {@link IRestrictedGraph} interface decorates a graph
+ * of type {@link IGravisGraph}.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -30,7 +33,7 @@ final class RestrictedGraph implements IRestrictedGraph {
 
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "RestrictedGraph.%s(): %s == %s";
-	
+
 	private final IGravisGraph gravisGraph;
 
 	private final StepBuilder stepBuilder;
@@ -44,15 +47,20 @@ final class RestrictedGraph implements IRestrictedGraph {
 	private final ItemNameComparator itemComparator;
 
 	/**
+	 * Decorates the given graph.
+	 * 
 	 * @param graph
 	 * @param stepBuilder
+	 * @throws NullPointerException
+	 *             if the graph or the stepBuilder is null
 	 */
 	RestrictedGraph(final IGravisGraph graph, final StepBuilder stepBuilder) {
-		this.gravisGraph = Objects.requireNonNull(graph, String.format(NULL_POINTER_MSG,
-				"RestrictedGraph", "graph", graph));
-		this.stepBuilder = Objects.requireNonNull(stepBuilder, String.format(NULL_POINTER_MSG,
-				"RestrictedGraph", "stepBuilder", stepBuilder));
-		
+		this.gravisGraph = Objects.requireNonNull(graph, String.format(
+				NULL_POINTER_MSG, "RestrictedGraph", "graph", graph));
+		this.stepBuilder = Objects.requireNonNull(stepBuilder, String
+				.format(NULL_POINTER_MSG, "RestrictedGraph", "stepBuilder",
+						stepBuilder));
+
 		this.verticesMap = new DualHashBidiMap<>();
 		this.edgesMap = new DualHashBidiMap<>();
 		this.itemComparator = new ItemNameComparator();
@@ -559,45 +567,54 @@ final class RestrictedGraph implements IRestrictedGraph {
 		return this.gravisGraph.toString();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#resetItemHelperVars()
 	 */
 	@Override
 	public void resetItemHelperVars() {
 		this.gravisGraph.resetItemHelperVars();
 	}
-	
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#resetItemDoneVar()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#resetItemDoneVars()
 	 */
 	@Override
-	public void resetItemDoneVar() {
+	public void resetItemDoneVars() {
 		for (IVertex vertex : this.gravisGraph.getVertices()) {
 			vertex.setDone(false);
 		}
-		
+
 		for (IEdge edge : this.gravisGraph.getEdges()) {
 			edge.setDone(false);
-		}		
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#resetItemValueVar()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.core.graph.IRestrictedGraph#resetItemValueVars()
 	 */
 	@Override
-	public void resetItemValueVar() {
+	public void resetItemValueVars() {
 		for (IVertex vertex : this.gravisGraph.getVertices()) {
 			vertex.setValue(null);
 		}
-		
+
 		for (IEdge edge : this.gravisGraph.getEdges()) {
 			edge.setValue(null);
-		}		
+		}
 	}
-	
+
 	/**
+	 * Looks up the corresponding graph item for each given restricted graph
+	 * item and returns an array of that graph items.
+	 * 
 	 * @param restrictedItems
-	 * @return IGraphItem[]
+	 * @return an array of IGraphItem
 	 */
 	private IGraphItem[] getIGraphItems(
 			final IRestrictedGraphItem... restrictedItems) {
@@ -618,8 +635,11 @@ final class RestrictedGraph implements IRestrictedGraph {
 	}
 
 	/**
+	 * Looks up the corresponding restricted edge for each edge in the given
+	 * collection and returns a sorted list of that edges.
+	 * 
 	 * @param coll
-	 * @return List<IRestrictedEdge>
+	 * @return a List of IRestrictedEdge
 	 */
 	private List<IRestrictedEdge> getRestrictedSortedEdgesList(
 			final Collection<? extends IEdge> coll) {
@@ -635,21 +655,26 @@ final class RestrictedGraph implements IRestrictedGraph {
 					IRestrictedEdge restrictedEdge = EdgeFactory
 							.createRestrictedEdge(edge);
 
+					// if no corresponding restricted edge exists: add new
+					// restricted edge to edgesMap
 					this.edgesMap.put(edge, restrictedEdge);
 					edgesList.add(restrictedEdge);
 				}
 			}
 		}
 
-		// sort the vertices in lexicographical name order
+		// sort the edges in lexicographical name order
 		Collections.sort(edgesList, this.itemComparator);
 
 		return edgesList;
 	}
 
 	/**
+	 * Looks up the corresponding restricted vertex for each vertex in the given
+	 * collection and returns a sorted list of that vertices.
+	 * 
 	 * @param coll
-	 * @return List<IRestrictedVertex>
+	 * @return a list of IRestrictedVertex
 	 */
 	private List<IRestrictedVertex> getRestrictedSortedVerticesList(
 			final Collection<? extends IVertex> coll) {
@@ -665,6 +690,8 @@ final class RestrictedGraph implements IRestrictedGraph {
 					IRestrictedVertex restrictedVertex = VertexFactory
 							.createRestrictedVertex(vertex);
 
+					// if no corresponding restricted vertex exists: add new
+					// restricted vertex to verticesMap
 					this.verticesMap.put(vertex, restrictedVertex);
 					verticesList.add(restrictedVertex);
 				}
@@ -684,6 +711,5 @@ final class RestrictedGraph implements IRestrictedGraph {
 
 		return verticesList;
 	}
-
 
 }

@@ -14,6 +14,9 @@ import edu.uci.ics.jung.graph.SparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
+ * The static factory methods in this class create graph instances of different
+ * types.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -23,7 +26,7 @@ public final class GraphFactory {
 			+ "GraphFactory.%s(): %s == %s";
 
 	/**
-	 * A main (no-)constructor.
+	 * Hides the default constructor.
 	 */
 	private GraphFactory() {
 	}
@@ -41,8 +44,10 @@ public final class GraphFactory {
 	/**
 	 * @param graph
 	 * @return a new directed graph instance of type IGravisGraph
+	 * @throws NullPointerException
+	 *             if graph is null
 	 */
-	public static IGravisGraph createDirectedGravisGraph(
+	protected static IGravisGraph createDirectedGravisGraph(
 			Graph<IVertex, IEdge> graph) {
 		Objects.requireNonNull(graph, String.format(NULL_POINTER_MSG,
 				"createDirectedGravisGraph", "graph", graph));
@@ -59,6 +64,8 @@ public final class GraphFactory {
 	/**
 	 * @param edgeType
 	 * @return a new graph instance of type IGravisGraph
+	 * @throws NullPointerException
+	 *             if edgeType is null
 	 */
 	public static IGravisGraph createGravisGraph(EdgeType edgeType) {
 		Objects.requireNonNull(edgeType, String.format(NULL_POINTER_MSG,
@@ -78,6 +85,8 @@ public final class GraphFactory {
 	 * @param edgeType
 	 * @param listeners
 	 * @return a new graph instance of type IEditGraphObservable
+	  * @throws NullPointerException
+	 *             if edgeType or listeners is null
 	 */
 	public static IEditGraphObservable createEditGraphObservable(
 			EdgeType edgeType, IEditGraphEventListener... listeners) {
@@ -100,6 +109,8 @@ public final class GraphFactory {
 	 * @param graph
 	 * @param listeners
 	 * @return a new graph instance of type IEditGraphObservable
+	  * @throws NullPointerException
+	 *             if edgeType or listeners is null
 	 */
 	public static IEditGraphObservable createEditGraphObservable(
 			IGravisGraph graph, IEditGraphEventListener... listeners) {
@@ -120,6 +131,8 @@ public final class GraphFactory {
 	 * @param graph
 	 * @param stepBuilder
 	 * @return a new instance of type IRestrictedGraph
+	  * @throws NullPointerException
+	 *             if graph or stepBuilder is null
 	 */
 	public static IRestrictedGraph createRestrictedGraph(IGravisGraph graph,
 			StepBuilder stepBuilder) {

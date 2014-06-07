@@ -166,7 +166,7 @@ public class KruskalMSF extends AbstractAlgorithm {
 
 		rec.item(selectedEdge).app(msg).tag().add();
 		// reset done variable to false for all graph items
-		graph.resetItemDoneVar();
+		graph.resetItemDoneVars();
 		// this if clause should always be true
 		if (this.cycleDFS(graph, path, pair.getFirst(), selectedEdge, pair)) {
 			// mark the cycle elements with DISCARDED
@@ -180,7 +180,7 @@ public class KruskalMSF extends AbstractAlgorithm {
 				rec.item(path.pop()).state(SOLVED).add();
 			}
 		}
-		graph.resetItemDoneVar();
+		graph.resetItemDoneVars();
 
 		// discard selectedEdge
 		rec.item(selectedEdge).state(DISCARDED).cmtOk().tag().dash().add();

@@ -22,10 +22,13 @@ public interface ICore {
 	 * Loads a graph from the source file (graphml-format).
 	 * 
 	 * @param source
-	 *            the graph file to import
-	 * @return IGravisGraph
+	 *            the graphml-file
+	 * @return an instance of IGravisGraph
 	 * @throws GraphIOException
+	 *             if an IO error occur when reading the graph
 	 * @throws FileNotFoundException
+	 * @throws NullPointerException
+	 *             if source is null
 	 */
 	public abstract IGravisGraph loadGraph(File source)
 			throws GraphIOException, FileNotFoundException;
@@ -36,8 +39,10 @@ public interface ICore {
 	 * @param graph
 	 * @param file
 	 * @throws GraphIOException
+	 *             if an IO error occur when writing the graph
 	 * @throws FileNotFoundException
-	 */
+	 * @throws NullPointerException
+	 *             if graph or file is null	 */
 	public abstract void saveGraph(IGravisGraph graph, File file)
 			throws GraphIOException, FileNotFoundException;
 

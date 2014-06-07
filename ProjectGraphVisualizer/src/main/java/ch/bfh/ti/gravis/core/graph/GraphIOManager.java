@@ -31,16 +31,18 @@ import edu.uci.ics.jung.io.GraphIOException;
 import edu.uci.ics.jung.io.graphml.GraphMLReader2;
 
 /**
+ * IO-operations with graphs.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
 public class GraphIOManager {
-	
+
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "GraphIOManager.%s(): %s == %s";
 
 	// transformers:
-	
+
 	private final GraphTransformer graphTransformer;
 	private final VertexTransformer vertexTransformer;
 	private final EdgeTransformer edgeTransformer;
@@ -54,72 +56,77 @@ public class GraphIOManager {
 	}
 
 	/**
+	 * Loads a graph from the given file (graphml-format).
 	 * 
 	 * @param file
-	 * @return IGravisGraph
+	 * @return an instance of IGravisGraph
 	 * @throws GraphIOException
+	 *             if an IO error occur when reading the graph
 	 * @throws FileNotFoundException
+	 * @throws NullPointerException
+	 *             if file is null
 	 */
-	public IGravisGraph loadGraph(final File file) throws GraphIOException, FileNotFoundException {
-		Objects.requireNonNull(file, String.format(NULL_POINTER_MSG, "loadGraph",
-				"file", file));		
+	public IGravisGraph loadGraph(final File file) throws GraphIOException,
+			FileNotFoundException {
+		Objects.requireNonNull(file,
+				String.format(NULL_POINTER_MSG, "loadGraph", "file", file));
 		GraphMLReader2<IGravisGraph, IVertex, IEdge> graphReader = null;
-				
+
 		try {
-			graphReader = new GraphMLReader2<>(
-					new FileReader(file), this.graphTransformer,
-					this.vertexTransformer, this.edgeTransformer,
-					this.hyperEdgeTransformer);
+			graphReader = new GraphMLReader2<>(new FileReader(file),
+					this.graphTransformer, this.vertexTransformer,
+					this.edgeTransformer, this.hyperEdgeTransformer);
 			return graphReader.readGraph();
 		} finally {
 			if (graphReader != null) {
 				graphReader.close();
-			}			
+			}
 		}
 	}
 
 	/**
+	 * Saves the graph in a file (graphml-format).
 	 * 
 	 * @param graph
 	 * @param file
 	 * @throws GraphIOException
-	 * @throws FileNotFoundException 
+	 *             if an IO error occur when writing the graph
+	 * @throws FileNotFoundException
+	 * @throws NullPointerException
+	 *             if graph or file is null
 	 */
 	public void saveGraph(final IGravisGraph graph, final File file)
 			throws GraphIOException, FileNotFoundException {
-		
-		Objects.requireNonNull(graph, String.format(NULL_POINTER_MSG, "saveGraph",
-				"graph", graph));
-		Objects.requireNonNull(file, String.format(NULL_POINTER_MSG, "saveGraph",
-				"file", file));
+
+		Objects.requireNonNull(graph,
+				String.format(NULL_POINTER_MSG, "saveGraph", "graph", graph));
+		Objects.requireNonNull(file,
+				String.format(NULL_POINTER_MSG, "saveGraph", "file", file));
 		PrintWriter writer = null;
-		
-		try {						
+
+		try {
 			GravisGraphMLWriter graphWriter = new GravisGraphMLWriter();
 			writer = new PrintWriter(file);
 
 			graphWriter.setVertexIDs(new VertexNameTransformer());
 			graphWriter.setEdgeIDs(new EdgeNameTransformer());
 
-			// graph name is default description
-			graphWriter.addGraphData(GravisConstants.G_DESCRIPTION, "", graph.getName(),
-					new GraphDescriptionTransformer());
+			// graph name is the default description
+			graphWriter.addGraphData(GravisConstants.G_DESCRIPTION, "",
+					graph.getName(), new GraphDescriptionTransformer());
 
-			// adds edge data:
-			
-			graphWriter
-					.addEdgeData(
-							GravisConstants.E_COLOR,
-							"",
-							ValueTransformer
-									.colorToString(GravisConstants.E_COLOR_DEFAULT),
-							new EdgeColorStringTransformer());
+			// add edge data:
+
+			graphWriter.addEdgeData(GravisConstants.E_COLOR, "",
+					ValueTransformer
+							.colorToString(GravisConstants.E_COLOR_DEFAULT),
+					new EdgeColorStringTransformer());
 			graphWriter.addEdgeData(GravisConstants.E_WEIGHT, "",
 					String.valueOf(GravisConstants.E_WEIGHT_DEFAULT),
 					new EdgeWeightTransformer());
 
-			// adds vertex data:
-			
+			// add vertex data:
+
 			graphWriter
 					.addVertexData(
 							GravisConstants.V_COLOR,
@@ -128,11 +135,9 @@ public class GraphIOManager {
 									.colorToString(GravisConstants.V_FILL_COLOR_DEFAULT),
 							new VertexColorStringTransformer());
 			graphWriter.addVertexData(GravisConstants.V_START, "",
-					String.valueOf(false),
-					new StartVertexTransformer());
+					String.valueOf(false), new StartVertexTransformer());
 			graphWriter.addVertexData(GravisConstants.V_END, "",
-					String.valueOf(false),
-					new EndVertexTransformer());
+					String.valueOf(false), new EndVertexTransformer());
 			graphWriter.addVertexData(GravisConstants.V_LOC_X, "",
 					String.valueOf(GravisConstants.V_LOC_X_DEFAULT),
 					new VertexLocationXTransformer());

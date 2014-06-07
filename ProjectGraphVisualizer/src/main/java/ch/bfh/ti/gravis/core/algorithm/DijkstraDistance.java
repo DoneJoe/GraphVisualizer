@@ -22,10 +22,9 @@ import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
  * <a href="http://www-m9.ma.tum.de/Allgemeines/DijkstraCode">http://www-m9.ma.
  * tum.de/Allgemeines/DijkstraCode</a> <br />
  * A priority queue is used in order to determine the vertex with the minimum
- * distance (class MapBinaryHeap in JUNG framework). <br />
- * The method IRestrictedGraphItem.setValue(vertex) is used to store the
- * shortest predecessor of a vertex. All unreachable vertices are marked in the
- * graph.
+ * distance. <br />
+ * The shortest predecessor is set for all solved vertices. All unreachable
+ * vertices are marked in the graph.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 

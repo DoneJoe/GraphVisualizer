@@ -14,6 +14,14 @@ import edu.uci.ics.jung.io.GraphMLMetadata;
 import edu.uci.ics.jung.io.GraphMLWriter;
 
 /**
+ * Writes graphs out in GraphML format.
+ *
+ * Current known issues: 
+ * <ul>
+ * <li/>Only supports one graph per output file.
+ * <li/>Does not indent lines for text-format readability.
+ * </ul>
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

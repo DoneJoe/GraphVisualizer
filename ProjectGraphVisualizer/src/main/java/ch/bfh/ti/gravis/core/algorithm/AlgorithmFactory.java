@@ -3,7 +3,6 @@ package ch.bfh.ti.gravis.core.algorithm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
@@ -16,9 +15,6 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * 
  */
 public class AlgorithmFactory {
-
-	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
-			+ "AlgorithmFactory.%s(): %s == %s";
 
 	private Map<String, IAlgorithm> algorithmMap;
 
@@ -59,16 +55,14 @@ public class AlgorithmFactory {
 	 * @return instance of IAlgorithm or null, if the algorithmName is unknown
 	 */
 	public IAlgorithm createAlgorithm(final String algorithmName) {
-		Objects.requireNonNull(algorithmName, String.format(NULL_POINTER_MSG,
-				"createAlgorithm", "algorithmName", algorithmName));
-		return this.algorithmMap.get(algorithmName.trim());
+		return this.algorithmMap.get(algorithmName == null ? "" : algorithmName.trim());
 	}
 
 	/**
 	 * Returns a String array of algorithm names with the given edgetype.
 	 * 
 	 * @param edgetype
-	 * @return algo names with the given edgetype
+	 * @return algo names with the given edgetype or empty string if edgetype is null
 	 */
 	public String[] getAlgorithmNames(final EdgeType edgetype) {
 		if (edgetype == null) {
@@ -86,7 +80,7 @@ public class AlgorithmFactory {
 	 * Returns an algorithm description associated with the given algorithmName.
 	 * 
 	 * @param algoName
-	 * @return algorithm description or empty string,  if the algorithmName is unknown
+	 * @return algorithm description or empty string if the algorithmName is unknown
 	 */
 	public String getAlgorithmDescription(final String algoName) {
 		IAlgorithm algo = this.algorithmMap.get(algoName == null ? ""

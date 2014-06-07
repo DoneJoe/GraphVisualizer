@@ -16,7 +16,7 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "GravisListIterator<E>.%s(): %s == %s";
 	
-	private static final String EXCEPTION_MSG = "remove: unsupported operation!";
+	private static final String EXCEPTION_MSG = "remove(): unsupported operation!";
 	
 	private final ListIterator<E> listIterator;
 

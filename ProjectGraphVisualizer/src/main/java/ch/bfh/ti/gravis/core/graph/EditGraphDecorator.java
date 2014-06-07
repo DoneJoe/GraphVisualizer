@@ -13,6 +13,9 @@ import edu.uci.ics.jung.graph.GraphDecorator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
+ * This implementation of the {@link IEditGraphObservable} interface decorates a graph
+ * of type {@link IGravisGraph}.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -29,15 +32,18 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	private final List<IEditGraphEventListener> listeners;
 
 	/**
+	 * Decorates the given graph.
 	 * 
-	 * @param delegate
+	 * @param graph
+	 * @throws NullPointerException
+	 *             if graph is null
 	 */
-	protected EditGraphDecorator(IGravisGraph delegate) {
-		super(delegate);
+	protected EditGraphDecorator(IGravisGraph graph) {
+		super(graph);
 
-		Objects.requireNonNull(delegate, String.format(NULL_POINTER_MSG, "EditGraphDecorator",
-				"delegate", delegate));
-		this.gravisGraph = delegate;
+		Objects.requireNonNull(graph, String.format(NULL_POINTER_MSG, "EditGraphDecorator",
+				"delegate", graph));
+		this.gravisGraph = graph;
 		this.listeners = new ArrayList<>();
 	}
 
@@ -119,6 +125,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 				"listener", listener));
 		this.listeners.add(listener);
 
+		// add listener to all vertices and edges
 		for (IVertex vertex : this.getVertices()) {
 			vertex.addEditGraphEventListeners(listener);
 		}
@@ -301,10 +308,9 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	public void setDescription(String graphDescription) {
 		Objects.requireNonNull(graphDescription, String.format(NULL_POINTER_MSG, "setDescription",
 				"graphDescription", graphDescription));
-		boolean equal = this.getDescription().equals(graphDescription.trim());
 		
-		this.gravisGraph.setDescription(graphDescription);
-		if (!equal) {
+		if (!this.getDescription().equals(graphDescription.trim())) {
+			this.gravisGraph.setDescription(graphDescription);
 			this.fireGraphPropertiesChangedEvent(this, Type.VISUAL_EDITED);
 		}
 	}
@@ -320,10 +326,9 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	public void setEdgeType(EdgeType edgeType) {
 		Objects.requireNonNull(edgeType, String.format(NULL_POINTER_MSG, "setEdgeType",
 				"edgeType", edgeType));
-		boolean equal = this.getEdgeType() == edgeType;
 		
-		this.gravisGraph.setEdgeType(edgeType);
-		if (!equal) {
+		if (this.getEdgeType() != edgeType) {
+			this.gravisGraph.setEdgeType(edgeType);
 			this.fireGraphPropertiesChangedEvent(this, Type.EDITED);
 		}
 	}
@@ -339,10 +344,9 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	public void setName(String graphName) {
 		Objects.requireNonNull(graphName, String.format(NULL_POINTER_MSG, "setName",
 				"graphName", graphName));
-		boolean equal = this.getName().equals(graphName.trim());
 		
-		this.gravisGraph.setName(graphName);
-		if (!equal) {
+		if (!this.getName().equals(graphName.trim())) {
+			this.gravisGraph.setName(graphName);
 			this.fireGraphPropertiesChangedEvent(this, Type.VISUAL_EDITED);
 		}
 	}
@@ -364,6 +368,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	}
 
 	/**
+	 * Fires a graph item changed event for all registered listeners.
 	 * 
 	 * @param source
 	 * @param type
@@ -375,6 +380,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	}
 
 	/**
+	 * Fires a graph property changed event for all registered listeners.
 	 * 
 	 * @param source
 	 * @param type

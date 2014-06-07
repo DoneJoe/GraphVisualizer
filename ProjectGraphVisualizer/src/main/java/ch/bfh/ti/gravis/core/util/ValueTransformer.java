@@ -8,8 +8,8 @@ import java.util.Collection;
 import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
 
 /**
- * This utility class contains methods for transforming values from one data
- * type to other data typs.
+ * This utility class contains static methods for transforming values from one data
+ * type to other data types.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -166,7 +166,7 @@ public final class ValueTransformer {
 	}
 
 	/**
-	 * A private constructor.
+	 * Hides the default constructor.
 	 */
 	private ValueTransformer() {
 	}

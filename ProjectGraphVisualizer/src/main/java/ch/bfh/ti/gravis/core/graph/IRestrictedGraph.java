@@ -13,10 +13,10 @@ import edu.uci.ics.jung.graph.util.Pair;
  * A restricted graph gives restricted access to the vertices and edges. No add
  * or remove operations are possible. This graph operates with restricted graph
  * items. A restricted graph item restricts the operations on the item to a
- * subset of all possible operations (see specification of
- * IRestrictedGraphItem). <br />
+ * subset of all possible operations (interface {@link IRestrictedGraphItem}). <br />
  * All edges have the same edgeType (directed or undirected). Parallel edges and
- * hyper-edges are not possible.
+ * hyper-edges are not possible. All vertices and edges in this graph must have
+ * a unique name. Only one start and one end vertex is allowed.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -28,6 +28,8 @@ public interface IRestrictedGraph {
 	 * 
 	 * @param restrictedItems
 	 *            array of restricted graph items
+	 * @throws NullPointerException
+	 *             if the array of restricted items is null
 	 */
 	public void addStep(IRestrictedGraphItem... restrictedItems);
 
@@ -369,10 +371,10 @@ public interface IRestrictedGraph {
 
 	/**
 	 * Returns the start vertex in this graph or null, if this graph is empty.
-	 * If no start vertex is set in this graph, this method chooses and sets
-	 * an arbitrary start vertex and returns this vertex.
+	 * If no start vertex is set in this graph, this method chooses and sets an
+	 * arbitrary start vertex and returns this vertex.
 	 * 
-	 * @return start vertex
+	 * @return the start vertex
 	 */
 	public IRestrictedVertex getStartVertex();
 
@@ -444,8 +446,9 @@ public interface IRestrictedGraph {
 	public boolean isDest(IRestrictedVertex vertex, IRestrictedEdge edge);
 
 	/**
+	 * Returns <tt>true</tt> if this graph contains no vertices and edges.
 	 * 
-	 * @return true, if this graph contains no vertices and edges.
+	 * @return <tt>true</tt> if this graph contains no vertices and edges
 	 */
 	public abstract boolean isEmpty();
 
@@ -527,10 +530,26 @@ public interface IRestrictedGraph {
 	 */
 	public int outDegree(IRestrictedVertex vertex);
 
+	/**
+	 * Resets the item helper variables for all vertices and edges in this
+	 * graph. This method calls
+	 * {@link IRestrictedGraphItem#resetHelperVariables} for all vertices and
+	 * edges.
+	 */
 	public void resetItemHelperVars();
 
-	public void resetItemDoneVar();
+	/**
+	 * Resets the item helper variable {@code done} to {@code false} for all
+	 * vertices and edges in this graph. This method calls
+	 * {@link IRestrictedGraphItem#setDone} for all vertices and edges.
+	 */
+	public void resetItemDoneVars();
 
-	public void resetItemValueVar();
+	/**
+	 * Resets the item helper variable {@code value} to {@code null} for all
+	 * vertices and edges in this graph. This method calls
+	 * {@link IRestrictedGraphItem#setValue} for all vertices and edges.
+	 */
+	public void resetItemValueVars();
 
 }

@@ -35,21 +35,30 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 </key>
 <graph id="DFS Sample Graph" edgedefault="undirected">
 <data key="description">DFS Sample Graph</data>
-<node id="E">
-<data key="vertexLocation.y">209.0</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">616.0</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
 <node id="A">
 <data key="vertexLocation.y">48.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
 <data key="vertexLocation.x">195.0</data>
+<data key="startVertex">true</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="B">
+<data key="vertexLocation.y">164.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">48.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="E">
+<data key="vertexLocation.y">209.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">616.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
@@ -71,20 +80,7 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="B">
-<data key="vertexLocation.y">164.0</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">48.0</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<edge id="e11" source="A" target="D">
-<data key="weight">1.0</data>
-<data key="edgeColor">blue</data>
-</edge>
-<edge id="e12" source="B" target="C">
+<edge id="e15" source="E" target="A">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
@@ -92,11 +88,15 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e15" source="E" target="A">
+<edge id="e14" source="C" target="E">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e16" source="A" target="C">
+<edge id="e12" source="B" target="C">
+<data key="weight">1.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="e11" source="A" target="D">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
@@ -104,7 +104,7 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e14" source="C" target="E">
+<edge id="e16" source="A" target="C">
 <data key="weight">1.0</data>
 <data key="edgeColor">blue</data>
 </edge>

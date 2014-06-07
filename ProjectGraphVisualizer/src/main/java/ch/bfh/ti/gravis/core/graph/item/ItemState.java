@@ -9,15 +9,19 @@ import ch.bfh.ti.gravis.core.util.GravisConstants;
 import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
 
 /**
+ * This enum class defines different states for vertices and edges.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
 public enum ItemState {
 
-	// state definition
+	// state definition:
+	
 	INITIAL, ACTIVATED, VISITED, SOLVED, DISCARDED;
 
-	// default state messages
+	// default state messages:
+	
 	private final static String V_INITIAL_MSG = "Der Knoten %s befindet sich im Anfangszustand.%s";
 	private final static String E_INITIAL_MSG = "Die Kante %s befindet sich im Anfangszustand.%s";
 	private final static String V_ACTIVATED_MSG = "Der Knoten %s wurde ausgewählt.%s";
@@ -32,7 +36,7 @@ public enum ItemState {
 	/**
 	 * 
 	 * @param item
-	 * @return default state do message with new line at the end
+	 * @return default state message with new line at the end
 	 */
 	public String getMessage(final IGraphItem item) {
 		if (item instanceof IVertex) {
