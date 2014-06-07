@@ -10,6 +10,9 @@ import org.apache.commons.collections15.Transformer;
 
 import ch.bfh.ti.gravis.core.graph.IRestrictedGraph;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
+import ch.bfh.ti.gravis.core.util.GravisListIterator;
+import ch.bfh.ti.gravis.core.util.IGravisListIterator;
+import ch.bfh.ti.gravis.core.util.StepIterator;
 
 /**
  * @author Patrick Kofmel (kofmp1@bfh.ch)
@@ -19,16 +22,19 @@ public class StepBuilder {
 
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "StepBuilder.%s(): %s == %s";
+
 	/**
 	 * @param restrictedGraph
 	 * @return IStepRecorder
+	 * @throws NullPointerException
+	 *             if restrictedGraph is null
 	 */
 	public static IStepRecorder createStepRecorder(
 			IRestrictedGraph restrictedGraph) {
-		
-		return new StepRecorder(Objects.requireNonNull(restrictedGraph, String.format(
-				NULL_POINTER_MSG, "createStepRecorder", "restrictedGraph",
-				restrictedGraph)));
+
+		return new StepRecorder(Objects.requireNonNull(restrictedGraph, String
+				.format(NULL_POINTER_MSG, "createStepRecorder",
+						"restrictedGraph", restrictedGraph)));
 	}
 
 	private final List<IStep> stepList;
@@ -44,9 +50,8 @@ public class StepBuilder {
 	 * @param currentItems
 	 */
 	public void addStep(IGraphItem... currentItems) {
-		Objects.requireNonNull(currentItems, String.format(
-				NULL_POINTER_MSG, "addStep", "currentItems",
-				currentItems));
+		Objects.requireNonNull(currentItems, String.format(NULL_POINTER_MSG,
+				"addStep", "currentItems", currentItems));
 		List<IGraphItem> tempList = new ArrayList<>();
 		Set<IGraphItem> lookup = new HashSet<>();
 		Step step = new Step();
@@ -68,14 +73,14 @@ public class StepBuilder {
 	}
 
 	/**
-	 * @return List<IStep>
+	 * @return step iterator
 	 */
-	public List<IStep> createStepList() {
+	public IGravisListIterator<String> createStepIterator() {
 		// undo for all commands in the list in reverse order
 		for (int i = this.stepList.size() - 1; i >= 0; i--) {
 			this.stepList.get(i).unExecute();
 		}
 
-		return this.stepList;
+		return new StepIterator(new GravisListIterator<IStep>(this.stepList));
 	}
 }

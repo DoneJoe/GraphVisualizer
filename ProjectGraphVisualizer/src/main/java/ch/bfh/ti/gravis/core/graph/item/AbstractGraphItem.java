@@ -8,6 +8,9 @@ import ch.bfh.ti.gravis.core.util.GravisColor;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 
 /**
+ * This basic implementation of the {@link IGraphItem} interface gives access to
+ * common methods on vertices and edges.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -48,7 +51,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	private Object value = null;
 
 	/**
-	 * Main constructor.
+	 * Default constructor.
 	 */
 	protected AbstractGraphItem() {
 		this.resetNewVariables();
@@ -520,8 +523,9 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 	}
 
 	/**
-	 * 
-	 * @return item name
+	 * Creates a new unique item name
+	 *
+	 * @return a new unique item name
 	 */
 	protected abstract String createItemName();
 

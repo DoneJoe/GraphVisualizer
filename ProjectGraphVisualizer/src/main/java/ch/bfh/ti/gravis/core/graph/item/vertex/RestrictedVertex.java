@@ -5,6 +5,9 @@ import java.awt.geom.Point2D;
 import ch.bfh.ti.gravis.core.graph.item.AbstractRestrictedGraphItem;
 
 /**
+ * This implementation of the {@link IRestrictedVertex} interface decorates a
+ * vertex of type {@link IVertex}.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -13,6 +16,10 @@ final class RestrictedVertex extends AbstractRestrictedGraphItem
 
 	private IVertex vertex;
 
+	/**
+	 * 
+	 * @param vertex
+	 */
 	RestrictedVertex(IVertex vertex) {
 		super(vertex);
 		

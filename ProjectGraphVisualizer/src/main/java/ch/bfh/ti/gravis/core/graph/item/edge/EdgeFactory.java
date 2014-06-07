@@ -5,6 +5,8 @@ import java.util.Objects;
 import org.apache.commons.collections15.Factory;
 
 /**
+ * Edge factory class with static and instance factory methods.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -18,15 +20,19 @@ public class EdgeFactory implements Factory<IEdge> {
 	private static int counter = 0;
 
 	/**
-	 * @return default name
+	 * Creates a new default edge name.
+	 * 
+	 * @return a new default edge name
 	 */
 	public static String createEdgeName() {
 		return LABEL + String.valueOf(++counter);
 	}
 
 	/**
+	 * Decorates an instance of {@code IEdge} and creates a restricted edge {@code IRestrictedEdge}.
+	 * 
 	 * @param edge
-	 * @return IEdge
+	 * @return a restricted edge
 	 */
 	public static IRestrictedEdge createRestrictedEdge(final IEdge edge) {
 		return new RestrictedEdge(Objects.requireNonNull(edge, String.format(

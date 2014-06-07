@@ -3,7 +3,7 @@ package ch.bfh.ti.gravis.core.graph.item;
 import java.util.Objects;
 
 /**
- * An restricted item.
+ * This abstract class decorates a graph item of type {@link IGraphItem}.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -13,22 +13,22 @@ public abstract class AbstractRestrictedGraphItem implements
 
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "AbstractRestrictedGraphItem.%s(): %s == %s";
-	
+
 	/**
 	 * A field for an item.
 	 */
 	private final IGraphItem item;
 
 	/**
-	 * Main constructor.
+	 * Decorates a graph item.
 	 * 
 	 * @param item
-	 *            the item
+	 * @throws NullPointerException
+	 *             if item is null
 	 */
 	protected AbstractRestrictedGraphItem(IGraphItem item) {
 		this.item = Objects.requireNonNull(item, String.format(
-				NULL_POINTER_MSG, "AbstractRestrictedGraphItem", "item",
-				item));
+				NULL_POINTER_MSG, "AbstractRestrictedGraphItem", "item", item));
 	}
 
 	/*
@@ -67,9 +67,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getName
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getName ()
 	 */
 	@Override
 	public String getName() {
@@ -101,9 +99,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getNewState
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getNewState ()
 	 */
 	@Override
 	public ItemState getNewState() {
@@ -113,9 +109,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getValue
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#getValue ()
 	 */
 	@Override
 	public Object getValue() {
@@ -125,9 +119,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isDone
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isDone ()
 	 */
 	@Override
 	public boolean isDone() {
@@ -137,9 +129,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isNewDashed
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isNewDashed ()
 	 */
 	@Override
 	public boolean isNewDashed() {
@@ -149,9 +139,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isNewTagged
-	 * ()
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isNewTagged ()
 	 */
 	@Override
 	public boolean isNewTagged() {
@@ -169,7 +157,9 @@ public abstract class AbstractRestrictedGraphItem implements
 		return this.item.isNewVisible();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isInitial()
 	 */
 	@Override
@@ -177,7 +167,9 @@ public abstract class AbstractRestrictedGraphItem implements
 		return this.item.isInitial();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isActivated()
 	 */
 	@Override
@@ -185,7 +177,9 @@ public abstract class AbstractRestrictedGraphItem implements
 		return this.item.isActivated();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isVisited()
 	 */
 	@Override
@@ -193,7 +187,9 @@ public abstract class AbstractRestrictedGraphItem implements
 		return this.item.isVisited();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isSolved()
 	 */
 	@Override
@@ -201,7 +197,9 @@ public abstract class AbstractRestrictedGraphItem implements
 		return this.item.isSolved();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#isDiscarded()
 	 */
 	@Override
@@ -234,8 +232,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setDone
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setDone
 	 * (boolean)
 	 */
 	@Override
@@ -279,8 +276,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setNewState
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setNewState
 	 * (ch.bfh.ti.gravis.core.graph.item.ItemState)
 	 */
 	@Override
@@ -324,8 +320,7 @@ public abstract class AbstractRestrictedGraphItem implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setValue
+	 * @see ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem#setValue
 	 * (java.lang.Object)
 	 */
 	@Override

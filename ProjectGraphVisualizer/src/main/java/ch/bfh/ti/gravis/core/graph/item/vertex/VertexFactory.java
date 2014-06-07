@@ -5,6 +5,8 @@ import java.util.Objects;
 import org.apache.commons.collections15.Factory;
 
 /**
+ * Vertex factory class with static and instance factory methods.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -26,7 +28,9 @@ public class VertexFactory implements Factory<IVertex> {
 	private static char charCounter = FIRST_CHAR;
 
 	/**
-	 * @return default name
+	 * Creates a new default vertex name.
+	 * 
+	 * @return a new default vertex name
 	 */
 	public static String createVertexName() {
 		String newChar = String.valueOf(charCounter);
@@ -44,8 +48,11 @@ public class VertexFactory implements Factory<IVertex> {
 	}
 
 	/**
+	 * Decorates an instance of {@code IVertex} and creates a restricted vertex
+	 * {@code IRestrictedVertex}.
+	 * 
 	 * @param vertex
-	 * @return the restricted vertex
+	 * @return a restricted vertex
 	 */
 	public static IRestrictedVertex createRestrictedVertex(IVertex vertex) {
 		return new RestrictedVertex(Objects.requireNonNull(vertex, String

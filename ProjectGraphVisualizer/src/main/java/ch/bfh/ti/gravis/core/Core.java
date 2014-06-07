@@ -10,11 +10,8 @@ import ch.bfh.ti.gravis.core.graph.GraphFactory;
 import ch.bfh.ti.gravis.core.graph.GraphIOManager;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.graph.IRestrictedGraph;
-import ch.bfh.ti.gravis.core.step.IStep;
 import ch.bfh.ti.gravis.core.step.StepBuilder;
-import ch.bfh.ti.gravis.core.util.GravisListIterator;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
-import ch.bfh.ti.gravis.core.util.StepIterator;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.io.GraphIOException;
 
@@ -102,8 +99,8 @@ class Core implements ICore {
 			algorithm.execute(restrictedGraph,
 					StepBuilder.createStepRecorder(restrictedGraph));
 			restrictedGraph.resetItemHelperVars();
-			return new StepIterator(new GravisListIterator<IStep>(
-					stepBuilder.createStepList()));
+			
+			return stepBuilder.createStepIterator();
 		}
 	}
 

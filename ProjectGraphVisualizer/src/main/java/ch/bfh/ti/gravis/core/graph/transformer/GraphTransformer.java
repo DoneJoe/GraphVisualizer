@@ -10,6 +10,13 @@ import edu.uci.ics.jung.io.graphml.GraphMetadata;
 import edu.uci.ics.jung.io.graphml.GraphMetadata.EdgeDefault;
 
 /**
+ * Defines a functor class and transforms one object into another.
+ * <p/>
+ * A <code>Transformer</code> converts the input object to the output object.
+ * The input object should be left unchanged. Transformers are typically used
+ * for type conversions, or extracting data from an object.
+ * <p/>
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

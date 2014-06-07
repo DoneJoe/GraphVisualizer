@@ -8,6 +8,13 @@ import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 
 /**
+ * Defines a functor class and transforms one object into another.
+ * <p/>
+ * A <code>Transformer</code> converts the input object to the output object.
+ * The input object should be left unchanged. Transformers are typically used
+ * for type conversions, or extracting data from an object.
+ * <p/>
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  */
 public class VertexFillColorTransformer implements Transformer<IVertex, Paint> {

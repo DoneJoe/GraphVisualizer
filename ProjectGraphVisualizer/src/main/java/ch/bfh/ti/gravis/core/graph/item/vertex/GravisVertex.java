@@ -12,7 +12,8 @@ import ch.bfh.ti.gravis.core.util.GravisColor;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 
 /**
- * A vertex.
+ * This implementation of the {@link IVertex} interface gives access to mutable
+ * vertex methods.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -33,7 +34,7 @@ class GravisVertex extends AbstractGraphItem implements IVertex {
 	private Color currentDrawColor;
 
 	/**
-	 * Main constructor setting start and end to false both by default.
+	 * Default constructor sets start and end to false both by default.
 	 */
 	protected GravisVertex() {
 		this.setStart(false);

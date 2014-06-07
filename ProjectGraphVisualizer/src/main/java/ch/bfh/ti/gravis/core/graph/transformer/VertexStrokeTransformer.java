@@ -9,6 +9,13 @@ import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 
 /**
+ * Defines a functor class and transforms one object into another.
+ * <p/>
+ * A <code>Transformer</code> converts the input object to the output object.
+ * The input object should be left unchanged. Transformers are typically used
+ * for type conversions, or extracting data from an object.
+ * <p/>
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -26,6 +33,7 @@ public class VertexStrokeTransformer implements Transformer<IVertex, Stroke> {
 		float currentStrokeWidth = vertex != null && vertex.isCurrentTagged() ? GravisConstants.V_TAGGED_STROKE
 				: GravisConstants.STROKE_WIDTH_DEFAULT;
 
+		// set vertex start and end dash
 		if (vertex != null && vertex.isStart()) {
 			dashValue = GravisConstants.V_START_DASH;
 		} else if (vertex != null && vertex.isEnd()) {

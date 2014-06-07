@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,10 +23,9 @@ import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.edge.IRestrictedEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IRestrictedVertex;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
-import ch.bfh.ti.gravis.core.step.IStep;
 import ch.bfh.ti.gravis.core.step.IStepRecorder;
-import ch.bfh.ti.gravis.core.step.IStepResult;
 import ch.bfh.ti.gravis.core.step.StepBuilder;
+import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import edu.uci.ics.jung.io.GraphIOException;
 
 /**
@@ -92,7 +90,7 @@ public class StepBuilderTest {
 
 	/**
 	 * Test method for
-	 * {@link ch.bfh.ti.gravis.core.step.StepBuilder#createStepList()} .
+	 * {@link ch.bfh.ti.gravis.core.step.StepBuilder#createStepIterator()} .
 	 * 
 	 * @throws GraphIOException
 	 * @throws FileNotFoundException 
@@ -112,17 +110,17 @@ public class StepBuilderTest {
 			res(10.0).value(rVertices[0]).add();
 		rec.save();
 
-		List<IStep> stepList = sb.createStepList();
-		IStepResult res1 = stepList.get(0).execute();
-		IStepResult res2 = stepList.get(1).execute();
+		IGravisListIterator<String> stepList = sb.createStepIterator();
+		String res1 = stepList.next();
+		String res2 = stepList.next();
 
-		assertEquals(ACTIVATED.getMessage(vertices[0]) + "cmt1appcmt2", res1.getComment());
+		assertEquals(ACTIVATED.getMessage(vertices[0]) + "cmt1appcmt2", res1);
 		assertEquals("", rVertices[0].getNewComment());
 		assertEquals(0.0, rVertices[0].getCurrentResult(), 0.01);
 		assertEquals(ACTIVATED, rVertices[0].getCurrentState());
 
 		assertEquals(VISITED.getMessage(edges[0]) + VISITED.getMessage(vertices[1]) +
-				"visit e1",	res2.getComment());
+				"visit e1",	res2);
 		assertEquals(true, edges[0].isCurrentTagged());
 		assertEquals(VISITED, edges[0].getCurrentState());
 		assertEquals(false, edges[0].isCurrentDashed());
@@ -130,9 +128,8 @@ public class StepBuilderTest {
 		assertEquals(VISITED, vertices[1].getCurrentState());
 		assertEquals(10.0, vertices[1].getCurrentResult(), 0.01);
 
-		res2 = stepList.get(1).unExecute();
 		assertEquals(VISITED.getMessage(edges[0]) + VISITED.getMessage(vertices[1]) +
-				"visit e1", res2.getComment());
+				"visit e1", res2);
 	}
 
 	// TODO implement StepBuilderTest

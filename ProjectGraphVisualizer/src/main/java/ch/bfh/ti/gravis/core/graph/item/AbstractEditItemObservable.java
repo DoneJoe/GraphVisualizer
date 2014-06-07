@@ -8,6 +8,10 @@ import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type;
 
 /**
+ * This basic implementation of the {@link IEditItemObservable} interface provides
+ * support for adding and removing {@link IEditGraphEventListener} listeners to
+ * graph items.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -40,6 +44,23 @@ public abstract class AbstractEditItemObservable implements IEditItemObservable 
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see ch.bfh.ti.gravis.core.graph.item.IEditItemObservable#
+	 * removeEditGraphEventListener
+	 * (ch.bfh.ti.gravis.core.graph.IEditGraphEventListener[])
+	 */
+	@Override
+	public void removeEditGraphEventListeners(
+			IEditGraphEventListener... listeners) {
+		for (IEditGraphEventListener lst : listeners) {
+			while (this.listeners.contains(lst)) {
+				this.listeners.remove(lst);
+			}
+		}
+	}
+
 	/**
 	 * 
 	 * @param source
@@ -49,22 +70,6 @@ public abstract class AbstractEditItemObservable implements IEditItemObservable 
 		for (IEditGraphEventListener listener : this.listeners) {
 			listener.handleGraphItemsChangedEvent(source, type);
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see ch.bfh.ti.gravis.core.graph.item.IEditItemObservable#
-	 * removeEditGraphEventListener
-	 * (ch.bfh.ti.gravis.core.graph.IEditGraphEventListener[])
-	 */
-	@Override
-	public void removeEditGraphEventListeners(IEditGraphEventListener... listeners) {
-		for (IEditGraphEventListener lst : listeners) {
-			while (this.listeners.contains(lst)) {
-				this.listeners.remove(lst);
-			}
-		}				
 	}
 
 }

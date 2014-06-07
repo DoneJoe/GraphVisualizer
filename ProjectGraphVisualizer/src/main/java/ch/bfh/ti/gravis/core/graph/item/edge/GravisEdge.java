@@ -5,6 +5,9 @@ import ch.bfh.ti.gravis.core.graph.item.AbstractGraphItem;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 
 /**
+ * This implementation of the {@link IEdge} interface gives access to mutable
+ * edge methods.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -40,7 +43,9 @@ class GravisEdge extends AbstractGraphItem implements IEdge {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ch.bfh.ti.gravis.core.graph.item.AbstractGraphItem#createItemName()
 	 */
 	@Override
