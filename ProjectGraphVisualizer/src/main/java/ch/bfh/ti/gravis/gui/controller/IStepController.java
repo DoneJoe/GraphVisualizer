@@ -8,6 +8,9 @@ import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 
 
 /**
+ * This interface represents a controller in the MVC-pattern. The listeners in
+ * this interface handle player and step-panel events.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

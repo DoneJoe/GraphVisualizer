@@ -22,6 +22,8 @@ import javax.swing.JToggleButton;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 
 /**
+ * A toolbar panel.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -62,7 +64,7 @@ public class ToolBarPanel extends JToolBar implements Observer {
 	private final JButton btnNewCalculation;
 
 	/**
-	 * Create the panel.
+	 * Creates the toolbar panel.
 	 * 
 	 * @param model
 	 * @param menuToolbarController

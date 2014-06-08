@@ -1,6 +1,8 @@
 package ch.bfh.ti.gravis.core.step;
 
 /**
+ * This implementation of {@link IStep} performs no operation.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

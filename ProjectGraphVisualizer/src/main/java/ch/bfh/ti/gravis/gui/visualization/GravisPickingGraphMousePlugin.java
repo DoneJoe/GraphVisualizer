@@ -12,6 +12,13 @@ import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.picking.PickedState;
 
 /**
+ * PickingGraphMousePlugin supports the picking of graph elements with the
+ * mouse. If a vertex is selected and the mouse is dragged while on the selected
+ * vertex, then that vertex will be repositioned to follow the mouse until the
+ * button is released.
+ * 
+ * 
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -33,8 +40,8 @@ public class GravisPickingGraphMousePlugin extends
 	@SuppressWarnings("unchecked")
 	public void mouseDragged(final MouseEvent e) {
 		if (this.locked == false) {
-			VisualizationViewer<IVertex, IEdge> vv = 
-					(VisualizationViewer<IVertex, IEdge>) e.getSource();
+			VisualizationViewer<IVertex, IEdge> vv = (VisualizationViewer<IVertex, IEdge>) e
+					.getSource();
 			if (this.vertex != null) {
 				Point p = e.getPoint();
 				Point2D graphPoint = vv.getRenderContext()
@@ -50,8 +57,8 @@ public class GravisPickingGraphMousePlugin extends
 					Point2D vp = layout.transform(v);
 					vp.setLocation(vp.getX() + dx, vp.getY() + dy);
 					layout.setLocation(v, vp);
-					
-					// updates the vertex location
+
+					// update the vertex location
 					v.setLocation(vp);
 				}
 				this.down = p;

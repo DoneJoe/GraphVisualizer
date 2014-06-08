@@ -8,6 +8,8 @@ import ch.bfh.ti.gravis.core.ICore;
 
 
 /**
+ * This static factory class creates instances of model classes (MVC-pattern).
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
@@ -23,6 +25,8 @@ public final class AppModelFactory {
 	 * @param core 
 	 * @return IAppModel
 	 * @throws BadLocationException 
+	 * @throws NullPointerException
+	 *             if core is null
 	 */
 	public static IAppModel createAppModel(ICore core) throws BadLocationException {
 		Objects.requireNonNull(core, String.format(

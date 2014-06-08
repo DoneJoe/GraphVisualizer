@@ -10,6 +10,9 @@ import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 
 /**
+ * This class represents a controller in the MVC-pattern. The model and the view is updated
+ * after an edit graph event is occured.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -64,6 +67,8 @@ class VisualizationController implements IEditGraphEventListener {
 
 		try {
 			this.updateModelAndView(type);
+			
+			// show the graph description
 			this.model.getGraphDocument().remove(0,
 					this.model.getGraphDocument().getLength());
 			this.model.getGraphDocument().insertString(0,

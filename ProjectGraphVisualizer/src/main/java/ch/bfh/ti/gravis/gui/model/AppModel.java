@@ -33,6 +33,8 @@ import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.*;
 import static ch.bfh.ti.gravis.gui.model.IAppModel.PlayerState.*;
 
 /**
+ * An implementation of {@code IAppModel}.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -42,14 +44,14 @@ class AppModel extends Observable implements IAppModel {
 
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "AppModel.%s(): %s == %s";
-	
+
 	private static final EdgeType DEFAULT_EDGE_TYPE = EdgeType.UNDIRECTED;
 
 	private final static String ALGO_DONE_MSG = "Die Animation kann jetzt gestartet werden."
 			+ LN;
 
 	/**
-	 * double value in seconds
+	 * unit = seconds
 	 */
 	private static final double INIT = 1.0, MIN = 0.25, MAX = 10.0,
 			STEP_SIZE = 0.25;
@@ -664,7 +666,7 @@ class AppModel extends Observable implements IAppModel {
 				NULL_POINTER_MSG, "setCalcDoneState", "stepIterator",
 				stepIterator));
 		this.calcState = CALCULATED;
-		
+
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.setStepPanelState(true);
@@ -680,8 +682,8 @@ class AppModel extends Observable implements IAppModel {
 	}
 
 	/*
-	 * visualEdited does not change the calcState. An empty graph is not
-	 * calculable. If calcState is CALCULATED or EDITED_CALCULABLE, then a new
+	 * visualEdited == true does not change the calcState. An empty graph is not
+	 * calculable. If calcState is CALCULATED or EDITED_CALCULABLE, a new
 	 * calculation is needed (EDITED_CALCULABLE).
 	 * 
 	 * @see ch.bfh.ti.gravis.gui.model.IAppModel#setEditGraphState(boolean)
@@ -720,7 +722,7 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setEditMode(Mode newMode) throws BadLocationException {
 		newMode = newMode == null ? Mode.PICKING : newMode;
-		
+
 		if (this.toggleComboGroup.getMode() != newMode) {
 			this.toggleComboGroup.getModeComboBox().setSelectedItem(newMode);
 		}
@@ -761,8 +763,9 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setNewGraphState(EdgeType edgeType) throws BadLocationException {
 		edgeType = edgeType == null ? EdgeType.DIRECTED : edgeType;
-		
+
 		if (this.graph == null) {
+			// init with sample graph
 			this.graph = GraphFactory.createUndirectedSampleGraph();
 			this.calcState = CALCULABLE;
 		} else {
@@ -811,12 +814,10 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setOpenGraphState(IGravisGraph graph, File file)
 			throws BadLocationException {
-		Objects.requireNonNull(graph, String.format(
-				NULL_POINTER_MSG, "setOpenGraphState", "graph",
-				graph));
-		Objects.requireNonNull(file, String.format(
-				NULL_POINTER_MSG, "setOpenGraphState", "file",
-				file));
+		Objects.requireNonNull(graph, String.format(NULL_POINTER_MSG,
+				"setOpenGraphState", "graph", graph));
+		Objects.requireNonNull(file, String.format(NULL_POINTER_MSG,
+				"setOpenGraphState", "file", file));
 
 		this.graph = GraphFactory.createEditGraphObservable(graph,
 				this.graph.getEditGraphEventListeners());
@@ -863,9 +864,9 @@ class AppModel extends Observable implements IAppModel {
 	 */
 	@Override
 	public void setPickedVertexState(PickedState<IVertex> pickedVertexState) {
-		this.pickedVertexState = Objects.requireNonNull(pickedVertexState, String.format(
-				NULL_POINTER_MSG, "setPickedVertexState", "pickedVertexState",
-				pickedVertexState));
+		this.pickedVertexState = Objects.requireNonNull(pickedVertexState,
+				String.format(NULL_POINTER_MSG, "setPickedVertexState",
+						"pickedVertexState", pickedVertexState));
 	}
 
 	/*
@@ -912,8 +913,7 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setSaveGraphState(File graphFile) throws BadLocationException {
 		this.graphFile = Objects.requireNonNull(graphFile, String.format(
-				NULL_POINTER_MSG, "setSaveGraphState", "graphFile",
-				graphFile));
+				NULL_POINTER_MSG, "setSaveGraphState", "graphFile", graphFile));
 		this.setSaveGraphState();
 	}
 
@@ -927,10 +927,10 @@ class AppModel extends Observable implements IAppModel {
 					- stepMessage.length(), stepMessage.length());
 
 			if (enabled) {
-				// enabled and step iterator
+				// enabled and step iterator exists
 				this.progressBarModel.setMaximum(this.stepIterator.size());
 			} else {
-				// disabled and step iterator
+				// disabled and step iterator exists
 				this.stepIterator = null;
 				this.progressBarModel.setMaximum(0);
 			}
@@ -973,11 +973,11 @@ class AppModel extends Observable implements IAppModel {
 	@Override
 	public void setWorkingState(boolean enabled) throws BadLocationException {
 		this.working = enabled;
-		
+
 		if (enabled) {
 			this.graph.forceStartVertex();
 		}
-		
+
 		this.updateMenuToolbarModels();
 		this.updatePopupModels();
 		this.setStepPanelState(!enabled);
@@ -1055,7 +1055,7 @@ class AppModel extends Observable implements IAppModel {
 
 	/**
 	 * The save graph button model is only enabled when: <br />
-	 * there is no existing graphFile or the graph is unsaved. <br />
+	 * There is no existing graphFile or the graph is unsaved. <br />
 	 * The newCalcButtonModel is only enabled when edited calculation is
 	 * possible.
 	 * 

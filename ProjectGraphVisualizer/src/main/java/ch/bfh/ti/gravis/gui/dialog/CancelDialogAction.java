@@ -7,6 +7,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 
 /**
+ * This Action class disposes a given {@code JDialog} in case of an action event.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */

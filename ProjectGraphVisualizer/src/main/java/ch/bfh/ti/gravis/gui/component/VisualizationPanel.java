@@ -42,14 +42,12 @@ public class VisualizationPanel extends JPanel implements Observer {
 	private final TitledBorder border;
 
 	/**
-	 * mode combo box listener is registered
 	 * 
 	 * @param mainWindow
 	 * @param model
 	 */
 	@SuppressWarnings("unchecked")
 	public VisualizationPanel(final JFrame mainWindow, final IAppModel model) {
-
 		// create components:
 
 		this.border = BorderFactory.createTitledBorder(model.getGraph()

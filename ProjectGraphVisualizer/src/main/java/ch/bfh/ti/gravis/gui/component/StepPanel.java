@@ -33,6 +33,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JSpinner;
 
 /**
+ * A step panel.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -40,11 +42,14 @@ public class StepPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 1543453026902655850L;
 
+	// labels:
+	
 	private static final String BORDER_LABEL = "Player";
-
 	private static final String PROGRESS_LABEL = "Schritt %d/%d ";
 	private static final String DELAY_LABEL = "Zeitintervall: ";
 
+	// button icons:
+	
 	private static final String PLAY_ICON = "start-icon_32.png";
 	private static final String PAUSE_ICON = "pause-icon_32.png";
 	private static final String STOP_ICON = "stop-icon_32.png";
@@ -54,6 +59,8 @@ public class StepPanel extends JPanel implements Observer {
 	private static final String FORWARD_ICON = "forward-icon_32.png";
 	private static final String END_ICON = "skip-forward-icon_32.png";
 
+	// tooltip messages:
+	
 	private static final String BEGINNING_TOOLTIP = "Zum Anfang";
 	private static final String BACK_TOOLTIP = "Einen Schritt zurück";
 	private static final String FORWARD_TOOLTIP = "Einen Schritt vorwärts";
@@ -73,7 +80,7 @@ public class StepPanel extends JPanel implements Observer {
 	private JSpinner spinnerDelay;
 
 	/**
-	 * Create the panel.
+	 * Create the step panel.
 	 * 
 	 * @param model
 	 * @param stepController
@@ -91,7 +98,7 @@ public class StepPanel extends JPanel implements Observer {
 		FlowLayout playBtnLayout = new FlowLayout(FlowLayout.RIGHT);
 		FlowLayout stepBtnLayout = new FlowLayout(FlowLayout.LEFT);
 
-		// sets layouts:
+		// set layouts:
 
 		this.setLayout(new GridLayout(2, 0, 0, 0));
 		panelProgress.setLayout(new BoxLayout(panelProgress, BoxLayout.X_AXIS));
@@ -99,14 +106,14 @@ public class StepPanel extends JPanel implements Observer {
 		panelPlayButtons.setLayout(playBtnLayout);
 		panelStepButtons.setLayout(stepBtnLayout);
 
-		// composes panels:
+		// compose panels:
 
 		this.add(panelProgress);
 		this.add(panelStep);
 		panelStep.add(panelPlayButtons);
 		panelStep.add(panelStepButtons);
 
-		// sets border and background colors:
+		// set border and background colors:
 
 		this.setBorder(BorderFactory.createTitledBorder(BORDER_LABEL));
 		this.setBackground(GravisColor.LIGHT_BLUE);
@@ -211,7 +218,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnEnd.setToolTipText(END_TOOLTIP);
 		panelStepButtons.add(btnEnd);
 
-		// sets button models:
+		// set button models:
 
 		btnPlay.setModel(model.getPlayButtonModel());
 		btnPause.setModel(model.getPauseButtonModel());
@@ -221,7 +228,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnBack.setModel(model.getBackButtonModel());
 		btnEnd.setModel(model.getEndButtonModel());
 
-		// adds listeners:
+		// add listeners:
 
 		this.spinnerDelay.addChangeListener(stepController);
 		btnPlay.addActionListener(stepController);
@@ -239,7 +246,7 @@ public class StepPanel extends JPanel implements Observer {
 		btnEnd.setActionCommand(EventSource.END.toString());
 		btnEnd.addActionListener(stepController);
 
-		// disables step component focus:
+		// disable step component focus:
 
 		this.lblProgress.setFocusable(false);
 		this.progressBar.setFocusable(false);
@@ -277,7 +284,7 @@ public class StepPanel extends JPanel implements Observer {
 			String labelText = String.format(PROGRESS_LABEL,
 					this.progressBar.getValue(), this.progressBar.getMaximum());
 
-			// updates progressBar and spinner
+			// update progressBar and spinner
 			this.lblProgress.setText(labelText);
 			this.progressBar.setToolTipText(labelText);
 			this.progressBar.setEnabled(model.isProgressBarEnabled());

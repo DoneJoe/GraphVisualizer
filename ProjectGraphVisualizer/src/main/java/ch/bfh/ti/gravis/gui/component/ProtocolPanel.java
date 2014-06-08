@@ -17,6 +17,8 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
 import java.awt.GridLayout;
 
 /**
+ * A protocol panel.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -37,7 +39,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 	 * @param model
 	 */
 	public ProtocolPanel(IAppModel model) {
-		// creates panels:
+		// create panels:
 
 		JPanel graphAlgoPanel = new JPanel();
 		JPanel graphPanel = new JPanel();
@@ -47,7 +49,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		JScrollPane algoScrollPane = new JScrollPane();
 		JScrollPane protocolScrollPane = new JScrollPane();
 
-		// sets layouts:
+		// set layouts:
 
 		this.setLayout(new GridLayout(0, 2, 0, 0));
 		graphAlgoPanel.setLayout(new GridLayout(0, 2));
@@ -55,7 +57,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		algoPanel.setLayout(new BorderLayout());
 		nestedProtocolPanel.setLayout(new BorderLayout());
 
-		// creates text areas:
+		// create text areas:
 
 		this.protocol = new JTextArea(model.getProtocolDocument());
 		//this.protocol.setBackground(GravisColor.WHITE_GRAY);
@@ -81,7 +83,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		this.algorithmDescription.setEditable(false);
 		this.algorithmDescription.setRows(ROW_NUMBER);
 
-		// adds components and panels:
+		// add components and panels:
 
 		graphScrollPane.setViewportView(this.graphDescription);
 		algoScrollPane.setViewportView(this.algorithmDescription);
@@ -96,14 +98,14 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		this.add(graphAlgoPanel);
 		this.add(nestedProtocolPanel);
 
-		// sets border labels:
+		// set border labels:
 
 		graphPanel.setBorder(BorderFactory.createTitledBorder(GRAPH_BORDER));
 		algoPanel.setBorder(BorderFactory.createTitledBorder(ALGO_BORDER));
 		nestedProtocolPanel.setBorder(BorderFactory
 				.createTitledBorder(PROTOCOL_BORDER));
 
-		// sets panel background colors:
+		// set panel background colors:
 
 		this.setBackground(GravisColor.LIGHT_BLUE);
 		graphAlgoPanel.setBackground(GravisColor.LIGHT_BLUE);
@@ -111,7 +113,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		algoPanel.setBackground(GravisColor.LIGHT_BLUE);
 		nestedProtocolPanel.setBackground(GravisColor.LIGHT_BLUE);
 
-		// sets scroll panes
+		// set scroll panes
 
 		graphScrollPane
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -120,7 +122,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		protocolScrollPane
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-		// adds listeners:
+		// add listeners:
 
 		this.graphDescription.getDocument().addDocumentListener(this);
 		this.algorithmDescription.getDocument().addDocumentListener(this);

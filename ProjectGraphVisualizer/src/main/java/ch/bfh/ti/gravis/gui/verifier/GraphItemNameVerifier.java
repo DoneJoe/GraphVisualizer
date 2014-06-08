@@ -11,6 +11,8 @@ import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import edu.uci.ics.jung.graph.Graph;
 
 /**
+ * A graph item name verifier.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

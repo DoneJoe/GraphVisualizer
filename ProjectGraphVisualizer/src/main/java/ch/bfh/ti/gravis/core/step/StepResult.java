@@ -1,6 +1,8 @@
 package ch.bfh.ti.gravis.core.step;
 
 /**
+ * An implementation of {@link IStepResult}.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
@@ -9,6 +11,7 @@ class StepResult implements IStepResult {
 	private String stepComment;
 	
 	/**
+	 * Creates a step result with comment.
 	 * 
 	 * @param comment
 	 */
@@ -16,6 +19,9 @@ class StepResult implements IStepResult {
 		this.stepComment = comment == null ? "" : comment;
 	}
 
+	/**
+	 *  Creates an empty step result.
+	 */
 	public StepResult() {
 		this("");
 	}

@@ -11,6 +11,9 @@ import ch.bfh.ti.gravis.gui.visualization.GravisModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 
 /**
+ * This class puts the edit toggle buttons and the edit mode combobox in a
+ * component group. The components are all updated when the active toggle button
+ * or the selected combo item changes.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -49,21 +52,21 @@ public class ToggleComboGroup {
 		this.editModeComboBox.addItemListener(this.createModeComboListener());
 
 		// select picking item:
-		
+
 		this.pickingToggleButton.setSelected(true);
 	}
 
 	/**
-	 * Returns the selected item in the mode combo box.
+	 * Returns the current selected mode.
 	 * 
-	 * @return Mode
+	 * @return the current selected mode
 	 */
 	public Mode getMode() {
 		return (Mode) this.editModeComboBox.getSelectedItem();
 	}
 
 	/**
-	 * @return JComboBox<?>
+	 * @return mode combo box
 	 */
 	public JComboBox<?> getModeComboBox() {
 		return this.editModeComboBox;
@@ -71,13 +74,13 @@ public class ToggleComboGroup {
 
 	/**
 	 * @param mode
-	 * @return JToggleButton
+	 * @return a mode toggle button
 	 */
 	public JToggleButton getModeToggleButton(final Mode mode) {
 		if (mode == null) {
 			return this.pickingToggleButton;
 		}
-		
+
 		switch (mode) {
 		case EDITING:
 			return this.editingToggleButton;

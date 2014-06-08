@@ -8,6 +8,8 @@ import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 
 /**
+ * This static factory class creates instances of controller classes (MVC-pattern).
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -16,6 +18,9 @@ public final class ControllerFactory {
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "ControllerFactory.%s(): %s == %s";
 
+	/**
+	 * Hides the dafault constructor.
+	 */
 	private ControllerFactory() {
 	}
 
@@ -23,6 +28,8 @@ public final class ControllerFactory {
 	 * @param model
 	 * @param core
 	 * @return IMenuToolbarController
+	 * @throws NullPointerException
+	 *             if core or model is null
 	 */
 	public static IMenuToolbarController createMenuToolbarController(
 			IAppModel model, ICore core) {
@@ -39,6 +46,8 @@ public final class ControllerFactory {
 	 * @param model
 	 * @param messageDialogAdapter
 	 * @return IEditGraphEventListener
+	 * @throws NullPointerException
+	 *             if messageDialogAdapter or model is null
 	 */
 	public static IEditGraphEventListener createVisualizationController(
 			IAppModel model, MessageDialogAdapter messageDialogAdapter) {
@@ -54,6 +63,8 @@ public final class ControllerFactory {
 	/**
 	 * @param model
 	 * @return IStepController
+	 * @throws NullPointerException
+	 *             if model is null
 	 */
 	public static IStepController createStepController(IAppModel model) {
 		Objects.requireNonNull(model, String.format(NULL_POINTER_MSG,

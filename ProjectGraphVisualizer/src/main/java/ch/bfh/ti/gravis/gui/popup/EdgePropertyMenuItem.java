@@ -14,6 +14,8 @@ import ch.bfh.ti.gravis.gui.dialog.EdgePropertyDialog;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
+ * An "edge property" menu item.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -66,11 +68,11 @@ class EdgePropertyMenuItem extends JMenuItem implements IGraphItemMenuListener {
 	 * 
 	 * @see
 	 * ch.bfh.ti.gravis.gui.visualization.GraphItemMenuListener#
-	 * setGraphItemAndView
+	 * setGraphItem
 	 * (ch.bfh.ti.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
-	public void setGraphItemAndView(final IGraphItem item) {
+	public void setGraphItem(final IGraphItem item) {
 		if (item instanceof IEdge) {
 			this.edge = (IEdge) item;
 			this.setText(String.format(TITLE, item.getName()));

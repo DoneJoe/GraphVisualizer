@@ -17,8 +17,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingPopupGraphMousePlugin;
 
 /**
- * A plugin that uses popup menus to create vertices, undirected edges, and
- * directed edges.
+ * A plugin that uses popup menus to edit the vertices and edges.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -65,9 +64,11 @@ public class GravisPopupGraphMousePlugin extends
 						point.getX(), point.getY());
 
 				if (vertex != null && this.vertexPopup != null) {
+					// show vertex popup menu
 					this.updateItemMenu(vertex, point, this.vertexPopup);
 					this.vertexPopup.show(vViewer, e.getX(), e.getY());
 				} else if (edge != null && this.edgePopup != null) {
+					// show edge popup menu
 					this.updateItemMenu(edge, point, this.edgePopup);
 					this.edgePopup.show(vViewer, e.getX(), e.getY());
 				} else if (edge == null && vertex == null
@@ -93,14 +94,14 @@ public class GravisPopupGraphMousePlugin extends
 			final JPopupMenu popUp) {
 		for (Component comp : popUp.getComponents()) {
 			if (comp instanceof IGraphItemMenuListener) {
-				((IGraphItemMenuListener) comp).setGraphItemAndView(item);
+				((IGraphItemMenuListener) comp).setGraphItem(item);
 				((IGraphItemMenuListener) comp).setGraphItemLocation(point);
 			}
 		}
 	}
 
 	/**
-	 * Setter for the Edge popup.
+	 * Setter for the edge popup.
 	 * 
 	 * @param edgePopup
 	 */

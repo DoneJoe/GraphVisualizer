@@ -12,6 +12,8 @@ import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
+ * A "end vertex" menu item.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -53,11 +55,11 @@ class EndVertexCheckBox extends JCheckBoxMenuItem implements
 	 * (non-Javadoc)
 	 * 
 	 * @see ch.bfh.ti.gravis.gui.visualization.GraphItemMenuListener
-	 * #setGraphItemAndView
+	 * #setGraphItem
 	 * (ch.bfh.ti.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
-	public void setGraphItemAndView(final IGraphItem item) {
+	public void setGraphItem(final IGraphItem item) {
 		if (item instanceof IVertex) {
 			this.vertex = (IVertex) item;
 			this.setSelected(this.vertex.isEnd());

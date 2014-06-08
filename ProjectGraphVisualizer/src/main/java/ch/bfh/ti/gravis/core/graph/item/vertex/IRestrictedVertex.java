@@ -4,12 +4,12 @@ import java.awt.geom.Point2D;
 
 import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
 
-
 /**
- * This interface gives restricted access to vertex methods. Only getter methods are accessable.
+ * This interface gives restricted access to additional vertex methods. Only
+ * getter methods are accessable.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
- *
+ * 
  */
 public interface IRestrictedVertex extends IRestrictedGraphItem {
 
@@ -33,14 +33,14 @@ public interface IRestrictedVertex extends IRestrictedGraphItem {
 	 * @return width
 	 */
 	public abstract double getWidth();
-	
+
 	/**
 	 * Returns <code>true</code> if this is the end vertex.
 	 * 
 	 * @return <code>true</code> if this is the end vertex
 	 */
 	public abstract boolean isEnd();
-	
+
 	/**
 	 * Returns <code>true</code> if this is the start vertex.
 	 * 
@@ -48,5 +48,4 @@ public interface IRestrictedVertex extends IRestrictedGraphItem {
 	 */
 	public abstract boolean isStart();
 
-	
 }

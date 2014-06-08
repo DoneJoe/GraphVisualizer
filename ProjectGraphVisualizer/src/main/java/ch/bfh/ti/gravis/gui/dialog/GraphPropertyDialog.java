@@ -29,6 +29,8 @@ import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.gui.verifier.GraphNameVerifier;
 
 /**
+ * A graph property dialog.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -47,7 +49,7 @@ public class GraphPropertyDialog extends JDialog {
 	private static final String CANCEL = "Abbrechen";
 
 	/**
-	 * Create the dialog.
+	 * Creates the dialog.
 	 * 
 	 * @param owner
 	 * @param graph
@@ -55,7 +57,7 @@ public class GraphPropertyDialog extends JDialog {
 	public GraphPropertyDialog(final IGravisGraph graph, final JFrame owner) {
 		super(owner, true);
 
-		// creates verifier and panels:
+		// create verifier and panels:
 
 		GraphNameVerifier verifier = new GraphNameVerifier(graph.getName());
 
@@ -75,7 +77,7 @@ public class GraphPropertyDialog extends JDialog {
 		this.getContentPane().add(panelGraphDescription, BorderLayout.CENTER);
 		this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		// creates graph name text field:
+		// create graph name text field:
 
 		JLabel lblGraphName = new JLabel(GRAPH_NAME_LABEL);
 		panelGraphName.add(lblGraphName, BorderLayout.WEST);
@@ -83,7 +85,7 @@ public class GraphPropertyDialog extends JDialog {
 		JTextField txtGraphName = new JTextField();
 		panelGraphName.add(txtGraphName, BorderLayout.CENTER);
 
-		// creates graph description text area:
+		// create graph description text area:
 
 		JLabel lblGraphDescription = new JLabel(GRAPH_DESCR_LABEL);
 		panelGraphDescription.add(lblGraphDescription, BorderLayout.NORTH);
@@ -99,7 +101,7 @@ public class GraphPropertyDialog extends JDialog {
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		panelGraphDescription.add(areaScrollPane, BorderLayout.CENTER);
 
-		// creates cancel action and buttons:
+		// create cancel action and buttons:
 
 		Action cancelAction = new CancelDialogAction(this);
 
@@ -130,7 +132,7 @@ public class GraphPropertyDialog extends JDialog {
 		okButton.addActionListener(this.createOKActionListener(graph, verifier,
 				txtGraphName, graphDescription));
 
-		// prepares dialog:
+		// prepare dialog:
 
 		this.setTitle(String.format(TITLE, graph.getName()));
 		this.setResizable(false);

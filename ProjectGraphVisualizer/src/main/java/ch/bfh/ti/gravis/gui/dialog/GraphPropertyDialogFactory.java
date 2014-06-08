@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 
 /**
+ * A graph property dialog factory.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */

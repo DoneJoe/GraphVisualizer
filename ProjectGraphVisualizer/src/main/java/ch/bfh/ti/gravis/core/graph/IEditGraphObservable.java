@@ -20,7 +20,7 @@ import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type;
 public interface IEditGraphObservable extends IGravisGraph {
 
 	/**
-	 * Adds an new {@code IEditGraphEventListener} to this graph.
+	 * Adds a new {@code IEditGraphEventListener} to this graph.
 	 * 
 	 * @param listener
 	 * @throws NullPointerException

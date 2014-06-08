@@ -4,7 +4,7 @@ import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 
 /**
- * This interface gives access to mutable edge methods.
+ * This interface gives access to additional edge methods.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 

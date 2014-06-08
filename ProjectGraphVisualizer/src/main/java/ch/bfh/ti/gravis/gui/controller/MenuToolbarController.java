@@ -35,7 +35,7 @@ import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.NOT_CALCULAB
 import static ch.bfh.ti.gravis.core.util.GravisConstants.LN;
 
 /**
- * This class controls all MenuBar and ToolBar events.
+ * An implementation of {@code IMenuToolbarController}.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -228,8 +228,8 @@ class MenuToolbarController extends WindowAdapter implements
 	}
 
 	/**
-	 * Checks if the graph is unsaved. If unsaved, the confirm dialog is called,
-	 * if not unsaved, true is returned. True is also returned if the graph has
+	 * Checks if the graph is unsaved. If unsaved, the confirm dialog is called.
+	 * If not unsaved, true is returned. True is also returned if the graph has
 	 * been saved or "not save" is selected from the confirm dialog.
 	 * 
 	 * @return boolean
@@ -257,8 +257,10 @@ class MenuToolbarController extends WindowAdapter implements
 	}
 
 	/**
+	 * Creates a calculation {@code SwingWorker} instance.
+	 * 
 	 * @param algoName
-	 * @return SwingWorker<IGravisListIterator<String>, Void>
+	 * @return a calculation {@code SwingWorker} instance
 	 */
 	private SwingWorker<IGravisListIterator<String>, Void> createCalcSwingWorker(
 			final String algoName) {
@@ -296,6 +298,7 @@ class MenuToolbarController extends WindowAdapter implements
 						// update view
 						MenuToolbarController.this.model.notifyObservers(false);
 
+						// handle AlgorithmException
 						if (e.getCause() instanceof AlgorithmException) {
 							AlgorithmException aex = (AlgorithmException) e
 									.getCause();
@@ -313,7 +316,7 @@ class MenuToolbarController extends WindowAdapter implements
 									.handleAppErrorExit(e);
 						}
 
-						// set model to no algo selected state
+						// set algorithm combo model to "no algo selected"
 						MenuToolbarController.this.model
 								.getAlgorithmComboModel()
 								.setSelectedItem(
@@ -330,8 +333,10 @@ class MenuToolbarController extends WindowAdapter implements
 	}
 
 	/**
+	 * Creates an open graph {@code SwingWorker} instance.
+	 * 
 	 * @param file
-	 * @return SwingWorker<IGravisGraph, Void>
+	 * @return an open graph {@code SwingWorker} instance
 	 */
 	private SwingWorker<IGravisGraph, Void> createOpenGraphSwingWorker(
 			final File file) {
@@ -340,6 +345,7 @@ class MenuToolbarController extends WindowAdapter implements
 
 			@Override
 			protected IGravisGraph doInBackground() throws Exception {
+				// load the graph
 				return MenuToolbarController.this.core.loadGraph(file);
 			}
 
@@ -351,21 +357,23 @@ class MenuToolbarController extends WindowAdapter implements
 			@Override
 			protected void done() {
 				try {
-					// enables GUI
+					// enable GUI
 					MenuToolbarController.this.model.setWorkingState(false);
 
-					// updates model
+					// update model
 					MenuToolbarController.this.model.setOpenGraphState(
 							this.get(), file);
 
-					// updates view
+					// update view
 					MenuToolbarController.this.model.notifyObservers(true);
 				} catch (ExecutionException e) {
 					try {
-						Document graphDoc = MenuToolbarController.this.model.getGraphDocument();
+						Document graphDoc = MenuToolbarController.this.model
+								.getGraphDocument();
 						// update view
 						MenuToolbarController.this.model.notifyObservers(false);
 
+						// handle FileNotFoundException
 						if (e.getCause() instanceof FileNotFoundException) {
 							MenuToolbarController.this.errHandler
 									.showErrorMessage(String.format(
@@ -381,11 +389,14 @@ class MenuToolbarController extends WindowAdapter implements
 									.handleAppErrorExit(e);
 						}
 
-						graphDoc.remove(0, graphDoc.getLength());						
-						graphDoc.insertString(0, MenuToolbarController.this.model.getGraph().
-								getDescription(),
+						// show previous graph description
+						graphDoc.remove(0, graphDoc.getLength());
+						graphDoc.insertString(0,
+								MenuToolbarController.this.model.getGraph()
+										.getDescription(),
 								SimpleAttributeSet.EMPTY);
-						// set model to no algo selected state
+
+						// set algorithm combo model to "no algo selected"
 						MenuToolbarController.this.model
 								.getAlgorithmComboModel()
 								.setSelectedItem(
@@ -418,7 +429,7 @@ class MenuToolbarController extends WindowAdapter implements
 			Document algoDoc = this.model.getAlgorithmDocument();
 			Document protocolDoc = this.model.getProtocolDocument();
 
-			// ignores title entry
+			// ignore title entry
 			if (noAlgo) {
 				// update model
 				this.model.setNoAlgoSelectedState();
@@ -429,10 +440,10 @@ class MenuToolbarController extends WindowAdapter implements
 				SwingWorker<IGravisListIterator<String>, Void> worker = this
 						.createCalcSwingWorker(algoName);
 
-				// sets step panel to initial state and disables GUI
+				// set step panel to initial state and disables GUI
 				this.model.setWorkingState(true);
 
-				// clears documents and inserts algo message
+				// clear documents and inserts algo message
 				algoDoc.remove(0, algoDoc.getLength());
 				protocolDoc.remove(0, protocolDoc.getLength());
 				algoDoc.insertString(0,
@@ -463,6 +474,9 @@ class MenuToolbarController extends WindowAdapter implements
 		System.exit(0);
 	}
 
+	/**
+	 * Shows the graph property edit dialog.
+	 */
 	private void handleGraphPropertyEvent() {
 		if (this.model.isStopped() && this.graphPropertyDialogFactory != null) {
 			// create a graph property dialog
@@ -473,6 +487,8 @@ class MenuToolbarController extends WindowAdapter implements
 	}
 
 	/**
+	 * Handles a graph edit mode event.
+	 * 
 	 * @param mode
 	 * @throws BadLocationException
 	 * 
@@ -503,14 +519,15 @@ class MenuToolbarController extends WindowAdapter implements
 
 			// update model
 			this.model.setNewGraphState(edgeType);
-			
+
 			// update view
-			this.model.notifyObservers(true);			
+			this.model.notifyObservers(true);
 		}
 	}
 
 	/**
-	 * An existing file must be selected for opening a graph.
+	 * Handles an open graph event. An existing file must be selected for opening
+	 * a graph.
 	 * 
 	 * @throws BadLocationException
 	 */
@@ -531,32 +548,34 @@ class MenuToolbarController extends WindowAdapter implements
 					Document algoDoc = this.model.getAlgorithmDocument();
 					Document protocolDoc = this.model.getProtocolDocument();
 
-					// sets step panel to initial state and disables GUI
+					// set step panel to initial state and disable GUI
 					this.model.setWorkingState(true);
 
-					// clears documents and inserts open graph message
+					// clear documents and insert open graph message
 					graphDoc.remove(0, graphDoc.getLength());
 					algoDoc.remove(0, algoDoc.getLength());
 					protocolDoc.remove(0, protocolDoc.getLength());
 					graphDoc.insertString(0, OPEN_GRAPH_MSG,
 							SimpleAttributeSet.EMPTY);
 
-					// updates view
+					// update view
 					this.model.notifyObservers(false);
 
 					worker.execute();
 					return;
 				} else {
-					this.errHandler.showErrorMessage(String.format(FILE_OPEN_ERR_MSG, LN,
-							file.getAbsolutePath()), OPEN_ERR_TITLE);
+					this.errHandler.showErrorMessage(
+							String.format(FILE_OPEN_ERR_MSG, LN,
+									file.getAbsolutePath()), OPEN_ERR_TITLE);
 				}
 			}
 		}
 	}
 
 	/**
+	 * Handles a save graph as event. <br />
 	 * The graph is saved in the selected file if: <br />
-	 * - the selected file is a new file <br />
+	 * - the selected file don't exist <br />
 	 * - the selected file exists and "overwrite" is selected in the confirm
 	 * dialog
 	 * 
@@ -587,11 +606,13 @@ class MenuToolbarController extends WindowAdapter implements
 						// update model
 						this.model.setSaveGraphState(file);
 					} catch (FileNotFoundException e) {
-						this.errHandler.showErrorMessage(
-								String.format(FILE_SAVE_ERR_MSG, LN,
+						this.errHandler
+								.showErrorMessage(String.format(
+										FILE_SAVE_ERR_MSG, LN,
 										file.getAbsolutePath()), SAVE_ERR_TITLE);
 					} catch (GraphIOException e) {
-						this.errHandler.showErrorMessage(e, SAVE_ERR_MSG, SAVE_ERR_TITLE);
+						this.errHandler.showErrorMessage(e, SAVE_ERR_MSG,
+								SAVE_ERR_TITLE);
 					}
 
 					// update view
@@ -606,8 +627,9 @@ class MenuToolbarController extends WindowAdapter implements
 	}
 
 	/**
-	 * If the graphFile is null, handleSaveGraphAsEvent is called. <br />
-	 * If the graphFile is not null, the graph is saved with the existing
+	 * Handles a save graph event. <br />
+	 * If the graphFile is null: handleSaveGraphAsEvent is called. <br />
+	 * If the graphFile is not null: the graph is saved in the existing
 	 * graphFile.
 	 * 
 	 * @return save result
@@ -627,11 +649,12 @@ class MenuToolbarController extends WindowAdapter implements
 					// update model
 					this.model.setSaveGraphState();
 				} catch (FileNotFoundException e) {
-					this.errHandler.showErrorMessage(String.format(FILE_SAVE_ERR_MSG, LN,
-							this.model.getGraphFile().getAbsolutePath()),
-							SAVE_ERR_TITLE);
+					this.errHandler.showErrorMessage(String.format(
+							FILE_SAVE_ERR_MSG, LN, this.model.getGraphFile()
+									.getAbsolutePath()), SAVE_ERR_TITLE);
 				} catch (GraphIOException e) {
-					this.errHandler.showErrorMessage(e, SAVE_ERR_MSG, SAVE_ERR_TITLE);
+					this.errHandler.showErrorMessage(e, SAVE_ERR_MSG,
+							SAVE_ERR_TITLE);
 				}
 
 				// update view

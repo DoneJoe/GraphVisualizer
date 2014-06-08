@@ -22,6 +22,9 @@ import ch.bfh.ti.gravis.gui.model.MainWindowModel;
 import static ch.bfh.ti.gravis.gui.GuiFactory.loadImage;
 
 /**
+ * The application main window. This class represents the main view in the
+ * MVC-pattern.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -30,14 +33,14 @@ public class MainWindow extends JFrame implements Observer {
 	private static final long serialVersionUID = 8699847848182615730L;
 
 	private static final int BORDER = 5;
-	
+
 	private final static String TITLE_NEW = "Graph Visualizer - [Neuer Graph%s]";
 	private final static String TITLE_SAVED = "Graph Visualizer - [%s%s]";
 	private final static String UNSAVED = " *";
 	private final static String APP_ICON = "Circle-group-icon_32.png";
 
 	/**
-	 * Creates the frame.
+	 * Creates the main window.
 	 * 
 	 * @param stepController
 	 * @param menuToolbarController
@@ -50,14 +53,14 @@ public class MainWindow extends JFrame implements Observer {
 
 		super(String.format(TITLE_NEW, ""));
 
-		// sets content pane:
+		// set content pane:
 
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
 		contentPane.setLayout(new BorderLayout(BORDER, BORDER));
 		this.setContentPane(contentPane);
 
-		// creates panels:
+		// create panels:
 
 		MenuBarPanel menuBar = new MenuBarPanel(this, menuToolbarController,
 				model);
@@ -69,7 +72,7 @@ public class MainWindow extends JFrame implements Observer {
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		JPanel centerPanel = new JPanel();
 
-		// adds panels:
+		// add panels:
 
 		centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(visualizationPanel, BorderLayout.CENTER);
@@ -79,14 +82,14 @@ public class MainWindow extends JFrame implements Observer {
 		contentPane.add(toolBar, BorderLayout.NORTH);
 		contentPane.add(splitPane, BorderLayout.CENTER);
 
-		// adds Observers:
+		// add Observers:
 
 		model.addObserver(this);
 		model.addObserver(toolBar);
 		model.addObserver(visualizationPanel);
 		model.addObserver(stepPanel);
 
-		// prepares main window:
+		// prepare main window:
 
 		this.setJMenuBar(menuBar);
 		this.addWindowListener(menuToolbarController);
@@ -109,7 +112,8 @@ public class MainWindow extends JFrame implements Observer {
 
 			String unsaved = model.isUnsaved() ? UNSAVED : "";
 			this.setTitle(model.hasGraphFile() ? String.format(TITLE_SAVED,
-					model.getFilePath(), unsaved) : String.format(TITLE_NEW, unsaved));
+					model.getFilePath(), unsaved) : String.format(TITLE_NEW,
+					unsaved));
 		}
 	}
 }

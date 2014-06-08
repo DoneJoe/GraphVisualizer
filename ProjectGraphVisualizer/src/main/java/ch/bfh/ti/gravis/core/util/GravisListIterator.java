@@ -6,7 +6,8 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 /**
- * A generic implementation of a bidirectinal immutable iterator.
+ * A generic implementation of a bidirectinal immutable iterator. The elements
+ * are backed in a given {@code List}.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -15,22 +16,22 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "GravisListIterator<E>.%s(): %s == %s";
-	
+
 	private static final String EXCEPTION_MSG = "remove(): unsupported operation!";
-	
+
 	private final ListIterator<E> listIterator;
 
 	private int size;
 
 	/**
-	 * Creates an iterator iterating over all list elements.
+	 * Creates an iterator iterating over all list elements.The elements are
+	 * backed in the given {@code List}.
 	 * 
 	 * @param list
 	 */
 	public GravisListIterator(List<E> list) {
-		Objects.requireNonNull(list, String.format(
-				NULL_POINTER_MSG, "GravisListIterator", "list",
-				list));
+		Objects.requireNonNull(list, String.format(NULL_POINTER_MSG,
+				"GravisListIterator", "list", list));
 		this.listIterator = list.listIterator();
 		this.size = list.size();
 	}
@@ -38,9 +39,8 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.traversing.ITraverserCollection
-	 * #isEmpty ()
+	 * @see ch.bfh.ti.gravis.core.graph.traversing.ITraverserCollection #isEmpty
+	 * ()
 	 */
 	@Override
 	public boolean isEmpty() {
@@ -91,9 +91,8 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.traversing.ITraverserCollection
-	 * #before ()
+	 * @see ch.bfh.ti.gravis.core.graph.traversing.ITraverserCollection #before
+	 * ()
 	 */
 	@Override
 	public E previous() {
@@ -103,8 +102,7 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.traversing.ITraverserCollection
+	 * @see ch.bfh.ti.gravis.core.graph.traversing.ITraverserCollection
 	 * #hasBefore ()
 	 */
 	@Override
@@ -115,9 +113,7 @@ public class GravisListIterator<E> implements IGravisListIterator<E> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * ch.bfh.ti.gravis.core.graph.traversing.ITraverserCollection
-	 * #size()
+	 * @see ch.bfh.ti.gravis.core.graph.traversing.ITraverserCollection #size()
 	 */
 	@Override
 	public int size() {

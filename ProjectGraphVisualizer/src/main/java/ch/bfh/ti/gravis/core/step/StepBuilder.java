@@ -15,8 +15,12 @@ import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 import ch.bfh.ti.gravis.core.util.StepIterator;
 
 /**
- * @author Patrick Kofmel (kofmp1@bfh.ch)
+ * A step builder collects sequences of graph items and transforms this
+ * sequences into visualisation steps. The result is an iterator of type
+ * {@link IGravisListIterator}.
  * 
+ * @see IStep
+ * @author Patrick Kofmel (kofmp1@bfh.ch)
  */
 public class StepBuilder {
 
@@ -24,8 +28,10 @@ public class StepBuilder {
 			+ "StepBuilder.%s(): %s == %s";
 
 	/**
+	 * Creates an instance of {@link IStepRecorder}.
+	 * 
 	 * @param restrictedGraph
-	 * @return IStepRecorder
+	 * @return an instance of {@link IStepRecorder}
 	 * @throws NullPointerException
 	 *             if restrictedGraph is null
 	 */
@@ -47,16 +53,21 @@ public class StepBuilder {
 	}
 
 	/**
+	 * Transforms a sequence of graph items into a visualisation step and adds this
+	 * step to the list of existing steps.
+	 * 
 	 * @param currentItems
+	 * @throws NullPointerException
+	 *             if currentItems is null
 	 */
 	public void addStep(IGraphItem... currentItems) {
 		Objects.requireNonNull(currentItems, String.format(NULL_POINTER_MSG,
 				"addStep", "currentItems", currentItems));
 		List<IGraphItem> tempList = new ArrayList<>();
 		Set<IGraphItem> lookup = new HashSet<>();
-		Step step = new Step();
+		ComplexStep step = new ComplexStep();
 
-		// eliminates duplicates and preserves order
+		// eliminate duplicates and preserve order
 		for (IGraphItem item : currentItems) {
 			if (item != null && lookup.add(item)) {
 				// lookup.add() returns false if item is already in the set
@@ -64,6 +75,7 @@ public class StepBuilder {
 			}
 		}
 
+		// transform the item list into a step
 		for (IGraphItem item : tempList) {
 			IStep command = this.stepTransformer.transform(item);
 			step.add(command);
@@ -73,6 +85,8 @@ public class StepBuilder {
 	}
 
 	/**
+	 * Creates a step iterator containing all steps added to this step builder.
+	 * 
 	 * @return step iterator
 	 */
 	public IGravisListIterator<String> createStepIterator() {

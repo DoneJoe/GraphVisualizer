@@ -3,6 +3,8 @@ package ch.bfh.ti.gravis.gui.model;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 
 /**
+ * This model class is used for updating the visualization panel.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */

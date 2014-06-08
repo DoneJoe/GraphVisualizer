@@ -12,6 +12,8 @@ import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
+ * A "delete edge" menu item.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -53,11 +55,11 @@ class DeleteEdgeMenuItem extends JMenuItem implements
 	 * 
 	 * @see
 	 * ch.bfh.ti.gravis.gui.visualization.GraphItemMenuListener#
-	 * setGraphItemAndView
+	 * setGraphItem
 	 * (ch.bfh.ti.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
-	public void setGraphItemAndView(final IGraphItem item) {
+	public void setGraphItem(final IGraphItem item) {
 		if (item instanceof IEdge) {
 			this.edge = (IEdge) item;
 			this.setText(String.format(DELETE_EDGE_LABEL, this.edge.getName()));

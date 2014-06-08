@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
 import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 
 /**
+ * This class supports the error and exception handling of controller classes.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -32,6 +34,7 @@ class ErrorHandler {
 	}
 
 	/**
+	 * Sets a new message dialog adapter for this error handler.
 	 * 
 	 * @param messageDialogAdapter
 	 */

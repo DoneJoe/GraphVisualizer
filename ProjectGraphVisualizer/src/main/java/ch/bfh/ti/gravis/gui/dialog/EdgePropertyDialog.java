@@ -32,6 +32,8 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 
 /**
+ * An edge property dialog.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -49,7 +51,7 @@ public class EdgePropertyDialog extends JDialog {
 	private final static String CANCEL = "Abbrechen";
 
 	/**
-	 * Create the dialog.
+	 * Creates the dialog.
 	 * 
 	 * @param vViewer
 	 * @param owner
@@ -60,7 +62,7 @@ public class EdgePropertyDialog extends JDialog {
 
 		super(owner, true);
 
-		// creates formatter and verifiers:
+		// create formatter and verifiers:
 
 		DecimalFormat weightFormat = new DecimalFormat();
 		weightFormat.setMinimumFractionDigits(0);
@@ -71,7 +73,7 @@ public class EdgePropertyDialog extends JDialog {
 		InputVerifier itemNameVerifier = new GraphItemNameVerifier(edge.getName(),
 				vViewer.getGraphLayout().getGraph());
 
-		// creates panels:
+		// create panels:
 
 		JPanel fieldPanel = new JPanel();
 		fieldPanel.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
@@ -92,7 +94,7 @@ public class EdgePropertyDialog extends JDialog {
 		this.getContentPane().add(fieldPanel, BorderLayout.CENTER);
 		this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		// creates text fields:
+		// create text fields:
 
 		JLabel lblEdgeName = new JLabel(EDGE_NAME_LABEL);
 		labelPanel.add(lblEdgeName);
@@ -108,7 +110,7 @@ public class EdgePropertyDialog extends JDialog {
 		txtEdgeWeight.setColumns(TEXT_COLS);
 		textFieldPanel.add(txtEdgeWeight);
 
-		// creates cancel action and buttons:
+		// create cancel action and buttons:
 
 		Action cancelAction = new CancelDialogAction(this);
 
@@ -125,14 +127,14 @@ public class EdgePropertyDialog extends JDialog {
 		cancelButton.setText(CANCEL);
 		buttonPanel.add(cancelButton);
 
-		// sets text field values:
+		// set text field values:
 		
 		txtEdgeName.setText(edge.getName());
 		txtEdgeName.setInputVerifier(itemNameVerifier);
 		txtEdgeWeight.setText(weightFormat.format(edge.getWeight()));
 		txtEdgeWeight.setInputVerifier(edgeWeightVerifier);
 		
-		// adds listeners:
+		// add listeners:
 		
 		DocumentListener docListener = this.createEdgeDocumentListener(okButton, txtEdgeName, 
 				txtEdgeWeight, itemNameVerifier, edgeWeightVerifier);
@@ -143,7 +145,7 @@ public class EdgePropertyDialog extends JDialog {
 				txtEdgeName, txtEdgeWeight, itemNameVerifier,
 				edgeWeightVerifier));
 
-		// prepares dialog:
+		// prepare dialog:
 
 		this.setTitle(String.format(TITLE, edge.getName()));
 		this.getRootPane().setDefaultButton(okButton);

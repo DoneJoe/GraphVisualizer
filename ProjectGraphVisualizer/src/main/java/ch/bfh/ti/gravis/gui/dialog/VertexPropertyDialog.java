@@ -34,6 +34,8 @@ import java.text.DecimalFormat;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
+ * A vertex property dialog.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -69,7 +71,7 @@ public class VertexPropertyDialog extends JDialog {
 
 		super(owner, true);
 
-		// creates formatter and verifiers:
+		// create formatter and verifiers:
 
 		DecimalFormat sizeFormat = new DecimalFormat();
 		sizeFormat.setMinimumFractionDigits(0);
@@ -82,7 +84,7 @@ public class VertexPropertyDialog extends JDialog {
 		InputVerifier vertexWidthVerifier = new VertexSizeVerifier(
 				sizeFormat.format(vertex.getWidth()));
 
-		// creates panels:
+		// create panels:
 
 		JPanel fieldPanel = new JPanel();
 		fieldPanel.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
@@ -103,7 +105,7 @@ public class VertexPropertyDialog extends JDialog {
 		this.getContentPane().add(fieldPanel, BorderLayout.CENTER);
 		this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		// creates text fields:
+		// create text fields:
 
 		JLabel lblVertexName = new JLabel(VERTEX_NAME_LABEL);
 		labelPanel.add(lblVertexName);
@@ -126,7 +128,7 @@ public class VertexPropertyDialog extends JDialog {
 		this.txtHeight.setColumns(TEXT_COLS);
 		textFieldPanel.add(this.txtHeight);
 
-		// creates cancel action and buttons:
+		// create cancel action and buttons:
 
 		Action cancelAction = new CancelDialogAction(this);
 
@@ -143,7 +145,7 @@ public class VertexPropertyDialog extends JDialog {
 		cancelButton.setText(CANCEL);
 		buttonPanel.add(cancelButton);
 
-		// sets text field values:
+		// set text field values:
 
 		this.txtVertexName.setInputVerifier(itemNameVerifier);
 		this.txtWidth.setInputVerifier(vertexWidthVerifier);
@@ -153,7 +155,7 @@ public class VertexPropertyDialog extends JDialog {
 		this.txtWidth.setText(sizeFormat.format(vertex.getWidth()));
 		this.txtHeight.setText(sizeFormat.format(vertex.getHeight()));
 
-		// adds listeners:
+		// add listeners:
 
 		DocumentListener docListener = this.createVertexDocumentListener(
 				okButton, itemNameVerifier, vertexWidthVerifier);
@@ -164,7 +166,7 @@ public class VertexPropertyDialog extends JDialog {
 		okButton.addActionListener(this.createOKActionListener(vertex, vViewer,
 				itemNameVerifier, vertexHeightVerifier, vertexWidthVerifier));
 
-		// prepares dialog:
+		// prepare dialog:
 
 		this.setTitle(String.format(TITLE, vertex.getName()));
 		this.getRootPane().setDefaultButton(okButton);

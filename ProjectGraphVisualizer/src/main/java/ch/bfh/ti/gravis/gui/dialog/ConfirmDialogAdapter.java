@@ -6,6 +6,8 @@ import java.util.Objects;
 import javax.swing.JOptionPane;
 
 /**
+ * A confirm dialog adapter.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

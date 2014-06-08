@@ -1,6 +1,8 @@
 package ch.bfh.ti.gravis.gui.model;
 
 /**
+ * This model class is used for updating the main window.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */

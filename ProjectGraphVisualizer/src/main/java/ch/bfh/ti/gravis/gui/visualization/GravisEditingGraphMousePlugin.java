@@ -17,6 +17,8 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 
 /**
+ * A plugin that can create vertices and edges using mouse gestures.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -92,7 +94,7 @@ public class GravisEditingGraphMousePlugin extends
 			final Point2D p = e.getPoint();
 			GraphElementAccessor<IVertex, IEdge> pickSupport = vv
 					.getPickSupport();
-			
+
 			if (pickSupport != null) {
 				Graph<IVertex, IEdge> graph = vv.getModel().getGraphLayout()
 						.getGraph();
@@ -110,7 +112,8 @@ public class GravisEditingGraphMousePlugin extends
 				final IVertex vertex = pickSupport.getVertex(vv.getModel()
 						.getGraphLayout(), p.getX(), p.getY());
 
-				if (vertex != null) { // get ready to make an edge
+				if (vertex != null) {
+					// get ready to make an edge
 					this.startVertex = vertex;
 					this.down = e.getPoint();
 					this.transformEdgeShape(this.down, this.down);
@@ -128,7 +131,8 @@ public class GravisEditingGraphMousePlugin extends
 						this.transformArrowShape(this.down, e.getPoint());
 						vv.addPostRenderPaintable(this.arrowPaintable);
 					}
-				} else { // make a new vertex
+				} else {
+					// make a new vertex
 					IVertex newVertex = this.vertexFactory.create();
 					Layout<IVertex, IEdge> layout = vv.getModel()
 							.getGraphLayout();

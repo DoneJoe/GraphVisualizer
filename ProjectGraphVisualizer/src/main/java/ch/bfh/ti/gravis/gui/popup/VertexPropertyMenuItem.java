@@ -14,6 +14,8 @@ import ch.bfh.ti.gravis.gui.dialog.VertexPropertyDialog;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
+ * A "vertex property" menu item.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -64,11 +66,11 @@ class VertexPropertyMenuItem extends JMenuItem implements
 	 * 
 	 * @see
 	 * ch.bfh.ti.gravis.gui.visualization.GraphItemMenuListener#
-	 * setGraphItemAndView
+	 * setGraphItem
 	 * (ch.bfh.ti.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
-	public void setGraphItemAndView(final IGraphItem item) {
+	public void setGraphItem(final IGraphItem item) {
 		if (item instanceof IVertex) {
 			this.vertex = (IVertex) item;
 			this.setText(String.format(TITLE, item.getName()));

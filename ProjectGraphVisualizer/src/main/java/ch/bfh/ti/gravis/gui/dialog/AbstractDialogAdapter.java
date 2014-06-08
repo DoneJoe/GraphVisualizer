@@ -3,6 +3,8 @@ package ch.bfh.ti.gravis.gui.dialog;
 import java.awt.Component;
 
 /**
+ * An abstract class for dialog adapters.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */

@@ -15,6 +15,8 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
 import static ch.bfh.ti.gravis.gui.model.IAppModel.CalculationState.*;
 
 /**
+ * An implementation of {@code IStepController}.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -93,6 +95,7 @@ class StepController implements IStepController {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		try {
+			// handle spinner state changed event
 			if (e.getSource() instanceof JSpinner && !this.model.isPlaying()
 					&& this.model.getCalculationState() == CALCULATED) {
 
@@ -122,7 +125,7 @@ class StepController implements IStepController {
 			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().previous();
 
-			// updates model
+			// update model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(
 					this.model.getProgressBarModel().getValue() - 1);
@@ -130,7 +133,7 @@ class StepController implements IStepController {
 					stepMessage.length());
 			this.model.clearPickedVertexState();
 
-			// updates view
+			// update view
 			this.model.notifyObservers(false);
 		}
 	}
@@ -147,14 +150,14 @@ class StepController implements IStepController {
 			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().first();
 
-			// updates model
+			// update model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(0);
 			doc.remove(doc.getLength() - stepMessage.length(),
 					stepMessage.length());
 			this.model.clearPickedVertexState();
 
-			// updates view
+			// update view
 			this.model.notifyObservers(false);
 		}
 	}
@@ -171,7 +174,7 @@ class StepController implements IStepController {
 			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().last();
 
-			// updates model
+			// update model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(
 					this.model.getStepIterator().size());
@@ -179,7 +182,7 @@ class StepController implements IStepController {
 					SimpleAttributeSet.EMPTY);
 			this.model.clearPickedVertexState();
 
-			// updates view
+			// update view
 			this.model.notifyObservers(false);
 		}
 	}
@@ -197,7 +200,7 @@ class StepController implements IStepController {
 			Document doc = this.model.getProtocolDocument();
 			String stepMessage = this.model.getStepIterator().next();
 
-			// updates model
+			// update model
 			this.model.updateStepPanelModels();
 			this.model.getProgressBarModel().setValue(
 					this.model.getProgressBarModel().getValue() + 1);
@@ -205,7 +208,7 @@ class StepController implements IStepController {
 					SimpleAttributeSet.EMPTY);
 			this.model.clearPickedVertexState();
 
-			// updates view
+			// update view
 			this.model.notifyObservers(false);
 
 			return true;
@@ -222,10 +225,10 @@ class StepController implements IStepController {
 		if (this.model.isPlaying()
 				&& this.model.getCalculationState() == CALCULATED) {
 
-			// updates model
+			// update model
 			this.model.setPausedState();
 
-			// updates view
+			// update view
 			this.model.notifyObservers(false);
 		}
 	}
@@ -238,13 +241,13 @@ class StepController implements IStepController {
 		if (!this.model.isPlaying()
 				&& this.model.getCalculationState() == CALCULATED) {
 
-			// updates model
+			// update model
 			this.model.setPlayingState();
 
-			// updates view
+			// update view
 			this.model.notifyObservers(false);
 
-			// starts timer
+			// start timer
 			if (!this.model.getTimer().isRunning()) {
 				this.model.getTimer().start();
 			}
@@ -259,15 +262,15 @@ class StepController implements IStepController {
 		if (!this.model.isStopped()
 				&& this.model.getCalculationState() == CALCULATED) {
 
-			// stops timer
+			// stop timer
 			if (this.model.getTimer().isRunning()) {
 				this.model.getTimer().stop();
 			}
 
-			// updates model
+			// update model
 			this.model.setStoppedState();
 
-			// updates view
+			// update view
 			this.model.notifyObservers(false);
 		}
 	}
@@ -277,19 +280,19 @@ class StepController implements IStepController {
 	 * @throws BadLocationException
 	 */
 	private void handleTimerEvent() throws BadLocationException {
-		// checks if last step is done
+		// check if last step is done
 		if (this.model.isPlaying() && this.handleForwardEvent()
 				&& !this.model.getStepIterator().hasNext()) {
 
-			// stops timer
+			// stop timer
 			if (this.model.getTimer().isRunning()) {
 				this.model.getTimer().stop();
 			}
 
-			// updates model
+			// update model
 			this.model.setEndAnimationState();
 
-			// updates view
+			// update view
 			this.model.notifyObservers(false);
 		}
 	}

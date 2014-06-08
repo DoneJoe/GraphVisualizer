@@ -16,6 +16,8 @@ import ch.bfh.ti.gravis.gui.visualization.GravisVisualizationViewer;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 
 /**
+ * A "create vertex" popup menu.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -75,10 +77,10 @@ public class CreateVertexMenu extends JPopupMenu implements
 	 * (non-Javadoc)
 	 * 
 	 * @see ch.bfh.ti.gravis.gui.visualization.GraphItemMenuListener#
-	 * setGraphItemAndView (ch.bfh.ti.gravis.core.graph.item.IGraphItem)
+	 * setGraphItem (ch.bfh.ti.gravis.core.graph.item.IGraphItem)
 	 */
 	@Override
-	public void setGraphItemAndView(IGraphItem item) {
+	public void setGraphItem(IGraphItem item) {
 		// // does nothing
 	}
 

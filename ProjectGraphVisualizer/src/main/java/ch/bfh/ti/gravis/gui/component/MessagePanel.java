@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 /**
+ * This panel could be used for showing scrollable messages.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */
@@ -52,6 +54,8 @@ public class MessagePanel extends JPanel {
 	}
 
 	/**
+	 * Sets a new short and detail message for this message panel.
+	 * 
 	 * @param shortMessage
 	 * @param detailMessage
 	 */

@@ -10,6 +10,8 @@ import ch.bfh.ti.gravis.core.graph.item.ItemState;
 import static ch.bfh.ti.gravis.core.util.ValueTransformer.toArray;
 
 /**
+ * An implementation of {@code IStepRecorder} interface.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -26,6 +28,8 @@ class StepRecorder implements IStepRecorder {
 
 	/**
 	 * @param restrictedGraph
+	 * @throws NullPointerException
+	 *             if restrictedGraph is null
 	 */
 	protected StepRecorder(IRestrictedGraph restrictedGraph) {
 		this.graph = Objects.requireNonNull(restrictedGraph, String.format(
@@ -121,9 +125,7 @@ class StepRecorder implements IStepRecorder {
 	 */
 	@Override
 	public IStepRecorder item(IRestrictedGraphItem item) {
-		this.currentItem = Objects.requireNonNull(item, String.format(
-				NULL_POINTER_MSG, "item", "item",
-				item));
+		this.currentItem = item;
 		return this;
 	}
 

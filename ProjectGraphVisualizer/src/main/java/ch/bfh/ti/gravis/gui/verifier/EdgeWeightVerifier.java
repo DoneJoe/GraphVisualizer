@@ -4,6 +4,8 @@ import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
 /**
+ * An edge weight verifier.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

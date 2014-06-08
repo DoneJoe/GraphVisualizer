@@ -9,6 +9,8 @@ import javax.swing.JComponent;
 import edu.uci.ics.jung.visualization.renderers.DefaultEdgeLabelRenderer;
 
 /**
+ * An edge label renderer.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

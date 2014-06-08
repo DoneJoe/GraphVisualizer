@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import ch.bfh.ti.gravis.gui.component.MessagePanel;
 
 /**
+ * A message dialog adapter.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

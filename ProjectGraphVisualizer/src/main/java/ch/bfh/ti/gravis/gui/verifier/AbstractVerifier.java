@@ -5,6 +5,8 @@ import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
 /**
+ * A basic implementation of a verifier class.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  *
  */

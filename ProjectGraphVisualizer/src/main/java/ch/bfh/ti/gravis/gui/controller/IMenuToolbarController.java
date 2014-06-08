@@ -10,6 +10,9 @@ import ch.bfh.ti.gravis.gui.dialog.GraphPropertyDialogFactory;
 import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 
 /**
+ * This interface represents a controller in the MVC-pattern. The listeners in
+ * this interface handle menubar and toolbar events.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -24,8 +27,7 @@ public interface IMenuToolbarController extends ActionListener, WindowListener,
 	 * 
 	 */
 	public static enum EventSource {
-		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, SAVE_GRAPH_AS, 
-		GRAPH_PROPERTY, EXIT, NEW_CALC, MODE, ALGORITHM
+		NEW_DIR_GRAPH, NEW_UNDIR_GRAPH, OPEN_GRAPH, SAVE_GRAPH, SAVE_GRAPH_AS, GRAPH_PROPERTY, EXIT, NEW_CALC, MODE, ALGORITHM
 	}
 
 	/**

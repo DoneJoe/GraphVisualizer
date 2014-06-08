@@ -35,53 +35,57 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 </key>
 <graph id="Directed Dijkstra Sample Graph 1" edgedefault="directed">
 <data key="description">Dieser gerichtete Graph kann insbesondere zur Visualisierung des Dijkstra-Algorithmus verwendet werden.</data>
-<node id="V3">
-<data key="vertexLocation.y">419.0</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">306.0</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
 <node id="V5">
 <data key="vertexLocation.y">269.0</data>
-<data key="vertexWidth">40.0</data>
+<data key="vertexWidth">45.0</data>
 <data key="endVertex">true</data>
 <data key="vertexColor">lightBlue</data>
 <data key="vertexLocation.x">569.0</data>
 <data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="V1">
-<data key="vertexLocation.y">79.0</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">312.0</data>
-<data key="startVertex">true</data>
-<data key="vertexHeight">40.0</data>
+<data key="vertexHeight">45.0</data>
 </node>
 <node id="V2">
 <data key="vertexLocation.y">276.0</data>
-<data key="vertexWidth">40.0</data>
+<data key="vertexWidth">45.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
 <data key="vertexLocation.x">61.0</data>
 <data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
+<data key="vertexHeight">45.0</data>
+</node>
+<node id="V3">
+<data key="vertexLocation.y">419.0</data>
+<data key="vertexWidth">45.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">306.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">45.0</data>
 </node>
 <node id="V4">
 <data key="vertexLocation.y">266.0</data>
-<data key="vertexWidth">40.0</data>
+<data key="vertexWidth">45.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
 <data key="vertexLocation.x">309.0</data>
 <data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
+<data key="vertexHeight">45.0</data>
 </node>
-<edge id="e43" source="V4" target="V3">
-<data key="weight">20.0</data>
+<node id="V1">
+<data key="vertexLocation.y">79.0</data>
+<data key="vertexWidth">45.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">312.0</data>
+<data key="startVertex">true</data>
+<data key="vertexHeight">45.0</data>
+</node>
+<edge id="e45" source="V4" target="V5">
+<data key="weight">60.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="e23" source="V2" target="V3">
+<data key="weight">50.0</data>
 <data key="edgeColor">blue</data>
 </edge>
 <edge id="e14" source="V1" target="V4">
@@ -92,20 +96,16 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <data key="weight">10.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e15" source="V1" target="V5">
-<data key="weight">100.0</data>
-<data key="edgeColor">blue</data>
-</edge>
 <edge id="e35" source="V3" target="V5">
 <data key="weight">10.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e45" source="V4" target="V5">
-<data key="weight">60.0</data>
+<edge id="e15" source="V1" target="V5">
+<data key="weight">100.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e23" source="V2" target="V3">
-<data key="weight">50.0</data>
+<edge id="e43" source="V4" target="V3">
+<data key="weight">20.0</data>
 <data key="edgeColor">blue</data>
 </edge>
 </graph>

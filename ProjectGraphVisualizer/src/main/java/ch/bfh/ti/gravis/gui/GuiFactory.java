@@ -29,6 +29,8 @@ import edu.uci.ics.jung.algorithms.layout.StaticLayout;
 import static ch.bfh.ti.gravis.core.util.GravisConstants.*;
 
 /**
+ * This static factory class creates and composes GUI components.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -36,21 +38,28 @@ public final class GuiFactory {
 
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "GuiFactory.%s(): %s == %s";
-	
+
+	/**
+	 * Hides the default constructor.
+	 */
 	private GuiFactory() {
 	}
 
 	/**
+	 * Creates the main GUI window.
+	 * 
 	 * @param core
-	 * @return JFrame
+	 * @return the main GUI window
 	 * @throws IOException
 	 * @throws BadLocationException
+	 * @throws NullPointerException
+	 *             if core is null
 	 */
-	public static JFrame createGUI(final ICore core) throws IOException, BadLocationException {
-		Objects.requireNonNull(core, String.format(
-				NULL_POINTER_MSG, "createGUI", "core",
-				core));
-		
+	public static JFrame createGUI(final ICore core) throws IOException,
+			BadLocationException {
+		Objects.requireNonNull(core,
+				String.format(NULL_POINTER_MSG, "createGUI", "core", core));
+
 		// model
 		IAppModel model = AppModelFactory.createAppModel(core);
 
@@ -77,7 +86,7 @@ public final class GuiFactory {
 						mainWindow));
 		stepController.setMessageDialogAdapter(messageDialogAdapter);
 
-		// VisualizationController
+		// create VisualizationController and add EditGraphEventListener
 		IEditGraphEventListener visualizationController = ControllerFactory
 				.createVisualizationController(model, messageDialogAdapter);
 		model.getGraph().addEditGraphEventListener(visualizationController);
@@ -112,13 +121,16 @@ public final class GuiFactory {
 	}
 
 	/**
+	 * Creates a layout with the given graph.
+	 * 
 	 * @param graph
-	 * @return Layout<IVertex, IEdge>
+	 * @return the layout
+	 * @throws NullPointerException
+	 *             if graph is null
 	 */
 	public static Layout<IVertex, IEdge> createLayout(IGravisGraph graph) {
-		Objects.requireNonNull(graph, String.format(
-				NULL_POINTER_MSG, "createLayout", "graph",
-				graph));
+		Objects.requireNonNull(graph,
+				String.format(NULL_POINTER_MSG, "createLayout", "graph", graph));
 		return new StaticLayout<>(graph, new PointTransformer());
 	}
 
@@ -126,7 +138,7 @@ public final class GuiFactory {
 	 * Loads an icon ressource with the given name.
 	 * 
 	 * @param iconName
-	 * @return Image
+	 * @return the loaded image
 	 * @throws IOException
 	 */
 	public static Image loadImage(String iconName) throws IOException {

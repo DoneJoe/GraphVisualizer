@@ -28,6 +28,8 @@ import edu.uci.ics.jung.visualization.picking.ShapePickSupport.Style;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 /**
+ * A GRAVIS visualisation viewer.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -96,7 +98,7 @@ public class GravisVisualizationViewer extends
 		this.getRenderContext().setEdgeLabelTransformer(
 				new EdgeLabelTransformer());
 		this.setEdgeToolTipTransformer(new EdgeToolTipTransformer());
-		// centers edge label
+		// center edge label
 		this.getRenderContext().setEdgeLabelClosenessTransformer(
 				new ConstantDirectionalEdgeValueTransformer<IVertex, IEdge>(
 						LABEL_CLOSENESS, LABEL_CLOSENESS));

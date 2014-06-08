@@ -41,13 +41,14 @@ public interface IGraphItem extends IRestrictedGraphItem, IEditItemObservable {
 
 	/**
 	 * Resets the item {@code new} variables to the initial values. This method
-	 * calls : {@code this.setNewComment("");
-		this.setStateCommentEnabled(false);
-		this.setNewState(null);
-		this.setNewResult(Double.NaN);
-		this.setNewVisible(null);
-		this.setNewTagged(null);
-		this.setNewDashed(null);}
+	 * calls : <br />
+	 * {@code this.setNewComment("");} <br />
+	 * {@code this.setStateCommentEnabled(false);} <br />
+	 * {@code this.setNewState(null);} <br />
+	 * {@code this.setNewResult(Double.NaN);} <br />
+	 * {@code this.setNewVisible(null);} <br />
+	 * {@code this.setNewTagged(null);} <br />
+	 * {@code this.setNewDashed(null);} <br />
 	 */
 	public abstract void resetNewVariables();
 
@@ -92,8 +93,9 @@ public interface IGraphItem extends IRestrictedGraphItem, IEditItemObservable {
 	public abstract void setCurrentVisible(boolean visible);
 
 	/**
-	 * Sets the unique name of this graph item. An edit event of type {@link Type#EDITED} is
-	 * fired if {@code name} is different from the existing value.
+	 * Sets the unique name of this graph item. An edit event of type
+	 * {@link Type#EDITED} is fired if {@code name} is different from the
+	 * existing value.
 	 * 
 	 * @param name
 	 * @throws NullPointerException

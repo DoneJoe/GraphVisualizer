@@ -23,6 +23,8 @@ import edu.uci.ics.jung.visualization.control.ShearingGraphMousePlugin;
 import edu.uci.ics.jung.visualization.control.TranslatingGraphMousePlugin;
 
 /**
+ * This class extends the existing JUNG class {@code EditingModalGraphMouse}.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

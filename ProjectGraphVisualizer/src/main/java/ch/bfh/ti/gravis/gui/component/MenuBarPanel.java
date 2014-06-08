@@ -24,6 +24,8 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
 import static ch.bfh.ti.gravis.gui.GuiFactory.loadImage;
 
 /**
+ * A menubar panel.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -31,6 +33,8 @@ public class MenuBarPanel extends JMenuBar {
 
 	private static final long serialVersionUID = 8070798287573948533L;
 
+	// menu labels and error messages:
+	
 	private final static String FILE = "Datei";
 	private final static String NEW_DIR_GRAPH = "Neuer gerichteter Graph";
 	private final static String NEW_UNDIR_GRAPH = "Neuer ungerichteter Graph";
@@ -46,6 +50,8 @@ public class MenuBarPanel extends JMenuBar {
 	private final static String APP_ERR_TITLE = "Fehler";
 	private final static String LINK_ERR_MSG = "Die angeforderte Seite konnte nicht geöffnet werden!";
 
+	// menu icons:
+	
 	private static final String OPEN_ICON = "Open16.gif";
 	private static final String SAVE_AS_ICON = "SaveAs16.gif";
 	private static final String SAVE_ICON = "Save16.gif";
@@ -54,6 +60,8 @@ public class MenuBarPanel extends JMenuBar {
 	private static final String HELP_ICON = "Help16.gif";
 	private static final String INFO_ICON = "About16.gif";
 
+	// help text messages:
+	
 	private final static String EDITOR_PANE_TYPE = "text/html";
 	private final static String HELP_TITLE = "Hilfe zum Graph Visualizer";
 	private final static String HELP_TEXT = "<html><body>"
@@ -117,6 +125,7 @@ public class MenuBarPanel extends JMenuBar {
 			final IMenuToolbarController menuToolbarController,
 			final IAppModel model) throws IOException {
 
+		// create editor panes
 		this.helpEditorPane = this.createEditorPane(mainWindow, HELP_TEXT);
 		this.shortcutEditorPane = this.createEditorPane(mainWindow,
 				SHORTCUT_TEXT);

@@ -8,7 +8,7 @@ import ch.bfh.ti.gravis.core.step.IStep;
 /**
  * This implementation of a bidirectinal immutable iterator iterates over a
  * collection of step comments (String) and executes (or unexecutes) the steps.
- * It decorates a given IGravisListIterator.
+ * It decorates a given {@link IGravisListIterator}.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 

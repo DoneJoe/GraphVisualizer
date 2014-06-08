@@ -3,13 +3,14 @@ package ch.bfh.ti.gravis.core.graph.item;
 /**
  * This interface gives restricted access to common methods on vertices and
  * edges. A restricted graph item is either a vertex or an edge with restricted
- * access to setter methods. Only setter methods on {@code new} or setter
- * methods on helper variables ({@code done}, {@code value}) are accessable with
- * this interface. <br />
- * {@code new} variables are temporary and {@code current} variables are
- * permanent. {@code done} can store an arbitrary boolean value. {@code value}
- * can store an arbitrary object. Temporary variables are reset after each step
- * in algorithm execution.
+ * access to setter methods. Only setter methods on {@code new} variables or
+ * setter methods on helper variables ({@code done}, {@code value}) are
+ * accessable with this interface. <br />
+ * The {@code new} variables are temporary and the {@code current} variables are
+ * permanent. Both type of variables are used for graph algorithm visualisation.
+ * Temporary variables are reset after each step in algorithm execution. <br />
+ * The {@code done} variable can store an arbitrary boolean value. The
+ * {@code value} variable can store an arbitrary object reference.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -53,16 +54,16 @@ public interface IRestrictedGraphItem {
 	public abstract String getNewComment();
 
 	/**
-	 * Returns the new calculation result of this item. The current result is returned
-	 * if the new result is not set.
+	 * Returns the new calculation result of this item. The current result is
+	 * returned if the new result is not set.
 	 * 
 	 * @return new calculation result
 	 */
 	public abstract double getNewResult();
 
 	/**
-	 * Returns the new state of this item. The current state is returned
-	 * if the new state is not set.
+	 * Returns the new state of this item. The current state is returned if the
+	 * new state is not set.
 	 * 
 	 * @return new state
 	 */
@@ -83,21 +84,24 @@ public interface IRestrictedGraphItem {
 	public abstract boolean isDone();
 
 	/**
-	 * Returns true if this item is labeled with new dashed.
+	 * Returns true if this item is labeled with new dashed. The current dashed
+	 * value is returned if the new dashed value is not set.
 	 * 
 	 * @return boolean
 	 */
 	public abstract boolean isNewDashed();
 
 	/**
-	 * Returns true if this item is labeled with new tagged.
+	 * Returns true if this item is labeled with new tagged. The current tagged
+	 * value is returned if the new tagged value is not set.
 	 * 
 	 * @return boolean
 	 */
 	public abstract boolean isNewTagged();
 
 	/**
-	 * Returns true if this item is labeled with new visible.
+	 * Returns true if this item is labeled with new visible. The current
+	 * visible value is returned if the new visible value is not set.
 	 * 
 	 * @return boolean
 	 */
@@ -147,8 +151,9 @@ public interface IRestrictedGraphItem {
 
 	/**
 	 * Resets the item helper variables to the initial values. This method
-	 * calls: {@code this.setDone(false);
-	 *        this.setValue(null);}
+	 * calls: <br />
+	 * {@code this.setDone(false);} <br />
+	 * {@code this.setValue(null);}
 	 */
 	public abstract void resetHelperVariables();
 

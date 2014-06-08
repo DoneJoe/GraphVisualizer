@@ -9,6 +9,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import ch.bfh.ti.gravis.core.util.GravisConstants;
 
 /**
+ * A file chooser adapter.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */

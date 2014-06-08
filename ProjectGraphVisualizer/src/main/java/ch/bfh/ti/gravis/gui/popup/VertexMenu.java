@@ -9,6 +9,8 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
+ * A vertex popup menu.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
@@ -28,7 +30,7 @@ public class VertexMenu extends JPopupMenu {
 			final JFrame owner, final IAppModel model) {
 		super(TITLE);
 
-		// create menu items
+		// create menu items:
 		
 		StartVertexCheckBox startVertexMenuItem = new StartVertexCheckBox(vViewer);
 		EndVertexCheckBox endVertexMenuItem = new EndVertexCheckBox(vViewer);
@@ -36,14 +38,14 @@ public class VertexMenu extends JPopupMenu {
 		DeleteVertexMenuItem deleteVertexMenuItem = new DeleteVertexMenuItem(
 				vViewer);
 		
-		// set models
+		// set models:
 		
 		startVertexMenuItem.setModel(model.getStartVertexButtonModel());
 		endVertexMenuItem.setModel(model.getEndVertexButtonModel());
 		propertyMenuItem.setModel(model.getVertexPropertiesButtonModel());
 		deleteVertexMenuItem.setModel(model.getDeleteVertexButtonModel());
 
-		// add menu items
+		// add menu items:
 		
 		this.add(startVertexMenuItem);
 		this.add(endVertexMenuItem);

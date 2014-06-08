@@ -9,6 +9,8 @@ import ch.bfh.ti.gravis.gui.model.IAppModel;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
+ * An edge popup menu.
+ * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
