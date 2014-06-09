@@ -19,6 +19,7 @@ import javax.swing.event.DocumentListener;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.util.ValueTransformer;
+import ch.bfh.ti.gravis.gui.controller.ErrorHandler;
 import ch.bfh.ti.gravis.gui.verifier.GraphItemNameVerifier;
 import ch.bfh.ti.gravis.gui.verifier.VertexSizeVerifier;
 
@@ -59,6 +60,8 @@ public class VertexPropertyDialog extends JDialog {
 
 	private final JTextField txtHeight;
 
+	private final ErrorHandler errHandler;
+
 	/**
 	 * Create the dialog.
 	 * 
@@ -70,6 +73,7 @@ public class VertexPropertyDialog extends JDialog {
 			final VisualizationViewer<IVertex, IEdge> vViewer) {
 
 		super(owner, true);
+		this.errHandler = new ErrorHandler(owner);
 
 		// create formatter and verifiers:
 
@@ -77,8 +81,8 @@ public class VertexPropertyDialog extends JDialog {
 		sizeFormat.setMinimumFractionDigits(0);
 		sizeFormat.setMaximumFractionDigits(2);
 
-		InputVerifier itemNameVerifier = new GraphItemNameVerifier(vertex.getName(),
-				vViewer.getGraphLayout().getGraph());
+		InputVerifier itemNameVerifier = new GraphItemNameVerifier(
+				vertex.getName(), vViewer.getGraphLayout().getGraph());
 		InputVerifier vertexHeightVerifier = new VertexSizeVerifier(
 				sizeFormat.format(vertex.getHeight()));
 		InputVerifier vertexWidthVerifier = new VertexSizeVerifier(
@@ -192,22 +196,30 @@ public class VertexPropertyDialog extends JDialog {
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				okButton.setEnabled(itemNameVerifier
-						.verify(VertexPropertyDialog.this.txtVertexName)
-						&& vertexSizeVerifier
-								.verify(VertexPropertyDialog.this.txtWidth)
-						&& vertexSizeVerifier
-								.verify(VertexPropertyDialog.this.txtHeight));
+				try {
+					okButton.setEnabled(itemNameVerifier
+							.verify(VertexPropertyDialog.this.txtVertexName)
+							&& vertexSizeVerifier
+									.verify(VertexPropertyDialog.this.txtWidth)
+							&& vertexSizeVerifier
+									.verify(VertexPropertyDialog.this.txtHeight));
+				} catch (Throwable ex) {
+					errHandler.handleAppErrorExit(ex);
+				}
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				okButton.setEnabled(itemNameVerifier
-						.verify(VertexPropertyDialog.this.txtVertexName)
-						&& vertexSizeVerifier
-								.verify(VertexPropertyDialog.this.txtWidth)
-						&& vertexSizeVerifier
-								.verify(VertexPropertyDialog.this.txtHeight));
+				try {
+					okButton.setEnabled(itemNameVerifier
+							.verify(VertexPropertyDialog.this.txtVertexName)
+							&& vertexSizeVerifier
+									.verify(VertexPropertyDialog.this.txtWidth)
+							&& vertexSizeVerifier
+									.verify(VertexPropertyDialog.this.txtHeight));
+				} catch (Throwable ex) {
+					errHandler.handleAppErrorExit(ex);
+				}
 			}
 		};
 	}
@@ -229,23 +241,27 @@ public class VertexPropertyDialog extends JDialog {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (itemNameVerifier
-						.verify(VertexPropertyDialog.this.txtVertexName)
-						&& vertexHeightVerifier
-								.verify(VertexPropertyDialog.this.txtHeight)
-						&& vertexWidthVerifier
-								.verify(VertexPropertyDialog.this.txtWidth)) {
+				try {
+					if (itemNameVerifier
+							.verify(VertexPropertyDialog.this.txtVertexName)
+							&& vertexHeightVerifier
+									.verify(VertexPropertyDialog.this.txtHeight)
+							&& vertexWidthVerifier
+									.verify(VertexPropertyDialog.this.txtWidth)) {
 
-					vertex.setName(VertexPropertyDialog.this.txtVertexName
-							.getText().trim());
-					vertex.setWidth(ValueTransformer
-							.toDouble(VertexPropertyDialog.this.txtWidth
-									.getText().trim()));
-					vertex.setHeight(ValueTransformer
-							.toDouble(VertexPropertyDialog.this.txtHeight
-									.getText().trim()));
-					vViewer.repaint();
-					VertexPropertyDialog.this.dispose();
+						vertex.setName(VertexPropertyDialog.this.txtVertexName
+								.getText().trim());
+						vertex.setWidth(ValueTransformer
+								.toDouble(VertexPropertyDialog.this.txtWidth
+										.getText().trim()));
+						vertex.setHeight(ValueTransformer
+								.toDouble(VertexPropertyDialog.this.txtHeight
+										.getText().trim()));
+						vViewer.repaint();
+						VertexPropertyDialog.this.dispose();
+					}
+				} catch (Throwable ex) {
+					errHandler.handleAppErrorExit(ex);
 				}
 			}
 		};

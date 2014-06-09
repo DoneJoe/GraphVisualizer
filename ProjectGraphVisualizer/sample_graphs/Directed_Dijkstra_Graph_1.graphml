@@ -4,7 +4,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
 http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="description" for="graph">
-<default>DFS Sample Graph</default>
+<default>Gerichteter Dijkstra Graph 1</default>
 </key>
 <key id="vertexLocation.y" for="node">
 <default>50</default>
@@ -33,79 +33,79 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="edgeColor" for="edge">
 <default>blue</default>
 </key>
-<graph id="DFS Sample Graph" edgedefault="undirected">
-<data key="description">DFS Sample Graph</data>
-<node id="A">
-<data key="vertexLocation.y">48.0</data>
-<data key="vertexWidth">40.0</data>
+<graph id="Gerichteter Dijkstra Graph 1" edgedefault="directed">
+<data key="description">Dieser gerichtete Graph kann insbesondere zur Visualisierung des Dijkstra-Algorithmus verwendet werden.</data>
+<node id="V5">
+<data key="vertexLocation.y">208.0</data>
+<data key="vertexWidth">45.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">195.0</data>
+<data key="vertexLocation.x">511.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">45.0</data>
+</node>
+<node id="V2">
+<data key="vertexLocation.y">208.0</data>
+<data key="vertexWidth">45.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">57.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">45.0</data>
+</node>
+<node id="V1">
+<data key="vertexLocation.y">43.0</data>
+<data key="vertexWidth">45.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">264.0</data>
 <data key="startVertex">true</data>
-<data key="vertexHeight">40.0</data>
+<data key="vertexHeight">45.0</data>
 </node>
-<node id="B">
-<data key="vertexLocation.y">164.0</data>
-<data key="vertexWidth">40.0</data>
+<node id="V3">
+<data key="vertexLocation.y">386.0</data>
+<data key="vertexWidth">45.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">48.0</data>
+<data key="vertexLocation.x">264.0</data>
 <data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
+<data key="vertexHeight">45.0</data>
 </node>
-<node id="E">
-<data key="vertexLocation.y">209.0</data>
-<data key="vertexWidth">40.0</data>
+<node id="V4">
+<data key="vertexLocation.y">208.0</data>
+<data key="vertexWidth">45.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">616.0</data>
+<data key="vertexLocation.x">264.0</data>
 <data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
+<data key="vertexHeight">45.0</data>
 </node>
-<node id="C">
-<data key="vertexLocation.y">319.0</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">199.0</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="D">
-<data key="vertexLocation.y">178.0</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">337.0</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<edge id="e15" source="E" target="A">
-<data key="weight">1.0</data>
+<edge id="e12" source="V1" target="V2">
+<data key="weight">10.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e13" source="C" target="D">
-<data key="weight">1.0</data>
+<edge id="e43" source="V4" target="V3">
+<data key="weight">20.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e14" source="C" target="E">
-<data key="weight">1.0</data>
+<edge id="e15" source="V1" target="V5">
+<data key="weight">100.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e12" source="B" target="C">
-<data key="weight">1.0</data>
+<edge id="e45" source="V4" target="V5">
+<data key="weight">60.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e11" source="A" target="D">
-<data key="weight">1.0</data>
+<edge id="e14" source="V1" target="V4">
+<data key="weight">30.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e10" source="A" target="B">
-<data key="weight">1.0</data>
+<edge id="e23" source="V2" target="V3">
+<data key="weight">50.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="e16" source="A" target="C">
-<data key="weight">1.0</data>
+<edge id="e35" source="V3" target="V5">
+<data key="weight">10.0</data>
 <data key="edgeColor">blue</data>
 </edge>
 </graph>

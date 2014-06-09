@@ -34,7 +34,7 @@ public class MenuBarPanel extends JMenuBar {
 	private static final long serialVersionUID = 8070798287573948533L;
 
 	// menu labels and error messages:
-	
+
 	private final static String FILE = "Datei";
 	private final static String NEW_DIR_GRAPH = "Neuer gerichteter Graph";
 	private final static String NEW_UNDIR_GRAPH = "Neuer ungerichteter Graph";
@@ -51,7 +51,7 @@ public class MenuBarPanel extends JMenuBar {
 	private final static String LINK_ERR_MSG = "Die angeforderte Seite konnte nicht geöffnet werden!";
 
 	// menu icons:
-	
+
 	private static final String OPEN_ICON = "Open16.gif";
 	private static final String SAVE_AS_ICON = "SaveAs16.gif";
 	private static final String SAVE_ICON = "Save16.gif";
@@ -61,16 +61,24 @@ public class MenuBarPanel extends JMenuBar {
 	private static final String INFO_ICON = "About16.gif";
 
 	// help text messages:
-	
+
 	private final static String EDITOR_PANE_TYPE = "text/html";
 	private final static String HELP_TITLE = "Hilfe zum Graph Visualizer";
 	private final static String HELP_TEXT = "<html><body>"
-			+ "<p>Die Projektdokumentation inkl. Hilfe zu dieser Applikation "
-			+ "befindet sich im GitHub-Repository unter:</p>"
+			+ "<p>Zu dieser Applikation existieren im GitHub-Repository "
+			+ "folgende Dokumentationen:</p>"
+			+ "<p>Projektdokumentation:</p>"
 			+ "<a href=\"https://github.com/kofmp1/GraphVisualizer/tree/master/"
 			+ "ProjectGraphVisualizer/doc\">"
 			+ "https://github.com/kofmp1/GraphVisualizer/tree/master/"
-			+ "ProjectGraphVisualizer/doc</a></body></html>";
+			+ "ProjectGraphVisualizer/doc</a>"
+			+ "<p>API-Dokumentation:</p>"
+			+ "<a href=\"http://htmlpreview.github.io/?https://github.com/kofmp1/GraphVisualizer"
+			+ "/blob/master/ProjectGraphVisualizer/doc/apidocs/index.html\">"
+			+ "http://htmlpreview.github.io/?https://github.com/kofmp1/GraphVisualizer/blob"
+			+ "/master/ProjectGraphVisualizer/doc/apidocs/index.html</a>"
+			+ "</body></html>";
+
 	private final static String INFO_TITLE = "Info zum Graph Visualizer";
 	private final static String INFO_TEXT = "<html><body>"
 			+ "<h3>Graph Visualizer</h3>"
@@ -79,6 +87,7 @@ public class MenuBarPanel extends JMenuBar {
 			+ "<br />Modul BTI7301: Projekt 1"
 			+ "<br />Herbstsemester 2013/2014"
 			+ "<br /><br />Entwickelt von Patrick Kofmel</body></html>";
+
 	private final static String SHORTCUT_TITLE = "Edit Shortcuts zum Graph Visualizer";
 	private final static String SHORTCUT_TEXT = "<html><body>"
 			+ "<h3>All Modes:</h3>"
@@ -159,7 +168,7 @@ public class MenuBarPanel extends JMenuBar {
 							}
 						}
 					}
-				} catch (Exception ex) {
+				} catch (Throwable ex) {
 					JOptionPane.showMessageDialog(mainWindow, LINK_ERR_MSG,
 							APP_ERR_TITLE, JOptionPane.ERROR_MESSAGE);
 				}

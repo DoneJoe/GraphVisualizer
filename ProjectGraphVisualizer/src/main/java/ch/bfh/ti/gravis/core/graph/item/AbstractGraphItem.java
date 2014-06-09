@@ -9,7 +9,7 @@ import ch.bfh.ti.gravis.core.util.GravisConstants;
 
 /**
  * This basic implementation of the {@link IGraphItem} interface gives access to
- * common methods on vertices and edges.
+ * common methods of vertices and edges.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -506,7 +506,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 		Objects.requireNonNull(name,
 				String.format(NULL_POINTER_MSG, "setName", "name", name));
 
-		if (!name.trim().equals(this.itemName)) {
+		if (!name.trim().isEmpty() && !name.trim().equals(this.itemName)) {
 			this.itemName = name.trim();
 			this.fireGraphItemsChangedEvent(this, Type.EDITED);
 		}

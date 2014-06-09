@@ -6,7 +6,7 @@ import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener.Type;
 import ch.bfh.ti.gravis.core.util.GravisColor;
 
 /**
- * This interface gives access to common methods on vertices and edges.
+ * This interface gives access to common methods of vertices and edges.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 

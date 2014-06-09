@@ -37,7 +37,9 @@ public class GraphTransformer implements
 			EdgeType edgeType = graphMeta.getEdgeDefault() == EdgeDefault.UNDIRECTED ? EdgeType.UNDIRECTED
 					: EdgeType.DIRECTED;
 
-			newGraph.setName(graphMeta.getId());
+			if (graphMeta.getId() != null) {
+				newGraph.setName(graphMeta.getId());
+			}
 			newGraph.setEdgeType(edgeType);
 
 			if (graphMeta.getProperty(GravisConstants.G_DESCRIPTION) != null) {

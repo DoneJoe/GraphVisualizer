@@ -40,7 +40,9 @@ public class VertexTransformer implements Transformer<NodeMetadata, IVertex> {
 		if (vertexMeta != null) {
 			String color = vertexMeta.getProperty(GravisConstants.V_COLOR);
 
-			vertex.setName(vertexMeta.getId());
+			if (vertexMeta.getId() != null) {
+				vertex.setName(vertexMeta.getId());
+			}
 			vertex.setCurrentColor(color == null ? GravisConstants.V_FILL_COLOR_DEFAULT
 					: ValueTransformer.toColor(color));
 

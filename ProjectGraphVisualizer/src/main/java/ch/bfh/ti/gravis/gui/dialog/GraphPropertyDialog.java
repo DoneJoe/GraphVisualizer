@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
+import ch.bfh.ti.gravis.gui.controller.ErrorHandler;
 import ch.bfh.ti.gravis.gui.verifier.GraphNameVerifier;
 
 /**
@@ -37,7 +38,7 @@ import ch.bfh.ti.gravis.gui.verifier.GraphNameVerifier;
 public class GraphPropertyDialog extends JDialog {
 
 	private static final long serialVersionUID = -1767385966504542230L;
-	
+
 	private static final int BORDER = 5;
 	private static final int COLS = 40;
 	private static final int ROWS = 12;
@@ -48,6 +49,8 @@ public class GraphPropertyDialog extends JDialog {
 	private static final String OK = "OK";
 	private static final String CANCEL = "Abbrechen";
 
+	private final ErrorHandler errHandler;
+
 	/**
 	 * Creates the dialog.
 	 * 
@@ -56,17 +59,20 @@ public class GraphPropertyDialog extends JDialog {
 	 */
 	public GraphPropertyDialog(final IGravisGraph graph, final JFrame owner) {
 		super(owner, true);
+		this.errHandler = new ErrorHandler(owner);
 
 		// create verifier and panels:
 
 		GraphNameVerifier verifier = new GraphNameVerifier(graph.getName());
 
 		JPanel panelGraphName = new JPanel();
-		panelGraphName.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
+		panelGraphName
+				.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
 		panelGraphName.setLayout(new BorderLayout());
 
 		JPanel panelGraphDescription = new JPanel();
-		panelGraphDescription.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
+		panelGraphDescription.setBorder(new EmptyBorder(BORDER, BORDER, BORDER,
+				BORDER));
 		panelGraphDescription.setLayout(new BorderLayout());
 
 		JPanel buttonPanel = new JPanel();
@@ -95,7 +101,7 @@ public class GraphPropertyDialog extends JDialog {
 		graphDescription.setWrapStyleWord(true);
 		graphDescription.setColumns(COLS);
 		graphDescription.setRows(ROWS);
-		
+
 		JScrollPane areaScrollPane = new JScrollPane(graphDescription);
 		areaScrollPane
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -119,11 +125,11 @@ public class GraphPropertyDialog extends JDialog {
 		buttonPanel.add(cancelButton);
 
 		// set text field values:
-		
+
 		txtGraphName.setText(graph.getName());
 		txtGraphName.setInputVerifier(verifier);
 		graphDescription.setText(graph.getDescription());
-		
+
 		// add listeners:
 
 		txtGraphName.getDocument().addDocumentListener(
@@ -154,12 +160,20 @@ public class GraphPropertyDialog extends JDialog {
 		return new DocumentListener() {
 			@Override
 			public void removeUpdate(DocumentEvent arg) {
-				okButton.setEnabled(verifier.verify(txtGraphName));
+				try {
+					okButton.setEnabled(verifier.verify(txtGraphName));
+				} catch (Throwable ex) {
+					errHandler.handleAppErrorExit(ex);
+				}
 			}
 
 			@Override
 			public void insertUpdate(DocumentEvent arg) {
-				okButton.setEnabled(verifier.verify(txtGraphName));
+				try {
+					okButton.setEnabled(verifier.verify(txtGraphName));
+				} catch (Throwable ex) {
+					errHandler.handleAppErrorExit(ex);
+				}
 			}
 
 			@Override
@@ -184,10 +198,14 @@ public class GraphPropertyDialog extends JDialog {
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (verifier.verify(txtGraphName)) {
-					graph.setName(txtGraphName.getText().trim());
-					graph.setDescription(graphDescription.getText().trim());
-					GraphPropertyDialog.this.dispose();
+				try {
+					if (verifier.verify(txtGraphName)) {
+						graph.setName(txtGraphName.getText().trim());
+						graph.setDescription(graphDescription.getText().trim());
+						GraphPropertyDialog.this.dispose();
+					}
+				} catch (Throwable ex) {
+					errHandler.handleAppErrorExit(ex);
 				}
 			}
 		};
@@ -197,7 +215,7 @@ public class GraphPropertyDialog extends JDialog {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (screenSize.width - this.getWidth()) / 2;
 		int y = (screenSize.height - this.getHeight()) / 2;
-		
+
 		this.setLocation(x, y);
 	}
 

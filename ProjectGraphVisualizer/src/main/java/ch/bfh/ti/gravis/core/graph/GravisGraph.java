@@ -405,10 +405,11 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public void setName(String graphName) {
-		this.graphName = Objects.requireNonNull(
+		Objects.requireNonNull(
 				graphName,
 				String.format(NULL_POINTER_MSG, "setName", "graphName",
 						graphName)).trim();
+		this.graphName = graphName.trim().isEmpty() ? this.graphName : graphName;
 	}
 
 	/*

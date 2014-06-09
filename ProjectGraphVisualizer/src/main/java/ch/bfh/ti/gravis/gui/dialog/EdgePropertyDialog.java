@@ -18,6 +18,7 @@ import javax.swing.event.DocumentListener;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.util.ValueTransformer;
+import ch.bfh.ti.gravis.gui.controller.ErrorHandler;
 import ch.bfh.ti.gravis.gui.verifier.EdgeWeightVerifier;
 import ch.bfh.ti.gravis.gui.verifier.GraphItemNameVerifier;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -50,6 +51,8 @@ public class EdgePropertyDialog extends JDialog {
 	private final static String OK = "OK";
 	private final static String CANCEL = "Abbrechen";
 
+	private final ErrorHandler errHandler;
+
 	/**
 	 * Creates the dialog.
 	 * 
@@ -61,6 +64,7 @@ public class EdgePropertyDialog extends JDialog {
 			final VisualizationViewer<IVertex, IEdge> vViewer) {
 
 		super(owner, true);
+		this.errHandler = new ErrorHandler(owner);
 
 		// create formatter and verifiers:
 
@@ -70,8 +74,8 @@ public class EdgePropertyDialog extends JDialog {
 
 		InputVerifier edgeWeightVerifier = new EdgeWeightVerifier(
 				weightFormat.format(edge.getWeight()));
-		InputVerifier itemNameVerifier = new GraphItemNameVerifier(edge.getName(),
-				vViewer.getGraphLayout().getGraph());
+		InputVerifier itemNameVerifier = new GraphItemNameVerifier(
+				edge.getName(), vViewer.getGraphLayout().getGraph());
 
 		// create panels:
 
@@ -128,17 +132,18 @@ public class EdgePropertyDialog extends JDialog {
 		buttonPanel.add(cancelButton);
 
 		// set text field values:
-		
+
 		txtEdgeName.setText(edge.getName());
 		txtEdgeName.setInputVerifier(itemNameVerifier);
 		txtEdgeWeight.setText(weightFormat.format(edge.getWeight()));
 		txtEdgeWeight.setInputVerifier(edgeWeightVerifier);
-		
+
 		// add listeners:
-		
-		DocumentListener docListener = this.createEdgeDocumentListener(okButton, txtEdgeName, 
-				txtEdgeWeight, itemNameVerifier, edgeWeightVerifier);
-		
+
+		DocumentListener docListener = this.createEdgeDocumentListener(
+				okButton, txtEdgeName, txtEdgeWeight, itemNameVerifier,
+				edgeWeightVerifier);
+
 		txtEdgeName.getDocument().addDocumentListener(docListener);
 		txtEdgeWeight.getDocument().addDocumentListener(docListener);
 		okButton.addActionListener(this.createOKActionListener(edge, vViewer,
@@ -162,9 +167,8 @@ public class EdgePropertyDialog extends JDialog {
 	 * @param edgeWeightVerifier
 	 * @return DocumentListener
 	 */
-	private DocumentListener createEdgeDocumentListener(
-			final JButton okButton, final JTextField txtEdgeName,
-			final JTextField txtEdgeWeight,
+	private DocumentListener createEdgeDocumentListener(final JButton okButton,
+			final JTextField txtEdgeName, final JTextField txtEdgeWeight,
 			final InputVerifier itemNameVerifier,
 			final InputVerifier edgeWeightVerifier) {
 
@@ -176,14 +180,25 @@ public class EdgePropertyDialog extends JDialog {
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				okButton.setEnabled(edgeWeightVerifier.verify(txtEdgeWeight) && 
-						itemNameVerifier.verify(txtEdgeName));
+				try {
+					okButton.setEnabled(edgeWeightVerifier
+							.verify(txtEdgeWeight)
+							&& itemNameVerifier.verify(txtEdgeName));
+				} catch (Throwable ex) {
+					errHandler.handleAppErrorExit(ex);
+				}
 			}
 
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				okButton.setEnabled(edgeWeightVerifier.verify(txtEdgeWeight) && 
-						itemNameVerifier.verify(txtEdgeName));			}
+				try {
+					okButton.setEnabled(edgeWeightVerifier
+							.verify(txtEdgeWeight)
+							&& itemNameVerifier.verify(txtEdgeName));
+				} catch (Throwable ex) {
+					errHandler.handleAppErrorExit(ex);
+				}
+			}
 		};
 	}
 
@@ -199,22 +214,25 @@ public class EdgePropertyDialog extends JDialog {
 	 */
 	private ActionListener createOKActionListener(final IEdge edge,
 			final VisualizationViewer<IVertex, IEdge> vViewer,
-			final JTextField txtEdgeName,
-			final JTextField txtEdgeWeight,
+			final JTextField txtEdgeName, final JTextField txtEdgeWeight,
 			final InputVerifier itemNameVerifier,
 			final InputVerifier edgeWeightVerifier) {
 
 		return new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (edgeWeightVerifier.verify(txtEdgeWeight) && 
-						itemNameVerifier.verify(txtEdgeName)) {
-					
-					edge.setName(txtEdgeName.getText().trim());
-					edge.setWeight(ValueTransformer.toDouble(
-							txtEdgeWeight.getText().trim()));
-					vViewer.repaint();
-					EdgePropertyDialog.this.dispose();
+				try {
+					if (edgeWeightVerifier.verify(txtEdgeWeight)
+							&& itemNameVerifier.verify(txtEdgeName)) {
+
+						edge.setName(txtEdgeName.getText().trim());
+						edge.setWeight(ValueTransformer.toDouble(txtEdgeWeight
+								.getText().trim()));
+						vViewer.repaint();
+						EdgePropertyDialog.this.dispose();
+					}
+				} catch (Throwable ex) {
+					errHandler.handleAppErrorExit(ex);
 				}
 			}
 		};

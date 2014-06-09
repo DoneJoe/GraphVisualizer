@@ -4,7 +4,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
 http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="description" for="graph">
-<default>Ungerichteter Sample-Graph</default>
+<default>Kruskal Graph 1</default>
 </key>
 <key id="vertexLocation.y" for="node">
 <default>50</default>
@@ -33,96 +33,113 @@ http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
 <key id="edgeColor" for="edge">
 <default>blue</default>
 </key>
-<graph id="Ungerichteter Sample-Graph" edgedefault="undirected">
-<data key="description">Dieser ungerichtete Sample-Graph eignet sich zur Visualisierung von allen in der Applikation zur Verfügung stehenden Algorithmen. Der Graph kann beliebig bearbeitet werden: Neue Knoten und Kanten hinzufügen, Knoten und Kanten löschen, Start- und Endknoten festlegen, Knoten- und Kantennamen ändern, Kantengewichte ändern, Grösse der Knoten ändern, Position der Knoten ändern. Weitere Sample-Graphen befinden sich im App-Ordner "sample_graphs".</data>
-<node id="E">
-<data key="vertexLocation.y">340.0</data>
+<graph id="Kruskal Graph 1" edgedefault="undirected">
+<data key="description">Ein ungerichteter Graph zum Testen des Kruskal-Algorithmus.</data>
+<node id="D">
+<data key="vertexLocation.y">249.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">205.0</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="B">
-<data key="vertexLocation.y">200.0</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">60.0</data>
+<data key="vertexLocation.x">89.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
 <node id="C">
-<data key="vertexLocation.y">200.0</data>
+<data key="vertexLocation.y">77.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">350.0</data>
+<data key="vertexLocation.x">567.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<node id="D">
-<data key="vertexLocation.y">200.0</data>
+<node id="G">
+<data key="vertexLocation.y">409.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">640.0</data>
-<data key="startVertex">false</data>
-<data key="vertexHeight">40.0</data>
-</node>
-<node id="F">
-<data key="vertexLocation.y">340.0</data>
-<data key="vertexWidth">40.0</data>
-<data key="endVertex">false</data>
-<data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">495.0</data>
+<data key="vertexLocation.x">565.0</data>
 <data key="startVertex">false</data>
 <data key="vertexHeight">40.0</data>
 </node>
 <node id="A">
-<data key="vertexLocation.y">60.0</data>
+<data key="vertexLocation.y">75.0</data>
 <data key="vertexWidth">40.0</data>
 <data key="endVertex">false</data>
 <data key="vertexColor">lightBlue</data>
-<data key="vertexLocation.x">350.0</data>
+<data key="vertexLocation.x">90.0</data>
 <data key="startVertex">true</data>
 <data key="vertexHeight">40.0</data>
 </node>
-<edge id="eBC" source="B" target="C">
+<node id="E">
+<data key="vertexLocation.y">245.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">567.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="B">
+<data key="vertexLocation.y">134.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">315.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<node id="F">
+<data key="vertexLocation.y">405.0</data>
+<data key="vertexWidth">40.0</data>
+<data key="endVertex">false</data>
+<data key="vertexColor">lightBlue</data>
+<data key="vertexLocation.x">293.0</data>
+<data key="startVertex">false</data>
+<data key="vertexHeight">40.0</data>
+</node>
+<edge id="eBE" source="B" target="E">
 <data key="weight">7.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="eCF" source="C" target="F">
+<edge id="eBD" source="B" target="D">
 <data key="weight">9.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="eCD" source="D" target="C">
-<data key="weight">1.0</data>
-<data key="edgeColor">blue</data>
-</edge>
-<edge id="eCE" source="C" target="E">
-<data key="weight">3.0</data>
+<edge id="eDE" source="D" target="E">
+<data key="weight">15.0</data>
 <data key="edgeColor">blue</data>
 </edge>
 <edge id="eDF" source="D" target="F">
+<data key="weight">6.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="eBC" source="B" target="C">
+<data key="weight">8.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="eFE" source="E" target="F">
+<data key="weight">8.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="eEG" source="G" target="E">
+<data key="weight">9.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="eCE" source="C" target="E">
 <data key="weight">5.0</data>
 <data key="edgeColor">blue</data>
 </edge>
-<edge id="eAD" source="A" target="D">
-<data key="weight">4.0</data>
-<data key="edgeColor">blue</data>
-</edge>
-<edge id="eAC" source="A" target="C">
-<data key="weight">2.0</data>
-<data key="edgeColor">blue</data>
-</edge>
-<edge id="eBE" source="B" target="E">
-<data key="weight">2.0</data>
-<data key="edgeColor">blue</data>
-</edge>
 <edge id="eAB" source="A" target="B">
-<data key="weight">8.0</data>
+<data key="weight">7.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="eFG" source="F" target="G">
+<data key="weight">11.0</data>
+<data key="edgeColor">blue</data>
+</edge>
+<edge id="eAD" source="A" target="D">
+<data key="weight">5.0</data>
 <data key="edgeColor">blue</data>
 </edge>
 </graph>

@@ -1,5 +1,6 @@
 package ch.bfh.ti.gravis.gui.controller;
 
+import java.awt.Component;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -8,12 +9,12 @@ import javax.swing.JOptionPane;
 import ch.bfh.ti.gravis.gui.dialog.MessageDialogAdapter;
 
 /**
- * This class supports the error and exception handling of controller classes.
+ * This class supports the error and exception handling of controller and dialog classes.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-class ErrorHandler {
+public class ErrorHandler {
 
 	private final static String APP_ERR_TITLE = "Fehler";
 	private final static String APP_ERR_MSG = "In der Applikation ist ein Fehler aufgetreten! "
@@ -21,16 +22,23 @@ class ErrorHandler {
 
 	private MessageDialogAdapter messageDialogAdapter;
 
-	protected ErrorHandler() {
+	public ErrorHandler() {
 		this(new MessageDialogAdapter());
 	}
 
 	/**
 	 * @param messageDialogAdapter
 	 */
-	protected ErrorHandler(MessageDialogAdapter messageDialogAdapter) {
+	public ErrorHandler(MessageDialogAdapter messageDialogAdapter) {
 		this.messageDialogAdapter = messageDialogAdapter == null ? new MessageDialogAdapter()
 				: messageDialogAdapter;
+	}
+
+	/**
+	 * @param owner
+	 */
+	public ErrorHandler(Component owner) {
+		this(new MessageDialogAdapter(owner));
 	}
 
 	/**
@@ -38,7 +46,7 @@ class ErrorHandler {
 	 * 
 	 * @param messageDialogAdapter
 	 */
-	protected void setMessageDialogAdapter(
+	public void setMessageDialogAdapter(
 			MessageDialogAdapter messageDialogAdapter) {
 
 		this.messageDialogAdapter = messageDialogAdapter == null ? this.messageDialogAdapter
@@ -49,7 +57,7 @@ class ErrorHandler {
 	 * 
 	 * @param ex
 	 */
-	protected void handleAppErrorExit(Throwable ex) {
+	public void handleAppErrorExit(Throwable ex) {
 		this.handleAppErrorExit(ex, APP_ERR_MSG);
 	}
 
@@ -58,7 +66,7 @@ class ErrorHandler {
 	 * @param ex
 	 * @param errMsg
 	 */
-	protected void handleAppErrorExit(Throwable ex, String errMsg) {
+	public void handleAppErrorExit(Throwable ex, String errMsg) {
 		this.showErrorMessage(ex, errMsg, APP_ERR_TITLE);
 
 		// abnormal termination of application
@@ -70,7 +78,7 @@ class ErrorHandler {
 	 * @param errMsg
 	 * @param errTitle
 	 */
-	protected void showErrorMessage(String errMsg, String errTitle) {
+	public void showErrorMessage(String errMsg, String errTitle) {
 		this.messageDialogAdapter.showMessageDialog(errMsg, errTitle,
 				JOptionPane.ERROR_MESSAGE);
 	}
@@ -80,7 +88,7 @@ class ErrorHandler {
 	 * @param errMsg
 	 * @param errTitle
 	 */
-	protected void showErrorMessage(Throwable e, String errMsg, String errTitle) {
+	public void showErrorMessage(Throwable e, String errMsg, String errTitle) {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		this.messageDialogAdapter.showErrorMessageDialog(errMsg, sw.toString(),
@@ -92,7 +100,7 @@ class ErrorHandler {
 	 * @param e
 	 * @param errMsg
 	 */
-	protected void showErrorMessage(Throwable e, String errMsg) {
+	public void showErrorMessage(Throwable e, String errMsg) {
 		this.showErrorMessage(e, errMsg, APP_ERR_TITLE);
 	}
 }
