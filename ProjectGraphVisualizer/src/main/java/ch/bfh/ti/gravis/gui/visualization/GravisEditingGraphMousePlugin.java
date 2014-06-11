@@ -9,6 +9,7 @@ import org.apache.commons.collections15.Factory;
 import ch.bfh.ti.gravis.core.graph.IGravisGraph;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.ti.gravis.gui.controller.ErrorHandler;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
@@ -25,7 +26,10 @@ import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
 public class GravisEditingGraphMousePlugin extends
 		EditingGraphMousePlugin<IVertex, IEdge> {
 
+	private ErrorHandler errHandler = null;
+
 	/**
+	 * 
 	 * @param vertexFactory
 	 * @param edgeFactory
 	 */
@@ -88,64 +92,70 @@ public class GravisEditingGraphMousePlugin extends
 	@Override
 	@SuppressWarnings("unchecked")
 	public void mousePressed(final MouseEvent e) {
-		if (this.checkModifiers(e)) {
-			final VisualizationViewer<IVertex, IEdge> vv = (VisualizationViewer<IVertex, IEdge>) e
-					.getSource();
-			final Point2D p = e.getPoint();
-			GraphElementAccessor<IVertex, IEdge> pickSupport = vv
-					.getPickSupport();
+		try {
+			if (this.checkModifiers(e)) {
+				final VisualizationViewer<IVertex, IEdge> vv = (VisualizationViewer<IVertex, IEdge>) e
+						.getSource();
+				final Point2D p = e.getPoint();
+				GraphElementAccessor<IVertex, IEdge> pickSupport = vv
+						.getPickSupport();
 
-			if (pickSupport != null) {
-				Graph<IVertex, IEdge> graph = vv.getModel().getGraphLayout()
-						.getGraph();
+				if (pickSupport != null) {
+					Graph<IVertex, IEdge> graph = vv.getModel()
+							.getGraphLayout().getGraph();
 
-				// set default edge type
-				this.edgeIsDirected = EdgeType.DIRECTED;
-				if (graph instanceof IGravisGraph) {
-					IGravisGraph gravisGraph = (IGravisGraph) graph;
+					// set default edge type
+					this.edgeIsDirected = EdgeType.DIRECTED;
+					if (graph instanceof IGravisGraph) {
+						IGravisGraph gravisGraph = (IGravisGraph) graph;
 
-					if (gravisGraph.getEdgeType() == EdgeType.UNDIRECTED) {
-						this.edgeIsDirected = EdgeType.UNDIRECTED;
+						if (gravisGraph.getEdgeType() == EdgeType.UNDIRECTED) {
+							this.edgeIsDirected = EdgeType.UNDIRECTED;
+						}
+					}
+
+					final IVertex vertex = pickSupport.getVertex(vv.getModel()
+							.getGraphLayout(), p.getX(), p.getY());
+
+					if (vertex != null) {
+						// get ready to make an edge
+						this.startVertex = vertex;
+						this.down = e.getPoint();
+						this.transformEdgeShape(this.down, this.down);
+						vv.addPostRenderPaintable(this.edgePaintable);
+
+						// shift shortcut not supported in GRAVIS application
+
+						// if ((e.getModifiers() & MouseEvent.SHIFT_MASK) != 0
+						// && vv.getModel().getGraphLayout().getGraph()
+						// instanceof UndirectedGraph == false) {
+						// this.edgeIsDirected = EdgeType.DIRECTED;
+						// }
+
+						if (this.edgeIsDirected == EdgeType.DIRECTED) {
+							this.transformArrowShape(this.down, e.getPoint());
+							vv.addPostRenderPaintable(this.arrowPaintable);
+						}
+					} else {
+						// make a new vertex
+						IVertex newVertex = this.vertexFactory.create();
+						Layout<IVertex, IEdge> layout = vv.getModel()
+								.getGraphLayout();
+						graph.addVertex(newVertex);
+
+						Point2D point = vv.getRenderContext()
+								.getMultiLayerTransformer()
+								.inverseTransform(e.getPoint());
+						layout.setLocation(newVertex, point);
+						newVertex.setLocation(point);
 					}
 				}
-
-				final IVertex vertex = pickSupport.getVertex(vv.getModel()
-						.getGraphLayout(), p.getX(), p.getY());
-
-				if (vertex != null) {
-					// get ready to make an edge
-					this.startVertex = vertex;
-					this.down = e.getPoint();
-					this.transformEdgeShape(this.down, this.down);
-					vv.addPostRenderPaintable(this.edgePaintable);
-
-					// shift shortcut not supported in GRAVIS application
-
-					// if ((e.getModifiers() & MouseEvent.SHIFT_MASK) != 0
-					// && vv.getModel().getGraphLayout().getGraph()
-					// instanceof UndirectedGraph == false) {
-					// this.edgeIsDirected = EdgeType.DIRECTED;
-					// }
-
-					if (this.edgeIsDirected == EdgeType.DIRECTED) {
-						this.transformArrowShape(this.down, e.getPoint());
-						vv.addPostRenderPaintable(this.arrowPaintable);
-					}
-				} else {
-					// make a new vertex
-					IVertex newVertex = this.vertexFactory.create();
-					Layout<IVertex, IEdge> layout = vv.getModel()
-							.getGraphLayout();
-					graph.addVertex(newVertex);
-
-					Point2D point = vv.getRenderContext()
-							.getMultiLayerTransformer()
-							.inverseTransform(e.getPoint());
-					layout.setLocation(newVertex, point);
-					newVertex.setLocation(point);
-				}
+				vv.repaint();
 			}
-			vv.repaint();
+		} catch (Throwable ex) {
+			if (this.errHandler != null) {
+				this.errHandler.handleAppErrorExit(ex);
+			}
 		}
 	}
 
@@ -155,32 +165,45 @@ public class GravisEditingGraphMousePlugin extends
 	@Override
 	@SuppressWarnings("unchecked")
 	public void mouseReleased(final MouseEvent e) {
-		if (this.checkModifiers(e)) {
-			final VisualizationViewer<IVertex, IEdge> vv = (VisualizationViewer<IVertex, IEdge>) e
-					.getSource();
-			final Point2D p = e.getPoint();
-			Layout<IVertex, IEdge> layout = vv.getModel().getGraphLayout();
-			GraphElementAccessor<IVertex, IEdge> pickSupport = vv
-					.getPickSupport();
+		try {
+			if (this.checkModifiers(e)) {
+				final VisualizationViewer<IVertex, IEdge> vv = (VisualizationViewer<IVertex, IEdge>) e
+						.getSource();
+				final Point2D p = e.getPoint();
+				Layout<IVertex, IEdge> layout = vv.getModel().getGraphLayout();
+				GraphElementAccessor<IVertex, IEdge> pickSupport = vv
+						.getPickSupport();
 
-			if (pickSupport != null) {
-				final IVertex vertex = pickSupport.getVertex(layout, p.getX(),
-						p.getY());
-				if (vertex != null && this.startVertex != null) {
-					Graph<IVertex, IEdge> graph = vv.getGraphLayout()
-							.getGraph();
-					graph.addEdge(this.edgeFactory.create(), this.startVertex,
-							vertex, this.edgeIsDirected);
-					vv.repaint();
+				if (pickSupport != null) {
+					final IVertex vertex = pickSupport.getVertex(layout,
+							p.getX(), p.getY());
+					if (vertex != null && this.startVertex != null) {
+						Graph<IVertex, IEdge> graph = vv.getGraphLayout()
+								.getGraph();
+						graph.addEdge(this.edgeFactory.create(),
+								this.startVertex, vertex, this.edgeIsDirected);
+						vv.repaint();
+					}
 				}
+				this.startVertex = null;
+				this.down = null;
+				// set default edge type
+				this.edgeIsDirected = EdgeType.DIRECTED;
+				vv.removePostRenderPaintable(this.edgePaintable);
+				vv.removePostRenderPaintable(this.arrowPaintable);
 			}
-			this.startVertex = null;
-			this.down = null;
-			// set default edge type
-			this.edgeIsDirected = EdgeType.DIRECTED;
-			vv.removePostRenderPaintable(this.edgePaintable);
-			vv.removePostRenderPaintable(this.arrowPaintable);
+		} catch (Throwable ex) {
+			if (this.errHandler != null) {
+				this.errHandler.handleAppErrorExit(ex);
+			}
 		}
+	}
+
+	/**
+	 * @param errHandler
+	 */
+	public void setErrorHandler(ErrorHandler errHandler) {
+		this.errHandler = errHandler;
 	}
 
 }

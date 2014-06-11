@@ -84,13 +84,13 @@ public enum ItemState {
 			case INITIAL:
 				return GravisConstants.V_DRAW_INITIAL_COLOR;
 			case ACTIVATED:
-				return GravisConstants.V_DRAW_ACTIVATION_COLOR;
+				return GravisConstants.V_DRAW_ACTIVATED_COLOR;
 			case VISITED:
-				return GravisConstants.V_DRAW_VISIT_COLOR;
+				return GravisConstants.V_DRAW_VISITED_COLOR;
 			case SOLVED:
-				return GravisConstants.V_DRAW_SOLUTION_COLOR;
+				return GravisConstants.V_DRAW_SOLVED_COLOR;
 			case DISCARDED:
-				return GravisConstants.V_DRAW_ELIMINATION_COLOR;
+				return GravisConstants.V_DRAW_DISCARDED_COLOR;
 			}
 		} else if (item instanceof IEdge) {
 			return this.getEdgeColor();
@@ -111,13 +111,13 @@ public enum ItemState {
 			case INITIAL:
 				return GravisConstants.V_FILL_INITIAL_COLOR;
 			case ACTIVATED:
-				return GravisConstants.V_FILL_ACTIVATION_COLOR;
+				return GravisConstants.V_FILL_ACTIVATED_COLOR;
 			case VISITED:
-				return GravisConstants.V_FILL_VISIT_COLOR;
+				return GravisConstants.V_FILL_VISITED_COLOR;
 			case SOLVED:
-				return GravisConstants.V_FILL_SOLUTION_COLOR;
+				return GravisConstants.V_FILL_SOLVED_COLOR;
 			case DISCARDED:
-				return GravisConstants.V_FILL_ELIMINATION_COLOR;
+				return GravisConstants.V_FILL_DISCARDED_COLOR;
 			}
 		} else if (item instanceof IEdge) {
 			return this.getEdgeColor();
@@ -136,13 +136,13 @@ public enum ItemState {
 		case INITIAL:
 			return GravisConstants.E_INITIAL_COLOR;
 		case ACTIVATED:
-			return GravisConstants.E_ACTIVATION_COLOR;
+			return GravisConstants.E_ACTIVATED_COLOR;
 		case VISITED:
-			return GravisConstants.E_VISIT_COLOR;
+			return GravisConstants.E_VISITED_COLOR;
 		case SOLVED:
-			return GravisConstants.E_SOLUTION_COLOR;
+			return GravisConstants.E_SOLVED_COLOR;
 		case DISCARDED:
-			return GravisConstants.E_ELIMINATION_COLOR;
+			return GravisConstants.E_DISCARDED_COLOR;
 		default:
 			return GravisConstants.E_COLOR_DEFAULT;
 		}

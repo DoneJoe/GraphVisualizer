@@ -73,8 +73,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 		String edgeTypeStr = edgeType == EdgeType.DIRECTED ? DIR_STR
 				: UNDIR_STR;
 
-		counter++;
-		this.setName(String.format(DEFAULT_NAME, edgeTypeStr, counter));
+		this.setName(String.format(DEFAULT_NAME, edgeTypeStr, ++counter));
 		this.setDescription(String.format(DEFAULT_DESCRIPTION, edgeTypeStr,
 				counter));
 		this.validateGraphItems();
@@ -409,7 +408,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 				graphName,
 				String.format(NULL_POINTER_MSG, "setName", "graphName",
 						graphName)).trim();
-		this.graphName = graphName.trim().isEmpty() ? this.graphName : graphName;
+		this.graphName = graphName.trim().isEmpty() ? this.graphName : graphName.trim();
 	}
 
 	/*

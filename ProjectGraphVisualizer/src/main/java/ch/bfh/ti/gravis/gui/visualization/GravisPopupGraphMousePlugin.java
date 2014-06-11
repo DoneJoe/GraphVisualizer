@@ -11,6 +11,7 @@ import org.apache.commons.collections15.Factory;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.ti.gravis.gui.controller.ErrorHandler;
 import ch.bfh.ti.gravis.gui.popup.IGraphItemMenuListener;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -31,6 +32,8 @@ public class GravisPopupGraphMousePlugin extends
 
 	private JPopupMenu vertexCreatePopup = null;
 
+	private ErrorHandler errHandler = null;
+
 	/**
 	 * 
 	 * @param vertexFactory
@@ -49,38 +52,46 @@ public class GravisPopupGraphMousePlugin extends
 	 */
 	@Override
 	protected void handlePopup(final MouseEvent e) {
-		if (e.getSource() instanceof VisualizationViewer<?, ?>) {
-			@SuppressWarnings("unchecked")
-			VisualizationViewer<IVertex, IEdge> vViewer = (VisualizationViewer<IVertex, IEdge>) e
-					.getSource();
-			Point2D point = e.getPoint();
-			GraphElementAccessor<IVertex, IEdge> pickSupport = vViewer
-					.getPickSupport();
+		try {
+			if (e.getSource() instanceof VisualizationViewer<?, ?>) {
+				@SuppressWarnings("unchecked")
+				VisualizationViewer<IVertex, IEdge> vViewer = (VisualizationViewer<IVertex, IEdge>) e
+						.getSource();
+				Point2D point = e.getPoint();
+				GraphElementAccessor<IVertex, IEdge> pickSupport = vViewer
+						.getPickSupport();
 
-			if (pickSupport != null) {
-				IVertex vertex = pickSupport.getVertex(
-						vViewer.getGraphLayout(), point.getX(), point.getY());
-				IEdge edge = pickSupport.getEdge(vViewer.getGraphLayout(),
-						point.getX(), point.getY());
+				if (pickSupport != null) {
+					IVertex vertex = pickSupport.getVertex(
+							vViewer.getGraphLayout(), point.getX(),
+							point.getY());
+					IEdge edge = pickSupport.getEdge(vViewer.getGraphLayout(),
+							point.getX(), point.getY());
 
-				if (vertex != null && this.vertexPopup != null) {
-					// show vertex popup menu
-					this.updateItemMenu(vertex, point, this.vertexPopup);
-					this.vertexPopup.show(vViewer, e.getX(), e.getY());
-				} else if (edge != null && this.edgePopup != null) {
-					// show edge popup menu
-					this.updateItemMenu(edge, point, this.edgePopup);
-					this.edgePopup.show(vViewer, e.getX(), e.getY());
-				} else if (edge == null && vertex == null
-						&& this.vertexCreatePopup != null) {
-					if (this.vertexCreatePopup instanceof IGraphItemMenuListener) {
-						((IGraphItemMenuListener) this.vertexCreatePopup)
-								.setGraphItemLocation(point);
+					if (vertex != null && this.vertexPopup != null) {
+						// show vertex popup menu
+						this.updateItemMenu(vertex, point, this.vertexPopup);
+						this.vertexPopup.show(vViewer, e.getX(), e.getY());
+					} else if (edge != null && this.edgePopup != null) {
+						// show edge popup menu
+						this.updateItemMenu(edge, point, this.edgePopup);
+						this.edgePopup.show(vViewer, e.getX(), e.getY());
+					} else if (edge == null && vertex == null
+							&& this.vertexCreatePopup != null) {
+						if (this.vertexCreatePopup instanceof IGraphItemMenuListener) {
+							((IGraphItemMenuListener) this.vertexCreatePopup)
+									.setGraphItemLocation(point);
+						}
+						this.vertexCreatePopup
+								.show(vViewer, e.getX(), e.getY());
 					}
-					this.vertexCreatePopup.show(vViewer, e.getX(), e.getY());
 				}
+				vViewer.repaint();
 			}
-			vViewer.repaint();
+		} catch (Throwable ex) {
+			if (this.errHandler != null) {
+				this.errHandler.handleAppErrorExit(ex);
+			}
 		}
 	}
 
@@ -127,4 +138,10 @@ public class GravisPopupGraphMousePlugin extends
 		this.vertexCreatePopup = vertexCreatePopup;
 	}
 
+	/**
+	 * @param errHandler
+	 */
+	public void setErrorHandler(ErrorHandler errHandler) {
+		this.errHandler = errHandler;
+	}
 }

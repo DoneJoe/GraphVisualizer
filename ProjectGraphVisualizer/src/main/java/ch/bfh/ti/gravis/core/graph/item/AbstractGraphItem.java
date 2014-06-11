@@ -506,6 +506,7 @@ public abstract class AbstractGraphItem extends AbstractEditItemObservable
 		Objects.requireNonNull(name,
 				String.format(NULL_POINTER_MSG, "setName", "name", name));
 
+		// name must be not empty and unique
 		if (!name.trim().isEmpty() && !name.trim().equals(this.itemName)) {
 			this.itemName = name.trim();
 			this.fireGraphItemsChangedEvent(this, Type.EDITED);

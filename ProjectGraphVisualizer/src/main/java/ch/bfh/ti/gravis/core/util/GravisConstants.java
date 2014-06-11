@@ -46,22 +46,22 @@ public final class GravisConstants {
 	// item state colors:
 
 	public final static Color V_FILL_INITIAL_COLOR = GravisColor.LIGHT_BLUE;
-	public final static Color V_FILL_ACTIVATION_COLOR = GravisColor.LESS_LIGHT_BLUE;
-	public final static Color V_FILL_VISIT_COLOR = GravisColor.LIGHT_YELLOW;
-	public final static Color V_FILL_SOLUTION_COLOR = GravisColor.LIGHT_GREEN;
-	public final static Color V_FILL_ELIMINATION_COLOR = GravisColor.LIGHT_RED;
+	public final static Color V_FILL_ACTIVATED_COLOR = GravisColor.LESS_LIGHT_BLUE;
+	public final static Color V_FILL_VISITED_COLOR = GravisColor.LIGHT_YELLOW;
+	public final static Color V_FILL_SOLVED_COLOR = GravisColor.LIGHT_GREEN;
+	public final static Color V_FILL_DISCARDED_COLOR = GravisColor.LIGHT_RED;
 
 	public final static Color V_DRAW_INITIAL_COLOR = GravisColor.BLUE;
-	public final static Color V_DRAW_ACTIVATION_COLOR = GravisColor.BLUE;
-	public final static Color V_DRAW_VISIT_COLOR = GravisColor.YELLOW;
-	public final static Color V_DRAW_SOLUTION_COLOR = GravisColor.GREEN;
-	public final static Color V_DRAW_ELIMINATION_COLOR = GravisColor.RED;
+	public final static Color V_DRAW_ACTIVATED_COLOR = GravisColor.BLUE;
+	public final static Color V_DRAW_VISITED_COLOR = GravisColor.YELLOW;
+	public final static Color V_DRAW_SOLVED_COLOR = GravisColor.GREEN;
+	public final static Color V_DRAW_DISCARDED_COLOR = GravisColor.RED;
 
 	public final static Color E_INITIAL_COLOR = GravisColor.BLUE;
-	public final static Color E_ACTIVATION_COLOR = GravisColor.BLUE;
-	public final static Color E_VISIT_COLOR = GravisColor.YELLOW;
-	public final static Color E_SOLUTION_COLOR = GravisColor.GREEN;
-	public final static Color E_ELIMINATION_COLOR = GravisColor.RED;
+	public final static Color E_ACTIVATED_COLOR = GravisColor.BLUE;
+	public final static Color E_VISITED_COLOR = GravisColor.YELLOW;
+	public final static Color E_SOLVED_COLOR = GravisColor.GREEN;
+	public final static Color E_DISCARDED_COLOR = GravisColor.RED;
 
 	// some graph item field default values:
 

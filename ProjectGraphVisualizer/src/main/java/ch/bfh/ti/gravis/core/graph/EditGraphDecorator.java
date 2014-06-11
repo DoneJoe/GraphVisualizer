@@ -345,7 +345,7 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 		Objects.requireNonNull(graphName, String.format(NULL_POINTER_MSG, "setName",
 				"graphName", graphName));
 		
-		if (!this.getName().equals(graphName.trim())) {
+		if (!graphName.trim().isEmpty() && !this.getName().equals(graphName.trim())) {
 			this.gravisGraph.setName(graphName);
 			this.fireGraphPropertiesChangedEvent(this, Type.VISUAL_EDITED);
 		}

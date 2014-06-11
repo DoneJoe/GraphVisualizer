@@ -8,8 +8,8 @@ import java.util.Collection;
 import ch.bfh.ti.gravis.core.graph.item.IRestrictedGraphItem;
 
 /**
- * This utility class contains static methods for transforming values from one data
- * type to other data types.
+ * This utility class contains static methods for transforming values from one
+ * data type to other data types.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -27,7 +27,8 @@ public final class ValueTransformer {
 	}
 
 	/**
-	 * Converts a list of IRestrictedGraphItem to an array of IRestrictedGraphItem.
+	 * Converts a list of IRestrictedGraphItem to an array of
+	 * IRestrictedGraphItem.
 	 * 
 	 * @param itemList
 	 * @return array of IRestrictedGraphItem
@@ -54,7 +55,7 @@ public final class ValueTransformer {
 	}
 
 	/**
-	 * 	Converts a color to a string representation.
+	 * Converts a color to a string representation.
 	 * 
 	 * @param color
 	 * @return string representation of color
@@ -108,7 +109,7 @@ public final class ValueTransformer {
 	}
 
 	/**
-	 * 	Converts two string values to a Point2D object.
+	 * Converts two string values to a Point2D object.
 	 * 
 	 * @param xValue
 	 * @param yValue
@@ -116,8 +117,11 @@ public final class ValueTransformer {
 	 */
 	public static Point2D toPoint(String xValue, String yValue) {
 		try {
-			return new Point(Math.round(Float.parseFloat(xValue)),
-					Math.round(Float.parseFloat(yValue)));
+			Point point = new Point();
+			// double values are rounded to int
+			point.setLocation(Double.parseDouble(xValue),
+					Double.parseDouble(yValue));
+			return point;
 		} catch (Exception e) {
 			return new Point(GravisConstants.V_LOC_X_DEFAULT,
 					GravisConstants.V_LOC_Y_DEFAULT);
@@ -125,7 +129,7 @@ public final class ValueTransformer {
 	}
 
 	/**
-	 * 	Converts a stringValue to a color object.
+	 * Converts a stringValue to a color object.
 	 * 
 	 * @param stringValue
 	 * @return an instance of Color

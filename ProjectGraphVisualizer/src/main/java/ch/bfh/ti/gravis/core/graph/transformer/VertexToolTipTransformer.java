@@ -24,7 +24,7 @@ public class VertexToolTipTransformer implements Transformer<IVertex, String> {
 	public VertexToolTipTransformer() {
 		this.doubleFormat = new DecimalFormat();
 		this.doubleFormat.setMinimumFractionDigits(0);
-		this.doubleFormat.setMaximumFractionDigits(2);
+		this.doubleFormat.setMaximumFractionDigits(0);
 	}
 
 	/*

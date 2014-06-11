@@ -765,7 +765,7 @@ class AppModel extends Observable implements IAppModel {
 		edgeType = edgeType == null ? EdgeType.DIRECTED : edgeType;
 
 		if (this.graph == null) {
-			// init with sample graph
+			// set sample graph
 			this.graph = GraphFactory.createUndirectedSampleGraph();
 			this.calcState = CALCULABLE;
 		} else {

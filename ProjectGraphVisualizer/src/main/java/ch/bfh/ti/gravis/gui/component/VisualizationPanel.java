@@ -14,6 +14,7 @@ import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
 import ch.bfh.ti.gravis.core.graph.item.vertex.VertexFactory;
 import ch.bfh.ti.gravis.gui.GuiFactory;
+import ch.bfh.ti.gravis.gui.controller.ErrorHandler;
 import ch.bfh.ti.gravis.gui.model.IAppModel;
 import ch.bfh.ti.gravis.gui.model.VisualizationViewModel;
 import ch.bfh.ti.gravis.gui.popup.EdgeMenu;
@@ -61,11 +62,12 @@ public class VisualizationPanel extends JPanel implements Observer {
 		GraphZoomScrollPane pane = new GraphZoomScrollPane(this.viewer);
 		EditingModalGraphMouse<IVertex, IEdge> graphMouse = new GravisModalGraphMouse(
 				this.viewer.getRenderContext(), new VertexFactory(),
-				new EdgeFactory(), edgeMenu, vertexMenu, vertexCreateMenu);
+				new EdgeFactory(), edgeMenu, vertexMenu, vertexCreateMenu,
+				new ErrorHandler(this));
 
 		// prepare VisualizationPanel:
 
-		model.setPickedVertexState(this.viewer.getPickedVertexState()); 
+		model.setPickedVertexState(this.viewer.getPickedVertexState());
 		graphMouse.getModeComboBox().setModel(
 				model.getToggleComboGroup().getModeComboBox().getModel());
 		graphMouse.setMode(model.getToggleComboGroup().getMode());

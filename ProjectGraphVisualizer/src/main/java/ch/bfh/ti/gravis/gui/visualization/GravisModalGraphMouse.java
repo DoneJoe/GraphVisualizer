@@ -10,6 +10,7 @@ import org.apache.commons.collections15.Factory;
 
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
 import ch.bfh.ti.gravis.core.graph.item.vertex.IVertex;
+import ch.bfh.ti.gravis.gui.controller.ErrorHandler;
 import ch.bfh.ti.gravis.gui.popup.CreateVertexMenu;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.annotations.AnnotatingGraphMousePlugin;
@@ -39,12 +40,13 @@ public class GravisModalGraphMouse extends
 	 * @param edgePopup
 	 * @param vertexPopup
 	 * @param vertexCreatePopup
+	 * @param errHandler
 	 */
 	public GravisModalGraphMouse(final RenderContext<IVertex, IEdge> rc,
 			final Factory<IVertex> vertexFactory,
 			final Factory<IEdge> edgeFactory, final JPopupMenu edgePopup,
 			final JPopupMenu vertexPopup,
-			final CreateVertexMenu vertexCreatePopup) {
+			final CreateVertexMenu vertexCreatePopup, final ErrorHandler errHandler) {
 
 		super(rc, vertexFactory, edgeFactory);
 
@@ -55,6 +57,18 @@ public class GravisModalGraphMouse extends
 					.setVertexPopup(vertexPopup);
 			((GravisPopupGraphMousePlugin) this.popupEditingPlugin)
 					.setVertexCreatePopup(vertexCreatePopup);
+			((GravisPopupGraphMousePlugin) this.popupEditingPlugin)
+			.setErrorHandler(errHandler);;
+		}
+		
+		if (this.editingPlugin instanceof GravisEditingGraphMousePlugin) {
+			((GravisEditingGraphMousePlugin) this.editingPlugin)
+			.setErrorHandler(errHandler);
+		}
+		
+		if (this.pickingPlugin instanceof GravisPickingGraphMousePlugin) {
+			((GravisPickingGraphMousePlugin) this.pickingPlugin)
+			.setErrorHandler(errHandler);
 		}
 	}
 
@@ -195,7 +209,7 @@ public class GravisModalGraphMouse extends
 	}
 
 	/**
-	 * @return Mode[]
+	 * @return array of modes
 	 */
 	public static Mode[] getModes() {
 		return new Mode[] { Mode.PICKING, Mode.EDITING, Mode.TRANSFORMING };
