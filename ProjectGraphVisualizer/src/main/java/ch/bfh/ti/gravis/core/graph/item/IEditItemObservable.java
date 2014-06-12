@@ -3,8 +3,8 @@ package ch.bfh.ti.gravis.core.graph.item;
 import ch.bfh.ti.gravis.core.graph.IEditGraphEventListener;
 
 /**
- * This interface provides support for adding and removing {@link IEditGraphEventListener}
- * listeners to graph items.
+ * This interface provides support for adding and removing
+ * {@link IEditGraphEventListener} listeners to graph items.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -25,10 +25,11 @@ public interface IEditItemObservable {
 	 * Removes the listeners (if added before) from this edit item observable.
 	 * 
 	 * @param listeners
+	 * @return {@code true} if this list contained at least one of the specified elements 
 	 * @throws NullPointerException
 	 *             if listeners is null
 	 */
-	public abstract void removeEditGraphEventListeners(
+	public abstract boolean removeEditGraphEventListeners(
 			IEditGraphEventListener... listeners);
 
 }

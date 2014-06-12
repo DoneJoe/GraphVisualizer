@@ -55,12 +55,12 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices) {
-		boolean ok = super.addEdge(edge, vertices);
-		
-		edge.addEditGraphEventListeners(this.getEditGraphEventListeners());
-		this.fireGraphItemsChangedEvent(edge, Type.ADDED);
-		
-		return ok;
+		if (super.addEdge(edge, vertices)) {
+			edge.addEditGraphEventListeners(this.getEditGraphEventListeners());
+			this.fireGraphItemsChangedEvent(edge, Type.ADDED);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -72,12 +72,13 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices,
 			EdgeType edge_type) {
-		boolean ok = super.addEdge(edge, vertices, edge_type);
 		
-		edge.addEditGraphEventListeners(this.getEditGraphEventListeners());
-		this.fireGraphItemsChangedEvent(edge, Type.ADDED);
-		
-		return ok;
+		if (super.addEdge(edge, vertices, edge_type)) {
+			edge.addEditGraphEventListeners(this.getEditGraphEventListeners());
+			this.fireGraphItemsChangedEvent(edge, Type.ADDED);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -88,12 +89,12 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean addEdge(IEdge edge, IVertex v1, IVertex v2) {
-		boolean ok = super.addEdge(edge, v1, v2);
-		
-		edge.addEditGraphEventListeners(this.getEditGraphEventListeners());
-		this.fireGraphItemsChangedEvent(edge, Type.ADDED);
-		
-		return ok;
+		if (super.addEdge(edge, v1, v2)) {
+			edge.addEditGraphEventListeners(this.getEditGraphEventListeners());
+			this.fireGraphItemsChangedEvent(edge, Type.ADDED);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -104,12 +105,12 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean addEdge(IEdge e, IVertex v1, IVertex v2, EdgeType edgeType) {
-		boolean ok = super.addEdge(e, v1, v2, edgeType);
-		
-		e.addEditGraphEventListeners(this.getEditGraphEventListeners());
-		this.fireGraphItemsChangedEvent(e, Type.ADDED);
-		
-		return ok;
+		if (super.addEdge(e, v1, v2, edgeType)) {
+			e.addEditGraphEventListeners(this.getEditGraphEventListeners());
+			this.fireGraphItemsChangedEvent(e, Type.ADDED);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -142,13 +143,12 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean addVertex(IVertex vertex) {
-		boolean ok = super.addVertex(vertex);
-		
-		vertex.addEditGraphEventListeners(this
-				.getEditGraphEventListeners());
-		this.fireGraphItemsChangedEvent(vertex, Type.ADDED);
-		
-		return ok;
+		if (super.addVertex(vertex)) {
+			vertex.addEditGraphEventListeners(this.getEditGraphEventListeners());
+			this.fireGraphItemsChangedEvent(vertex, Type.ADDED);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -266,12 +266,13 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean removeEdge(IEdge edge) {
-		boolean ok = super.removeEdge(edge);
-		
-		this.fireGraphItemsChangedEvent(edge, Type.REMOVED);
-		edge.removeEditGraphEventListeners(this.getEditGraphEventListeners());
-		
-		return ok;
+		if (super.removeEdge(edge)) {
+			this.fireGraphItemsChangedEvent(edge, Type.REMOVED);
+			edge.removeEditGraphEventListeners(this
+					.getEditGraphEventListeners());
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -281,12 +282,13 @@ class EditGraphDecorator extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean removeVertex(IVertex vertex) {
-		boolean ok = super.removeVertex(vertex);
-		
-		this.fireGraphItemsChangedEvent(vertex, Type.REMOVED);
-		vertex.removeEditGraphEventListeners(this.getEditGraphEventListeners());
-		
-		return ok;
+		if (super.removeVertex(vertex)) {
+			this.fireGraphItemsChangedEvent(vertex, Type.REMOVED);
+			vertex.removeEditGraphEventListeners(this
+					.getEditGraphEventListeners());
+			return true;
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)

@@ -52,13 +52,17 @@ public abstract class AbstractEditItemObservable implements IEditItemObservable 
 	 * (ch.bfh.ti.gravis.core.graph.IEditGraphEventListener[])
 	 */
 	@Override
-	public void removeEditGraphEventListeners(
+	public boolean removeEditGraphEventListeners(
 			IEditGraphEventListener... listeners) {
+		boolean removed = false;
+		
 		for (IEditGraphEventListener lst : listeners) {
 			while (this.listeners.contains(lst)) {
-				this.listeners.remove(lst);
+				removed = this.listeners.remove(lst);
 			}
 		}
+		
+		return removed;
 	}
 
 	/**

@@ -88,8 +88,11 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices) {
-		this.validateEdgeName(edge);
-		return super.addEdge(edge, vertices, this.edgeType);
+		if (super.addEdge(edge, vertices, this.edgeType)) {
+			this.validateEdgeName(edge);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -101,8 +104,12 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	@Override
 	public boolean addEdge(IEdge edge, Collection<? extends IVertex> vertices,
 			EdgeType edge_type) {
-		this.validateEdgeName(edge);
-		return super.addEdge(edge, vertices, this.edgeType);
+
+		if (super.addEdge(edge, vertices, this.edgeType)) {
+			this.validateEdgeName(edge);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -113,8 +120,11 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean addEdge(IEdge e, IVertex v1, IVertex v2) {
-		this.validateEdgeName(e);
-		return super.addEdge(e, v1, v2, this.edgeType);
+		if (super.addEdge(e, v1, v2, this.edgeType)) {
+			this.validateEdgeName(e);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -125,8 +135,11 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean addEdge(IEdge e, IVertex v1, IVertex v2, EdgeType edgeType) {
-		this.validateEdgeName(e);
-		return super.addEdge(e, v1, v2, this.edgeType);
+		if (super.addEdge(e, v1, v2, this.edgeType)) {
+			this.validateEdgeName(e);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -136,19 +149,22 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean addVertex(final IVertex vertex) {
-		this.validateVertexName(vertex);
+		if (super.addVertex(vertex)) {
+			this.validateVertexName(vertex);
 
-		// only one start vertex is allowed
-		if (vertex.isStart()) {
-			this.handleGraphItemsChangedEvent(vertex, Type.START_EDITED);
+			// only one start vertex is allowed
+			if (vertex.isStart()) {
+				this.handleGraphItemsChangedEvent(vertex, Type.START_EDITED);
+			}
+
+			// only one end vertex is allowed
+			if (vertex.isEnd()) {
+				this.handleGraphItemsChangedEvent(vertex, Type.END_EDITED);
+			}
+			return true;
 		}
 
-		// only one end vertex is allowed
-		if (vertex.isEnd()) {
-			this.handleGraphItemsChangedEvent(vertex, Type.END_EDITED);
-		}
-
-		return super.addVertex(vertex);
+		return false;
 	}
 
 	/*
@@ -275,25 +291,9 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 					vertex.setEnd(false);
 				}
 			}
-		} else if (type == Type.EDITED
-				&& this.containsItemName(source.getName())) {
-			// vertex name must be unique
-			for (IVertex v : this.getVertices()) {
-				if (v != source && source.getName().equals(v.getName())) {
-					source.setName(source instanceof IVertex ? VertexFactory
-							.createVertexName() : EdgeFactory.createEdgeName());
-					return;
-				}
-			}
-
-			// edge name must be unique
-			for (IEdge e : this.getEdges()) {
-				if (e != source && source.getName().equals(e.getName())) {
-					source.setName(source instanceof IVertex ? VertexFactory
-							.createVertexName() : EdgeFactory.createEdgeName());
-					return;
-				}
-			}
+		} else if (type == Type.EDITED && !this.isUniqueName(source)) {
+			source.setName(source instanceof IVertex ? VertexFactory
+					.createVertexName() : EdgeFactory.createEdgeName());
 		}
 	}
 
@@ -327,8 +327,11 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean removeEdge(IEdge edge) {
-		edge.removeEditGraphEventListeners(this);
-		return super.removeEdge(edge);
+		if (super.removeEdge(edge)) {
+			edge.removeEditGraphEventListeners(this);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -338,8 +341,11 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 */
 	@Override
 	public boolean removeVertex(final IVertex vertex) {
-		vertex.removeEditGraphEventListeners(this);
-		return super.removeVertex(vertex);
+		if (super.removeVertex(vertex)) {
+			vertex.removeEditGraphEventListeners(this);
+			return true;
+		}
+		return false;
 	}
 
 	/*
@@ -408,7 +414,8 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 				graphName,
 				String.format(NULL_POINTER_MSG, "setName", "graphName",
 						graphName)).trim();
-		this.graphName = graphName.trim().isEmpty() ? this.graphName : graphName.trim();
+		this.graphName = graphName.trim().isEmpty() ? this.graphName
+				: graphName.trim();
 	}
 
 	/*
@@ -490,26 +497,50 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	}
 
 	/**
-	 * Checks if the new edge name is unique and corrects the name if not unique.
+	 * Checks if the new edge name is unique and corrects the name if not
+	 * unique.
 	 * 
 	 * @param edge
 	 */
 	private void validateEdgeName(final IEdge edge) {
 		edge.addEditGraphEventListeners(this);
-		if (this.containsItemName(edge.getName())) {
+		if (!this.isUniqueName(edge)) {
 			edge.setName(EdgeFactory.createEdgeName());
 		}
 	}
 
 	/**
-	 * Checks if the new vertex name is unique and corrects the name if not unique.
+	 * Checks if the new vertex name is unique and corrects the name if not
+	 * unique.
 	 * 
 	 * @param vertex
 	 */
 	private void validateVertexName(final IVertex vertex) {
 		vertex.addEditGraphEventListeners(this);
-		if (this.containsItemName(vertex.getName())) {
+		if (!this.isUniqueName(vertex)) {
 			vertex.setName(VertexFactory.createVertexName());
 		}
+	}
+
+	/**
+	 * Returns {@code true} if this graph contains no other item with the same name.
+	 * 
+	 * @param item
+	 * @return {@code true} if this graph contains no other item with the same name
+	 */
+	private boolean isUniqueName(final IGraphItem item) {
+		for (IVertex v : this.getVertices()) {
+			if (v != item && item.getName().equals(v.getName())) {
+				return false;
+			}
+		}
+
+		for (IEdge e : this.getEdges()) {
+			if (e != item && item.getName().equals(e.getName())) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
