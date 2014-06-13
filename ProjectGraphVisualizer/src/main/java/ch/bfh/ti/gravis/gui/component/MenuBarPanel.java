@@ -81,8 +81,8 @@ public class MenuBarPanel extends JMenuBar {
 
 	private final static String INFO_TITLE = "Info zum Graph Visualizer";
 	private final static String INFO_TEXT = "<html><body>"
-			+ "<h3>Graph Visualizer</h3>"
-			+ "Ein Tool zur Visualisierung von Graphen und Algorithmen."
+			+ "<h3>Graph Visualizer</h3>Version 1.0"
+			+ "<br /><br />Ein Tool zur Visualisierung von Graphen und Algorithmen."
 			+ "<br /><br />Berner Fachhochschule - Technik und Informatik"
 			+ "<br />Modul BTI7301: Projekt 1"
 			+ "<br />Herbstsemester 2013/2014"
