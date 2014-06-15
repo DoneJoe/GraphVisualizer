@@ -12,6 +12,7 @@ import edu.uci.ics.jung.visualization.renderers.DefaultVertexLabelRenderer;
  * A vertex label renderer.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
+ * @author Tom Nelson (JUNG-Framework)
  * 
  */
 public class GravisVertexLabelRenderer extends DefaultVertexLabelRenderer {

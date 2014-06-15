@@ -21,6 +21,7 @@ import edu.uci.ics.jung.visualization.control.EditingGraphMousePlugin;
  * A plugin that can create vertices and edges using mouse gestures.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
+ * @author Tom Nelson (JUNG-Framework)
  * 
  */
 public class GravisEditingGraphMousePlugin extends

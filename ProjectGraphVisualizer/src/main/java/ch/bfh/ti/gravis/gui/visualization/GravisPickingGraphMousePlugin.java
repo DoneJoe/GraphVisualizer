@@ -21,6 +21,7 @@ import edu.uci.ics.jung.visualization.picking.PickedState;
  * 
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
+ * @author Tom Nelson (JUNG-Framework)
  * 
  */
 public class GravisPickingGraphMousePlugin extends

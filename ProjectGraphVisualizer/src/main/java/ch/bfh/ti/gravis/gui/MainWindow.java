@@ -23,7 +23,7 @@ import static ch.bfh.ti.gravis.gui.GuiFactory.loadImage;
 
 /**
  * The application main window. This class represents the main view in the
- * MVC-pattern.
+ * MVC-pattern. 
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
@@ -33,7 +33,16 @@ public class MainWindow extends JFrame implements Observer {
 	private static final long serialVersionUID = 8699847848182615730L;
 
 	private static final int BORDER = 5;
+	private static final double PROP_LOCATION;
 
+	static {
+		if ("Windows 7".equals(System.getProperty("os.name"))) {
+			PROP_LOCATION = 0.9;
+		} else {
+			PROP_LOCATION = 0.8;
+		}
+	}
+	
 	private final static String TITLE_NEW = "Graph Visualizer - [Neuer Graph%s]";
 	private final static String TITLE_SAVED = "Graph Visualizer - [%s%s]";
 	private final static String UNSAVED = " *";
@@ -50,9 +59,8 @@ public class MainWindow extends JFrame implements Observer {
 	public MainWindow(final IMenuToolbarController menuToolbarController,
 			final IStepController stepController, final IAppModel model)
 			throws IOException {
-
 		super(String.format(TITLE_NEW, ""));
-
+		
 		// set content pane:
 
 		JPanel contentPane = new JPanel();
@@ -98,6 +106,7 @@ public class MainWindow extends JFrame implements Observer {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setIconImage(loadImage(APP_ICON));
 		this.setVisible(true);
+		splitPane.setDividerLocation(PROP_LOCATION);
 	}
 
 	/*

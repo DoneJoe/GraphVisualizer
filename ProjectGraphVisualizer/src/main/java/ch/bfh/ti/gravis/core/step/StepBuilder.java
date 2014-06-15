@@ -12,7 +12,6 @@ import ch.bfh.ti.gravis.core.graph.IRestrictedGraph;
 import ch.bfh.ti.gravis.core.graph.item.IGraphItem;
 import ch.bfh.ti.gravis.core.util.GravisListIterator;
 import ch.bfh.ti.gravis.core.util.IGravisListIterator;
-import ch.bfh.ti.gravis.core.util.StepIterator;
 
 /**
  * A step builder collects sequences of graph items and transforms this

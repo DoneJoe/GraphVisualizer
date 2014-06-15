@@ -21,6 +21,7 @@ import edu.uci.ics.jung.visualization.control.EditingPopupGraphMousePlugin;
  * A plugin that uses popup menus to edit the vertices and edges.
  * 
  * @author Patrick Kofmel (kofmp1@bfh.ch)
+ * @author Tom Nelson (JUNG-Framework)
  * 
  */
 public class GravisPopupGraphMousePlugin extends

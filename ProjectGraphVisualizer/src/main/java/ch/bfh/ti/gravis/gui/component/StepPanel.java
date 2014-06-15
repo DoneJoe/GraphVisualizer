@@ -69,7 +69,7 @@ public class StepPanel extends JPanel implements Observer {
 	private static final String DELAY_TOOLTIP = "Zeitintervall festlegen (Sekunden)";
 	private static final String PLAY_TOOLTIP = "Animation abspielen";
 	private static final String PAUSE_TOOLTIP = "Animation anhalten";
-	private static final String STOP_TOOLTIP = "Animation stoppen";
+	private static final String STOP_TOOLTIP = "Animation abbrechen";
 
 	private static final String SPINNER_FORMAT = "#.## s";
 

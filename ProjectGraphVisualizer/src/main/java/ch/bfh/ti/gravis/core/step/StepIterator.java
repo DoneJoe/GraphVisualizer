@@ -1,9 +1,9 @@
-package ch.bfh.ti.gravis.core.util;
+package ch.bfh.ti.gravis.core.step;
 
 import java.util.Iterator;
 import java.util.Objects;
 
-import ch.bfh.ti.gravis.core.step.IStep;
+import ch.bfh.ti.gravis.core.util.IGravisListIterator;
 
 /**
  * This implementation of a bidirectinal immutable iterator iterates over a
@@ -13,7 +13,7 @@ import ch.bfh.ti.gravis.core.step.IStep;
  * @author Patrick Kofmel (kofmp1@bfh.ch)
  * 
  */
-public class StepIterator implements IGravisListIterator<String> {
+class StepIterator implements IGravisListIterator<String> {
 
 	private static final String NULL_POINTER_MSG = "Invalid parameter value in method "
 			+ "StepIterator.%s(): %s == %s";
@@ -29,7 +29,7 @@ public class StepIterator implements IGravisListIterator<String> {
 	 * @param listIterator
 	 * 
 	 */
-	public StepIterator(IGravisListIterator<IStep> listIterator) {
+	protected StepIterator(IGravisListIterator<IStep> listIterator) {
 		this.iterator = Objects
 				.requireNonNull(listIterator, String.format(NULL_POINTER_MSG,
 						"StepIterator", "listIterator", listIterator));

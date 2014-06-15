@@ -246,8 +246,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="25" language="java" name="ch.bfh.ti.gravis.core.util.StepIterator" project="ProjectGraphVisualizer" 
-    file="/ProjectGraphVisualizer/src/main/java/ch/bfh/ti/gravis/core/util/StepIterator.java" binary="false" 
+  <class id="25" language="java" name="ch.bfh.ti.gravis.core.step.StepIterator" project="ProjectGraphVisualizer" 
+    file="/ProjectGraphVisualizer/src/main/java/ch/bfh/ti/gravis/core/step/StepIterator.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="726" y="2435"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 

@@ -30,7 +30,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 	private static final String ALGO_BORDER = "Beschreibung Algorithmus";
 	private static final String PROTOCOL_BORDER = "Protokoll";
 
-	private static final int ROW_NUMBER = 7;
+	//private static final int ROW_NUMBER = 7;
 
 	private final JTextArea protocol, graphDescription, algorithmDescription;
 
@@ -65,7 +65,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		this.protocol.setLineWrap(true);
 		this.protocol.setWrapStyleWord(true);
 		this.protocol.setEditable(false);
-		this.protocol.setRows(ROW_NUMBER);
+		//this.protocol.setRows(ROW_NUMBER);
 
 		this.graphDescription = new JTextArea(model.getGraphDocument());
 		//this.graphDescription.setBackground(GravisColor.WHITE_GRAY);
@@ -73,7 +73,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		this.graphDescription.setLineWrap(true);
 		this.graphDescription.setWrapStyleWord(true);
 		this.graphDescription.setEditable(false);
-		this.graphDescription.setRows(ROW_NUMBER);
+		//this.graphDescription.setRows(ROW_NUMBER);
 
 		this.algorithmDescription = new JTextArea(model.getAlgorithmDocument());
 		//this.algorithmDescription.setBackground(GravisColor.WHITE_GRAY);
@@ -81,7 +81,7 @@ public class ProtocolPanel extends JPanel implements DocumentListener {
 		this.algorithmDescription.setLineWrap(true);
 		this.algorithmDescription.setWrapStyleWord(true);
 		this.algorithmDescription.setEditable(false);
-		this.algorithmDescription.setRows(ROW_NUMBER);
+		//this.algorithmDescription.setRows(ROW_NUMBER);
 
 		// add components and panels:
 

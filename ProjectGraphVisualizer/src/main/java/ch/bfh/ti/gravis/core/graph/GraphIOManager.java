@@ -1,10 +1,15 @@
 package ch.bfh.ti.gravis.core.graph;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import ch.bfh.ti.gravis.core.graph.item.edge.IEdge;
@@ -73,10 +78,18 @@ public class GraphIOManager {
 		GraphMLReader2<IGravisGraph, IVertex, IEdge> graphReader = null;
 
 		try {
-			graphReader = new GraphMLReader2<>(new FileReader(file),
-					this.graphTransformer, this.vertexTransformer,
+			// read with UTF-8 from InputStream
+			Reader reader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(file), StandardCharsets.UTF_8.name()));
+			graphReader = new GraphMLReader2<>(
+					// new FileReader(file),
+					reader, this.graphTransformer, this.vertexTransformer,
 					this.edgeTransformer, this.hyperEdgeTransformer);
 			return graphReader.readGraph();
+		} catch (UnsupportedEncodingException e) {
+			GraphIOException e2 = new GraphIOException(e.getMessage(), e);
+			e2.setStackTrace(e.getStackTrace());
+			throw e2;
 		} finally {
 			if (graphReader != null) {
 				graphReader.close();
