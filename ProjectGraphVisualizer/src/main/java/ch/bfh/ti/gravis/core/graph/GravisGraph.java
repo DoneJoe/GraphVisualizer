@@ -457,7 +457,7 @@ class GravisGraph extends GraphDecorator<IVertex, IEdge> implements
 	 * 
 	 * @return a shallow copy of this {@code GravisGraph} instance
 	 */
-	protected IGravisGraph copy() {
+	public IGravisGraph copy() {
 		IGravisGraph copy = GraphFactory.createGravisGraph(this.getEdgeType());
 
 		for (IVertex v : this.getVertices())
