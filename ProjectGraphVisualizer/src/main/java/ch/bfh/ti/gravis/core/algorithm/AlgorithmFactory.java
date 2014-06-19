@@ -33,7 +33,7 @@ public class AlgorithmFactory {
 		algorithm = new DijkstraDistance();
 		this.algorithmMap.put(algorithm.getName(), algorithm);
 		algorithm = new KruskalMSF();
-		this.algorithmMap.put(algorithm.getName(), algorithm);
+		this.algorithmMap.put(algorithm.getName(), algorithm);		
 
 		for (String algoName : this.algorithmMap.keySet()) {
 			if (this.algorithmMap.get(algoName).hasEdgeType(EdgeType.DIRECTED)) {
