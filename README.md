@@ -1,4 +1,1 @@
-GraphVisualizer
-===============
-
-BFH-TI Project 1 repository
+BFH module "Project 1": GraphVisualizer
